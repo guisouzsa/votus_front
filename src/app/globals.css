@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-display: var(--font-fraunces), serif;
+  --font-display: var(--font-montserrat), sans-serif;
+  --font-sans: var(--font-montserrat), sans-serif;
 
   --color-brasil-green: #059c46;
   --color-brasil-green-deep: #046a35;
@@ -22,4 +23,5 @@
 body {
   background: #FDFDFD;
   color: var(--color-ink);
+  font-family: var(--font-montserrat), sans-serif;
 }

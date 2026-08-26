@@ -29,11 +29,14 @@ export default function SearchBar() {
   return (
     <div className="relative mt-6 flex items-center gap-3">
       <label className="relative flex-1">
-        <Search size={18} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-forest" />
+        <Search
+          size={16}
+          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#1B623A]"
+        />
         <input
           type="search"
           placeholder="Buscar notícias..."
-          className="w-full rounded-full border border-line bg-sand py-3.5 pl-11 pr-4 text-sm text-forest placeholder:text-forest/60 outline-none focus:ring-2 focus:ring-forest/20"
+          className="h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] pl-11 pr-4 text-sm text-[#1B623A] placeholder:text-[#1B623A]/70 outline-none focus:ring-2 focus:ring-[#1B623A]/20"
         />
       </label>
 
@@ -41,22 +44,24 @@ export default function SearchBar() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="flex min-w-[150px] items-center justify-between gap-4 rounded-full border border-line bg-sand px-6 py-3.5 text-sm font-medium text-forest cursor-pointer"
+          className="flex h-10 items-center gap-6 rounded-full border border-[#EDDBBA] bg-[#FDF8EE] py-1.5 pl-5 pr-1.5 text-sm font-medium text-[#1B623A] cursor-pointer"
         >
           <span className="flex items-center gap-2">
-            <SlidersHorizontal size={18} />
+            <SlidersHorizontal size={16} />
             Filtros
           </span>
-          <ChevronDown
-            size={16}
-            className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-          />
+          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#EDDBBA]">
+            <ChevronDown
+              size={14}
+              className={`text-[#1B623A] transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+            />
+          </span>
         </button>
 
         {open && (
           <>
             <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
-            <div className="absolute right-0 z-20 mt-2 w-72 max-w-[90vw] rounded-2xl border border-line bg-white p-2 shadow-lg">
+            <div className="absolute right-0 z-20 mt-2 w-72 max-w-[90vw] rounded-2xl border border-[#EDDBBA] bg-white p-2 shadow-lg">
               {CATEGORIAS.map((categoria, i) => {
                 const ativo = selecionadas.includes(categoria);
                 return (
@@ -64,13 +69,13 @@ export default function SearchBar() {
                     key={categoria}
                     type="button"
                     onClick={() => toggleCategoria(categoria)}
-                    className={`flex w-full items-center gap-3 px-3 py-3 text-left text-sm text-ink cursor-pointer ${
+                    className={`flex w-full items-center gap-3 px-3 py-3 text-left text-sm text-[#1B623A] cursor-pointer ${
                       i !== CATEGORIAS.length - 1 ? "border-b border-line" : ""
                     }`}
                   >
                     <span
                       className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2 transition-colors ${
-                        ativo ? "border-forest bg-forest" : "border-line bg-white"
+                        ativo ? "border-brasil-blue bg-brasil-blue" : "border-[#EDDBBA] bg-white"
                       }`}
                     >
                       {ativo && <Check size={13} className="text-white" strokeWidth={3} />}
