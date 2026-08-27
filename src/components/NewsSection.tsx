@@ -63,25 +63,15 @@ export default function NewsSection({
         {title}
       </h3>
 
-      <div className="relative rounded-3xl border border-black/10 bg-cream-panel p-4 shadow-[0_1px_3px_rgba(0,0,0,0.06)] sm:p-5">
+      <div className="relative flex items-center gap-2 rounded-xl border border-black/10 bg-cream-panel p-3 shadow-[0_1px_3px_rgba(0,0,0,0.06)] sm:p-4">
         {/* Seta esquerda */}
         <button
           type="button"
           onClick={() => scrollByAmount("left")}
           aria-label="Rolar para a esquerda"
-          className="absolute left-2 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-brasil-green text-white shadow-md transition-transform hover:scale-110"
+          className="z-10 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center text-[#103D23] transition-transform hover:scale-110"
         >
-          <ChevronLeft size={16} strokeWidth={2.5} />
-        </button>
-
-        {/* Seta direita */}
-        <button
-          type="button"
-          onClick={() => scrollByAmount("right")}
-          aria-label="Rolar para a direita"
-          className="absolute right-2 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-brasil-green text-white shadow-md transition-transform hover:scale-110"
-        >
-          <ChevronRight size={16} strokeWidth={2.5} />
+          <ChevronLeft size={26} strokeWidth={2.5} />
         </button>
 
         {/* Carrossel */}
@@ -91,17 +81,27 @@ export default function NewsSection({
           onMouseLeave={stopDrag}
           onMouseUp={stopDrag}
           onMouseMove={onMouseMove}
-          className="flex gap-4 overflow-x-auto px-8 pb-2 cursor-grab select-none active:cursor-grabbing [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="flex flex-1 gap-4 overflow-x-auto pb-2 cursor-grab select-none active:cursor-grabbing [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {displayItems.map((item, index) => (
             <div
               key={`${item.title}-${index}`}
-              className="w-72 shrink-0 sm:w-80"
+              className="w-[19rem] shrink-0 sm:w-[21rem]"
             >
               <NewsCard {...item} />
             </div>
           ))}
         </div>
+
+        {/* Seta direita */}
+        <button
+          type="button"
+          onClick={() => scrollByAmount("right")}
+          aria-label="Rolar para a direita"
+          className="z-10 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center text-[#103D23] transition-transform hover:scale-110"
+        >
+          <ChevronRight size={26} strokeWidth={2.5} />
+        </button>
       </div>
     </section>
   );

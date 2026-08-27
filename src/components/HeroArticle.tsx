@@ -2,11 +2,9 @@
 
 import { useState } from "react";
 
-const TABS = ["Mais relevantes", "Mais recentes"];
-
 export default function HeroArticle() {
-  const [tab, setTab] = useState(TABS[0]);
   const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   return (
     <div className="mt-6">
@@ -21,52 +19,37 @@ export default function HeroArticle() {
           />
         )}
 
-        <img
-          src="/foto-noticia-principal.png"
-          alt=""
-          onLoad={() => setImgLoaded(true)}
-          className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 group-hover:scale-105 ${
-            imgLoaded ? "opacity-100" : "opacity-0"
-          }`}
-        />
+        {!imgError && (
+          <img
+            src="/foto-noticia-principal.png"
+            alt=""
+            onLoad={() => setImgLoaded(true)}
+            onError={() => setImgError(true)}
+            className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 group-hover:scale-105 ${
+              imgLoaded ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        )}
 
         <div
           className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent"
           aria-hidden="true"
         />
 
-        <div className="relative flex h-full flex-col justify-end p-6 sm:p-8">
+        <div className="relative flex h-full flex-col justify-start p-6 sm:p-8">
           <span className="w-fit rounded-full bg-cream/90 px-3 py-1 text-xs font-semibold text-brasil-green-deep">
             Congresso Nacional
           </span>
           <h2 className="mt-3 max-w-xl font-display font-bold text-2xl sm:text-3xl text-cream leading-snug">
             Comissão aprova novo pacote de investimentos em infraestrutura
           </h2>
-          <p className="mt-2 text-sm text-cream/80">
+          <p className="mt-2 max-w-xl text-sm text-cream/80">
             Recursos devem priorizar obras de mobilidade urbana e saneamento
           </p>
         </div>
       </a>
 
-      <div className="mt-4 flex gap-2">
-        {TABS.map((label) => {
-          const isActive = tab === label;
-          return (
-            <button
-              key={label}
-              type="button"
-              onClick={() => setTab(label)}
-              className={`rounded-full border border-[#EDDBBA] px-4 py-2 text-sm font-medium transition-colors cursor-pointer ${
-                isActive
-                  ? "bg-[#EDDBBA] text-[#1B623A]"
-                  : "bg-[#EDDBBA]/30 text-[#1B623A]"
-              }`}
-            >
-              {label}
-            </button>
-          );
-        })}
-      </div>
+      <div className="mt-6 h-px w-full bg-[#EDDBBA]" aria-hidden="true" />
     </div>
   );
 }

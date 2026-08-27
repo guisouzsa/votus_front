@@ -36,15 +36,15 @@ export default function SearchBar() {
         <input
           type="search"
           placeholder="Buscar notícias..."
-          className="h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] pl-11 pr-4 text-sm text-[#1B623A] placeholder:text-[#1B623A]/70 outline-none focus:ring-2 focus:ring-[#1B623A]/20"
+          className="h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] pl-11 pr-4 text-sm text-[#1B623A] placeholder:text-[#1B623A] outline-none focus:border-[#1B623A] focus:ring-2 focus:ring-[#1B623A]/20"
         />
       </label>
 
-      <div className="relative shrink-0">
+      <div className="relative w-72 max-w-[90vw] shrink-0">
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="flex h-10 items-center gap-6 rounded-full border border-[#EDDBBA] bg-[#FDF8EE] py-1.5 pl-5 pr-1.5 text-sm font-medium text-[#1B623A] cursor-pointer"
+          className="flex h-10 w-full items-center justify-between rounded-full border border-[#EDDBBA] bg-[#FDF8EE] py-1.5 pl-5 pr-1.5 text-sm font-medium text-[#1B623A] cursor-pointer"
         >
           <span className="flex items-center gap-2">
             <SlidersHorizontal size={16} />
@@ -61,7 +61,7 @@ export default function SearchBar() {
         {open && (
           <>
             <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
-            <div className="absolute right-0 z-20 mt-2 w-72 max-w-[90vw] rounded-2xl border border-[#EDDBBA] bg-white p-2 shadow-lg">
+            <div className="absolute right-0 z-20 mt-2 w-72 max-w-[90vw] rounded-2xl border border-black/5 bg-white p-2 shadow-md">
               {CATEGORIAS.map((categoria, i) => {
                 const ativo = selecionadas.includes(categoria);
                 return (
@@ -74,8 +74,8 @@ export default function SearchBar() {
                     }`}
                   >
                     <span
-                      className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2 transition-colors ${
-                        ativo ? "border-brasil-blue bg-brasil-blue" : "border-[#EDDBBA] bg-white"
+                      className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-colors ${
+                        ativo ? "border-2 border-[#1B623A] bg-[#1B623A]" : "border border-[#1B623A] bg-white"
                       }`}
                     >
                       {ativo && <Check size={13} className="text-white" strokeWidth={3} />}

@@ -3,8 +3,10 @@ import WovenRibbon from "@/components/WovenRibbon";
 import DashboardHeader from "@/components/DashboardHeader";
 import SearchBar from "@/components/SearchBar";
 import HeroArticle from "@/components/HeroArticle";
+import RelevanceTabs from "@/components/RelevanceTabs";
 import NewsSection from "@/components/NewsSection";
 import FloatingAIButton from "@/components/FloatingAIButton";
+import Footer from "@/components/Footer";
 import type { NewsItem } from "@/components/NewsCard";
 
 const EDUCACAO: NewsItem[] = [
@@ -89,6 +91,7 @@ export default function DashboardPage() {
           <DashboardHeader />
           <SearchBar />
           <HeroArticle />
+          <RelevanceTabs />
 
           <NewsSection title="Educação" items={EDUCACAO} />
           <NewsSection title="Saúde" items={SAUDE} />
@@ -101,6 +104,8 @@ export default function DashboardPage() {
           <NewsSection title="Cultura" items={CULTURA} />
           <NewsSection title="Ciência, Tecnologia e Inovação" items={CIENCIA_TECNOLOGIA} />
         </div>
+
+        <Footer />
       </main>
 
       <FloatingAIButton />

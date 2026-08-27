@@ -7,7 +7,7 @@ export default function DashboardHeader() {
           alt="Painel de Notícias"
           className="block h-24 sm:h-32 w-auto object-contain object-left"
         />
-        <p className="mt-2 ml-6 sm:ml-6 text-sm text-[#103D23]">
+        <p className="mt-2 ml-6 sm:ml-6 text-sm text-[#0B2A16]">
           Veja as últimas notícias sobre seus tópicos favoritos
         </p>
       </div>
