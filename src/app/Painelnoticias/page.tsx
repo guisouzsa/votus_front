@@ -81,10 +81,13 @@ const CIENCIA_TECNOLOGIA: NewsItem[] = [
 
 export default function DashboardPage() {
   return (
-    <div className="flex min-h-screen">
+    <div className="min-h-screen">
+      {/* Sidebar agora é "flutuante" (position: fixed), fora do fluxo do layout,
+          por isso não participa mais do flex container e não estica com o
+          scroll da página. */}
       <Sidebar />
 
-      <main className="flex-1 overflow-x-hidden">
+      <main className="overflow-x-hidden transition-[padding] duration-300 md:pl-24">
         <WovenRibbon className="h-14 sm:h-20" />
 
         <div className="w-full px-6 py-8 sm:px-10">
