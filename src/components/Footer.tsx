@@ -29,22 +29,30 @@ function WhatsAppIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export default function Footer() {
   return (
-    <footer className="mt-12 flex items-center justify-center gap-8 border-t border-line py-6">
-      <a href="mailto:contato@votus.com.br" aria-label="E-mail" className="text-brasil-gold hover:opacity-70 transition-opacity">
-        <Mail size={22} strokeWidth={1.8} />
-      </a>
+    <footer className="bg-brick text-white py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex items-center justify-center gap-8 mb-6 pb-6 border-b border-white/20">
+          <a href="mailto:votus@gmail.com" aria-label="E-mail" className="hover:opacity-70 transition-opacity">
+            <Mail size={24} strokeWidth={1.8} />
+          </a>
 
-      <a href="#" aria-label="Instagram" className="text-brasil-gold hover:opacity-70 transition-opacity">
-        <InstagramIcon width={22} height={22} />
-      </a>
+          <a href="#" aria-label="Instagram" className="hover:opacity-70 transition-opacity">
+            <InstagramIcon width={24} height={24} />
+          </a>
 
-      <a href="#" aria-label="X (Twitter)" className="text-brasil-gold hover:opacity-70 transition-opacity">
-        <XIcon width={20} height={20} />
-      </a>
+          <a href="#" aria-label="X (Twitter)" className="hover:opacity-70 transition-opacity">
+            <XIcon width={22} height={22} />
+          </a>
 
-      <a href="#" aria-label="WhatsApp" className="text-brasil-gold hover:opacity-70 transition-opacity">
-        <WhatsAppIcon width={22} height={22} />
-      </a>
+          <a href="#" aria-label="WhatsApp" className="hover:opacity-70 transition-opacity">
+            <WhatsAppIcon width={24} height={24} />
+          </a>
+        </div>
+
+        <div className="text-center text-sm opacity-80">
+          <p>votus@gmail.com | @votus_ará | @votus_x | 88 98870768</p>
+        </div>
+      </div>
     </footer>
   );
 }

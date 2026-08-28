@@ -4,11 +4,13 @@
   --font-display: var(--font-montserrat), sans-serif;
   --font-sans: var(--font-montserrat), sans-serif;
 
-  --color-brasil-green: #059c46;
-  --color-brasil-green-deep: #046a35;
-  --color-brasil-gold: #f6c945;
-  --color-brasil-blue: #1351a3;
-  --color-brick: #b5432f;
+  --color-brasil-green: #1B623A;
+  --color-brasil-green-deep: #134A2A;
+  --color-brasil-gold: #FCC100;
+  --color-brasil-orange: #FF7700;
+  --color-brasil-red: #8D0801;
+  --color-brasil-blue: #8D0801;
+  --color-brick: #8D0801;
 
   --color-cream: #fdf8ee;
   --color-cream-panel: #ffffff;
