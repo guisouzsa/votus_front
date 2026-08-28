@@ -4,15 +4,12 @@ export default function Footer() {
       <a href="mailto:contato@votus.com.br" aria-label="E-mail" className="hover:opacity-70 transition-opacity">
         <img src="/email.svg" alt="" className="h-8 w-8" />
       </a>
-
       <a href="#" aria-label="Instagram" className="hover:opacity-70 transition-opacity">
         <img src="/instagram.svg" alt="" className="h-8 w-8" />
       </a>
-
       <a href="#" aria-label="X (Twitter)" className="hover:opacity-70 transition-opacity">
         <img src="/x.svg" alt="" className="h-8 w-8" />
       </a>
-
       <a href="#" aria-label="WhatsApp" className="hover:opacity-70 transition-opacity">
         <img src="/whatsapp.svg" alt="" className="h-8 w-8" />
       </a>
