@@ -25,9 +25,7 @@ export default function HeroArticle() {
             alt=""
             onLoad={() => setImgLoaded(true)}
             onError={() => setImgError(true)}
-            className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 group-hover:scale-105 ${
-              imgLoaded ? "opacity-100" : "opacity-0"
-            }`}
+            className="absolute inset-0 h-full w-full object-cover opacity-100 transition-transform duration-500 group-hover:scale-105"
           />
         )}
 
@@ -37,7 +35,7 @@ export default function HeroArticle() {
         />
 
         <div className="relative flex h-full flex-col justify-start p-6 sm:p-8">
-          <span className="w-fit rounded-full bg-cream/90 px-3 py-1 text-xs font-semibold text-brasil-green-deep">
+          <span className="w-fit px-3 py-1 text-xs font-semibold text-white">
             Congresso Nacional
           </span>
           <h2 className="mt-3 max-w-xl font-display font-bold text-2xl sm:text-3xl text-cream leading-snug">

@@ -81,12 +81,11 @@ const CIENCIA_TECNOLOGIA: NewsItem[] = [
 
 export default function DashboardPage() {
   return (
-    <div className="flex min-h-screen">
+    <div className="min-h-screen">
+      <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
 
-      <main className="flex-1 overflow-x-hidden">
-        <WovenRibbon className="h-14 sm:h-20" />
-
+      <main className="overflow-x-hidden md:pl-24">
         <div className="w-full px-6 py-8 sm:px-10">
           <DashboardHeader />
           <SearchBar />

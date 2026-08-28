@@ -16,7 +16,9 @@ export default function DashboardHeader() {
         src="/decoracao-pontos.png"
         alt=""
         aria-hidden="true"
-        className="block h-16 sm:h-20 w-auto max-w-[220px] sm:max-w-[260px] object-contain shrink-0"
+        width={381}
+        height={60}
+        className="relative -top-2 block h-auto w-[min(500px,45vw)] object-contain shrink-0"
       />
     </header>
   );
