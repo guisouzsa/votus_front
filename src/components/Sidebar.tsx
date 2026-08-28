@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
 const NAV_ITEMS = [
@@ -20,12 +21,13 @@ export default function Sidebar() {
   const [selectedId, setSelectedId] = useState("inicio");
   const router = useRouter();
   const pathname = usePathname();
+  const activeRouteId = NAV_ITEMS.find(
+    ({ path }) => path && (pathname === path || (path === "/Inicial" && pathname === "/"))
+  )?.id;
 
   const handleItemClick = (id: string, path?: string) => {
-    // Mantém a animação/seleção visual em todos os botões
     setSelectedId(id);
 
-    // Só redireciona se a rota existir (Início e Notícias), sem abrir o menu
     if (path) {
       router.push(path);
     }
@@ -46,16 +48,22 @@ export default function Sidebar() {
       }}
     >
       <div className="flex flex-col gap-6 px-3 pt-5">
-        {/* Topo do Sidebar */}
-        <div className={`flex items-center ${open ? "gap-3" : "justify-center flex-col gap-2"}`}>
-          {/* Iconeprincipal.svg SEMPRE visível no topo */}
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center">
-            <img
-              src="/Iconeprincipal.svg"
-              alt=""
-              className="h-9 w-9 object-contain"
-            />
-          </div>
+        <div className={`flex items-center ${open ? "gap-3" : "justify-center"}`}>
+          {!open ? (
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              aria-label="Abrir menu"
+              aria-expanded={false}
+              className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-2xl transition-transform duration-200 hover:scale-105"
+            >
+              <img src="/Iconeprincipal.svg" alt="" className="h-9 w-9 object-contain" />
+            </button>
+          ) : (
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center">
+              <img src="/Iconeprincipal.svg" alt="" className="h-9 w-9 object-contain" />
+            </div>
+          )}
 
           {open && (
             <img
@@ -65,22 +73,7 @@ export default function Sidebar() {
             />
           )}
 
-          {/* Botão de PontosAmarelo.svg que É O ÚNICO QUE ABRE O MENU quando fechado */}
-          {!open ? (
-            <button
-              type="button"
-              onClick={() => setOpen(true)}
-              aria-label="Abrir menu"
-              title="Abrir menu"
-              className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-2xl hover:bg-white/10"
-            >
-              <img
-                src="/PontosAmarelo.svg"
-                alt="Abrir menu"
-                className="h-8 w-8 object-contain"
-              />
-            </button>
-          ) : (
+          {open && (
             <button
               type="button"
               onClick={() => setOpen(false)}
@@ -97,32 +90,51 @@ export default function Sidebar() {
         {/* Lista de Navegação com animação em todos os botões */}
         <nav className="flex flex-col gap-2">
           {NAV_ITEMS.map(({ id, label, icon, iconClass, path }) => {
-            const isActive =
-              selectedId === id ||
-              (path && pathname === path) ||
-              (path === "/Inicial" && pathname === "/");
+            const isActive = activeRouteId
+              ? activeRouteId === id
+              : selectedId === id;
 
-            return (
-              <button
-                key={id}
-                type="button"
-                onClick={() => handleItemClick(id, path)}
-                aria-current={isActive ? "page" : undefined}
-                title={label}
-                className={`flex cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-medium transition-all duration-200 ${
+            return path ? (
+                <Link
+                  key={id}
+                  href={path}
+                  aria-current={isActive ? "page" : undefined}
+                  title={label}
+                  onClick={() => setSelectedId(id)}
+                  className={`flex cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-medium transition-all duration-200 ${
+                    isActive
+                      ? `${ACTIVE_CLASS} scale-[1.02]`
+                      : "text-[#103D23] hover:scale-[1.02] hover:bg-white/10"
+                  } ${open ? "" : "justify-center px-0"}`}
+                >
+                  <img
+                    src={icon}
+                    alt=""
+                    className={`${iconClass || "h-6 w-6"} shrink-0`}
+                  />
+                  {open && <span className="truncate">{label}</span>}
+                </Link>
+              ) : (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => handleItemClick(id)}
+                  aria-current={isActive ? "page" : undefined}
+                  title={label}
+                  className={`flex cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-medium transition-all duration-200 ${
                   isActive
-                    ? ACTIVE_CLASS
-                    : "text-[#103D23] hover:bg-white/10"
-                } ${open ? "" : "justify-center px-0"}`}
-              >
-                <img
-                  src={icon}
-                  alt=""
-                  className={`${iconClass || "h-6 w-6"} shrink-0`}
-                />
-                {open && <span className="truncate">{label}</span>}
-              </button>
-            );
+                    ? `${ACTIVE_CLASS} scale-[1.02]`
+                    : "text-[#103D23] hover:scale-[1.02] hover:bg-white/10"
+                  } ${open ? "" : "justify-center px-0"}`}
+                >
+                  <img
+                    src={icon}
+                    alt=""
+                    className={`${iconClass || "h-6 w-6"} shrink-0`}
+                  />
+                  {open && <span className="truncate">{label}</span>}
+                </button>
+              );
           })}
         </nav>
       </div>
@@ -132,13 +144,13 @@ export default function Sidebar() {
         <button
           type="button"
           onClick={() => handleItemClick("configuracoes")}
-          aria-current={selectedId === "configuracoes" ? "page" : undefined}
+          aria-current={!activeRouteId && selectedId === "configuracoes" ? "page" : undefined}
           aria-label="Configurações"
           title="Configurações"
           className={`flex w-full cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
-            selectedId === "configuracoes"
-              ? ACTIVE_CLASS
-              : "text-[#103D23] hover:bg-white/10"
+            !activeRouteId && selectedId === "configuracoes"
+              ? `${ACTIVE_CLASS} scale-[1.02]`
+              : "text-[#103D23] hover:scale-[1.02] hover:bg-white/10"
           } ${open ? "" : "justify-center px-0"}`}
         >
           <img src="/IconeConfig.svg" alt="" className="h-6 w-6 shrink-0" />

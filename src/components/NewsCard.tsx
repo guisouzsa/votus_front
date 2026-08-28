@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export type NewsItem = {
   eyebrow: string;
   title: string;
@@ -9,8 +11,10 @@ export default function NewsCard({
   title,
   gradient,
 }: NewsItem) {
+  const id = encodeURIComponent(title.toLowerCase().replace(/\s+/g, "-"));
+
   return (
-    <a href="#" className="group block h-full">
+    <Link href={`/noticias/${id}`} className="group block h-full">
       <div
         className={`relative flex h-44 w-full flex-col justify-between overflow-hidden rounded-lg ${gradient} p-4 transition-transform duration-300 group-hover:scale-[1.02] sm:h-48`}
       >
@@ -22,6 +26,6 @@ export default function NewsCard({
           {title}
         </p>
       </div>
-    </a>
+    </Link>
   );
 }
