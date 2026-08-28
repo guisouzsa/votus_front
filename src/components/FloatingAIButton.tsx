@@ -29,7 +29,7 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
     <div className="fixed bottom-5 right-5 z-50 flex items-end justify-end sm:bottom-6 sm:right-6">
       <section
         aria-label="Chat Votus IA"
-        className={`absolute bottom-20 right-0 min-h-[36rem] max-h-[calc(100vh-10rem)] w-[min(22rem,calc(100vw-2rem))] origin-bottom-right overflow-hidden rounded-[1.25rem] border border-[#EDDBBA] bg-[#FDF8EE] shadow-[0_16px_40px_rgba(27,98,58,0.2)] transition-all duration-300 ease-out ${
+        className={`absolute bottom-20 right-0 min-h-[46rem] max-h-[calc(100vh-10rem)] w-[min(22rem,calc(100vw-2rem))] origin-bottom-right overflow-hidden rounded-[1.25rem] border border-[#EDDBBA] bg-[#FDF8EE] shadow-[0_16px_40px_rgba(27,98,58,0.2)] transition-all duration-300 ease-out ${
           open ? "translate-y-0 scale-100 opacity-100" : "pointer-events-none translate-y-5 scale-95 opacity-0"
         }`}
         style={{ backgroundImage: "url(/fundochatia.png)", backgroundSize: "cover", backgroundPosition: "center" }}
@@ -77,7 +77,7 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
           </div>
         </div>
 
-        <div className="mt-10 px-5 pb-3">
+        <div className="mt-60 px-5 pb-3">
           <div className="flex items-center gap-1.5">
             <input
               value={message}
@@ -100,7 +100,7 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
           <p className="mt-1 text-[10px] text-[#103D23]">Enter envia · Shift + Enter quebra linha</p>
         </div>
 
-        <div className="mx-5 mb-5 mt-5 flex items-center gap-1.5 rounded-md border border-[#1B623A] bg-[#F2E4CA] px-3 py-3 text-xs font-medium text-[#1B623A]">
+        <div className="mx-5 mb-5 mt-1 flex items-center gap-1.5 rounded-md border border-[#1B623A] bg-[#F2E4CA] px-3 py-3 text-xs font-medium text-[#1B623A]">
           <CheckCircle2 size={18} />
           Fontes oficiais sempre visíveis
         </div>
