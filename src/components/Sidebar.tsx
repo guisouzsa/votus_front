@@ -7,7 +7,7 @@ import { useRouter, usePathname } from "next/navigation";
 const NAV_ITEMS = [
   { id: "inicio", label: "Início", icon: "/IconeInicial.svg", path: "/Inicial" },
   { id: "noticias", label: "Notícias", icon: "/IconeNoticias.png", path: "/Painelnoticias" },
-  { id: "senadores", label: "Senadores", icon: "/IconeSenadores.svg" },
+  { id: "senadores", label: "Senadores", icon: "/IconeSenadores.svg", path: "/DeputadosPage" },
   { id: "deputados", label: "Deputados", icon: "/IconeSenadores.svg" },
   { id: "juventude", label: "Juventude em Pauta", icon: "/IconeJuventude.svg", iconClass: "h-9 w-9" },
   { id: "explicacoes", label: "Explicações", icon: "/IconeExplicacoes.svg" },
