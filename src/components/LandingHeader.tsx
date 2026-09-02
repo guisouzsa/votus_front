@@ -19,16 +19,16 @@ export default function LandingHeader() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-ink hover:text-brasil-green transition-colors font-semibold">
+            <a href="#features" className="text-brasil-green hover:text-ink transition-colors font-semibold">
               Início
             </a>
-            <a href="#how-it-works" className="text-ink hover:text-brasil-green transition-colors font-semibold">
+            <a href="#how-it-works" className="text-brick hover:text-ink transition-colors font-semibold">
               uso de IA
             </a>
-            <a href="#cta" className="text-ink hover:text-brasil-green transition-colors font-semibold">
+            <a href="#cta" className="text-brasil-gold hover:text-ink transition-colors font-semibold">
               Explicações
             </a>
-            <a href="#cta" className="text-ink hover:text-brasil-green transition-colors font-semibold">
+            <a href="#cta" className="text-brasil-orange hover:text-ink transition-colors font-semibold">
               Equipe
             </a>
           </nav>
