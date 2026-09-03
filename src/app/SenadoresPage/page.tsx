@@ -4,17 +4,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const statCards = [
-  { label: 'DEPUTADOS', value: '08', color: 'bg-[#F4C400]' },
-  { label: 'PRESSES POLÍTICOS', value: '91', color: 'bg-[#1C5D45]' },
-  { label: 'PROPOSTAS', value: '324', color: 'bg-[#EDDBBA]' },
-  { label: 'EMENDAS', value: '96', color: 'bg-[#8d0801]' },
+  { label: 'SENADORES', value: '08', color: 'bg-[#1C5D45]' },
+  { label: 'PRESSES POLÍTICOS', value: '91', color: 'bg-[#F4C400]' },
+  { label: 'PROPOSTAS', value: '324', color: 'bg-[#F07A00]' },
+  { label: 'EMENDAS', value: '96', color: 'bg-[#EDDBBA]' },
 ];
 
 const senators = [
-  { name: 'Israely Prestes ', party: 'Israely Prestes', area: 'CE', photoUrl: '/senadores/raimundo.jpg' },
-  { name: 'Israely Prestes ', party: 'Israely Prestes', area: 'CE', photoUrl: '/senadores/ana-maria.jpg' },
-  { name: 'Israely Prestes ', party: 'Israely Prestes', area: 'CE', photoUrl: '/senadores/pedro-costa.jpg' },
-  { name: 'Israely Prestes ', party: 'Israely Prestes', area: 'CE', photoUrl: '/senadores/lucia-santos.jpg' },
+  { name: 'Rusimãe de mileto ', party: 'Rusimãe de Mileto', area: 'CE', photoUrl: '/senadores/raimundo.jpg' },
+  { name: 'Rusimãe de mileto ', party: 'Rusimãe de Mileto', area: 'CE', photoUrl: '/senadores/ana-maria.jpg' },
+  { name: 'Rusimãe de mileto ', party: 'Rusimãe de Mileto', area: 'CE', photoUrl: '/senadores/pedro-costa.jpg' },
+  { name: 'Rusimãe de mileto ', party: 'Rusimãe de Mileto', area: 'CE', photoUrl: '/senadores/lucia-santos.jpg' },
 ];
 
 export default function DeputadosPage() {
@@ -33,11 +33,11 @@ export default function DeputadosPage() {
 
         <div className="p-4 md:p-6">
           <div className="mx-auto max-w-[1200px]">
-            <section className="overflow-hidden rounded-[10px] bg-[#F07A00] text-white shadow-sm">
+            <section className="overflow-hidden rounded-[10px] bg-[#8d0801] text-white shadow-sm">
               <div className="flex items-center justify-between gap-4 px-6 py-5">
                 <div className="flex-1">
                   <h1 className="text-3xl font-black uppercase leading-none tracking-tight md:text-4xl">
-                    ENCONTRE E ACOMPANHE OS Deputados DO CEARÁ
+                    ENCONTR E ACOMPANHE OS SENADORES DO CEARÁ
                   </h1>
                   <p className="mt-4 max-w-3xl text-base leading-relaxed text-white/90 md:text-xl">
                     Consulte informações públicas sobre mandato, votações, projetos, recursos e registros oficiais.
@@ -113,8 +113,8 @@ export default function DeputadosPage() {
 
             <div className="mt-8">
               <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-3xl font-black uppercase text-[#8d0801]">DEPUTADOS</h2>
-                <button className="text-sm font-semibold uppercase text-[#8d0801] underline-offset-2 hover:underline">
+                <h2 className="text-3xl font-black uppercase text-[#f07a00]">SENADORES</h2>
+                <button className="text-sm font-semibold uppercase text-[#f07a00] underline-offset-2 hover:underline">
                   Ver todos e ordenar
                 </button>
               </div>
@@ -125,13 +125,13 @@ export default function DeputadosPage() {
                     key={index}
                     href="/ShowSenadoresPage"
                     aria-label={`Ver detalhes de ${senator.name}`}
-                    className="overflow-hidden rounded-[12px] border border-[#8d0801] bg-[#f7f5f2] shadow-sm"
+                    className="overflow-hidden rounded-[12px] border border-[#f0a75b] bg-[#f7f5f2] shadow-sm"
                   >
-                    <div className="flex h-56 items-center justify-center bg-[#ecb8b5] p-4">
-                  <div className="relative h-56 w-full overflow-hidden bg-[#ecb8b5]">
+                    <div className="flex h-56 items-center justify-center bg-[#f7e7d4] p-4">
+                  <div className="relative h-56 w-full overflow-hidden bg-[#f7e7d4]">
                     <div className="absolute inset-3">
                       <Image
-                        src="/Deputados.png"
+                        src="/senadores.png"
                         alt={`Foto de ${senator.name}`}
                         fill
                         className="object-contain"
@@ -140,9 +140,9 @@ export default function DeputadosPage() {
                     </div>
                     </div>
 
-                    <div className="relative rounded-lg border border-[#8d0801] overflow-hidden">
+                    <div className="relative rounded-lg border border-orange-300 overflow-hidden">
                       <div className="bg-[#f7f5f2] p-4 pb-5 text-center">
-                        <div className="text-xl font-black uppercase text-[#F07A00]">{senator.name}</div>
+                        <div className="text-xl font-black uppercase text-[#8d0801]">{senator.name}</div>
                         <div className="mt-1 text-sm text-[#4d4d4d]">{senator.party}</div>
                         <div className="mt-2 text-sm font-medium text-[#4d4d4d]">{senator.area}</div>
                       </div>
