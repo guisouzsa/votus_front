@@ -69,23 +69,23 @@ export default function ShowSenadoresPage() {
 				<section id="perfil" className="grid gap-3 md:grid-cols-[1.35fr_repeat(3,minmax(0,1fr))]">
 					<div className="flex min-h-[145px] items-center gap-3 rounded-[10px] p-3">
 						<div className="relative h-[195px] w-[170px] shrink-0 overflow-hidden border-2 border-white shadow-sm">
-							<Image src="/senadores.png" alt="Rusimãe de Mileto" fill className="object-cover" />
+							<Image src="/deputados.png" alt="Isarely Prestes" fill className="object-cover" />
 						</div>
 						<div>
-							<h1 className="text-xl font-black uppercase text-[#8d0801]">Rusimãe de Mileto</h1>
+							<h1 className="text-xl font-black uppercase text-[#8d0801]">Isarely Prestes</h1>
 							<p className="mt-1 font-bold uppercase text-[#8d0801]">PDC - CE</p>
 							<p className="mt-3 text-xs font-semibold text-[#8d0801]">Representante estadual do Ceará</p>
 						</div>
 					</div>
-					<div className="flex min-h-[145px] items-center justify-center rounded-[10px] bg-[#1c623a] p-3 text-center text-white">
+					<div className="flex min-h-[145px] items-center justify-center rounded-[10px] bg-[#fbc000] p-3 text-center text-white">
 						<div>
 							<p className="text-lg font-black uppercase">Efetividade Legislativa</p>
 						</div>
 					</div>
-					<div className="flex min-h-[145px] items-center justify-center rounded-[10px] bg-[#8d0801] p-3 text-center text-white">
+					<div className="flex min-h-[145px] items-center justify-center rounded-[10px] bg-[#ff7700] p-3 text-center text-white">
 						<p className="text-lg font-black uppercase">Produtividade por Mandato</p>
 					</div>
-					<div className="flex min-h-[145px] items-center justify-center rounded-[10px] bg-[#fbc000] p-3 text-center text-white">
+					<div className="flex min-h-[145px] items-center justify-center rounded-[10px] bg-[#1b623a] p-3 text-center text-white">
 						<p className="text-lg font-black uppercase">Consistência temática via comissões</p>
 					</div>
 				</section>
@@ -95,7 +95,7 @@ export default function ShowSenadoresPage() {
 						<h2 className="shrink-0 text-3xl font-black uppercase text-[#fbc000]">Linha do tempo</h2>
 						<div className="flex flex-1 flex-wrap items-stretch justify-center gap-9 md:justify-start">
 							{timeline.map((item) => (
-								<article key={item.year} className="w-full rounded-[10px] bg-[#ff7700] p-4 text-white md:w-[330px]">
+								<article key={item.year} className="w-full rounded-[10px] bg-[#8d0801] p-4 text-white md:w-[330px]">
 									<div className="flex gap-4">
 										<strong className="text-3xl font-black">{item.year}</strong>
 										<p className="text-xs leading-tight"><b>{item.title}</b><br />{item.text}</p>
