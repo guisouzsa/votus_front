@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 const statCards = [
   { label: 'SENADORES', value: '08', color: 'bg-[#1C5D45]' },
@@ -20,9 +21,9 @@ export default function DeputadosPage() {
   return (
     <main className="min-h-screen bg-[#FDFDFD]">
       <div className="min-h-screen">
-        <header className="relative h-[84px] w-full border-b border-[#d7d0c3] bg-[#f7f5f1]">
+        <header className="relative h-[84px] w-full overflow-hidden border-b border-[#d7d0c3] bg-[#f7f5f1]">
           <Image
-            src="/sidebar.png"
+            src="/sidebar.svg"
             alt="Menu superior"
             fill
             priority
@@ -120,8 +121,10 @@ export default function DeputadosPage() {
 
               <div className="grid gap-5 md:grid-cols-4">
                 {senators.map((senator, index) => (
-                  <article
+                  <Link
                     key={index}
+                    href="/ShowSenadoresPage"
+                    aria-label={`Ver detalhes de ${senator.name}`}
                     className="overflow-hidden rounded-[12px] border border-[#f0a75b] bg-[#f7f5f2] shadow-sm"
                   >
                     <div className="flex h-56 items-center justify-center bg-[#f7e7d4] p-4">
@@ -144,9 +147,9 @@ export default function DeputadosPage() {
                         <div className="mt-2 text-sm font-medium text-[#4d4d4d]">{senator.area}</div>
                       </div>
 
-                      <div className="absolute bottom-0 left-0 h-3 w-full bg-[url('/sidebar.png')] bg-repeat-x bg-[length:auto_100%]" />
+                        <div className="absolute bottom-0 left-0 h-3 w-full bg-[url('/sidebar.svg')] bg-repeat-x bg-[length:auto_100%]" />
                     </div>
-                  </article>
+                  </Link>
                 ))}
               </div>
             </div>
