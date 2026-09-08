@@ -2,6 +2,9 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import Sidebar from '@/components/Sidebar';
+import FloatingAIButton from '@/components/FloatingAIButton';
+import SearchFilterFrame from '@/components/SearchFilterFrame';
 
 const statCards = [
   { label: 'DEPUTADOS', value: '08', color: 'bg-[#F4C400]' },
@@ -15,13 +18,17 @@ const senators = [
   { name: 'Israely Prestes ', party: 'Israely Prestes', area: 'CE', photoUrl: '/senadores/ana-maria.jpg' },
   { name: 'Israely Prestes ', party: 'Israely Prestes', area: 'CE', photoUrl: '/senadores/pedro-costa.jpg' },
   { name: 'Israely Prestes ', party: 'Israely Prestes', area: 'CE', photoUrl: '/senadores/lucia-santos.jpg' },
+  { name: 'Israely Prestes ', party: 'Israely Prestes', area: 'CE', photoUrl: '/senadores/raimundo.jpg' },
+  { name: 'Israely Prestes ', party: 'Israely Prestes', area: 'CE', photoUrl: '/senadores/ana-maria.jpg' },
 ];
 
 export default function DeputadosPage() {
   return (
-    <main className="min-h-screen bg-[#FDFDFD]">
+    <div className="min-h-screen">
+      <Sidebar />
+      <main className="min-h-screen bg-[#FDFDFD] md:pl-24">
       <div className="min-h-screen">
-        <header className="relative h-[84px] w-full overflow-hidden border-b border-[#d7d0c3] bg-[#f7f5f1]">
+        <header className="relative h-[84px] w-full overflow-hidden border-b border-[#d7d0c3] bg-[#f7f5f1] md:-ml-24 md:w-[calc(100%+6rem)]">
           <Image
             src="/sidebar.svg"
             alt="Menu superior"
@@ -31,8 +38,7 @@ export default function DeputadosPage() {
           />
         </header>
 
-        <div className="p-4 md:p-6">
-          <div className="mx-auto max-w-[1200px]">
+        <div className="w-full px-6 py-8 sm:px-10">
             <section className="overflow-hidden rounded-[10px] bg-[#F07A00] text-white shadow-sm">
               <div className="flex items-center justify-between gap-4 px-6 py-5">
                 <div className="flex-1">
@@ -62,54 +68,7 @@ export default function DeputadosPage() {
               ))}
             </div>
 
-            <div className="relative mt-6 overflow-hidden rounded-[10px] border border-[#d6d1c8] bg-[#f3e6d3] p-4 shadow-sm">
-              <div
-                className="absolute inset-0 bg-cover bg-center opacity-90"
-                style={{ backgroundImage: "url('/estampa_secao.png')" }}
-              />
-              <div className="absolute bottom-8 left-[43%] top-8 z-[1] w-px -translate-x-1/2 rounded-full bg-[#1C5D45]" />
-
-              <div className="relative z-10 rounded-[14px] p-4 text-[#1C5D45]">
-                  <div className="grid items-end gap-4 md:grid-cols-[1.4fr_1fr_1fr] md:gap-x-2">
-                    <div className="flex h-[52px] items-center rounded-[10px] border border-[#d6d1c8] bg-[#FDFDFD] px-4 py-3 shadow-sm">
-                      <input
-                        type="text"
-                        placeholder="Pesquisar por nome, partido ou palavra-chave..."
-                        className="w-full border-0 bg-transparent text-sm text-[#1C5D45] outline-none placeholder:text-[#1C5D45]"
-                      />
-                      <span className="ml-3 text-xl text-[#1C5D45]">⌕</span>
-                    </div>
-
-                    <label className="text-sm font-semibold text-[#1C5D45] md:ml-16">
-                      SITUAÇÃO DO MANDATO
-                      <select className="mt-2 h-[52px] w-full rounded-[8px] border border-[#d6d1c8] bg-[#FDFDFD] px-4 py-3 text-base font-semibold text-[#1C5D45] outline-none md:w-[280px]">
-                        <option className="bg-[#FDFDFD]">Todas</option>
-                        <option className="bg-[#FDFDFD]">Ativo</option>
-                        <option className="bg-[#FDFDFD]">Encerrado</option>
-                      </select>
-                    </label>
-
-                    <label className="text-sm font-semibold text-[#1C5D45] md:ml-8">
-                      PARTIDO
-                      <select className="mt-2 h-[52px] w-full rounded-[8px] border border-[#d6d1c8] bg-[#FDFDFD] px-4 py-3 text-base font-semibold text-[#1C5D45] outline-none md:w-[280px]">
-                        <option className="bg-[#FDFDFD]">Todos</option>
-                        <option className="bg-[#FDFDFD]">PDT</option>
-                        <option className="bg-[#FDFDFD]">PT</option>
-                        <option className="bg-[#FDFDFD]">MDB</option>
-                      </select>
-                    </label>
-                  </div>
-
-                  <div className="mt-5 flex justify-end gap-3 pt-4">
-                    <button type="button" className="rounded-[10px] border border-[#d6d1c8] px-5 py-3 text-sm font-semibold text-[#1C5D45]">
-                      Limpar filtros
-                    </button>
-                    <button type="button" className="rounded-[10px] bg-[#8D0801] px-5 py-3 text-sm font-semibold text-white">
-                      Aplicar filtros
-                    </button>
-                  </div>
-                </div>
-            </div>
+            <SearchFilterFrame />
 
             <div className="mt-8">
               <div className="mb-4 flex items-center justify-between">
@@ -119,7 +78,7 @@ export default function DeputadosPage() {
                 </button>
               </div>
 
-              <div className="grid gap-5 md:grid-cols-4">
+              <div className="grid gap-5 md:grid-cols-[repeat(5,minmax(0,1fr))]">
                 {senators.map((senator, index) => (
                   <Link
                     key={index}
@@ -153,9 +112,10 @@ export default function DeputadosPage() {
                 ))}
               </div>
             </div>
-          </div>
         </div>
       </div>
-    </main>
+      </main>
+      <FloatingAIButton />
+    </div>
   );
 }

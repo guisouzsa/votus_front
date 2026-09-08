@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import Sidebar from '@/components/Sidebar';
+import FloatingAIButton from '@/components/FloatingAIButton';
 
 const timeline = [
 	{ year: '2026', title: 'Projeto de Lei', text: 'Emenda Institui o Programa Estadual de Incentivo à Qualificação Profissional de Jovens.' },
@@ -53,7 +55,9 @@ export default function ShowSenadoresPage() {
 	const selectedTab = tabContent[activeTab as keyof typeof tabContent];
 
 	return (
-		<main className="min-h-screen bg-[#FDFDFD] text-[#1b623a]">
+		<div className="min-h-screen">
+			<Sidebar />
+			<main className="min-h-screen bg-[#FDFDFD] text-[#1b623a] md:pl-24">
 			<header className="relative h-[84px] w-full border-b border-[#d7d0c3] bg-[#f7f5f1]">
                       <Image
 								src="/sidebar.svg"
@@ -64,8 +68,7 @@ export default function ShowSenadoresPage() {
                       />
                     </header>
 
-			<div className="p-4 md:p-6">
-				<div className="mx-auto max-w-[1200px]">
+			<div className="w-full px-6 py-8 sm:px-10">
 				<section id="perfil" className="grid gap-3 md:grid-cols-[1.35fr_repeat(3,minmax(0,1fr))]">
 					<div className="flex min-h-[145px] items-center gap-3 rounded-[10px] p-3">
 						<div className="relative h-[195px] w-[170px] shrink-0 overflow-hidden border-2 border-white shadow-sm">
@@ -133,10 +136,11 @@ export default function ShowSenadoresPage() {
 						</div>
 					</article>
 				</section>
-				</div>
 			</div>
 
 			
-		</main>
+			</main>
+			<FloatingAIButton />
+		</div>
 	);
 }
