@@ -9,6 +9,10 @@ export default function DevelopersSection() {
 
   const developers = [
     {
+      name: 'israely',
+      image: '/israely.jpeg'
+    },
+    {
       name: 'Dafny Almeida',
       image: '/dafny_almeida_votus.jpg'
     },
