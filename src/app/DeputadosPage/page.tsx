@@ -90,7 +90,7 @@ export default function DeputadosPage() {
                   <div className="relative h-56 w-full overflow-hidden bg-[#ecb8b5]">
                     <div className="absolute inset-3">
                       <Image
-                        src="/Deputados.png"
+                        src="/deputados.png"
                         alt={`Foto de ${senator.name}`}
                         fill
                         className="object-contain"

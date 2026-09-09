@@ -4,7 +4,7 @@ export default function WelcomeHeader() {
       <div>
         {/* Imagem do Bem-Vindo */}
         <img
-          src="/BemVindo.svg"
+          src="/bemvindo.svg"
           alt="Seja bem-vindo ao Votus!"
           className="block h-24 w-auto object-contain object-left sm:h-32"
         />
