@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import LegislativeTimeline from '@/components/LegislativeTimeline';
@@ -15,11 +16,11 @@ import { ApiError } from '@/services/apiClient';
 const tabs = ['Visão geral', 'Comissões', 'Proposições', 'Linha do tempo'] as const;
 type Tab = (typeof tabs)[number];
 
-const tabColors: Record<Tab, string> = {
-  'Visão geral': 'text-[#8d0801]',
-  'Comissões': 'text-[#fbc000]',
-  'Proposições': 'text-[#1c623a]',
-  'Linha do tempo': 'text-[#ff7700]',
+const tabActiveBg: Record<Tab, string> = {
+  'Visão geral': 'bg-[#a70700]',
+  'Comissões': 'bg-[#fbc000]',
+  'Proposições': 'bg-[#0f3d22]',
+  'Linha do tempo': 'bg-[#ff7700]',
 };
 
 const tabPanelColors: Record<Tab, string> = {
@@ -78,7 +79,7 @@ export default function ShowDeputadosPage() {
     return (
       <div className="min-h-screen">
         <Sidebar />
-        <main className="flex min-h-screen items-center justify-center bg-[#FDFDFD] md:pl-24">
+        <main className="flex min-h-screen items-center justify-center bg-[#FDFDFD] pl-24">
           <p className="text-sm font-semibold text-[#8d0801]">Carregando dados do deputado...</p>
         </main>
       </div>
@@ -89,7 +90,7 @@ export default function ShowDeputadosPage() {
     return (
       <div className="min-h-screen">
         <Sidebar />
-        <main className="flex min-h-screen flex-col items-center justify-center gap-2 bg-[#FDFDFD] md:pl-24">
+        <main className="flex min-h-screen flex-col items-center justify-center gap-2 bg-[#FDFDFD] pl-24">
           <p className="text-sm font-semibold text-[#8d0801]">{error ?? 'Deputado não encontrado.'}</p>
           <Link href="/DeputadosPage" className="text-sm text-[#1b623a] underline">
             Voltar para a lista
@@ -141,15 +142,23 @@ export default function ShowDeputadosPage() {
   return (
     <div className="min-h-screen">
       <Sidebar />
-      <main className="min-h-screen bg-[#FDFDFD] text-[#1b623a] md:pl-24">
+      <main className="min-h-screen bg-[#FDFDFD] text-[#1b623a] pl-24">
         <header className="relative h-[84px] w-full overflow-hidden border-b border-[#d7d0c3] bg-[#f7f5f1] md:-ml-24 md:w-[calc(100%+6rem)]">
           <Image src="/sidebar.svg" alt="Menu superior" fill priority className="object-cover" />
         </header>
 
         <div className="w-full px-6 py-8 sm:px-10">
+          <Link
+            href="/DeputadosPage"
+            className="mb-4 inline-flex items-center gap-1.5 bg-transparent text-sm font-semibold text-[#8d0801] transition-transform hover:-translate-x-0.5"
+          >
+            <ArrowLeft size={16} strokeWidth={2.5} />
+            Voltar
+          </Link>
+
           <section id="perfil" className="grid gap-3 md:grid-cols-[1.35fr_repeat(3,minmax(0,1fr))]">
             <div className="flex min-h-[145px] items-center gap-3 rounded-[10px] p-3">
-              <div className="relative h-[195px] w-[170px] shrink-0 overflow-hidden border-2 border-white shadow-sm">
+              <div className="relative h-[195px] w-[170px] shrink-0 overflow-hidden rounded-lg border-4 border-[#8d0801] shadow-sm">
                 <Image
                   src={deputado.photo_url || '/deputados.png'}
                   alt={deputado.parliamentary_name}
@@ -193,18 +202,28 @@ export default function ShowDeputadosPage() {
 
           <section id="visao-geral" className="mt-4 grid gap-3 md:grid-cols-[160px_1fr]">
             <div className="h-[338px] w-[160px] overflow-hidden rounded-[10px] border-4 border-[#1b623a] bg-white">
-              {tabs.map((tab) => (
-                <button
-                  key={tab}
-                  type="button"
-                  onClick={() => setActiveTab(tab)}
-                  className={`block h-[60px] w-full border-b border-[#1b623a] px-3 text-left text-sm font-semibold last:border-0 ${
-                    activeTab === tab ? tabColors[tab] : 'text-[#1b623a]'
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
+              {tabs.map((tab) => {
+                const isActiveTab = activeTab === tab;
+                const count = tab === 'Proposições' ? deputado.bills.length : null;
+
+                return (
+                  <button
+                    key={tab}
+                    type="button"
+                    onClick={() => setActiveTab(tab)}
+                    className={`flex h-[60px] w-full items-center justify-between border-b border-[#1b623a] px-3 text-left text-sm font-semibold last:border-0 ${
+                      isActiveTab ? `${tabActiveBg[tab]} text-white` : 'text-[#1b623a]'
+                    }`}
+                  >
+                    <span>{tab}</span>
+                    {count !== null && (
+                      <span className={`text-xs font-bold ${isActiveTab ? 'text-white/80' : 'text-[#1b623a]/70'}`}>
+                        {count}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
             <article className={`min-h-[280px] rounded-[10px] p-6 text-white ${tabPanelColors[activeTab]}`}>
               <h2 className="text-3xl font-black uppercase">{activeTab}</h2>

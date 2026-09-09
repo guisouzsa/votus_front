@@ -91,7 +91,7 @@ export default function SenadoresPage() {
   return (
     <div className="min-h-screen">
       <Sidebar />
-      <main className="min-h-screen bg-[#FDFDFD] md:pl-24">
+      <main className="min-h-screen bg-[#FDFDFD] pl-24">
       <div className="min-h-screen">
         <header className="relative h-[84px] w-full overflow-hidden border-b border-[#d7d0c3] bg-[#f7f5f1] md:-ml-24 md:w-[calc(100%+6rem)]">
           <Image
@@ -210,9 +210,9 @@ export default function SenadoresPage() {
                       key={senador.external_id}
                       href={`/ShowSenadoresPage/${senador.external_id}`}
                       aria-label={`Ver detalhes de ${senador.parliamentary_name}`}
-                      className="overflow-hidden rounded-[12px] border border-[#e0d6c4] bg-white shadow-sm"
+                      className="flex h-full flex-col overflow-hidden rounded-[12px] border border-[#e0d6c4] bg-white shadow-sm"
                     >
-                      <div className="flex h-56 items-center justify-center bg-white p-4">
+                      <div className="flex h-56 shrink-0 items-center justify-center bg-white p-4">
                         <div className="relative h-56 w-full overflow-hidden bg-white">
                           <div className="absolute inset-3">
                             <Image
@@ -227,8 +227,8 @@ export default function SenadoresPage() {
                         </div>
                       </div>
 
-                      <div className="relative rounded-lg border border-[#e0d6c4] overflow-hidden">
-                        <div className="bg-white p-4 pb-5 text-center">
+                      <div className="flex flex-1 flex-col overflow-hidden rounded-lg border border-[#e0d6c4]">
+                        <div className="flex flex-1 flex-col justify-center bg-white p-4 pb-5 text-center">
                           <div className="text-xl font-black uppercase text-[#1b623a]">
                             {senador.parliamentary_name}
                           </div>
@@ -236,7 +236,7 @@ export default function SenadoresPage() {
                           <div className="mt-2 text-sm font-medium text-[#4d4d4d]">{senador.state ?? '—'}</div>
                         </div>
 
-                        <div className="absolute bottom-0 left-0 h-3 w-full bg-[url('/sidebar.svg')] bg-repeat-x bg-[length:auto_100%]" />
+                        <div className="h-3 w-full shrink-0 bg-[url('/sidebar.svg')] bg-repeat-x bg-[length:auto_100%]" />
                       </div>
                     </Link>
                   ))}

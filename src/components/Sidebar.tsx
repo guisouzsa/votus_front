@@ -27,7 +27,16 @@ const NAV_ITEMS: NavItem[] = [
       { id: "deputados", label: "Deputados", path: "/DeputadosPage" },
     ],
   },
-  { id: "juventude", label: "Juventude em Pauta", icon: "/IconeJuventude.svg", iconClass: "h-9 w-9", path: "/Juventude" },
+  {
+    id: "juventude",
+    label: "Juventude",
+    icon: "/IconeJuventude.svg",
+    iconClass: "h-9 w-9",
+    children: [
+      { id: "juventude-pauta", label: "Juventude em Pauta", path: "/Juventude" },
+      { id: "universidades", label: "Universidades", path: "/Universidades" },
+    ],
+  },
   { id: "explicacoes", label: "Explicações", icon: "/IconeExplicacoes.svg" },
   { id: "sobre", label: "Sobre Nós", icon: "/IconeSobreNos.png" },
 ];
@@ -43,7 +52,7 @@ const ACTIVE_CLASS = "bg-[#EDDBBA]/50 text-[#1B623A] shadow-sm";
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState("inicio");
-  const [cargosOpen, setCargosOpen] = useState(false);
+  const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -54,7 +63,6 @@ export default function Sidebar() {
     flatRoutes.find(
       ({ path }) => path && (pathname === path || (path === "/Inicial" && pathname === "/"))
     )?.id ?? DETAIL_ROUTE_PREFIXES.find(({ prefix }) => pathname.startsWith(prefix))?.id;
-  const isCargosActive = ["senadores", "deputados"].includes(activeRouteId ?? "");
 
   const handleItemClick = (id: string, path?: string) => {
     setSelectedId(id);
@@ -64,14 +72,14 @@ export default function Sidebar() {
     }
   };
 
-  const handleCargosClick = () => {
-    setSelectedId("cargos");
+  const handleGroupClick = (itemId: string) => {
+    setSelectedId(itemId);
 
     if (!open) {
       setOpen(true);
-      setCargosOpen(true);
+      setExpandedGroupId(itemId);
     } else {
-      setCargosOpen((prev) => !prev);
+      setExpandedGroupId((prev) => (prev === itemId ? null : itemId));
     }
   };
 
@@ -137,18 +145,19 @@ export default function Sidebar() {
               : selectedId === id;
 
             if (children) {
-              const showChildren = open && (cargosOpen || isCargosActive);
+              const isGroupActive = children.some((child) => child.id === activeRouteId);
+              const showChildren = open && (expandedGroupId === id || isGroupActive);
 
               return (
                 <div key={id} className="flex flex-col gap-1">
                   <button
                     type="button"
-                    onClick={handleCargosClick}
-                    aria-current={isCargosActive ? "page" : undefined}
+                    onClick={() => handleGroupClick(id)}
+                    aria-current={isGroupActive ? "page" : undefined}
                     aria-expanded={showChildren}
                     title={label}
                     className={`flex cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-medium transition-all duration-200 ${
-                      isCargosActive
+                      isGroupActive
                         ? `${ACTIVE_CLASS} scale-[1.02]`
                         : "text-[#103D23] hover:scale-[1.02] hover:bg-white/10"
                     } ${open ? "" : "justify-center px-0"}`}

@@ -10,7 +10,7 @@ export default function HomePage() {
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
 
-      <main className="overflow-x-hidden md:pl-24">
+      <main className="overflow-x-hidden pl-24">
         <div className="w-full px-6 py-8 sm:px-10">
           <WelcomeHeader />
           <HighlightGrid />

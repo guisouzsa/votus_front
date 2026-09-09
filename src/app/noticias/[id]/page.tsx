@@ -24,7 +24,7 @@ export default async function NewsPage({ params }: NewsPageProps) {
     <div className="min-h-screen">
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
-      <main className="overflow-x-hidden md:pl-24">
+      <main className="overflow-x-hidden pl-24">
         <NewsArticlePage article={article} />
       </main>
       <FloatingAIButton />
