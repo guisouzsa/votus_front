@@ -210,10 +210,10 @@ export default function SenadoresPage() {
                       key={senador.external_id}
                       href={`/ShowSenadoresPage/${senador.external_id}`}
                       aria-label={`Ver detalhes de ${senador.parliamentary_name}`}
-                      className="overflow-hidden rounded-[12px] border border-[#f0a75b] bg-[#f7f5f2] shadow-sm"
+                      className="overflow-hidden rounded-[12px] border border-[#e0d6c4] bg-white shadow-sm"
                     >
-                      <div className="flex h-56 items-center justify-center bg-[#f7e7d4] p-4">
-                        <div className="relative h-56 w-full overflow-hidden bg-[#f7e7d4]">
+                      <div className="flex h-56 items-center justify-center bg-white p-4">
+                        <div className="relative h-56 w-full overflow-hidden bg-white">
                           <div className="absolute inset-3">
                             <Image
                               src={senador.photo_url || '/senadores.png'}
@@ -227,9 +227,9 @@ export default function SenadoresPage() {
                         </div>
                       </div>
 
-                      <div className="relative rounded-lg border border-orange-300 overflow-hidden">
-                        <div className="bg-[#f7f5f2] p-4 pb-5 text-center">
-                          <div className="text-xl font-black uppercase text-[#8d0801]">
+                      <div className="relative rounded-lg border border-[#e0d6c4] overflow-hidden">
+                        <div className="bg-white p-4 pb-5 text-center">
+                          <div className="text-xl font-black uppercase text-[#1b623a]">
                             {senador.parliamentary_name}
                           </div>
                           <div className="mt-1 text-sm text-[#4d4d4d]">{senador.party ?? '—'}</div>

@@ -18,7 +18,7 @@ export default function DevelopersSection() {
     },
     {
       name: 'Eva Lohane',
-      image: '/eva_lohane_votus.jpg'
+      image: '/Eva_lohane_votus.jpg'
     },
     {
       name: 'Kerllon Sousa',

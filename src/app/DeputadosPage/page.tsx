@@ -210,10 +210,10 @@ export default function DeputadosPage() {
                       key={deputado.external_id}
                       href={`/ShowDeputadosPage/${deputado.external_id}`}
                       aria-label={`Ver detalhes de ${deputado.parliamentary_name}`}
-                      className="overflow-hidden rounded-[12px] border border-[#8d0801] bg-[#f7f5f2] shadow-sm"
+                      className="overflow-hidden rounded-[12px] border border-[#e0d6c4] bg-white shadow-sm"
                     >
-                      <div className="flex h-56 items-center justify-center bg-[#ecb8b5] p-4">
-                        <div className="relative h-56 w-full overflow-hidden bg-[#ecb8b5]">
+                      <div className="flex h-56 items-center justify-center bg-white p-4">
+                        <div className="relative h-56 w-full overflow-hidden bg-white">
                           <div className="absolute inset-3">
                             <Image
                               src={deputado.photo_url || '/deputados.png'}
@@ -227,9 +227,9 @@ export default function DeputadosPage() {
                         </div>
                       </div>
 
-                      <div className="relative rounded-lg border border-[#8d0801] overflow-hidden">
-                        <div className="bg-[#f7f5f2] p-4 pb-5 text-center">
-                          <div className="text-xl font-black uppercase text-[#F07A00]">
+                      <div className="relative rounded-lg border border-[#e0d6c4] overflow-hidden">
+                        <div className="bg-white p-4 pb-5 text-center">
+                          <div className="text-xl font-black uppercase text-[#1b623a]">
                             {deputado.parliamentary_name}
                           </div>
                           <div className="mt-1 text-sm text-[#4d4d4d]">{deputado.party ?? '—'}</div>

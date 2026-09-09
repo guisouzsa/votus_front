@@ -1,20 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import type { Bill, Topic } from '@/services/types';
-
-// TEMPORÁRIO: a API em produção ainda não retorna `bill.topics` (aguardando
-// deploy do backend). Enquanto isso, simulamos um tema por proposição só
-// para pré-visualizar o design. Remover DEMO_TOPICS e withDemoTopics()
-// assim que a API passar a enviar os temas reais.
-const DEMO_TOPICS = ['Saúde', 'Educação', 'Segurança Pública', 'Economia', 'Meio Ambiente', 'Infraestrutura'];
-
-function withDemoTopics(bill: Bill): Bill {
-  if (bill.topics && bill.topics.length > 0) return bill;
-  const name = DEMO_TOPICS[bill.id % DEMO_TOPICS.length];
-  const demoTopic: Topic = { id: -(bill.id % DEMO_TOPICS.length) - 1, name };
-  return { ...bill, topics: [demoTopic] };
-}
+import type { Bill } from '@/services/types';
 
 const PALETTE = [
   { bg: 'bg-[#DCEEE3]', text: 'text-[#1B623A]' },
@@ -33,10 +20,8 @@ function colorFor(name: string) {
   return PALETTE[hash % PALETTE.length];
 }
 
-export default function ProposicoesList({ bills: rawBills }: { bills: Bill[] }) {
-  const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
-
-  const bills = useMemo(() => rawBills.map(withDemoTopics), [rawBills]);
+export default function ProposicoesList({ bills }: { bills: Bill[] }) {
+  const [selectedTopic, setSelectedTopic] = useState('');
 
   const topics = useMemo(
     () =>
@@ -55,36 +40,38 @@ export default function ProposicoesList({ bills: rawBills }: { bills: Bill[] }) 
     return <p>Nenhuma proposição registrada.</p>;
   }
 
+  const selectedColor = selectedTopic ? colorFor(selectedTopic) : null;
+
   return (
     <>
       {topics.length > 0 && (
         <div className="mb-4 flex flex-wrap items-center gap-2">
-          {topics.map((topic) => {
-            const { bg, text } = colorFor(topic.name);
-            const isActive = selectedTopic === topic.name;
-
-            return (
-              <button
-                key={topic.id}
-                type="button"
-                aria-pressed={isActive}
-                onClick={() => setSelectedTopic(isActive ? null : topic.name)}
-                className={`rounded-full px-3 py-1 text-xs font-semibold transition-all ${bg} ${text} ${
-                  isActive ? 'ring-2 ring-white ring-offset-1 ring-offset-current' : 'opacity-90 hover:opacity-100'
-                }`}
-              >
+          <select
+            value={selectedTopic}
+            onChange={(event) => setSelectedTopic(event.target.value)}
+            className="rounded-full border-0 bg-white/95 px-3 py-1.5 text-xs font-semibold text-[#1b623a] outline-none"
+          >
+            <option value="">Todos os temas</option>
+            {topics.map((topic) => (
+              <option key={topic.id} value={topic.name}>
                 {topic.name}
+              </option>
+            ))}
+          </select>
+
+          {selectedTopic && selectedColor && (
+            <>
+              <span className={`rounded-full px-3 py-1 text-xs font-semibold ${selectedColor.bg} ${selectedColor.text}`}>
+                {selectedTopic}
+              </span>
+              <button
+                type="button"
+                onClick={() => setSelectedTopic('')}
+                className="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-white transition-colors hover:bg-white/30"
+              >
+                Limpar ×
               </button>
-            );
-          })}
-          {selectedTopic && (
-            <button
-              type="button"
-              onClick={() => setSelectedTopic(null)}
-              className="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-white transition-colors hover:bg-white/30"
-            >
-              Limpar filtro ×
-            </button>
+            </>
           )}
         </div>
       )}
