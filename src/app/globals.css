@@ -27,3 +27,12 @@ body {
   color: var(--color-ink);
   font-family: var(--font-montserrat), sans-serif;
 }
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

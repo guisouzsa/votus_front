@@ -32,6 +32,12 @@ const NAV_ITEMS: NavItem[] = [
   { id: "sobre", label: "Sobre Nós", icon: "/IconeSobreNos.png" },
 ];
 
+const DETAIL_ROUTE_PREFIXES: { prefix: string; id: string }[] = [
+  { prefix: "/ShowDeputadosPage", id: "deputados" },
+  { prefix: "/ShowSenadoresPage", id: "senadores" },
+  { prefix: "/noticias/", id: "noticias" },
+];
+
 const ACTIVE_CLASS = "bg-[#EDDBBA]/50 text-[#1B623A] shadow-sm";
 
 export default function Sidebar() {
@@ -44,9 +50,10 @@ export default function Sidebar() {
   const flatRoutes: NavChild[] = NAV_ITEMS.flatMap((item) =>
     item.children ? item.children : item.path ? [{ id: item.id, label: item.label, path: item.path }] : []
   );
-  const activeRouteId = flatRoutes.find(
-    ({ path }) => path && (pathname === path || (path === "/Inicial" && pathname === "/"))
-  )?.id;
+  const activeRouteId =
+    flatRoutes.find(
+      ({ path }) => path && (pathname === path || (path === "/Inicial" && pathname === "/"))
+    )?.id ?? DETAIL_ROUTE_PREFIXES.find(({ prefix }) => pathname.startsWith(prefix))?.id;
   const isCargosActive = ["senadores", "deputados"].includes(activeRouteId ?? "");
 
   const handleItemClick = (id: string, path?: string) => {
