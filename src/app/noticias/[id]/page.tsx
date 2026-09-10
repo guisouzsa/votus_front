@@ -22,7 +22,7 @@ export default async function NewsPage({ params }: NewsPageProps) {
   const article: NewsArticle = { id };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-dvh">
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
       <MobileBottomNav />

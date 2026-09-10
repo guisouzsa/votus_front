@@ -79,11 +79,11 @@ export default function DeputadosPage() {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-dvh">
       <Sidebar />
       <MobileBottomNav />
-      <main className="min-h-screen bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
-      <div className="min-h-screen">
+      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
+      <div className="min-h-dvh">
         <header className="relative h-[84px] w-full overflow-hidden border-b border-[#d7d0c3] bg-[#f7f5f1] md:-ml-24 md:w-[calc(100%+6rem)]">
           <Image
             src="/sidebar.svg"

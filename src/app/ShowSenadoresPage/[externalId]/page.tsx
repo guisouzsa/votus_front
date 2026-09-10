@@ -66,10 +66,10 @@ export default function ShowSenadoresPage() {
         : 'Não foi possível carregar os dados deste senador agora.';
 
     return (
-      <div className="min-h-screen">
+      <div className="min-h-dvh">
         <Sidebar />
         <MobileBottomNav />
-        <main className="flex min-h-screen flex-col items-center justify-center gap-2 bg-[#FDFDFD] px-6 pb-24 text-center md:pb-0 md:pl-24">
+        <main className="flex min-h-dvh flex-col items-center justify-center gap-2 bg-[#FDFDFD] px-6 pb-24 text-center md:pb-0 md:pl-24">
           <p className="text-sm font-semibold text-[#8d0801]">{errorMessage}</p>
           <Link href="/SenadoresPage" className="text-sm text-[#1b623a] underline">
             Voltar para a lista
@@ -119,10 +119,10 @@ export default function ShowSenadoresPage() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-dvh">
       <Sidebar />
       <MobileBottomNav />
-      <main className="min-h-screen bg-[#FDFDFD] pb-24 pl-0 text-[#1b623a] md:pb-0 md:pl-24">
+      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 text-[#1b623a] md:pb-0 md:pl-24">
         <header className="relative h-[84px] w-full overflow-hidden border-b border-[#d7d0c3] bg-[#f7f5f1] md:-ml-24 md:w-[calc(100%+6rem)]">
           <Image src="/sidebar.svg" alt="Menu superior" fill priority className="object-cover" />
         </header>

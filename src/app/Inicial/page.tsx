@@ -7,7 +7,7 @@ import FloatingAIButton from "@/components/FloatingAIButton";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-dvh">
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
       <MobileBottomNav />

@@ -82,7 +82,7 @@ const CIENCIA_TECNOLOGIA: NewsItem[] = [
 
 export default function DashboardPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-dvh">
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
       <MobileBottomNav />

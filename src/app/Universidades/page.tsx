@@ -37,7 +37,7 @@ export default function UniversidadesPage() {
   const [filtros, setFiltros] = useState<FiltrosState>(FILTROS_VAZIOS);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-dvh">
       <Sidebar />
       <MobileBottomNav />
 
