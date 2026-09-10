@@ -70,35 +70,37 @@ export default function MobileBottomNav() {
 
           if (!path) {
             return (
-              <button
-                key={id}
-                type="button"
-                aria-label={label}
-                title={label}
-                onClick={closePopover}
-                className={`flex flex-1 items-center justify-center rounded-full py-2 transition-colors ${
-                  isActive ? ACTIVE_CLASS : "text-[#103D23]"
-                }`}
-              >
-                <img src={icon} alt="" className={`${iconClass || "h-6 w-6"} shrink-0`} />
-              </button>
+              <div key={id} className="flex flex-1 justify-center">
+                <button
+                  type="button"
+                  aria-label={label}
+                  title={label}
+                  onClick={closePopover}
+                  className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors ${
+                    isActive ? ACTIVE_CLASS : "text-[#103D23]"
+                  }`}
+                >
+                  <img src={icon} alt="" className={`${iconClass || "h-6 w-6"} shrink-0`} />
+                </button>
+              </div>
             );
           }
 
           return (
-            <Link
-              key={id}
-              href={path}
-              onClick={closePopover}
-              aria-current={isActive ? "page" : undefined}
-              aria-label={label}
-              title={label}
-              className={`flex flex-1 items-center justify-center rounded-full py-2 transition-colors ${
-                isActive ? ACTIVE_CLASS : "text-[#103D23]"
-              }`}
-            >
-              <img src={icon} alt="" className={`${iconClass || "h-6 w-6"} shrink-0`} />
-            </Link>
+            <div key={id} className="flex flex-1 justify-center">
+              <Link
+                href={path}
+                onClick={closePopover}
+                aria-current={isActive ? "page" : undefined}
+                aria-label={label}
+                title={label}
+                className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors ${
+                  isActive ? ACTIVE_CLASS : "text-[#103D23]"
+                }`}
+              >
+                <img src={icon} alt="" className={`${iconClass || "h-6 w-6"} shrink-0`} />
+              </Link>
+            </div>
           );
         })}
       </nav>
