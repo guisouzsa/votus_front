@@ -87,3 +87,30 @@ export interface PaginatedResponse<T> {
     total: number;
   };
 }
+
+export interface NewsArticleApi {
+  id: number;
+  title: string;
+  original_summary: string | null;
+  ai_summary: string | null;
+  url: string | null;
+  source: string | null;
+  category: string | null;
+  published_at: string | null;
+  imported_at: string | null;
+  relevance_score: number | null;
+  keywords: string[];
+  published: boolean;
+  created_at: string;
+  updated_at: string;
+  image_url: string | null;
+  site_logo_url: string | null;
+}
+
+export interface NewsListResponse {
+  current_page: number;
+  data: NewsArticleApi[];
+  last_page: number;
+  per_page: number;
+  total: number;
+}

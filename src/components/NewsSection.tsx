@@ -16,13 +16,6 @@ export default function NewsSection({
   const startX = useRef(0);
   const scrollLeft = useRef(0);
 
-  // Repete os itens apenas para preencher o carrossel
-  // enquanto houver poucos itens vindos da API.
-  const displayItems =
-    items.length > 0
-      ? [...items, ...items].slice(0, Math.max(items.length, 6))
-      : items;
-
   function onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
     if (!scrollRef.current) return;
 
@@ -83,9 +76,9 @@ export default function NewsSection({
           onMouseMove={onMouseMove}
           className="flex flex-1 gap-4 overflow-x-auto pb-2 cursor-grab select-none active:cursor-grabbing [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
-          {displayItems.map((item, index) => (
+          {items.map((item) => (
             <div
-              key={`${item.title}-${index}`}
+              key={item.id}
               className="w-[19rem] shrink-0 sm:w-[21rem]"
             >
               <NewsCard {...item} />

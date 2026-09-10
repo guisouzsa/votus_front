@@ -1,21 +1,24 @@
 "use client";
 
-import { useState } from "react";
+export const RELEVANCE_TABS = ["Mais relevantes", "Mais recentes"] as const;
+export type RelevanceTab = (typeof RELEVANCE_TABS)[number];
 
-const TABS = ["Mais relevantes", "Mais recentes"];
-
-export default function RelevanceTabs() {
-  const [tab, setTab] = useState(TABS[0]);
-
+export default function RelevanceTabs({
+  value,
+  onChange,
+}: {
+  value: RelevanceTab;
+  onChange: (tab: RelevanceTab) => void;
+}) {
   return (
     <div className="mt-8 flex gap-2">
-      {TABS.map((label) => {
-        const isActive = tab === label;
+      {RELEVANCE_TABS.map((label) => {
+        const isActive = value === label;
         return (
           <button
             key={label}
             type="button"
-            onClick={() => setTab(label)}
+            onClick={() => onChange(label)}
             className={`rounded-full border border-[#EDDBBA] px-4 py-2 text-sm font-medium transition-colors cursor-pointer ${
               isActive
                 ? "bg-[#EDDBBA]/50 text-[#1B623A]"
