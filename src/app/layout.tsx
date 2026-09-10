@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 
@@ -11,6 +11,10 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "Votus - Painel de Notícias",
   description: "Veja as últimas notícias sobre seus tópicos favoritos",
+};
+
+export const viewport: Viewport = {
+  colorScheme: "light",
 };
 
 export default function RootLayout({

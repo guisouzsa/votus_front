@@ -29,7 +29,7 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
     <div className="fixed bottom-24 right-4 z-50 flex items-end justify-end md:bottom-6 md:right-6">
       <section
         aria-label="Chat Votus IA"
-        className={`absolute bottom-20 right-0 flex max-h-[min(46rem,calc(100vh-7rem))] w-[min(22rem,calc(100vw-2rem))] origin-bottom-right flex-col overflow-hidden rounded-[1.25rem] border border-[#EDDBBA] bg-[#FDF8EE] shadow-[0_16px_40px_rgba(27,98,58,0.2)] transition-all duration-300 ease-out ${
+        className={`fixed inset-x-4 bottom-40 z-50 flex max-h-[calc(100dvh-11rem)] w-auto origin-bottom-right flex-col overflow-hidden rounded-[1.25rem] border border-[#EDDBBA] bg-[#FDF8EE] shadow-[0_16px_40px_rgba(27,98,58,0.2)] transition-all duration-300 ease-out md:inset-x-auto md:right-6 md:bottom-24 md:w-[22rem] md:max-h-[min(46rem,calc(100dvh-7rem))] ${
           open ? "translate-y-0 scale-100 opacity-100" : "pointer-events-none translate-y-5 scale-95 opacity-0"
         }`}
         style={{ backgroundImage: "url(/fundochatia.png)", backgroundSize: "cover", backgroundPosition: "center" }}

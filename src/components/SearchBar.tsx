@@ -40,17 +40,17 @@ export default function SearchBar() {
         />
       </label>
 
-      <div className="relative w-72 max-w-[90vw] shrink-0">
+      <div className="relative w-24 shrink-0 md:w-72 md:max-w-[90vw]">
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="flex h-10 w-full items-center justify-between rounded-full border border-[#EDDBBA] bg-[#FDF8EE] py-1.5 pl-5 pr-1.5 text-sm font-medium text-[#1B623A] cursor-pointer"
+          className="flex h-10 w-full items-center justify-between gap-1 rounded-full border border-[#EDDBBA] bg-[#FDF8EE] py-1.5 pl-3 pr-1.5 text-sm font-medium text-[#1B623A] cursor-pointer md:gap-2 md:pl-5"
         >
-          <span className="flex items-center gap-2">
-            <SlidersHorizontal size={16} />
-            Filtros
+          <span className="flex min-w-0 items-center gap-1.5 md:gap-2">
+            <SlidersHorizontal size={16} className="shrink-0" />
+            <span className="hidden truncate md:inline">Filtros</span>
           </span>
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#EDDBBA]">
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EDDBBA]">
             <ChevronDown
               size={14}
               className={`text-[#1B623A] transition-transform duration-200 ${open ? "rotate-180" : ""}`}

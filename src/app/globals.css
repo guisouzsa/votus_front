@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+:root {
+  color-scheme: light only;
+}
+
 @theme inline {
   --font-display: var(--font-montserrat), sans-serif;
   --font-sans: var(--font-montserrat), sans-serif;
