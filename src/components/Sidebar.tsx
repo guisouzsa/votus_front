@@ -3,51 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-
-type NavChild = { id: string; label: string; path: string };
-
-type NavItem = {
-  id: string;
-  label: string;
-  icon: string;
-  iconClass?: string;
-  path?: string;
-  children?: NavChild[];
-};
-
-const NAV_ITEMS: NavItem[] = [
-  { id: "inicio", label: "Início", icon: "/IconeInicial.svg", path: "/Inicial" },
-  { id: "noticias", label: "Notícias", icon: "/IconeNoticias.png", path: "/Painelnoticias" },
-  {
-    id: "cargos",
-    label: "Cargos",
-    icon: "/Iconesenadores.svg",
-    children: [
-      { id: "senadores", label: "Senadores", path: "/SenadoresPage" },
-      { id: "deputados", label: "Deputados", path: "/DeputadosPage" },
-    ],
-  },
-  {
-    id: "juventude",
-    label: "Juventude",
-    icon: "/IconeJuventude.svg",
-    iconClass: "h-9 w-9",
-    children: [
-      { id: "juventude-pauta", label: "Juventude em Pauta", path: "/Juventude" },
-      { id: "universidades", label: "Universidades", path: "/Universidades" },
-    ],
-  },
-  { id: "explicacoes", label: "Explicações", icon: "/IconeExplicacoes.svg" },
-  { id: "sobre", label: "Sobre Nós", icon: "/IconeSobreNos.png" },
-];
-
-const DETAIL_ROUTE_PREFIXES: { prefix: string; id: string }[] = [
-  { prefix: "/ShowDeputadosPage", id: "deputados" },
-  { prefix: "/ShowSenadoresPage", id: "senadores" },
-  { prefix: "/noticias/", id: "noticias" },
-];
-
-const ACTIVE_CLASS = "bg-[#EDDBBA]/50 text-[#1B623A] shadow-sm";
+import { NAV_ITEMS, ACTIVE_CLASS, getActiveRouteId } from "./navItems";
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
@@ -56,13 +12,7 @@ export default function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const flatRoutes: NavChild[] = NAV_ITEMS.flatMap((item) =>
-    item.children ? item.children : item.path ? [{ id: item.id, label: item.label, path: item.path }] : []
-  );
-  const activeRouteId =
-    flatRoutes.find(
-      ({ path }) => path && (pathname === path || (path === "/Inicial" && pathname === "/"))
-    )?.id ?? DETAIL_ROUTE_PREFIXES.find(({ prefix }) => pathname.startsWith(prefix))?.id;
+  const activeRouteId = getActiveRouteId(pathname);
 
   const handleItemClick = (id: string, path?: string) => {
     setSelectedId(id);
@@ -85,7 +35,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`fixed left-4 top-4 z-20 flex flex-col justify-between overflow-hidden rounded-3xl shadow-lg transition-[width] duration-300 ease-in-out ${
+      className={`fixed left-4 top-4 z-20 hidden flex-col justify-between overflow-hidden rounded-3xl shadow-lg transition-[width] duration-300 ease-in-out md:flex ${
         open ? "w-64" : "w-20"
       }`}
       style={{

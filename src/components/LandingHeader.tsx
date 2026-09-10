@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import Image from 'next/image';
 
 export default function LandingHeader() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +14,7 @@ export default function LandingHeader() {
           {/* Logo */}
           <div className="flex-shrink-0">
             <div className="text-3xl font-bold text-brasil-green">
-              <img src="/votus_name.png" alt="Votus Logo" className="h-10 w-auto" />
+              <Image src="/votus_name.png" alt="Votus Logo" width={2076} height={489} className="h-10 w-auto" />
             </div>
           </div>
 
@@ -34,7 +35,7 @@ export default function LandingHeader() {
           </nav>
 
           <div>
-            <img src="/ivy_votus.png" alt="Votus Logo" className="h-10 w-auto" />
+            <Image src="/ivy_votus.png" alt="Votus Logo" width={629} height={707} className="h-10 w-auto" />
           </div>
 
           {/* Mobile menu button */}

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
+import MobileBottomNav from "@/components/MobileBottomNav";
 import FloatingAIButton from "@/components/FloatingAIButton";
 import DashboardHeader from "@/components/DashboardHeader";
 import { ArrowLeft, Landmark, Search } from "lucide-react";
@@ -38,8 +39,9 @@ export default function UniversidadesPage() {
   return (
     <div className="min-h-screen">
       <Sidebar />
+      <MobileBottomNav />
 
-      <main className="overflow-x-hidden pl-24">
+      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24">
         <header className="relative h-[84px] w-full overflow-hidden border-b border-[#d7d0c3] bg-[#f7f5f1] md:-ml-24 md:w-[calc(100%+6rem)]">
           <Image src="/sidebar.svg" alt="Menu superior" fill priority className="object-cover" />
         </header>
@@ -56,6 +58,8 @@ export default function UniversidadesPage() {
           <DashboardHeader
             titleSrc="/PainelUniver.svg"
             titleAlt="Painel de Universidades"
+            titleWidth={802}
+            titleHeight={117}
             subtitle="Encontre universidades e cursos pelo Ceará. Lorem Ipsum é simplesmente um texto fictício da indústria tipográfica e de impressão."
           />
 

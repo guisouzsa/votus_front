@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
+import MobileBottomNav from "@/components/MobileBottomNav";
 import FloatingAIButton from "@/components/FloatingAIButton";
 import DashboardHeader from "@/components/DashboardHeader";
 import { ArrowRight, Building2, Pill } from "lucide-react";
@@ -45,8 +46,9 @@ export default function JuventudePage() {
   return (
     <div className="min-h-screen">
       <Sidebar />
+      <MobileBottomNav />
 
-      <main className="min-h-screen bg-[#FDFDFD] pl-24">
+      <main className="min-h-screen bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
         <header className="relative h-[84px] w-full overflow-hidden border-b border-[#d7d0c3] bg-[#f7f5f1] md:-ml-24 md:w-[calc(100%+6rem)]">
           <Image src="/sidebar.svg" alt="Menu superior" fill priority className="object-cover" />
         </header>
@@ -55,6 +57,8 @@ export default function JuventudePage() {
           <DashboardHeader
             titleSrc="/JuventudeEmPauta.svg"
             titleAlt="Juventude em Pauta"
+            titleWidth={400}
+            titleHeight={117}
             subtitle="Lorem Ipsum é simplesmente um texto fictício da indústria tipográfica e de impressão."
           />
 

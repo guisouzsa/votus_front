@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export type HighlightItem = {
   category: string;
   title: string;
@@ -15,10 +17,12 @@ export default function HighlightCard({
     <a href={href} className="group block h-full">
       <div className="relative flex h-56 w-full flex-col justify-between overflow-hidden rounded-xl border border-line bg-brasil-green-deep p-4 transition-transform duration-300 group-hover:scale-[1.01] sm:h-64">
         {image && (
-          <img
+          <Image
             src={image}
             alt=""
-            className="absolute inset-0 h-full w-full object-cover"
+            fill
+            sizes="(max-width: 640px) 100vw, 50vw"
+            className="object-cover"
           />
         )}
 

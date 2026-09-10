@@ -26,15 +26,15 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
   }
 
   return (
-    <div className="fixed bottom-5 right-5 z-50 flex items-end justify-end sm:bottom-6 sm:right-6">
+    <div className="fixed bottom-24 right-4 z-50 flex items-end justify-end md:bottom-6 md:right-6">
       <section
         aria-label="Chat Votus IA"
-        className={`absolute bottom-20 right-0 min-h-[46rem] max-h-[calc(100vh-10rem)] w-[min(22rem,calc(100vw-2rem))] origin-bottom-right overflow-hidden rounded-[1.25rem] border border-[#EDDBBA] bg-[#FDF8EE] shadow-[0_16px_40px_rgba(27,98,58,0.2)] transition-all duration-300 ease-out ${
+        className={`absolute bottom-20 right-0 flex max-h-[min(46rem,calc(100vh-7rem))] w-[min(22rem,calc(100vw-2rem))] origin-bottom-right flex-col overflow-hidden rounded-[1.25rem] border border-[#EDDBBA] bg-[#FDF8EE] shadow-[0_16px_40px_rgba(27,98,58,0.2)] transition-all duration-300 ease-out ${
           open ? "translate-y-0 scale-100 opacity-100" : "pointer-events-none translate-y-5 scale-95 opacity-0"
         }`}
         style={{ backgroundImage: "url(/fundochatia.png)", backgroundSize: "cover", backgroundPosition: "center" }}
       >
-        <div className="flex items-start justify-between px-5 pb-3 pt-5">
+        <div className="flex shrink-0 items-start justify-between px-5 pb-3 pt-5">
           <div>
             <h2 className="font-display text-lg font-bold text-[#8D0801]">Ajuda rápida com IA</h2>
             <p className="mt-0.5 text-sm font-medium text-[#103D23]">Tire dúvidas em linguagem simples.</p>
@@ -43,20 +43,20 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
             type="button"
             onClick={() => setOpen(false)}
             aria-label="Fechar chat"
-            className="flex h-7 w-7 items-center justify-center rounded-full text-[#8D0801] transition-transform hover:rotate-90 cursor-pointer"
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[#8D0801] transition-transform hover:rotate-90 cursor-pointer"
           >
             <X size={20} strokeWidth={2.5} />
           </button>
         </div>
 
-        <div className="mx-5 flex items-center gap-2 rounded-lg border border-[#8D0801] bg-[#F2E4CA] px-2.5 py-2.5 text-xs leading-snug text-[#8D0801]">
+        <div className="mx-5 flex shrink-0 items-center gap-2 rounded-lg border border-[#8D0801] bg-[#F2E4CA] px-2.5 py-2.5 text-xs leading-snug text-[#8D0801]">
           <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#EDDBBA] text-[#8D0801]">
             <Info size={14} strokeWidth={2.5} />
           </span>
           <span>Sou uma ferramenta de apoio. Não substituo fontes oficiais.</span>
         </div>
 
-        <div className="px-5 pb-4 pt-4">
+        <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-4 pt-4">
           <h3 className="mb-2 text-sm font-bold text-[#8D0801]">Sugestões rápidas</h3>
           <div className="grid gap-2">
             {suggestions.map(({ label, icon: Icon }) => (
@@ -77,7 +77,7 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
           </div>
         </div>
 
-        <div className="mt-60 px-5 pb-3">
+        <div className="shrink-0 px-5 pb-3">
           <div className="flex items-center gap-1.5">
             <input
               value={message}
@@ -100,11 +100,10 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
           <p className="mt-1 text-[10px] text-[#103D23]">Enter envia · Shift + Enter quebra linha</p>
         </div>
 
-        <div className="mx-5 mb-5 mt-1 flex items-center gap-1.5 rounded-md border border-[#1B623A] bg-[#F2E4CA] px-3 py-3 text-xs font-medium text-[#1B623A]">
+        <div className="mx-5 mb-5 mt-1 flex shrink-0 items-center gap-1.5 rounded-md border border-[#1B623A] bg-[#F2E4CA] px-3 py-3 text-xs font-medium text-[#1B623A]">
           <CheckCircle2 size={18} />
           Fontes oficiais sempre visíveis
         </div>
-
       </section>
 
       <button

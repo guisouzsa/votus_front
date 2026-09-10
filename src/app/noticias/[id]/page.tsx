@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Sidebar from "@/components/Sidebar";
+import MobileBottomNav from "@/components/MobileBottomNav";
 import WovenRibbon from "@/components/WovenRibbon";
 import FloatingAIButton from "@/components/FloatingAIButton";
 import NewsArticlePage from "@/components/NewsArticlePage";
@@ -24,7 +25,8 @@ export default async function NewsPage({ params }: NewsPageProps) {
     <div className="min-h-screen">
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
-      <main className="overflow-x-hidden pl-24">
+      <MobileBottomNav />
+      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24">
         <NewsArticlePage article={article} />
       </main>
       <FloatingAIButton />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 export default function HeroArticle() {
   const [imgLoaded, setImgLoaded] = useState(false);
@@ -20,12 +21,14 @@ export default function HeroArticle() {
         )}
 
         {!imgError && (
-          <img
+          <Image
             src="/foto-noticia-principal.png"
             alt=""
+            fill
+            sizes="(max-width: 640px) 100vw, 700px"
             onLoad={() => setImgLoaded(true)}
             onError={() => setImgError(true)}
-            className="absolute inset-0 h-full w-full object-cover opacity-100 transition-transform duration-500 group-hover:scale-105"
+            className="object-cover opacity-100 transition-transform duration-500 group-hover:scale-105"
           />
         )}
 

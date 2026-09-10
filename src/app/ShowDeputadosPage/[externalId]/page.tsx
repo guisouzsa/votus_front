@@ -1,16 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import useSWR from 'swr';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
+import MobileBottomNav from '@/components/MobileBottomNav';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import LegislativeTimeline from '@/components/LegislativeTimeline';
+import LegislatorDetailSkeleton from '@/components/LegislatorDetailSkeleton';
 import InfoTooltip from '@/components/InfoTooltip';
 import ProposicoesList from '@/components/ProposicoesList';
-import { getDeputado, type LegislatorDetail } from '@/services/deputadosService';
+import { getDeputado } from '@/services/deputadosService';
 import { ApiError } from '@/services/apiClient';
 
 const tabs = ['Visão geral', 'Comissões', 'Proposições', 'Linha do tempo'] as const;
@@ -42,56 +45,32 @@ export default function ShowDeputadosPage() {
   const params = useParams<{ externalId: string }>();
   const externalId = params.externalId;
 
-  const [deputado, setDeputado] = useState<LegislatorDetail | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<Tab>('Visão geral');
 
-  useEffect(() => {
-    if (!externalId) return;
+  const {
+    data: deputado,
+    error: swrError,
+    isLoading,
+  } = useSWR(externalId ? ['deputado', externalId] : null, () => getDeputado(externalId), {
+    revalidateOnFocus: false,
+  });
 
-    let cancelado = false;
-    setLoading(true);
-    setError(null);
-
-    getDeputado(externalId)
-      .then((data) => {
-        if (!cancelado) setDeputado(data);
-      })
-      .catch((err) => {
-        if (cancelado) return;
-        setError(
-          err instanceof ApiError && err.status === 404
-            ? 'Deputado não encontrado.'
-            : 'Não foi possível carregar os dados deste deputado agora.'
-        );
-      })
-      .finally(() => {
-        if (!cancelado) setLoading(false);
-      });
-
-    return () => {
-      cancelado = true;
-    };
-  }, [externalId]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen">
-        <Sidebar />
-        <main className="flex min-h-screen items-center justify-center bg-[#FDFDFD] pl-24">
-          <p className="text-sm font-semibold text-[#8d0801]">Carregando dados do deputado...</p>
-        </main>
-      </div>
-    );
+  if (isLoading) {
+    return <LegislatorDetailSkeleton />;
   }
 
-  if (error || !deputado) {
+  if (swrError || !deputado) {
+    const errorMessage =
+      swrError instanceof ApiError && swrError.status === 404
+        ? 'Deputado não encontrado.'
+        : 'Não foi possível carregar os dados deste deputado agora.';
+
     return (
       <div className="min-h-screen">
         <Sidebar />
-        <main className="flex min-h-screen flex-col items-center justify-center gap-2 bg-[#FDFDFD] pl-24">
-          <p className="text-sm font-semibold text-[#8d0801]">{error ?? 'Deputado não encontrado.'}</p>
+        <MobileBottomNav />
+        <main className="flex min-h-screen flex-col items-center justify-center gap-2 bg-[#FDFDFD] px-6 pb-24 text-center md:pb-0 md:pl-24">
+          <p className="text-sm font-semibold text-[#8d0801]">{errorMessage}</p>
           <Link href="/DeputadosPage" className="text-sm text-[#1b623a] underline">
             Voltar para a lista
           </Link>
@@ -142,7 +121,8 @@ export default function ShowDeputadosPage() {
   return (
     <div className="min-h-screen">
       <Sidebar />
-      <main className="min-h-screen bg-[#FDFDFD] text-[#1b623a] pl-24">
+      <MobileBottomNav />
+      <main className="min-h-screen bg-[#FDFDFD] pb-24 pl-0 text-[#1b623a] md:pb-0 md:pl-24">
         <header className="relative h-[84px] w-full overflow-hidden border-b border-[#d7d0c3] bg-[#f7f5f1] md:-ml-24 md:w-[calc(100%+6rem)]">
           <Image src="/sidebar.svg" alt="Menu superior" fill priority className="object-cover" />
         </header>
@@ -156,29 +136,28 @@ export default function ShowDeputadosPage() {
             Voltar
           </Link>
 
-          <section id="perfil" className="grid gap-3 md:grid-cols-[1.35fr_repeat(3,minmax(0,1fr))]">
-            <div className="flex min-h-[145px] items-center gap-3 rounded-[10px] p-3">
+          <section id="perfil" className="grid grid-cols-1 gap-3 sm:grid-cols-3 md:grid-cols-[1.35fr_repeat(3,minmax(0,1fr))]">
+            <div className="flex min-h-[145px] flex-col items-center gap-3 rounded-[10px] p-3 text-center sm:col-span-3 sm:flex-row sm:text-left md:col-span-1">
               <div className="relative h-[195px] w-[170px] shrink-0 overflow-hidden rounded-lg border-4 border-[#8d0801] shadow-sm">
                 <Image
                   src={deputado.photo_url || '/deputados.png'}
                   alt={deputado.parliamentary_name}
                   fill
-                  unoptimized
                   className="object-cover"
                 />
               </div>
               <div>
-                <h1 className="text-xl font-black uppercase text-[#8d0801]">{deputado.parliamentary_name}</h1>
+                <h1 className="text-lg font-black uppercase text-[#8d0801] sm:text-xl">{deputado.parliamentary_name}</h1>
                 <p className="mt-1 font-bold uppercase text-[#8d0801]">
                   {deputado.party ?? '—'} - {deputado.state ?? '—'}
                 </p>
                 <p className="mt-3 text-xs font-semibold text-[#8d0801]">Representante do Ceará na Câmara dos Deputados</p>
               </div>
             </div>
-            <div className="flex min-h-[145px] items-center justify-center rounded-[10px] bg-[#fbc000] p-3 text-center text-white">
+            <div className="flex min-h-[120px] items-center justify-center rounded-[10px] bg-[#fbc000] p-3 text-center text-white sm:min-h-[145px]">
               <div>
-                <p className="text-lg font-black uppercase">Efetividade Legislativa</p>
-                <div className="flex items-center justify-center gap-1.5 text-3xl font-black">
+                <p className="text-base font-black uppercase sm:text-lg">Efetividade Legislativa</p>
+                <div className="flex items-center justify-center gap-1.5 text-2xl font-black sm:text-3xl">
                   {effectivenessPct}
                   <InfoTooltip label="Como a efetividade é calculada">
                     <p className="font-bold text-[#8d0801]">Proposições que avançaram</p>
@@ -190,18 +169,18 @@ export default function ShowDeputadosPage() {
                 </div>
               </div>
             </div>
-            <div className="flex min-h-[145px] flex-col items-center justify-center rounded-[10px] bg-[#ff7700] p-3 text-center text-white">
-              <p className="text-lg font-black uppercase">Proposições</p>
-              <p className="text-3xl font-black">{deputado.effectiveness_total_bills ?? deputado.bills.length}</p>
+            <div className="flex min-h-[120px] flex-col items-center justify-center rounded-[10px] bg-[#ff7700] p-3 text-center text-white sm:min-h-[145px]">
+              <p className="text-base font-black uppercase sm:text-lg">Proposições</p>
+              <p className="text-2xl font-black sm:text-3xl">{deputado.effectiveness_total_bills ?? deputado.bills.length}</p>
             </div>
-            <div className="flex min-h-[145px] flex-col items-center justify-center rounded-[10px] bg-[#1b623a] p-3 text-center text-white">
-              <p className="text-lg font-black uppercase">Comissões</p>
-              <p className="text-3xl font-black">{deputado.committees.length}</p>
+            <div className="flex min-h-[120px] flex-col items-center justify-center rounded-[10px] bg-[#1b623a] p-3 text-center text-white sm:min-h-[145px]">
+              <p className="text-base font-black uppercase sm:text-lg">Comissões</p>
+              <p className="text-2xl font-black sm:text-3xl">{deputado.committees.length}</p>
             </div>
           </section>
 
-          <section id="visao-geral" className="mt-4 grid gap-3 md:grid-cols-[160px_1fr]">
-            <div className="h-[338px] w-[160px] overflow-hidden rounded-[10px] border-4 border-[#1b623a] bg-white">
+          <section id="visao-geral" className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-[160px_1fr]">
+            <div className="flex gap-2 overflow-x-auto rounded-[10px] border-4 border-[#1b623a] bg-white p-2 md:h-[338px] md:w-[160px] md:flex-col md:gap-0 md:overflow-visible md:p-0">
               {tabs.map((tab) => {
                 const isActiveTab = activeTab === tab;
                 const count = tab === 'Proposições' ? deputado.bills.length : null;
@@ -211,7 +190,7 @@ export default function ShowDeputadosPage() {
                     key={tab}
                     type="button"
                     onClick={() => setActiveTab(tab)}
-                    className={`flex h-[60px] w-full items-center justify-between border-b border-[#1b623a] px-3 text-left text-sm font-semibold last:border-0 ${
+                    className={`flex h-11 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full px-4 text-sm font-semibold md:h-[60px] md:w-full md:shrink md:justify-between md:rounded-none md:border-b md:border-[#1b623a] md:px-3 md:text-left last:md:border-0 ${
                       isActiveTab ? `${tabActiveBg[tab]} text-white` : 'text-[#1b623a]'
                     }`}
                   >
@@ -225,8 +204,8 @@ export default function ShowDeputadosPage() {
                 );
               })}
             </div>
-            <article className={`min-h-[280px] rounded-[10px] p-6 text-white ${tabPanelColors[activeTab]}`}>
-              <h2 className="text-3xl font-black uppercase">{activeTab}</h2>
+            <article className={`min-h-[280px] rounded-[10px] p-4 text-white sm:p-6 ${tabPanelColors[activeTab]}`}>
+              <h2 className="text-xl font-black uppercase sm:text-2xl md:text-3xl">{activeTab}</h2>
               <div
                 className={`mt-3 text-sm leading-relaxed ${
                   activeTab === 'Linha do tempo' ? 'w-full' : 'max-w-4xl'
