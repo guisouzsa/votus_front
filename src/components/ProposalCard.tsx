@@ -167,7 +167,7 @@ function VoteIcon({
       disabled={disabled}
       aria-label={label}
       aria-pressed={active}
-      className={`flex items-center gap-1.5 bg-transparent transition-transform hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50 ${
+      className={`flex items-center gap-1.5 rounded-full bg-transparent px-1 py-1.5 transition-transform hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50 ${
         active ? activeColor : 'text-[#c9c2b3]'
       }`}
     >

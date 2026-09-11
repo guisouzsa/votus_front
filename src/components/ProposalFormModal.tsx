@@ -95,9 +95,10 @@ export default function ProposalFormModal({
                   type="text"
                   value={title}
                   onChange={(event) => setTitle(event.target.value)}
+                  placeholder="Ex: Ampliação do transporte público noturno"
                   maxLength={255}
                   required
-                  className="mt-1.5 h-10 w-full rounded-[8px] border-0 bg-white px-3 text-sm text-ink outline-none"
+                  className="mt-1.5 h-10 w-full rounded-[8px] border-0 bg-white px-3 text-sm text-ink outline-none placeholder:text-[#8a8a8a]"
                 />
               </label>
 
@@ -107,9 +108,10 @@ export default function ProposalFormModal({
                   type="text"
                   value={author}
                   onChange={(event) => setAuthor(event.target.value)}
+                  placeholder="Seu nome"
                   maxLength={255}
                   required
-                  className="mt-1.5 h-10 w-full rounded-[8px] border-0 bg-white px-3 text-sm text-ink outline-none"
+                  className="mt-1.5 h-10 w-full rounded-[8px] border-0 bg-white px-3 text-sm text-ink outline-none placeholder:text-[#8a8a8a]"
                 />
               </label>
 
@@ -121,28 +123,31 @@ export default function ProposalFormModal({
               </label>
             </div>
 
-            <label className="flex flex-col text-sm font-bold text-white">
-              Proposta:
-              <textarea
-                value={content}
-                onChange={(event) => setContent(event.target.value)}
-                maxLength={5000}
-                required
-                className="mt-1.5 h-full min-h-[190px] w-full flex-1 rounded-[8px] border-0 bg-white px-3 py-2 text-sm text-ink outline-none"
-              />
-            </label>
+            <div className="flex flex-col">
+              <label className="flex flex-1 flex-col text-sm font-bold text-white">
+                Proposta:
+                <textarea
+                  value={content}
+                  onChange={(event) => setContent(event.target.value)}
+                  placeholder="Descreva sua proposta..."
+                  maxLength={5000}
+                  required
+                  className="mt-1.5 h-full min-h-[150px] w-full flex-1 rounded-[8px] border-0 bg-white px-3 py-2 text-sm text-ink outline-none placeholder:text-[#8a8a8a]"
+                />
+              </label>
+
+              {error && <p className="mt-3 text-xs font-semibold text-white">{error}</p>}
+
+              <button
+                type="submit"
+                disabled={sending || !canSubmit}
+                className="mt-3 flex h-11 w-full items-center justify-center gap-2 rounded-[8px] bg-[#1b623a] text-sm font-bold text-white transition-colors hover:bg-[#164f30] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {sending && <Loader2 size={16} className="animate-spin" />}
+                Cadastrar proposta
+              </button>
+            </div>
           </div>
-
-          {error && <p className="mt-4 text-xs font-semibold text-white">{error}</p>}
-
-          <button
-            type="submit"
-            disabled={sending || !canSubmit}
-            className="mt-6 flex h-11 w-full items-center justify-center gap-2 rounded-full bg-[#1b623a] text-sm font-bold text-white transition-colors hover:bg-[#164f30] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-8"
-          >
-            {sending && <Loader2 size={16} className="animate-spin" />}
-            Cadastrar proposta
-          </button>
         </form>
 
         <Image

@@ -114,7 +114,7 @@ export default function PropostasPage() {
             <button
               type="button"
               onClick={() => setShowForm(true)}
-              className="flex h-10 shrink-0 items-center justify-center gap-2 rounded-full bg-[#1b623a] px-5 text-sm font-bold text-white transition-colors hover:bg-[#164f30] md:mt-6"
+              className="flex h-10 w-full shrink-0 items-center justify-center gap-2 rounded-full bg-[#1b623a] px-5 text-sm font-bold text-white transition-colors hover:bg-[#164f30] md:mt-6 md:w-auto"
             >
               <Plus size={16} strokeWidth={2.5} />
               Cadastrar uma Proposta
