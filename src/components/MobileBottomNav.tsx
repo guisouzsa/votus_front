@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NAV_ITEMS, ACTIVE_CLASS, getActiveRouteId } from "./navItems";
+import { prefetchRoute } from "@/lib/prefetch";
 
 export default function MobileBottomNav() {
   const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null);
@@ -42,6 +43,7 @@ export default function MobileBottomNav() {
                       <Link
                         key={child.id}
                         href={child.path}
+                        onTouchStart={() => prefetchRoute(child.path)}
                         onClick={closePopover}
                         className={`rounded-xl px-4 py-2 text-left text-sm font-medium transition-colors ${
                           activeRouteId === child.id ? ACTIVE_CLASS : "text-[#103D23] hover:bg-black/5"
@@ -90,6 +92,7 @@ export default function MobileBottomNav() {
             <div key={id} className="flex flex-1 justify-center">
               <Link
                 href={path}
+                onTouchStart={() => prefetchRoute(path)}
                 onClick={closePopover}
                 aria-current={isActive ? "page" : undefined}
                 aria-label={label}

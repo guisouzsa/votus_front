@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { NAV_ITEMS, ACTIVE_CLASS, getActiveRouteId } from "./navItems";
+import { prefetchRoute } from "@/lib/prefetch";
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
@@ -137,6 +138,7 @@ export default function Sidebar() {
                             href={child.path}
                             aria-current={isChildActive ? "page" : undefined}
                             title={child.label}
+                            onMouseEnter={() => prefetchRoute(child.path)}
                             onClick={() => setSelectedId(child.id)}
                             className={`truncate rounded-xl px-3 py-2 text-left text-sm font-medium transition-all duration-200 ${
                               isChildActive
@@ -160,6 +162,7 @@ export default function Sidebar() {
                   href={path}
                   aria-current={isActive ? "page" : undefined}
                   title={label}
+                  onMouseEnter={() => prefetchRoute(path)}
                   onClick={() => setSelectedId(id)}
                   className={`flex cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-medium transition-all duration-200 ${
                     isActive

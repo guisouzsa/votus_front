@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Montserrat } from "next/font/google";
+import SWRProvider from "@/components/SWRProvider";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -24,7 +25,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br" className={montserrat.variable}>
-      <body>{children}</body>
+      <body>
+        <SWRProvider>{children}</SWRProvider>
+      </body>
     </html>
   );
 }
