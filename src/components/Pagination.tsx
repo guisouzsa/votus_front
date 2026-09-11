@@ -20,7 +20,7 @@ export default function Pagination({
         disabled={page <= 1}
         onClick={() => onChange(Math.max(1, page - 1))}
         aria-label="Página anterior"
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1b623a] text-white transition-colors hover:bg-[#164f30] disabled:cursor-not-allowed disabled:opacity-40"
+        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#8d0801] text-white transition-colors hover:bg-[#6d0601] disabled:cursor-not-allowed disabled:opacity-40"
       >
         <ChevronLeft size={18} />
       </button>
@@ -34,7 +34,7 @@ export default function Pagination({
         disabled={page >= lastPage}
         onClick={() => onChange(Math.min(lastPage, page + 1))}
         aria-label="Próxima página"
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1b623a] text-white transition-colors hover:bg-[#164f30] disabled:cursor-not-allowed disabled:opacity-40"
+        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#8d0801] text-white transition-colors hover:bg-[#6d0601] disabled:cursor-not-allowed disabled:opacity-40"
       >
         <ChevronRight size={18} />
       </button>
