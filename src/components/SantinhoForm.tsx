@@ -13,13 +13,13 @@ export default function SantinhoForm({
   showValidation?: boolean;
 }) {
   return (
-    <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+    <div className="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2">
       {candidatos.map((candidato, index) => {
         const preenchido = candidato.numero.replace(/\s/g, '').length === candidato.digitos;
         const invalid = showValidation && !preenchido;
 
         return (
-          <div key={candidato.id} className={`flex flex-col gap-2 ${index < 2 ? 'col-span-2' : ''}`}>
+          <div key={candidato.id} className={`flex flex-col gap-2 ${index < 2 ? 'sm:col-span-2' : ''}`}>
             <label className="text-base font-bold text-[#8d0801] sm:text-lg">{candidato.cargo}</label>
             <SantinhoCandidateInput
               digitos={candidato.digitos}

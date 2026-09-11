@@ -86,7 +86,7 @@ export default function SantinhoCandidateInput({
           onKeyDown={(event) => handleKeyDown(index, event)}
           onPaste={(event) => handlePaste(index, event)}
           aria-label={`Dígito ${index + 1}`}
-          className={`h-10 w-10 shrink-0 rounded-[8px] border bg-white text-center text-base font-bold text-[#8d0801] outline-none focus:border-[#8d0801] focus:ring-2 focus:ring-[#8d0801]/20 sm:h-11 sm:w-11 ${
+          className={`h-9 w-9 shrink-0 rounded-[8px] border bg-white text-center text-sm font-bold text-[#8d0801] outline-none focus:border-[#8d0801] focus:ring-2 focus:ring-[#8d0801]/20 sm:h-11 sm:w-11 sm:text-base ${
             invalid ? 'border-[#8d0801]' : 'border-[#8d0801]/35'
           }`}
         />
