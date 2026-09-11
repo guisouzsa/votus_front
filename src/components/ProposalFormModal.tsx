@@ -71,7 +71,7 @@ export default function ProposalFormModal({
         aria-modal="true"
         aria-label="Cadastrar uma proposta"
         onClick={(event) => event.stopPropagation()}
-        className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[20px] bg-brasil-orange pb-12 shadow-xl sm:pb-20"
+        className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[20px] bg-brasil-orange pb-14 shadow-xl sm:pb-20"
       >
         <button
           type="button"
@@ -150,14 +150,15 @@ export default function ProposalFormModal({
           </div>
         </form>
 
-        <Image
-          src="/CardProposta.svg"
-          alt=""
-          aria-hidden="true"
-          width={963}
-          height={101}
-          className="pointer-events-none absolute bottom-0 left-0 h-auto w-full rounded-b-[20px]"
-        />
+        <div className="pointer-events-none absolute bottom-0 left-0 h-12 w-full overflow-hidden rounded-b-[20px] sm:h-16">
+          <Image
+            src="/CardProposta.svg"
+            alt=""
+            aria-hidden="true"
+            fill
+            className="object-contain"
+          />
+        </div>
       </div>
     </div>
   );

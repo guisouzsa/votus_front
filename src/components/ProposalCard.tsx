@@ -8,11 +8,11 @@ import { ApiError } from '@/services/apiClient';
 import ProposalComments from './ProposalComments';
 
 const BADGE_COLORS = [
-  { bg: 'bg-[#8d0801]', pill: 'bg-[#8d0801]/10 text-[#8d0801]' },
-  { bg: 'bg-[#F07A00]', pill: 'bg-[#F07A00]/10 text-[#F07A00]' },
-  { bg: 'bg-[#F4C400]', pill: 'bg-[#F4C400]/15 text-[#8a6a00]' },
-  { bg: 'bg-[#1C5D45]', pill: 'bg-[#1C5D45]/10 text-[#1C5D45]' },
-  { bg: 'bg-[#EDDBBA]', pill: 'bg-[#EDDBBA]/40 text-[#8d0801]' },
+  'bg-[#8d0801]',
+  'bg-[#F07A00]',
+  'bg-[#F4C400]',
+  'bg-[#1C5D45]',
+  'bg-[#EDDBBA]',
 ];
 
 function withOptimisticVote(proposal: Proposal, vote: ProposalVoteType | null): Proposal {
@@ -43,7 +43,7 @@ export default function ProposalCard({
   const [showComments, setShowComments] = useState(false);
   const [commentsCount, setCommentsCount] = useState(proposal.comments_count);
 
-  const colors = BADGE_COLORS[index % BADGE_COLORS.length];
+  const badgeColor = BADGE_COLORS[index % BADGE_COLORS.length];
 
   const handleVote = async (vote: ProposalVoteType) => {
     if (voting) return;
@@ -74,7 +74,7 @@ export default function ProposalCard({
     <article className="flex flex-col gap-3 rounded-[12px] border border-[#e0d6c4] bg-white p-4 shadow-sm sm:p-5">
       <div className="flex flex-wrap items-start gap-3">
         <div
-          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] text-xs font-black text-white sm:h-12 sm:w-12 sm:text-sm ${colors.bg}`}
+          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] text-xs font-black text-white sm:h-12 sm:w-12 sm:text-sm ${badgeColor}`}
         >
           #{proposal.id}
         </div>
@@ -86,8 +86,13 @@ export default function ProposalCard({
 
           <div className="mt-0.5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
             <h3 className="text-sm font-black uppercase text-[#1b623a] sm:text-base">{proposal.title}</h3>
-            {proposal.categories.map((category) => (
-              <span key={category} className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-bold ${colors.pill}`}>
+            {proposal.categories.map((category, categoryIndex) => (
+              <span
+                key={category}
+                className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
+                  categoryIndex % 2 === 0 ? 'bg-[#1b623a]/10 text-[#1b623a]' : 'bg-[#8d0801]/10 text-[#8d0801]'
+                }`}
+              >
                 #{category}
               </span>
             ))}

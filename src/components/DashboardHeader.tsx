@@ -33,7 +33,7 @@ export default function DashboardHeader({
             className={`block h-20 w-auto object-contain object-left sm:h-24 md:h-32 ${titleClassName}`}
           />
         )}
-        <p className="mt-2 ml-6 sm:ml-6 text-sm text-[#0B2A16]">
+        <p className={`mt-2 text-sm text-[#0B2A16] ${titleText ? '' : 'ml-6 sm:ml-6'}`}>
           {subtitle}
         </p>
       </div>
