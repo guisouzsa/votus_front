@@ -145,7 +145,7 @@ function drawSantinho(
 
   // Margem generosa o bastante pra sempre limpar o título mesmo quando ele
   // quebrou em duas linhas (pior caso), independente de ter quebrado ou não.
-  const listTop = y + padding + width * 0.21;
+  const listTop = y + padding + width * 0.26;
   const listBottom = y + height - padding - logoHeight - width * 0.04;
   const rowHeight = (listBottom - listTop) / candidatos.length;
 

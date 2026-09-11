@@ -27,7 +27,7 @@ export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCa
           Eleitoral
         </h1>
 
-        <div className="mt-[3cqw] flex flex-1 flex-col justify-between gap-[1.5cqw]">
+        <div className="mt-[5cqw] flex flex-1 flex-col justify-between gap-[1.5cqw]">
           {candidatos.map((candidato) => (
             <div key={candidato.id} className="flex flex-col gap-[0.8cqw]">
               <p className="text-[2.3cqw] font-bold uppercase leading-tight text-brasil-orange">

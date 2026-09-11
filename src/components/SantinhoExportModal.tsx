@@ -42,18 +42,21 @@ export default function SantinhoExportModal({
         <WovenRibbon className="h-3 shrink-0" />
 
         {/* O scroll fica só aqui dentro, nunca no elemento com os cantos
-            arredondados — senão a barra de rolagem risca a borda do modal. */}
-        <div className="min-h-0 flex-1 overflow-y-auto p-6 sm:p-8">
-          <div className="flex items-start justify-between gap-3">
-            <div className="flex items-start gap-3">
-              <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#8d0801]">
-                <FileDown size={18} className="text-white" strokeWidth={2.5} />
+            arredondados — senão a barra de rolagem risca a borda do modal.
+            scrollbar-hide esconde a barra visualmente, mas o scroll continua
+            funcionando normalmente por toque/roda do mouse. */}
+        <div className="scrollbar-hide min-h-0 flex-1 overflow-y-auto p-5 sm:p-8">
+          <div className="flex items-start justify-between gap-2 sm:gap-3">
+            <div className="flex min-w-0 items-start gap-2 sm:gap-3">
+              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#8d0801] sm:h-9 sm:w-9">
+                <FileDown size={16} className="text-white sm:hidden" strokeWidth={2.5} />
+                <FileDown size={18} className="hidden text-white sm:block" strokeWidth={2.5} />
               </span>
-              <div>
-                <h2 className="font-display text-lg font-black uppercase tracking-tight text-[#8d0801]">
+              <div className="min-w-0">
+                <h2 className="font-display text-base font-black uppercase leading-tight tracking-tight text-[#8d0801] sm:text-lg">
                   Assim ficará no seu PDF
                 </h2>
-                <p className="mt-0.5 text-sm font-medium text-[#1b623a]">
+                <p className="mt-0.5 text-xs font-medium text-[#1b623a] sm:text-sm">
                   {quantidadePaginas} {quantidadePaginas === 1 ? 'página' : 'páginas'} · {santinhosPorPagina}{' '}
                   {santinhosPorPagina === 1 ? 'santinho' : 'santinhos'} por página
                 </p>
@@ -69,11 +72,11 @@ export default function SantinhoExportModal({
             </button>
           </div>
 
-          <div className="mt-6 overflow-hidden rounded-[16px] border-2 border-[#EDDBBA] bg-white p-4 sm:p-6">
-            <p className="mb-4 inline-block rounded-full bg-[#1b623a] px-3 py-1 text-[11px] font-black uppercase tracking-wide text-white">
+          <div className="mt-4 overflow-hidden rounded-[16px] border-2 border-[#EDDBBA] bg-white p-3 sm:mt-6 sm:p-6">
+            <p className="mb-3 inline-block rounded-full bg-[#1b623a] px-3 py-1 text-[11px] font-black uppercase tracking-wide text-white sm:mb-4">
               Página 1
             </p>
-            <div className={`grid gap-4 ${gridClass}`}>
+            <div className={`grid gap-3 sm:gap-4 ${gridClass}`}>
               {Array.from({ length: santinhosPorPagina }).map((_, index) => (
                 <div key={index} className="mx-auto w-full max-w-[200px]">
                   <SantinhoPreview candidatos={candidatos} />
@@ -95,7 +98,7 @@ export default function SantinhoExportModal({
             type="button"
             onClick={onConfirm}
             disabled={salvando}
-            className="mt-6 flex h-14 w-full items-center justify-center gap-2 rounded-[10px] bg-[#1b623a] text-base font-bold text-white transition-colors hover:bg-[#164f30] disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-[10px] bg-[#1b623a] text-sm font-bold text-white transition-colors hover:bg-[#164f30] disabled:cursor-not-allowed disabled:opacity-60 sm:mt-6 sm:h-14 sm:text-base"
           >
             {salvando && <Loader2 size={18} className="animate-spin" />}
             {salvando ? 'Salvando...' : 'Salvar'}
