@@ -9,12 +9,14 @@ export default function SearchBar({
   categories,
   selectedCategories,
   onToggleCategory,
+  placeholder = "Buscar notícias...",
 }: {
   searchValue: string;
   onSearchChange: (value: string) => void;
   categories: string[];
   selectedCategories: string[];
   onToggleCategory: (category: string) => void;
+  placeholder?: string;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -29,7 +31,7 @@ export default function SearchBar({
           type="search"
           value={searchValue}
           onChange={(event) => onSearchChange(event.target.value)}
-          placeholder="Buscar notícias..."
+          placeholder={placeholder}
           className="h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] pl-11 pr-4 text-sm text-[#1B623A] placeholder:text-[#1B623A] outline-none focus:border-[#1B623A] focus:ring-2 focus:ring-[#1B623A]/20"
         />
       </label>

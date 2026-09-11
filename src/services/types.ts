@@ -121,6 +121,14 @@ export interface Proposal {
     not_support: number;
   };
   viewer_vote: ProposalVoteType | null;
+  comments_count: number;
+}
+
+export interface ProposalComment {
+  id: number;
+  author_name: string;
+  content: string;
+  created_at: string;
 }
 
 export interface NewsListResponse {
