@@ -107,6 +107,22 @@ export interface NewsArticleApi {
   site_logo_url: string | null;
 }
 
+export type ProposalVoteType = "legal" | "not_support";
+
+export interface Proposal {
+  id: number;
+  title: string;
+  content: string;
+  category: string | null;
+  author: string | null;
+  created_at: string;
+  votes: {
+    legal: number;
+    not_support: number;
+  };
+  viewer_vote: ProposalVoteType | null;
+}
+
 export interface NewsListResponse {
   current_page: number;
   data: NewsArticleApi[];

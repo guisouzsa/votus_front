@@ -21,6 +21,7 @@ export const NAV_ITEMS: NavItem[] = [
       { id: "deputados", label: "Deputados", path: "/DeputadosPage" },
     ],
   },
+  { id: "propostas", label: "Propostas", icon: "/IconePropostas.svg", path: "/PropostasPage" },
   {
     id: "juventude",
     label: "Juventude",
