@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
@@ -8,6 +9,7 @@ import FloatingAIButton from '@/components/FloatingAIButton';
 import DashboardHeader from '@/components/DashboardHeader';
 import SantinhoPreview, { type SantinhoCandidato } from '@/components/SantinhoPreview';
 import SantinhoForm from '@/components/SantinhoForm';
+import SantinhoExportModal from '@/components/SantinhoExportModal';
 
 const CANDIDATOS_INICIAIS: SantinhoCandidato[] = [
   { id: 1, cargo: 'Deputado Federal', digitos: 4, numero: '' },
@@ -21,11 +23,49 @@ const CANDIDATOS_INICIAIS: SantinhoCandidato[] = [
 const PAGINAS_OPCOES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const SANTINHOS_POR_PAGINA_OPCOES = [1, 2, 4, 6];
 
+function SantinhoSelect({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: number[];
+}) {
+  return (
+    <label className="flex flex-col text-sm font-bold text-[#1b623a]">
+      {label}
+      <span className="relative mt-1.5">
+        <select
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          className="h-[52px] w-full appearance-none rounded-[8px] border border-[#d6d1c8] bg-[#FDF8EE] pl-4 pr-11 text-base font-semibold text-[#8D0801] outline-none"
+        >
+          <option value="">Selecionar</option>
+          {options.map((numero) => (
+            <option key={numero} value={numero}>
+              {numero}
+            </option>
+          ))}
+        </select>
+        <ChevronDown
+          size={18}
+          strokeWidth={2.5}
+          className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#8D0801]"
+        />
+      </span>
+    </label>
+  );
+}
+
 export default function SantinhoPage() {
   const [candidatos, setCandidatos] = useState<SantinhoCandidato[]>(CANDIDATOS_INICIAIS);
   const [quantidadePaginas, setQuantidadePaginas] = useState('');
   const [santinhosPorPagina, setSantinhosPorPagina] = useState('');
   const [showValidation, setShowValidation] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
   const [gerando, setGerando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
 
@@ -37,7 +77,7 @@ export default function SantinhoPage() {
     (candidato) => candidato.numero.replace(/\s/g, '').length === candidato.digitos
   );
 
-  async function handleExportar() {
+  function handleExportar() {
     setErro(null);
 
     if (!candidatosCompletos || !quantidadePaginas || !santinhosPorPagina) {
@@ -46,7 +86,12 @@ export default function SantinhoPage() {
       return;
     }
 
+    setShowPreview(true);
+  }
+
+  async function handleSalvar() {
     setGerando(true);
+    setErro(null);
 
     try {
       const { generateSantinhoPdf } = await import('@/lib/generateSantinhoPdf');
@@ -55,6 +100,7 @@ export default function SantinhoPage() {
         quantidadePaginas: Number(quantidadePaginas),
         santinhosPorPagina: Number(santinhosPorPagina),
       });
+      setShowPreview(false);
     } catch {
       setErro('Não foi possível gerar o PDF. Tente novamente.');
     } finally {
@@ -95,46 +141,26 @@ export default function SantinhoPage() {
             </h2>
 
             <div className="mt-4 grid grid-cols-1 gap-4 sm:max-w-xl sm:grid-cols-2">
-              <label className="flex flex-col text-sm font-bold text-[#1b623a]">
-                Quant. páginas
-                <select
-                  value={quantidadePaginas}
-                  onChange={(event) => setQuantidadePaginas(event.target.value)}
-                  className="mt-1.5 h-[52px] w-full rounded-[8px] border border-[#d6d1c8] bg-[#FDF8EE] px-4 text-base font-semibold text-[#8D0801] outline-none"
-                >
-                  <option value="">Selecionar</option>
-                  {PAGINAS_OPCOES.map((numero) => (
-                    <option key={numero} value={numero}>
-                      {numero}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="flex flex-col text-sm font-bold text-[#1b623a]">
-                Santinhos por página
-                <select
-                  value={santinhosPorPagina}
-                  onChange={(event) => setSantinhosPorPagina(event.target.value)}
-                  className="mt-1.5 h-[52px] w-full rounded-[8px] border border-[#d6d1c8] bg-[#FDF8EE] px-4 text-base font-semibold text-[#8D0801] outline-none"
-                >
-                  <option value="">Selecionar</option>
-                  {SANTINHOS_POR_PAGINA_OPCOES.map((numero) => (
-                    <option key={numero} value={numero}>
-                      {numero}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              <SantinhoSelect
+                label="Quant. páginas"
+                value={quantidadePaginas}
+                onChange={setQuantidadePaginas}
+                options={PAGINAS_OPCOES}
+              />
+              <SantinhoSelect
+                label="Santinhos por página"
+                value={santinhosPorPagina}
+                onChange={setSantinhosPorPagina}
+                options={SANTINHOS_POR_PAGINA_OPCOES}
+              />
             </div>
 
             <button
               type="button"
               onClick={handleExportar}
-              disabled={gerando}
-              className="mt-6 flex h-14 w-full items-center justify-center gap-2 rounded-[10px] bg-[#1b623a] px-8 text-base font-bold text-white transition-colors hover:bg-[#164f30] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-14"
+              className="mt-6 flex h-14 w-full items-center justify-center gap-2 rounded-[10px] bg-[#1b623a] px-8 text-base font-bold text-white transition-colors hover:bg-[#164f30] sm:w-auto sm:px-14"
             >
-              {gerando ? 'Gerando...' : 'Exportar'}
+              Exportar
             </button>
 
             {erro && <p className="mt-3 text-sm font-semibold text-[#8d0801]">{erro}</p>}
@@ -142,6 +168,18 @@ export default function SantinhoPage() {
         </div>
       </main>
       <FloatingAIButton />
+
+      {showPreview && (
+        <SantinhoExportModal
+          candidatos={candidatos}
+          quantidadePaginas={Number(quantidadePaginas)}
+          santinhosPorPagina={Number(santinhosPorPagina)}
+          salvando={gerando}
+          erro={erro}
+          onClose={() => setShowPreview(false)}
+          onConfirm={handleSalvar}
+        />
+      )}
     </div>
   );
 }

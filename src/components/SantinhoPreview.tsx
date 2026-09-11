@@ -14,9 +14,11 @@ export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCa
         <Image src="/SantinhoElementos/lateral.svg" alt="" fill sizes="100px" className="object-cover" />
       </div>
 
-      <div className="relative flex flex-1 flex-col overflow-hidden py-4 pl-4 pr-[30%]">
-        <h1 className="text-xs font-black uppercase leading-tight tracking-wide text-brasil-orange">
-          Santinho Eleitoral
+      <div className="relative flex flex-1 flex-col overflow-hidden py-4 pl-4 pr-[32%]">
+        <h1 className="text-[9px] font-black uppercase leading-tight text-brasil-orange">
+          Santinho
+          <br />
+          Eleitoral
         </h1>
 
         <div className="mt-3 flex flex-1 flex-col justify-between gap-1">
