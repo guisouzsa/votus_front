@@ -12,6 +12,7 @@ import SearchBar from '@/components/SearchBar';
 import ProposalCard from '@/components/ProposalCard';
 import ProposalFormModal from '@/components/ProposalFormModal';
 import { ProposalListSkeleton } from '@/components/ProposalCardSkeleton';
+import Pagination from '@/components/Pagination';
 import { getProposals } from '@/services/proposalsService';
 import { getCategories } from '@/services/categoriesService';
 import { ApiError } from '@/services/apiClient';
@@ -151,29 +152,9 @@ export default function PropostasPage() {
               </div>
             )}
 
-            {lastPage > 1 && (
-              <div className="mt-6 flex items-center justify-center gap-3 text-sm font-semibold uppercase text-[#8d0801]">
-                <button
-                  type="button"
-                  disabled={page <= 1}
-                  onClick={() => setPage((p) => Math.max(1, p - 1))}
-                  className="disabled:opacity-40"
-                >
-                  ← Anterior
-                </button>
-                <span>
-                  Página {page} de {lastPage}
-                </span>
-                <button
-                  type="button"
-                  disabled={page >= lastPage}
-                  onClick={() => setPage((p) => Math.min(lastPage, p + 1))}
-                  className="disabled:opacity-40"
-                >
-                  Próxima →
-                </button>
-              </div>
-            )}
+            <div className="mt-6">
+              <Pagination page={page} lastPage={lastPage} onChange={setPage} />
+            </div>
           </div>
         </div>
       </main>

@@ -10,6 +10,7 @@ import FloatingAIButton from '@/components/FloatingAIButton';
 import LegislatorFilterFrame from '@/components/LegislatorFilterFrame';
 import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
 import DataSourceNote from '@/components/DataSourceNote';
+import Pagination from '@/components/Pagination';
 import { getSenadores } from '@/services/senadoresService';
 import { ApiError } from '@/services/apiClient';
 
@@ -144,29 +145,7 @@ export default function SenadoresPage() {
             <div className="mt-8">
               <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                 <h2 className="text-xl font-black uppercase text-[#f07a00] sm:text-2xl md:text-3xl">SENADORES</h2>
-                {lastPage > 1 && (
-                  <div className="flex items-center gap-3 text-sm font-semibold uppercase text-[#f07a00]">
-                    <button
-                      type="button"
-                      disabled={page <= 1}
-                      onClick={() => setPage((p) => Math.max(1, p - 1))}
-                      className="disabled:opacity-40"
-                    >
-                      ← Anterior
-                    </button>
-                    <span>
-                      Página {page} de {lastPage}
-                    </span>
-                    <button
-                      type="button"
-                      disabled={page >= lastPage}
-                      onClick={() => setPage((p) => Math.min(lastPage, p + 1))}
-                      className="disabled:opacity-40"
-                    >
-                      Próxima →
-                    </button>
-                  </div>
-                )}
+                <Pagination page={page} lastPage={lastPage} onChange={setPage} />
               </div>
 
               {loading && <LegislatorGridSkeleton />}
