@@ -190,7 +190,7 @@ export default function ShowDeputadosPage() {
                     key={tab}
                     type="button"
                     onClick={() => setActiveTab(tab)}
-                    className={`flex h-11 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full px-4 text-sm font-semibold md:h-[60px] md:w-full md:shrink md:justify-between md:rounded-none md:border-b md:border-[#1b623a] md:px-3 md:text-left last:md:border-0 ${
+                    className={`flex h-11 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-[10px] px-4 text-sm font-semibold md:h-[60px] md:w-full md:shrink md:justify-between md:rounded-none md:border-b md:border-[#1b623a] md:px-3 md:text-left last:md:border-0 ${
                       isActiveTab ? `${tabActiveBg[tab]} text-white` : 'text-[#1b623a]'
                     }`}
                   >

@@ -9,6 +9,7 @@ import MobileBottomNav from '@/components/MobileBottomNav';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import LegislatorFilterFrame from '@/components/LegislatorFilterFrame';
 import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
+import DataSourceNote from '@/components/DataSourceNote';
 import { getSenadores } from '@/services/senadoresService';
 import { ApiError } from '@/services/apiClient';
 
@@ -108,7 +109,7 @@ export default function SenadoresPage() {
               </div>
             </section>
 
-            <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
+            <div className="mt-3 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
               {statCards.map((item) => (
                 <div
                   key={item.label}
@@ -228,6 +229,10 @@ export default function SenadoresPage() {
                   ))}
                 </div>
               )}
+            </div>
+
+            <div className="mt-10">
+              <DataSourceNote variant="prominent" />
             </div>
         </div>
       </div>
