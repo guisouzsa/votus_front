@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import useSWR from 'swr';
+import useSWR, { mutate as globalMutate } from 'swr';
 import { Plus } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
 import MobileBottomNav from '@/components/MobileBottomNav';
@@ -13,6 +13,7 @@ import ProposalCard from '@/components/ProposalCard';
 import ProposalFormModal from '@/components/ProposalFormModal';
 import { ProposalListSkeleton } from '@/components/ProposalCardSkeleton';
 import { getProposals } from '@/services/proposalsService';
+import { getCategories } from '@/services/categoriesService';
 import { ApiError } from '@/services/apiClient';
 import type { Proposal } from '@/services/types';
 
@@ -42,9 +43,13 @@ export default function PropostasPage() {
   const proposals = useMemo(() => response?.data ?? [], [response]);
   const lastPage = response?.meta.last_page ?? 1;
 
+  const { data: categoriesResponse } = useSWR('proposal-categories', () => getCategories(), {
+    revalidateOnFocus: false,
+  });
+
   const categories = useMemo(
-    () => Array.from(new Set(proposals.map((p) => p.category).filter((c): c is string => Boolean(c)))).sort(),
-    [proposals]
+    () => (categoriesResponse?.data ?? []).map((category) => category.name),
+    [categoriesResponse]
   );
 
   const filteredProposals = useMemo(() => {
@@ -54,7 +59,7 @@ export default function PropostasPage() {
       const matchesQuery = !query || proposal.title.toLowerCase().includes(query);
       const matchesCategory =
         selectedCategories.length === 0 ||
-        (proposal.category !== null && selectedCategories.includes(proposal.category));
+        selectedCategories.some((category) => proposal.categories.includes(category));
 
       return matchesQuery && matchesCategory;
     });
@@ -79,6 +84,7 @@ export default function PropostasPage() {
 
   const handleCreated = () => {
     mutate();
+    globalMutate('proposal-categories');
   };
 
   return (

@@ -9,8 +9,8 @@ export interface GetProposalsParams {
 export interface CreateProposalPayload {
   title: string;
   content: string;
-  category?: string;
-  author?: string;
+  categories?: string[];
+  author: string;
 }
 
 export interface CreateCommentPayload {

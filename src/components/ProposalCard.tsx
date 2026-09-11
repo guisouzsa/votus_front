@@ -67,11 +67,11 @@ export default function ProposalCard({
               {proposal.title}
               {proposal.author && <span className="font-semibold normal-case text-[#4d4d4d]"> — {proposal.author}</span>}
             </h3>
-            {proposal.category && (
-              <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-bold ${colors.pill}`}>
-                #{proposal.category}
+            {proposal.categories.map((category) => (
+              <span key={category} className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-bold ${colors.pill}`}>
+                #{category}
               </span>
-            )}
+            ))}
           </div>
 
           <p className={`mt-1.5 text-sm leading-relaxed text-[#3a3a3a] ${expanded ? '' : 'line-clamp-2'}`}>
@@ -89,40 +89,40 @@ export default function ProposalCard({
             </button>
           )}
         </div>
+      </div>
 
-        <div className="flex shrink-0 flex-col items-center gap-2">
-          <VoteIcon
-            icon={Heart}
-            active={proposal.viewer_vote === 'legal'}
-            loading={voting === 'legal'}
-            disabled={voting !== null}
-            count={proposal.votes.legal}
-            activeColor="text-[#8d0801]"
-            fillWhenActive
-            label="Legal"
-            onClick={() => handleVote('legal')}
-          />
-          <VoteIcon
-            icon={ThumbsDown}
-            active={proposal.viewer_vote === 'not_support'}
-            loading={voting === 'not_support'}
-            disabled={voting !== null}
-            count={proposal.votes.not_support}
-            activeColor="text-[#4d4d4d]"
-            label="Não apoio"
-            onClick={() => handleVote('not_support')}
-          />
-          <VoteIcon
-            icon={MessageCircle}
-            active={showComments}
-            loading={false}
-            disabled={false}
-            count={commentsCount}
-            activeColor="text-[#1b623a]"
-            label="Comentários"
-            onClick={() => setShowComments((value) => !value)}
-          />
-        </div>
+      <div className="flex items-center gap-4 border-t border-[#f0ece2] pt-3">
+        <VoteIcon
+          icon={Heart}
+          active={proposal.viewer_vote === 'legal'}
+          loading={voting === 'legal'}
+          disabled={voting !== null}
+          count={proposal.votes.legal}
+          activeColor="text-[#8d0801]"
+          fillWhenActive
+          label="Legal"
+          onClick={() => handleVote('legal')}
+        />
+        <VoteIcon
+          icon={ThumbsDown}
+          active={proposal.viewer_vote === 'not_support'}
+          loading={voting === 'not_support'}
+          disabled={voting !== null}
+          count={proposal.votes.not_support}
+          activeColor="text-[#4d4d4d]"
+          label="Não apoio"
+          onClick={() => handleVote('not_support')}
+        />
+        <VoteIcon
+          icon={MessageCircle}
+          active={showComments}
+          loading={false}
+          disabled={false}
+          count={commentsCount}
+          activeColor="text-[#1b623a]"
+          label="Comentários"
+          onClick={() => setShowComments((value) => !value)}
+        />
       </div>
 
       {error && <p className="text-xs font-semibold text-[#8d0801]">{error}</p>}
@@ -167,16 +167,16 @@ function VoteIcon({
       disabled={disabled}
       aria-label={label}
       aria-pressed={active}
-      className={`flex flex-col items-center gap-0.5 bg-transparent transition-transform hover:scale-110 disabled:cursor-not-allowed disabled:opacity-50 ${
+      className={`flex items-center gap-1.5 bg-transparent transition-transform hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50 ${
         active ? activeColor : 'text-[#c9c2b3]'
       }`}
     >
       {loading ? (
-        <Loader2 size={20} className="animate-spin" />
+        <Loader2 size={18} className="animate-spin" />
       ) : (
-        <Icon size={20} fill={filled ? 'currentColor' : 'none'} strokeWidth={filled ? 1.5 : 2} />
+        <Icon size={18} fill={filled ? 'currentColor' : 'none'} strokeWidth={filled ? 1.5 : 2} />
       )}
-      <span className="text-[11px] font-bold">{count}</span>
+      <span className="text-xs font-bold">{count}</span>
     </button>
   );
 }

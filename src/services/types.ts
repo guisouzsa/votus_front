@@ -113,7 +113,7 @@ export interface Proposal {
   id: number;
   title: string;
   content: string;
-  category: string | null;
+  categories: string[];
   author: string | null;
   created_at: string;
   votes: {
@@ -129,6 +129,11 @@ export interface ProposalComment {
   author_name: string;
   content: string;
   created_at: string;
+}
+
+export interface Category {
+  id: number;
+  name: string;
 }
 
 export interface NewsListResponse {
