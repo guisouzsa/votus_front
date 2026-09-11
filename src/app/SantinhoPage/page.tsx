@@ -93,55 +93,53 @@ export default function SantinhoPage() {
             </div>
           </div>
 
-          <div className="mt-10 border-t border-line pt-6">
+          <div className="mt-10 border-t border-line pt-6 pb-16">
             <h2 className="text-sm font-black uppercase tracking-wide text-[#1b623a]">
               Configurações de exportação
             </h2>
 
-            <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-              <div className="flex flex-1 flex-col gap-4 sm:flex-row">
-                <label className="flex flex-1 flex-col text-sm font-bold text-[#1b623a] sm:max-w-[180px]">
-                  Quant. páginas
-                  <select
-                    value={quantidadePaginas}
-                    onChange={(event) => setQuantidadePaginas(event.target.value)}
-                    className="mt-1.5 h-11 rounded-[8px] border border-[#d6d1c8] bg-white px-3 text-sm font-normal text-ink outline-none focus:border-[#1b623a]"
-                  >
-                    <option value="">Selecionar</option>
-                    {PAGINAS_OPCOES.map((numero) => (
-                      <option key={numero} value={numero}>
-                        {numero}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+            <div className="mt-4 grid grid-cols-1 gap-4 sm:max-w-xl sm:grid-cols-2">
+              <label className="flex flex-col text-sm font-bold text-[#1b623a]">
+                Quant. páginas
+                <select
+                  value={quantidadePaginas}
+                  onChange={(event) => setQuantidadePaginas(event.target.value)}
+                  className="mt-1.5 h-[52px] w-full rounded-[8px] border border-[#d6d1c8] bg-[#FDF8EE] px-4 text-base font-semibold text-[#8D0801] outline-none"
+                >
+                  <option value="">Selecionar</option>
+                  {PAGINAS_OPCOES.map((numero) => (
+                    <option key={numero} value={numero}>
+                      {numero}
+                    </option>
+                  ))}
+                </select>
+              </label>
 
-                <label className="flex flex-1 flex-col text-sm font-bold text-[#1b623a] sm:max-w-[180px]">
-                  Santinhos por página
-                  <select
-                    value={santinhosPorPagina}
-                    onChange={(event) => setSantinhosPorPagina(event.target.value)}
-                    className="mt-1.5 h-11 rounded-[8px] border border-[#d6d1c8] bg-white px-3 text-sm font-normal text-ink outline-none focus:border-[#1b623a]"
-                  >
-                    <option value="">Selecionar</option>
-                    {SANTINHOS_POR_PAGINA_OPCOES.map((numero) => (
-                      <option key={numero} value={numero}>
-                        {numero}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-
-              <button
-                type="button"
-                onClick={handleExportar}
-                disabled={gerando}
-                className="flex h-11 shrink-0 items-center justify-center gap-2 rounded-[10px] bg-[#1b623a] px-8 text-sm font-bold text-white transition-colors hover:bg-[#164f30] disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {gerando ? 'Gerando...' : 'Exportar'}
-              </button>
+              <label className="flex flex-col text-sm font-bold text-[#1b623a]">
+                Santinhos por página
+                <select
+                  value={santinhosPorPagina}
+                  onChange={(event) => setSantinhosPorPagina(event.target.value)}
+                  className="mt-1.5 h-[52px] w-full rounded-[8px] border border-[#d6d1c8] bg-[#FDF8EE] px-4 text-base font-semibold text-[#8D0801] outline-none"
+                >
+                  <option value="">Selecionar</option>
+                  {SANTINHOS_POR_PAGINA_OPCOES.map((numero) => (
+                    <option key={numero} value={numero}>
+                      {numero}
+                    </option>
+                  ))}
+                </select>
+              </label>
             </div>
+
+            <button
+              type="button"
+              onClick={handleExportar}
+              disabled={gerando}
+              className="mt-6 flex h-14 w-full items-center justify-center gap-2 rounded-[10px] bg-[#1b623a] px-8 text-base font-bold text-white transition-colors hover:bg-[#164f30] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-14"
+            >
+              {gerando ? 'Gerando...' : 'Exportar'}
+            </button>
 
             {erro && <p className="mt-3 text-sm font-semibold text-[#8d0801]">{erro}</p>}
           </div>
