@@ -71,7 +71,7 @@ export default function ProposalFormModal({
         aria-modal="true"
         aria-label="Cadastrar uma proposta"
         onClick={(event) => event.stopPropagation()}
-        className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[20px] bg-brasil-orange pb-10 shadow-xl"
+        className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[20px] bg-brasil-orange pb-12 shadow-xl sm:pb-20"
       >
         <button
           type="button"
@@ -98,7 +98,7 @@ export default function ProposalFormModal({
                   placeholder="Ex: Ampliação do transporte público noturno"
                   maxLength={255}
                   required
-                  className="mt-1.5 h-10 w-full rounded-[8px] border-0 bg-white px-3 text-sm text-ink outline-none placeholder:text-[#8a8a8a]"
+                  className="mt-1.5 h-10 w-full rounded-[8px] border-0 bg-white px-3 text-sm font-normal text-ink outline-none placeholder:font-normal placeholder:text-[#8a8a8a]"
                 />
               </label>
 
@@ -111,7 +111,7 @@ export default function ProposalFormModal({
                   placeholder="Seu nome"
                   maxLength={255}
                   required
-                  className="mt-1.5 h-10 w-full rounded-[8px] border-0 bg-white px-3 text-sm text-ink outline-none placeholder:text-[#8a8a8a]"
+                  className="mt-1.5 h-10 w-full rounded-[8px] border-0 bg-white px-3 text-sm font-normal text-ink outline-none placeholder:font-normal placeholder:text-[#8a8a8a]"
                 />
               </label>
 
@@ -132,7 +132,7 @@ export default function ProposalFormModal({
                   placeholder="Descreva sua proposta..."
                   maxLength={5000}
                   required
-                  className="mt-1.5 h-full min-h-[150px] w-full flex-1 rounded-[8px] border-0 bg-white px-3 py-2 text-sm text-ink outline-none placeholder:text-[#8a8a8a]"
+                  className="mt-1.5 h-full min-h-[150px] w-full flex-1 rounded-[8px] border-0 bg-white px-3 py-2 text-sm font-normal text-ink outline-none placeholder:font-normal placeholder:text-[#8a8a8a]"
                 />
               </label>
 
@@ -156,7 +156,7 @@ export default function ProposalFormModal({
           aria-hidden="true"
           width={963}
           height={101}
-          className="pointer-events-none absolute bottom-0 left-0 h-10 w-full rounded-b-[20px] object-cover sm:h-14"
+          className="pointer-events-none absolute bottom-0 left-0 h-auto w-full rounded-b-[20px]"
         />
       </div>
     </div>

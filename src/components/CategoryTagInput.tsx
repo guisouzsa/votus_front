@@ -99,7 +99,7 @@ export default function CategoryTagInput({
           }
         }}
         placeholder="Buscar ou criar categoria..."
-        className="h-10 w-full rounded-[8px] border-0 bg-white px-3 text-sm text-ink outline-none"
+        className="h-10 w-full rounded-[8px] border-0 bg-white px-3 text-sm font-normal text-ink outline-none placeholder:font-normal placeholder:text-[#8a8a8a]"
       />
 
       {open && (availableSuggestions.length > 0 || canCreateNew) && (

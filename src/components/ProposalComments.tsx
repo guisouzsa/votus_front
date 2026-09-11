@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import useSWR from 'swr';
-import { Loader2, Send } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { createComment, getProposalComments } from '@/services/proposalsService';
 import { ApiError } from '@/services/apiClient';
+import type { PaginatedResponse, ProposalComment } from '@/services/types';
 
 export default function ProposalComments({
   proposalId,
@@ -32,20 +33,45 @@ export default function ProposalComments({
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (sending || !content.trim()) return;
+    const trimmedContent = content.trim();
+    if (sending || !trimmedContent) return;
+
+    const trimmedName = name.trim();
+    const optimisticComment: ProposalComment = {
+      id: -Date.now(),
+      author_name: trimmedName || 'Visitante',
+      content: trimmedContent,
+      created_at: new Date().toISOString(),
+    };
 
     setSending(true);
     setError(null);
+    setContent('');
 
     try {
-      await createComment(proposalId, {
-        content: content.trim(),
-        author_name: name.trim() || undefined,
-      });
-      setContent('');
-      mutate();
+      await mutate(
+        async (current) => {
+          const created = await createComment(proposalId, {
+            content: trimmedContent,
+            author_name: trimmedName || undefined,
+          });
+
+          return current
+            ? { ...current, data: [created.data, ...current.data] }
+            : ({ data: [created.data] } as PaginatedResponse<ProposalComment>);
+        },
+        {
+          optimisticData: (current) =>
+            current
+              ? { ...current, data: [optimisticComment, ...current.data] }
+              : ({ data: [optimisticComment] } as PaginatedResponse<ProposalComment>),
+          rollbackOnError: true,
+          revalidate: false,
+        }
+      );
       onCommentAdded();
     } catch (err) {
+      setContent(trimmedContent);
       setError(
         err instanceof ApiError
           ? 'Não foi possível enviar seu comentário. Tente novamente.'
@@ -69,16 +95,21 @@ export default function ProposalComments({
       )}
 
       {!isLoading && !swrError && comments.length > 0 && (
-        <ul className="flex flex-col gap-2">
+        <ul className="flex flex-col gap-3">
           {comments.map((comment) => (
-            <li key={comment.id} className="rounded-[10px] bg-[#f7f5f2] p-3">
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-xs font-bold text-[#1b623a]">{comment.author_name}</span>
-                <span className="text-[11px] text-[#8a8a8a]">
-                  {new Date(comment.created_at).toLocaleDateString('pt-BR')}
-                </span>
+            <li key={comment.id} className="flex items-start gap-2.5">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#1b623a] text-xs font-black text-white">
+                {comment.author_name.charAt(0).toUpperCase()}
               </div>
-              <p className="mt-1 text-sm leading-relaxed text-[#3a3a3a]">{comment.content}</p>
+              <div className="min-w-0 flex-1 rounded-[10px] rounded-tl-none bg-[#f7f5f2] p-3">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-2">
+                  <span className="text-xs font-bold text-[#1b623a]">{comment.author_name}</span>
+                  <span className="shrink-0 text-[11px] text-[#8a8a8a]">
+                    {new Date(comment.created_at).toLocaleDateString('pt-BR')}
+                  </span>
+                </div>
+                <p className="mt-1 text-sm leading-relaxed text-[#3a3a3a]">{comment.content}</p>
+              </div>
             </li>
           ))}
         </ul>
@@ -91,7 +122,7 @@ export default function ProposalComments({
           onChange={(event) => setName(event.target.value)}
           placeholder="Seu nome (opcional)"
           maxLength={255}
-          className="h-9 w-full rounded-[8px] border border-[#e0d6c4] bg-white px-3 text-sm text-[#1b623a] outline-none focus:border-[#1b623a]"
+          className="h-9 w-full rounded-[8px] border border-[#e0d6c4] bg-white px-3 text-sm font-normal text-[#1b623a] outline-none placeholder:font-normal focus:border-[#1b623a]"
         />
         <div className="flex items-center gap-2">
           <input
@@ -100,7 +131,7 @@ export default function ProposalComments({
             onChange={(event) => setContent(event.target.value)}
             placeholder="Escreva um comentário..."
             maxLength={2000}
-            className="h-9 flex-1 rounded-[8px] border border-[#e0d6c4] bg-white px-3 text-sm text-[#1b623a] outline-none focus:border-[#1b623a]"
+            className="h-9 flex-1 rounded-[8px] border border-[#e0d6c4] bg-white px-3 text-sm font-normal text-[#1b623a] outline-none placeholder:font-normal focus:border-[#1b623a]"
           />
           <button
             type="submit"
@@ -108,7 +139,7 @@ export default function ProposalComments({
             aria-label="Enviar comentário"
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1b623a] text-white disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {sending ? <Loader2 size={16} className="animate-spin" /> : <Send size={15} />}
+            <Send size={15} />
           </button>
         </div>
         {error && <p className="text-xs font-semibold text-[#8d0801]">{error}</p>}
