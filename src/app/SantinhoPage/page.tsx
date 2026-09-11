@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import Sidebar from '@/components/Sidebar';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
@@ -29,8 +29,6 @@ export default function SantinhoPage() {
   const [gerando, setGerando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
 
-  const previewRef = useRef<HTMLDivElement>(null);
-
   function handleNumeroChange(id: number, numero: string) {
     setCandidatos((prev) => prev.map((candidato) => (candidato.id === id ? { ...candidato, numero } : candidato)));
   }
@@ -48,14 +46,12 @@ export default function SantinhoPage() {
       return;
     }
 
-    if (!previewRef.current) return;
-
     setGerando(true);
 
     try {
       const { generateSantinhoPdf } = await import('@/lib/generateSantinhoPdf');
       await generateSantinhoPdf({
-        element: previewRef.current,
+        candidatos,
         quantidadePaginas: Number(quantidadePaginas),
         santinhosPorPagina: Number(santinhosPorPagina),
       });
@@ -81,7 +77,7 @@ export default function SantinhoPage() {
 
           <div className="mt-8 flex flex-col gap-10 lg:flex-row lg:items-start">
             <div className="mx-auto w-full max-w-[260px] lg:mx-0 lg:shrink-0">
-              <SantinhoPreview ref={previewRef} candidatos={candidatos} />
+              <SantinhoPreview candidatos={candidatos} />
             </div>
 
             <div className="flex-1">
