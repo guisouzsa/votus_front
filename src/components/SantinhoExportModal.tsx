@@ -37,11 +37,13 @@ export default function SantinhoExportModal({
         aria-modal="true"
         aria-label="Pré-visualização do PDF"
         onClick={(event) => event.stopPropagation()}
-        className="max-h-[90vh] w-full max-w-2xl overflow-hidden overflow-y-auto rounded-[20px] bg-[#FDF8EE] shadow-2xl"
+        className="flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-[20px] bg-[#FDF8EE] shadow-2xl"
       >
-        <WovenRibbon className="h-3" />
+        <WovenRibbon className="h-3 shrink-0" />
 
-        <div className="p-6 sm:p-8">
+        {/* O scroll fica só aqui dentro, nunca no elemento com os cantos
+            arredondados — senão a barra de rolagem risca a borda do modal. */}
+        <div className="min-h-0 flex-1 overflow-y-auto p-6 sm:p-8">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-start gap-3">
               <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#8d0801]">

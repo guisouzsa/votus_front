@@ -121,17 +121,31 @@ function drawSantinho(
 
   const contentRight = x + width - lateralWidth - padding * 0.4;
   const contentLeft = x + padding;
+  const availableWidth = contentRight - contentLeft;
 
-  // Título
+  // Título — pdf.text() nunca quebra linha ou respeita limite de largura
+  // sozinho; sem medir o texto ele simplesmente desenhava por cima da arte
+  // lateral quando não cabia. Mede com getTextWidth() e quebra em duas
+  // linhas quando necessário, do mesmo jeito que o preview em tela.
   pdf.setFont('helvetica', 'bold');
-  setFontSizeMm(pdf, width * 0.095);
+  const titleFontSize = width * 0.085;
+  setFontSizeMm(pdf, titleFontSize);
   pdf.setTextColor(...ORANGE);
-  pdf.text('SANTINHO ELEITORAL', contentLeft, y + padding + width * 0.06);
+
+  const titleY = y + padding + width * 0.05;
+  if (pdf.getTextWidth('SANTINHO ELEITORAL') <= availableWidth) {
+    pdf.text('SANTINHO ELEITORAL', contentLeft, titleY);
+  } else {
+    pdf.text('SANTINHO', contentLeft, titleY);
+    pdf.text('ELEITORAL', contentLeft, titleY + titleFontSize * 1.25);
+  }
 
   const logoWidth = width * 0.32;
   const logoHeight = logoWidth * LOGO_ASPECT;
 
-  const listTop = y + padding + width * 0.14;
+  // Margem generosa o bastante pra sempre limpar o título mesmo quando ele
+  // quebrou em duas linhas (pior caso), independente de ter quebrado ou não.
+  const listTop = y + padding + width * 0.21;
   const listBottom = y + height - padding - logoHeight - width * 0.04;
   const rowHeight = (listBottom - listTop) / candidatos.length;
 
