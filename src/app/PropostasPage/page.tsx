@@ -109,6 +109,10 @@ export default function PropostasPage() {
                 selectedCategories={selectedCategories}
                 onToggleCategory={toggleCategory}
                 placeholder="Buscar propostas..."
+                borderColor="#1b623a"
+                bgColor="#ffffff"
+                accentColor="#1b623a"
+                badgeColor="#8d0801"
               />
             </div>
 

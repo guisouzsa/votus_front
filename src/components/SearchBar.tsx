@@ -10,6 +10,10 @@ export default function SearchBar({
   selectedCategories,
   onToggleCategory,
   placeholder = "Buscar notícias...",
+  borderColor = "#EDDBBA",
+  bgColor = "#FDF8EE",
+  accentColor = "#1B623A",
+  badgeColor = "#EDDBBA",
 }: {
   searchValue: string;
   onSearchChange: (value: string) => void;
@@ -17,6 +21,10 @@ export default function SearchBar({
   selectedCategories: string[];
   onToggleCategory: (category: string) => void;
   placeholder?: string;
+  borderColor?: string;
+  bgColor?: string;
+  accentColor?: string;
+  badgeColor?: string;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -25,14 +33,16 @@ export default function SearchBar({
       <label className="relative flex-1">
         <Search
           size={16}
-          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#1B623A]"
+          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2"
+          style={{ color: accentColor }}
         />
         <input
           type="search"
           value={searchValue}
           onChange={(event) => onSearchChange(event.target.value)}
           placeholder={placeholder}
-          className="h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] pl-11 pr-4 text-sm text-[#1B623A] placeholder:text-[#1B623A] outline-none focus:border-[#1B623A] focus:ring-2 focus:ring-[#1B623A]/20"
+          style={{ borderColor, backgroundColor: bgColor, color: accentColor }}
+          className="h-10 w-full rounded-full border pl-11 pr-4 text-sm outline-none focus:ring-2"
         />
       </label>
 
@@ -41,7 +51,8 @@ export default function SearchBar({
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="flex h-10 w-full items-center justify-between gap-1 rounded-full border border-[#EDDBBA] bg-[#FDF8EE] py-1.5 pl-3 pr-1.5 text-sm font-medium text-[#1B623A] cursor-pointer md:gap-2 md:pl-5"
+            style={{ borderColor, backgroundColor: bgColor, color: accentColor }}
+            className="flex h-10 w-full items-center justify-between gap-1 rounded-full border py-1.5 pl-3 pr-1.5 text-sm font-medium cursor-pointer md:gap-2 md:pl-5"
           >
             <span className="flex min-w-0 items-center gap-1.5 md:gap-2">
               <SlidersHorizontal size={16} className="shrink-0" />
@@ -49,10 +60,14 @@ export default function SearchBar({
                 {selectedCategories.length > 0 ? `Filtros (${selectedCategories.length})` : "Filtros"}
               </span>
             </span>
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EDDBBA]">
+            <span
+              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
+              style={{ backgroundColor: badgeColor }}
+            >
               <ChevronDown
                 size={14}
-                className={`text-[#1B623A] transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+                className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+                style={{ color: badgeColor === accentColor ? "#fff" : accentColor }}
               />
             </span>
           </button>

@@ -80,11 +80,12 @@ export default function ProposalCard({
         </div>
 
         <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-            <h3 className="text-sm font-black uppercase text-[#1b623a] sm:text-base">
-              {proposal.title}
-              {proposal.author && <span className="font-semibold normal-case text-[#4d4d4d]"> — {proposal.author}</span>}
-            </h3>
+          {proposal.author && (
+            <p className="text-xs font-bold uppercase tracking-wide text-[#4d4d4d]">{proposal.author}</p>
+          )}
+
+          <div className="mt-0.5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+            <h3 className="text-sm font-black uppercase text-[#1b623a] sm:text-base">{proposal.title}</h3>
             {proposal.categories.map((category) => (
               <span key={category} className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-bold ${colors.pill}`}>
                 #{category}
