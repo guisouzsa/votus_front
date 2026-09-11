@@ -2,24 +2,24 @@ export default function WelcomeHeader() {
   return (
     <header className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
       <div>
-        {/* Imagem do Bem-Vindo */}
-        <img
-          src="/bemvindo.svg"
-          alt="Seja bem-vindo ao Votus!"
-          className="block h-24 w-auto object-contain object-left sm:h-32"
-        />
+        {/* Título */}
+        <h1 className="text-3xl font-black uppercase tracking-tight text-[#8C0801] font-heading sm:text-4xl md:text-5xl">
+          Bem-vindo ao Votus
+        </h1>
         
         {/* Adicionado 'ml-6' para afastar o texto para a direita (ou mude para ml-10 / ml-12 se quiser afastar ainda mais) */}
-        <p className="mt-2 ml-7 max-w-xl text-sm text-[#0B2A16]">
+        <p className="mt-2 max-w-xl text-sm text-[#0B2A16]">
           Aqui você pode consultar informações sobre seus candidatos a deputados e
           senadores, ver as últimas notícias do mundo político e conhecer vagas
           abertas em universidades.
         </p>
       </div>
 
-      {/* Imagem dos pontos amarelos */}
+      {/* Mesmo asset usado no DashboardHeader (todas as outras páginas), para o
+          elemento decorativo de pontinhos ficar idêntico em tamanho e posição
+          em todo o site. */}
       <img
-        src="/PontosAmarelo.svg"
+        src="/decoracao-pontos.png"
         alt=""
         aria-hidden="true"
         width={381}

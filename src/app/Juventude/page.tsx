@@ -55,10 +55,9 @@ export default function JuventudePage() {
 
         <div className="w-full px-6 py-8 sm:px-10">
           <DashboardHeader
-            titleSrc="/JuventudeEmPauta.svg"
-            titleAlt="Juventude em Pauta"
-            titleWidth={400}
-            titleHeight={117}
+            titleText="Juventude em Pauta"
+            titleColor="text-[#8C0801]"
+            titleClassName="font-heading"
             subtitle="Lorem Ipsum é simplesmente um texto fictício da indústria tipográfica e de impressão."
           />
 

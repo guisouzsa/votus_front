@@ -7,6 +7,7 @@
 @theme inline {
   --font-display: var(--font-montserrat), sans-serif;
   --font-sans: var(--font-montserrat), sans-serif;
+  --font-heading: var(--font-poppins), sans-serif;
 
   --color-brasil-green: #1B623A;
   --color-brasil-green-deep: #134A2A;

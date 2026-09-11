@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { Loader2, X } from 'lucide-react';
 import { createProposal } from '@/services/proposalsService';
 import { ApiError } from '@/services/apiClient';
@@ -71,7 +70,7 @@ export default function ProposalFormModal({
         aria-modal="true"
         aria-label="Cadastrar uma proposta"
         onClick={(event) => event.stopPropagation()}
-        className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[20px] bg-brasil-orange pb-14 shadow-xl sm:pb-20"
+        className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[20px] bg-brasil-orange pb-6 shadow-xl sm:pb-8"
       >
         <button
           type="button"
@@ -149,16 +148,6 @@ export default function ProposalFormModal({
             </div>
           </div>
         </form>
-
-        <div className="pointer-events-none absolute bottom-0 left-0 h-12 w-full overflow-hidden rounded-b-[20px] sm:h-16">
-          <Image
-            src="/CardProposta.svg"
-            alt=""
-            aria-hidden="true"
-            fill
-            className="object-contain"
-          />
-        </div>
       </div>
     </div>
   );

@@ -117,16 +117,17 @@ export default function SantinhoPage() {
         <div className="w-full px-6 py-8 sm:px-10">
           <DashboardHeader
             titleText="Gerador de Santinho"
-            titleColor="text-[#8d0801]"
+            titleColor="text-[#8C0801]"
+            titleClassName="font-heading"
             subtitle="Crie seu santinho digital para você decorar o número dos seus candidatos e baixe também o modelo para imprimi-lo."
           />
 
-          <div className="mt-8 flex flex-col gap-10 lg:flex-row lg:items-start">
-            <div className="mx-auto w-full max-w-[260px] lg:mx-0 lg:shrink-0">
+          <div className="mt-6 flex flex-col gap-10 lg:flex-row lg:items-start">
+            <div className="order-2 mx-auto w-full max-w-[260px] lg:order-1 lg:mx-0 lg:shrink-0">
               <SantinhoPreview candidatos={candidatos} />
             </div>
 
-            <div className="flex-1">
+            <div className="order-1 flex-1 lg:order-2">
               <SantinhoForm
                 candidatos={candidatos}
                 onNumeroChange={handleNumeroChange}

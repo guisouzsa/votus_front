@@ -21,8 +21,6 @@ export const NAV_ITEMS: NavItem[] = [
       { id: "deputados", label: "Deputados", path: "/DeputadosPage" },
     ],
   },
-  { id: "propostas", label: "Propostas", icon: "/IconePropostas.svg", path: "/PropostasPage" },
-  { id: "santinho", label: "Gerador de Santinho", icon: "/IconeSantinho.svg", path: "/SantinhoPage" },
   {
     id: "juventude",
     label: "Juventude",
@@ -33,7 +31,9 @@ export const NAV_ITEMS: NavItem[] = [
       { id: "universidades", label: "Universidades", path: "/Universidades" },
     ],
   },
-  { id: "explicacoes", label: "Explicações", icon: "/IconeExplicacoes.svg" },
+  { id: "propostas", label: "Propostas", icon: "/IconePropostas.svg", path: "/PropostasPage" },
+  { id: "santinho", label: "Gerador de Santinho", icon: "/IconeSantinho.svg", path: "/SantinhoPage" },
+  { id: "explicacoes", label: "Explicações", icon: "/IconeExplicacoes.svg", path: "/ExplicacoesPage" },
   { id: "sobre", label: "Sobre Nós", icon: "/IconeSobreNos.png" },
 ];
 

@@ -56,10 +56,9 @@ export default function UniversidadesPage() {
           </Link>
 
           <DashboardHeader
-            titleSrc="/PainelUniver.svg"
-            titleAlt="Painel de Universidades"
-            titleWidth={802}
-            titleHeight={117}
+            titleText="Painel Universidades"
+            titleColor="text-[#8C0801]"
+            titleClassName="font-heading"
             subtitle="Encontre universidades e cursos pelo Ceará. Lorem Ipsum é simplesmente um texto fictício da indústria tipográfica e de impressão."
           />
 

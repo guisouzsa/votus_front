@@ -72,49 +72,53 @@ export default function ProposalCard({
 
   return (
     <article className="flex flex-col gap-3 rounded-[12px] border border-[#e0d6c4] bg-white p-4 shadow-sm sm:p-5">
-      <div className="flex flex-wrap items-start gap-3">
-        <div
-          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] text-xs font-black text-white sm:h-12 sm:w-12 sm:text-sm ${badgeColor}`}
-        >
-          #{proposal.id}
-        </div>
-
-        <div className="min-w-0 flex-1">
-          {proposal.author && (
-            <p className="text-xs font-bold uppercase tracking-wide text-[#4d4d4d]">{proposal.author}</p>
-          )}
-
-          <div className="mt-0.5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-            <h3 className="text-sm font-black uppercase text-[#1b623a] sm:text-base">{proposal.title}</h3>
-            {proposal.categories.map((category, categoryIndex) => (
-              <span
-                key={category}
-                className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
-                  categoryIndex % 2 === 0 ? 'bg-[#1b623a]/10 text-[#1b623a]' : 'bg-[#8d0801]/10 text-[#8d0801]'
-                }`}
-              >
-                #{category}
-              </span>
-            ))}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
+        {/* Parte superior (ID + Conteúdo) */}
+        <div className="flex flex-1 items-start gap-3 min-w-0">
+          <div
+            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] text-xs font-black text-white sm:h-12 sm:w-12 sm:text-sm ${badgeColor}`}
+          >
+            #{proposal.id}
           </div>
 
-          <p className={`mt-1.5 text-sm leading-relaxed text-[#3a3a3a] ${expanded ? '' : 'line-clamp-2'}`}>
-            {proposal.content}
-          </p>
+          <div className="min-w-0 flex-1">
+            {proposal.author && (
+              <p className="text-xs font-bold uppercase tracking-wide text-[#4d4d4d]">{proposal.author}</p>
+            )}
 
-          {proposal.content.length > 140 && (
-            <button
-              type="button"
-              onClick={() => setExpanded((value) => !value)}
-              aria-label={expanded ? 'Mostrar menos' : 'Mostrar mais'}
-              className="mt-1 flex items-center bg-transparent text-[#1b623a]/60 transition-transform hover:text-[#1b623a]"
-            >
-              <ChevronDown size={16} className={`transition-transform ${expanded ? 'rotate-180' : ''}`} />
-            </button>
-          )}
+            <div className="mt-0.5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+              <h3 className="text-sm font-black uppercase text-[#1b623a] sm:text-base">{proposal.title}</h3>
+              {proposal.categories.map((category, categoryIndex) => (
+                <span
+                  key={category}
+                  className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
+                    categoryIndex % 2 === 0 ? 'bg-[#1b623a]/10 text-[#1b623a]' : 'bg-[#8d0801]/10 text-[#8d0801]'
+                  }`}
+                >
+                  #{category}
+                </span>
+              ))}
+            </div>
+
+            <p className={`mt-1.5 text-sm leading-relaxed text-[#3a3a3a] ${expanded ? '' : 'line-clamp-2'}`}>
+              {proposal.content}
+            </p>
+
+            {proposal.content.length > 140 && (
+              <button
+                type="button"
+                onClick={() => setExpanded((value) => !value)}
+                aria-label={expanded ? 'Mostrar menos' : 'Mostrar mais'}
+                className="mt-1 flex items-center bg-transparent text-[#1b623a]/60 transition-transform hover:text-[#1b623a]"
+              >
+                <ChevronDown size={16} className={`transition-transform ${expanded ? 'rotate-180' : ''}`} />
+              </button>
+            )}
+          </div>
         </div>
 
-        <div className="flex shrink-0 items-center gap-3 self-center">
+        {/* Votos - Joga pra baixo no mobile, fica à direita no desktop */}
+        <div className="flex shrink-0 items-center justify-start gap-3 sm:self-center ml-14 sm:ml-0 border-t sm:border-0 border-dashed border-[#e0d6c4] pt-2 sm:pt-0">
           <VoteIcon
             icon={Heart}
             active={proposal.viewer_vote === 'legal'}

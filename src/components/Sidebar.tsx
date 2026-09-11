@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { NAV_ITEMS, ACTIVE_CLASS, getActiveRouteId } from "./navItems";
@@ -10,10 +10,19 @@ export default function Sidebar() {
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState("inicio");
   const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null);
+  const [userInteracted, setUserInteracted] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
   const activeRouteId = getActiveRouteId(pathname);
+  const activeGroup = NAV_ITEMS.find((item) => item.children?.some((child) => child.id === activeRouteId))?.id;
+  const currentExpandedGroup = userInteracted ? expandedGroupId : activeGroup;
+
+  // Reseta a interação do usuário ao mudar de página para que o menu abra automaticamente
+  // no grupo ativo, caso a pessoa navegue para outra área através de um link interno.
+  useEffect(() => {
+    setUserInteracted(false);
+  }, [pathname]);
 
   const handleItemClick = (id: string, path?: string) => {
     setSelectedId(id);
@@ -29,8 +38,12 @@ export default function Sidebar() {
     if (!open) {
       setOpen(true);
       setExpandedGroupId(itemId);
+      setUserInteracted(true);
     } else {
       setExpandedGroupId((prev) => (prev === itemId ? null : itemId));
+      const isCurrentlyExpanded = currentExpandedGroup === itemId;
+      setExpandedGroupId(isCurrentlyExpanded ? null : itemId);
+      setUserInteracted(true);
     }
   };
 
@@ -97,7 +110,7 @@ export default function Sidebar() {
 
             if (children) {
               const isGroupActive = children.some((child) => child.id === activeRouteId);
-              const showChildren = open && (expandedGroupId === id || isGroupActive);
+              const showChildren = open && currentExpandedGroup === id;
 
               return (
                 <div key={id} className="flex flex-col gap-1">
@@ -107,7 +120,7 @@ export default function Sidebar() {
                     aria-current={isGroupActive ? "page" : undefined}
                     aria-expanded={showChildren}
                     title={label}
-                    className={`flex cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-medium transition-all duration-200 ${
+                    className={`flex cursor-pointer items-center gap-3 rounded-[20px] px-3.5 py-3 text-left text-sm font-medium transition-all duration-200 ${
                       isGroupActive
                         ? `${ACTIVE_CLASS} scale-[1.02]`
                         : "text-[#103D23] hover:scale-[1.02] hover:bg-white/10"
@@ -140,7 +153,7 @@ export default function Sidebar() {
                             title={child.label}
                             onMouseEnter={() => prefetchRoute(child.path)}
                             onClick={() => setSelectedId(child.id)}
-                            className={`truncate rounded-xl px-3 py-2 text-left text-sm font-medium transition-all duration-200 ${
+                            className={`truncate rounded-2xl px-3.5 py-2.5 text-left text-sm font-medium transition-all duration-200 ${
                               isChildActive
                                 ? ACTIVE_CLASS
                                 : "text-[#103D23] hover:bg-white/10"
@@ -164,7 +177,7 @@ export default function Sidebar() {
                   title={label}
                   onMouseEnter={() => prefetchRoute(path)}
                   onClick={() => setSelectedId(id)}
-                  className={`flex cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-medium transition-all duration-200 ${
+                  className={`flex cursor-pointer items-center gap-3 rounded-[20px] px-3.5 py-3 text-left text-sm font-medium transition-all duration-200 ${
                     isActive
                       ? `${ACTIVE_CLASS} scale-[1.02]`
                       : "text-[#103D23] hover:scale-[1.02] hover:bg-white/10"
@@ -184,7 +197,7 @@ export default function Sidebar() {
                   onClick={() => handleItemClick(id)}
                   aria-current={isActive ? "page" : undefined}
                   title={label}
-                  className={`flex cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-medium transition-all duration-200 ${
+                  className={`flex cursor-pointer items-center gap-3 rounded-[20px] px-3.5 py-3 text-left text-sm font-medium transition-all duration-200 ${
                   isActive
                     ? `${ACTIVE_CLASS} scale-[1.02]`
                     : "text-[#103D23] hover:scale-[1.02] hover:bg-white/10"
@@ -210,7 +223,7 @@ export default function Sidebar() {
           aria-current={!activeRouteId && selectedId === "configuracoes" ? "page" : undefined}
           aria-label="Configurações"
           title="Configurações"
-          className={`flex w-full cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+          className={`flex w-full cursor-pointer items-center gap-3 rounded-[20px] px-3.5 py-3 text-sm font-medium transition-all duration-200 ${
             !activeRouteId && selectedId === "configuracoes"
               ? `${ACTIVE_CLASS} scale-[1.02]`
               : "text-[#103D23] hover:scale-[1.02] hover:bg-white/10"

@@ -96,7 +96,9 @@ export default function PropostasPage() {
       <main className="overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24">
         <div className="w-full px-6 py-8 sm:px-10">
           <DashboardHeader
-            titleText="Simulador de propostas"
+            titleText="Simulador de Propostas"
+            titleColor="text-[#8C0801]"
+            titleClassName="font-heading"
             subtitle="Cadastre uma ideia de proposta legislativa e acesse outras propostas que outras pessoas cadastraram."
           />
 
