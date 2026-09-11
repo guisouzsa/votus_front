@@ -4,6 +4,7 @@ export default function DashboardHeader({
   titleSrc = "/painel-titulo.png",
   titleAlt = "Painel de Notícias",
   titleText,
+  titleColor = "text-brasil-orange",
   subtitle = "Veja as últimas notícias sobre seus tópicos favoritos",
   titleClassName = "",
   titleWidth = 337,
@@ -12,6 +13,7 @@ export default function DashboardHeader({
   titleSrc?: string;
   titleAlt?: string;
   titleText?: string;
+  titleColor?: string;
   subtitle?: string;
   titleClassName?: string;
   titleWidth?: number;
@@ -21,7 +23,7 @@ export default function DashboardHeader({
     <header className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
       <div>
         {titleText ? (
-          <h1 className={`text-3xl font-black uppercase tracking-tight text-brasil-orange sm:text-4xl md:text-5xl ${titleClassName}`}>
+          <h1 className={`text-3xl font-black uppercase tracking-tight sm:text-4xl md:text-5xl ${titleColor} ${titleClassName}`}>
             {titleText}
           </h1>
         ) : (

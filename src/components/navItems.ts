@@ -22,6 +22,7 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   { id: "propostas", label: "Propostas", icon: "/IconePropostas.svg", path: "/PropostasPage" },
+  { id: "santinho", label: "Gerador de Santinho", icon: "/IconeSantinho.svg", path: "/SantinhoPage" },
   {
     id: "juventude",
     label: "Juventude",

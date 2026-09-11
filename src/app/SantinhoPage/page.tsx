@@ -1,20 +1,153 @@
 'use client';
 
+import { useRef, useState } from 'react';
+import Sidebar from '@/components/Sidebar';
+import MobileBottomNav from '@/components/MobileBottomNav';
+import WovenRibbon from '@/components/WovenRibbon';
+import FloatingAIButton from '@/components/FloatingAIButton';
+import DashboardHeader from '@/components/DashboardHeader';
 import SantinhoPreview, { type SantinhoCandidato } from '@/components/SantinhoPreview';
+import SantinhoForm from '@/components/SantinhoForm';
 
-const CANDIDATOS_EXEMPLO: SantinhoCandidato[] = [
-  { cargo: 'Deputado Federal', numero: '1234' },
-  { cargo: 'Deputado Federal', numero: '5678' },
-  { cargo: 'Deputado Federal', numero: '9012' },
-  { cargo: 'Deputado Federal', numero: '3456' },
-  { cargo: 'Deputado Federal', numero: '7890' },
-  { cargo: 'Deputado Federal', numero: '2468' },
+const CANDIDATOS_INICIAIS: SantinhoCandidato[] = [
+  { id: 1, cargo: 'Deputado Federal', digitos: 4, numero: '' },
+  { id: 2, cargo: 'Deputado Estadual', digitos: 5, numero: '' },
+  { id: 3, cargo: 'Senador 1', digitos: 3, numero: '' },
+  { id: 4, cargo: 'Senador 2', digitos: 3, numero: '' },
+  { id: 5, cargo: 'Governador', digitos: 2, numero: '' },
+  { id: 6, cargo: 'Presidente', digitos: 2, numero: '' },
 ];
 
+const PAGINAS_OPCOES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const SANTINHOS_POR_PAGINA_OPCOES = [1, 2, 4, 6];
+
 export default function SantinhoPage() {
+  const [candidatos, setCandidatos] = useState<SantinhoCandidato[]>(CANDIDATOS_INICIAIS);
+  const [quantidadePaginas, setQuantidadePaginas] = useState('');
+  const [santinhosPorPagina, setSantinhosPorPagina] = useState('');
+  const [showValidation, setShowValidation] = useState(false);
+  const [gerando, setGerando] = useState(false);
+  const [erro, setErro] = useState<string | null>(null);
+
+  const previewRef = useRef<HTMLDivElement>(null);
+
+  function handleNumeroChange(id: number, numero: string) {
+    setCandidatos((prev) => prev.map((candidato) => (candidato.id === id ? { ...candidato, numero } : candidato)));
+  }
+
+  const candidatosCompletos = candidatos.every(
+    (candidato) => candidato.numero.replace(/\s/g, '').length === candidato.digitos
+  );
+
+  async function handleExportar() {
+    setErro(null);
+
+    if (!candidatosCompletos || !quantidadePaginas || !santinhosPorPagina) {
+      setShowValidation(true);
+      setErro('Preencha todos os números dos candidatos e as configurações de exportação antes de exportar.');
+      return;
+    }
+
+    if (!previewRef.current) return;
+
+    setGerando(true);
+
+    try {
+      const { generateSantinhoPdf } = await import('@/lib/generateSantinhoPdf');
+      await generateSantinhoPdf({
+        element: previewRef.current,
+        quantidadePaginas: Number(quantidadePaginas),
+        santinhosPorPagina: Number(santinhosPorPagina),
+      });
+    } catch {
+      setErro('Não foi possível gerar o PDF. Tente novamente.');
+    } finally {
+      setGerando(false);
+    }
+  }
+
   return (
-    <main className="flex min-h-dvh items-center justify-center bg-[#f3ede2] p-6">
-      <SantinhoPreview candidatos={CANDIDATOS_EXEMPLO} />
-    </main>
+    <div className="min-h-dvh">
+      <WovenRibbon className="h-14 sm:h-20" />
+      <Sidebar />
+      <MobileBottomNav />
+      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24">
+        <div className="w-full px-6 py-8 sm:px-10">
+          <DashboardHeader
+            titleText="Gerador de Santinho"
+            titleColor="text-[#8d0801]"
+            subtitle="Crie seu santinho digital para você decorar o número dos seus candidatos e baixe também o modelo para imprimi-lo."
+          />
+
+          <div className="mt-8 flex flex-col gap-10 lg:flex-row lg:items-start">
+            <div className="mx-auto w-full max-w-[260px] lg:mx-0 lg:shrink-0">
+              <SantinhoPreview ref={previewRef} candidatos={candidatos} />
+            </div>
+
+            <div className="flex-1">
+              <SantinhoForm
+                candidatos={candidatos}
+                onNumeroChange={handleNumeroChange}
+                showValidation={showValidation}
+              />
+            </div>
+          </div>
+
+          <div className="mt-10 border-t border-line pt-6">
+            <h2 className="text-sm font-black uppercase tracking-wide text-[#1b623a]">
+              Configurações de exportação
+            </h2>
+
+            <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div className="flex flex-1 flex-col gap-4 sm:flex-row">
+                <label className="flex flex-1 flex-col text-sm font-bold text-[#1b623a] sm:max-w-[180px]">
+                  Quant. páginas
+                  <select
+                    value={quantidadePaginas}
+                    onChange={(event) => setQuantidadePaginas(event.target.value)}
+                    className="mt-1.5 h-11 rounded-[8px] border border-[#d6d1c8] bg-white px-3 text-sm font-normal text-ink outline-none focus:border-[#1b623a]"
+                  >
+                    <option value="">Selecionar</option>
+                    {PAGINAS_OPCOES.map((numero) => (
+                      <option key={numero} value={numero}>
+                        {numero}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="flex flex-1 flex-col text-sm font-bold text-[#1b623a] sm:max-w-[180px]">
+                  Santinhos por página
+                  <select
+                    value={santinhosPorPagina}
+                    onChange={(event) => setSantinhosPorPagina(event.target.value)}
+                    className="mt-1.5 h-11 rounded-[8px] border border-[#d6d1c8] bg-white px-3 text-sm font-normal text-ink outline-none focus:border-[#1b623a]"
+                  >
+                    <option value="">Selecionar</option>
+                    {SANTINHOS_POR_PAGINA_OPCOES.map((numero) => (
+                      <option key={numero} value={numero}>
+                        {numero}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleExportar}
+                disabled={gerando}
+                className="flex h-11 shrink-0 items-center justify-center gap-2 rounded-[10px] bg-[#1b623a] px-8 text-sm font-bold text-white transition-colors hover:bg-[#164f30] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {gerando ? 'Gerando...' : 'Exportar'}
+              </button>
+            </div>
+
+            {erro && <p className="mt-3 text-sm font-semibold text-[#8d0801]">{erro}</p>}
+          </div>
+        </div>
+      </main>
+      <FloatingAIButton />
+    </div>
   );
 }
