@@ -44,6 +44,37 @@ export async function apiGet<T>(
   return response.json() as Promise<T>;
 }
 
+export async function apiDelete<T>(
+  path: string,
+  headers?: Record<string, string>
+): Promise<T> {
+  if (!API_URL) {
+    throw new ApiError("NEXT_PUBLIC_API_URL não configurada.", 0);
+  }
+
+  const url = new URL(path, API_URL);
+
+  let response: Response;
+
+  try {
+    response = await fetch(url.toString(), {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        ...headers,
+      },
+    });
+  } catch {
+    throw new ApiError("Não foi possível conectar à API.", 0);
+  }
+
+  if (!response.ok) {
+    throw new ApiError(`Erro ao consultar ${path} (${response.status}).`, response.status);
+  }
+
+  return response.json() as Promise<T>;
+}
+
 export async function apiPost<T>(
   path: string,
   body: unknown,

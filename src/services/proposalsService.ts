@@ -1,4 +1,4 @@
-import { apiGet, apiPost } from "./apiClient";
+import { apiDelete, apiGet, apiPost } from "./apiClient";
 import { getVisitorId } from "@/lib/visitorId";
 import type { PaginatedResponse, Proposal, ProposalComment, ProposalVoteType } from "./types";
 
@@ -42,6 +42,10 @@ export function voteOnProposal(id: number | string, vote: ProposalVoteType) {
   return apiPost<{ data: Proposal }>(`/api/proposals/${id}/vote`, { vote }, visitorHeaders());
 }
 
+export function deleteVote(id: number | string) {
+  return apiDelete<{ data: Proposal }>(`/api/proposals/${id}/vote`, visitorHeaders());
+}
+
 export function getProposalComments(id: number | string) {
   return apiGet<PaginatedResponse<ProposalComment>>(
     `/api/proposals/${id}/comments`,
@@ -54,6 +58,13 @@ export function createComment(id: number | string, payload: CreateCommentPayload
   return apiPost<{ data: ProposalComment }>(
     `/api/proposals/${id}/comments`,
     payload,
+    visitorHeaders()
+  );
+}
+
+export function deleteComment(proposalId: number | string, commentId: number | string) {
+  return apiDelete<{ message: string }>(
+    `/api/proposals/${proposalId}/comments/${commentId}`,
     visitorHeaders()
   );
 }

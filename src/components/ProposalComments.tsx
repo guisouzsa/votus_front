@@ -2,17 +2,19 @@
 
 import { useState } from 'react';
 import useSWR from 'swr';
-import { Send } from 'lucide-react';
-import { createComment, getProposalComments } from '@/services/proposalsService';
+import { Send, Trash2 } from 'lucide-react';
+import { createComment, deleteComment, getProposalComments } from '@/services/proposalsService';
 import { ApiError } from '@/services/apiClient';
 import type { PaginatedResponse, ProposalComment } from '@/services/types';
 
 export default function ProposalComments({
   proposalId,
   onCommentAdded,
+  onCommentRemoved,
 }: {
   proposalId: number;
   onCommentAdded: () => void;
+  onCommentRemoved: () => void;
 }) {
   const {
     data: response,
@@ -26,6 +28,7 @@ export default function ProposalComments({
   const [name, setName] = useState('');
   const [content, setContent] = useState('');
   const [sending, setSending] = useState(false);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const comments = response?.data ?? [];
@@ -42,6 +45,7 @@ export default function ProposalComments({
       author_name: trimmedName || 'Visitante',
       content: trimmedContent,
       created_at: new Date().toISOString(),
+      can_delete: true,
     };
 
     setSending(true);
@@ -82,6 +86,39 @@ export default function ProposalComments({
     }
   };
 
+  const handleDelete = async (commentId: number) => {
+    if (deletingId) return;
+
+    setDeletingId(commentId);
+    setError(null);
+
+    try {
+      await mutate(
+        async (current) => {
+          await deleteComment(proposalId, commentId);
+          return current && { ...current, data: current.data.filter((c) => c.id !== commentId) };
+        },
+        {
+          optimisticData: (current) =>
+            current
+              ? { ...current, data: current.data.filter((c) => c.id !== commentId) }
+              : ({ data: [] as ProposalComment[] } as PaginatedResponse<ProposalComment>),
+          rollbackOnError: true,
+          revalidate: false,
+        }
+      );
+      onCommentRemoved();
+    } catch (err) {
+      setError(
+        err instanceof ApiError
+          ? 'Não foi possível apagar seu comentário. Tente novamente.'
+          : 'Ocorreu um erro inesperado ao apagar seu comentário.'
+      );
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   return (
     <div className="mt-3 border-t border-[#e0d6c4] pt-3">
       {isLoading && <p className="text-xs text-[#4d4d4d]">Carregando comentários...</p>}
@@ -104,8 +141,19 @@ export default function ProposalComments({
               <div className="min-w-0 flex-1 rounded-[10px] rounded-tl-none bg-[#f7f5f2] p-3">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-2">
                   <span className="text-xs font-bold text-[#1b623a]">{comment.author_name}</span>
-                  <span className="shrink-0 text-[11px] text-[#8a8a8a]">
+                  <span className="flex shrink-0 items-center gap-2 text-[11px] text-[#8a8a8a]">
                     {new Date(comment.created_at).toLocaleDateString('pt-BR')}
+                    {comment.can_delete && (
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(comment.id)}
+                        disabled={deletingId !== null}
+                        aria-label="Apagar comentário"
+                        className="bg-transparent text-[#8d0801]/60 transition-colors hover:text-[#8d0801] disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        <Trash2 size={13} />
+                      </button>
+                    )}
                   </span>
                 </div>
                 <p className="mt-1 text-sm leading-relaxed text-[#3a3a3a]">{comment.content}</p>

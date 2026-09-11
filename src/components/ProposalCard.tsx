@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { ChevronDown, Heart, MessageCircle, ThumbsDown } from 'lucide-react';
 import type { Proposal, ProposalVoteType } from '@/services/types';
-import { voteOnProposal } from '@/services/proposalsService';
+import { deleteVote, voteOnProposal } from '@/services/proposalsService';
 import { ApiError } from '@/services/apiClient';
 import ProposalComments from './ProposalComments';
 
@@ -15,7 +15,7 @@ const BADGE_COLORS = [
   { bg: 'bg-[#EDDBBA]', pill: 'bg-[#EDDBBA]/40 text-[#8d0801]' },
 ];
 
-function withOptimisticVote(proposal: Proposal, vote: ProposalVoteType): Proposal {
+function withOptimisticVote(proposal: Proposal, vote: ProposalVoteType | null): Proposal {
   const previousVote = proposal.viewer_vote;
   if (previousVote === vote) return proposal;
 
@@ -48,14 +48,15 @@ export default function ProposalCard({
   const handleVote = async (vote: ProposalVoteType) => {
     if (voting) return;
 
+    const removing = proposal.viewer_vote === vote;
     const previous = proposal;
 
     setVoting(vote);
     setError(null);
-    onVoted(withOptimisticVote(proposal, vote));
+    onVoted(withOptimisticVote(proposal, removing ? null : vote));
 
     try {
-      const response = await voteOnProposal(proposal.id, vote);
+      const response = removing ? await deleteVote(proposal.id) : await voteOnProposal(proposal.id, vote);
       onVoted(response.data);
     } catch (err) {
       onVoted(previous);
@@ -145,6 +146,7 @@ export default function ProposalCard({
         <ProposalComments
           proposalId={proposal.id}
           onCommentAdded={() => setCommentsCount((count) => count + 1)}
+          onCommentRemoved={() => setCommentsCount((count) => Math.max(0, count - 1))}
         />
       )}
     </article>

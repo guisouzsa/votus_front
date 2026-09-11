@@ -129,6 +129,7 @@ export interface ProposalComment {
   author_name: string;
   content: string;
   created_at: string;
+  can_delete: boolean;
 }
 
 export interface Category {
