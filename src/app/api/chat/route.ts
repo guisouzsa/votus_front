@@ -3,6 +3,7 @@ import Groq from "groq-sdk";
 import { getDeputados } from "@/services/deputadosService";
 import { getSenadores } from "@/services/senadoresService";
 import type { Legislator } from "@/services/types";
+import { TEAM_ADVISOR, TEAM_MEMBERS } from "@/data/team";
 
 const MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-20b";
 
@@ -13,9 +14,13 @@ const STATUS_LABELS: Record<string, string> = {
   former: "ex-mandato",
 };
 
+// Mesma lista de app/components/DevelopersSection.tsx (fonte: @/data/team),
+// pra IA nunca responder um time desatualizado em relação à landing page.
+const equipeFormatada = TEAM_MEMBERS.map((membro) => membro.name).join(", ");
+
 const BASE_SYSTEM_PROMPT = `Você é a IA de apoio do Votus, uma plataforma brasileira feita para jovens conhecerem melhor seus candidatos e representantes políticos e entenderem como funciona o voto no Brasil.
 
-O Votus é uma iniciativa voltada para jovens e pessoas que querem conhecer mais sobre os candidatos antes de votar. A plataforma reúne painéis de deputados e senadores do Ceará, notícias e conteúdo educativo sobre política. Foi desenvolvida por: Dafny Almeida, Emanuel Rodrigues, Eva Lohane, Kerllon Sousa, Guilherme Rodrigues, Ivens Araujo, Larissa Félix, Marianne Moreira, Maria Eduarda e Pedro Oliveira.
+O Votus é uma iniciativa voltada para jovens e pessoas que querem conhecer mais sobre os candidatos antes de votar. A plataforma reúne painéis de deputados e senadores do Ceará, notícias e conteúdo educativo sobre política. Foi desenvolvida por: ${equipeFormatada}, com orientação de ${TEAM_ADVISOR.name}.
 
 Responda apenas perguntas sobre:
 - Política e eleições no Brasil: o que faz um vereador, prefeito, deputado estadual, deputado federal, senador, governador ou presidente; como funciona o voto, o sistema eleitoral, partidos, emendas parlamentares, proposições, etc.
@@ -96,7 +101,46 @@ interface IncomingMessage {
   content?: unknown;
 }
 
+// Rate limit simples por IP (best-effort, em memória do processo): sem isso,
+// qualquer pessoa podia bater nesse endpoint sem limite nenhum e estourar a
+// cota da chave da Groq — diferente do /api/agente/perguntar do backend, que
+// já tem throttle:10,1. Não é distribuído (reseta se o processo reiniciar ou
+// em deploy multi-instância), mas cobre o caso comum de um cliente abusando.
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX_REQUESTS = 10;
+const requestLog = new Map<string, number[]>();
+
+function getClientIp(request: Request): string {
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  if (forwardedFor) return forwardedFor.split(",")[0].trim();
+
+  return request.headers.get("x-real-ip") ?? "desconhecido";
+}
+
+function estaDentroDoLimite(ip: string): boolean {
+  const agora = Date.now();
+  const timestamps = (requestLog.get(ip) ?? []).filter(
+    (timestamp) => agora - timestamp < RATE_LIMIT_WINDOW_MS
+  );
+
+  if (timestamps.length >= RATE_LIMIT_MAX_REQUESTS) {
+    requestLog.set(ip, timestamps);
+    return false;
+  }
+
+  timestamps.push(agora);
+  requestLog.set(ip, timestamps);
+  return true;
+}
+
 export async function POST(request: Request) {
+  if (!estaDentroDoLimite(getClientIp(request))) {
+    return NextResponse.json(
+      { error: "Muitas perguntas em pouco tempo. Espere um instante e tente de novo." },
+      { status: 429 }
+    );
+  }
+
   const apiKey = process.env.GROQ_API_KEY;
 
   if (!apiKey) {

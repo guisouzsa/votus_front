@@ -46,7 +46,7 @@ export default function DashboardHeader({
         aria-hidden="true"
         width={381}
         height={60}
-        className="relative -top-2 block h-auto w-[min(500px,45vw)] object-contain shrink-0"
+        className="relative -top-2 hidden h-auto w-[min(500px,45vw)] object-contain shrink-0 sm:block"
       />
     </header>
   );

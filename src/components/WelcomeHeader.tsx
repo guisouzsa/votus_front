@@ -24,7 +24,7 @@ export default function WelcomeHeader() {
         aria-hidden="true"
         width={381}
         height={60}
-        className="relative -top-2 block h-auto w-[min(500px,45vw)] shrink-0 self-center object-contain"
+        className="relative -top-2 hidden h-auto w-[min(500px,45vw)] shrink-0 self-center object-contain sm:block"
       />
     </header>
   );
