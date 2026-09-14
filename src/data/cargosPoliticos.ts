@@ -38,17 +38,6 @@ export const CARGOS: CargoPolitico[] = [
     funcaoPrincipal: 'Governar o estado e sancionar leis estaduais',
   },
   {
-    id: 'prefeito',
-    nome: 'Prefeito',
-    poder: 'executivo',
-    nivel: 'municipal',
-    nivelLabel: 'Municipal',
-    descricao: 'Chefia o governo do município, cuidando de áreas como transporte, saúde básica e educação infantil.',
-    mandato: '4 anos',
-    eleicao: 'Majoritária',
-    funcaoPrincipal: 'Governar o município e sancionar leis municipais',
-  },
-  {
     id: 'senador',
     nome: 'Senador',
     poder: 'legislativo',
@@ -83,27 +72,15 @@ export const CARGOS: CargoPolitico[] = [
     eleicao: 'Proporcional',
     funcaoPrincipal: 'Propor, votar e fiscalizar leis estaduais',
   },
-  {
-    id: 'vereador',
-    nome: 'Vereador',
-    poder: 'legislativo',
-    nivel: 'municipal',
-    nivelLabel: 'Municipal',
-    descricao: 'Propõe e vota as leis do município e fiscaliza as ações do prefeito.',
-    mandato: '4 anos',
-    eleicao: 'Proporcional',
-    funcaoPrincipal: 'Propor, votar e fiscalizar leis municipais',
-  },
 ];
 
 export function getCargoPorId(id: string): CargoPolitico {
-  return CARGOS.find((cargo) => cargo.id === id) ?? CARGOS[3];
+  return CARGOS.find((cargo) => cargo.id === id) ?? CARGOS.find((cargo) => cargo.id === 'senador')!;
 }
 
 export const NIVEIS: { id: Nivel; label: string }[] = [
   { id: 'federal', label: 'Federal' },
   { id: 'estadual', label: 'Estadual' },
-  { id: 'municipal', label: 'Municipal' },
 ];
 
 export interface AcaoCargo {
@@ -136,7 +113,6 @@ export const COMPARACOES: ComparacaoPar[] = [
   { id: 'senador-deputado-federal', cargoAId: 'senador', cargoBId: 'deputado-federal' },
   { id: 'presidente-governador', cargoAId: 'presidente', cargoBId: 'governador' },
   { id: 'deputado-federal-deputado-estadual', cargoAId: 'deputado-federal', cargoBId: 'deputado-estadual' },
-  { id: 'governador-prefeito', cargoAId: 'governador', cargoBId: 'prefeito' },
 ];
 
 // Cada cargo aponta para a comparação mais relevante pra ele, usada como aba
@@ -147,8 +123,6 @@ export const COMPARACAO_PADRAO_POR_CARGO: Record<string, string> = {
   presidente: 'presidente-governador',
   governador: 'presidente-governador',
   'deputado-estadual': 'deputado-federal-deputado-estadual',
-  prefeito: 'governador-prefeito',
-  vereador: 'deputado-federal-deputado-estadual',
 };
 
 export interface RelacaoPoderes {

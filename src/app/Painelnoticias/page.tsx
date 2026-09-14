@@ -84,12 +84,19 @@ export default function DashboardPage() {
     return Array.from(groups.entries());
   }, [filteredNews]);
 
-  // A notícia em destaque é sempre a mais relevante entre todas as publicadas,
-  // fixa independente da aba de ordenação ou dos filtros aplicados na lista abaixo.
+  // A notícia em destaque é sempre a mais relevante entre todas as publicadas
+  // (relevance_score é atribuído pela IA no resumo, de 0 a 10), fixa
+  // independente da aba de ordenação ou dos filtros aplicados na lista abaixo.
+  // Em empate de relevância, desempata pela mais recente.
   const mostRelevantNews = useMemo(() => {
     if (publishedNews.length === 0) return undefined;
 
-    return [...publishedNews].sort((a, b) => (b.relevance_score ?? 0) - (a.relevance_score ?? 0))[0];
+    return [...publishedNews].sort((a, b) => {
+      const relevancia = (b.relevance_score ?? 0) - (a.relevance_score ?? 0);
+      if (relevancia !== 0) return relevancia;
+
+      return new Date(b.published_at ?? 0).getTime() - new Date(a.published_at ?? 0).getTime();
+    })[0];
   }, [publishedNews]);
 
   const heroArticle = mostRelevantNews ? mapApiNewsToArticle(mostRelevantNews) : undefined;

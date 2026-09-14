@@ -1,13 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import type { NewsArticle } from "@/lib/news";
 
 export default function HeroArticle({ article }: { article?: NewsArticle }) {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [imagemAnterior, setImagemAnterior] = useState(article?.imageUrl);
+
+  // Reseta o estado da imagem quando a notícia em destaque muda (ex: nova
+  // coleta trouxe uma notícia mais relevante), senão a imagem antiga fica
+  // "carregada" e a nova nunca aparece por trás do skeleton. Ajustado durante
+  // a renderização (em vez de em um efeito) para não disparar uma
+  // renderização em cascata.
+  if (article?.imageUrl !== imagemAnterior) {
+    setImagemAnterior(article?.imageUrl);
+    setImgLoaded(false);
+    setImgError(false);
+  }
+
+  const mostrarImagem = Boolean(article?.imageUrl) && !imgError;
 
   return (
     <div className="mt-6">
@@ -18,22 +31,25 @@ export default function HeroArticle({ article }: { article?: NewsArticle }) {
           article ? "" : "pointer-events-none"
         }`}
       >
-        {!imgLoaded && (
+        {(!mostrarImagem || !imgLoaded) && (
           <div
             className="absolute inset-0 bg-linear-to-br from-brasil-blue via-brasil-blue/80 to-brasil-green-deep/80"
             aria-hidden="true"
           />
         )}
 
-        {!imgError && (
-          <Image
-            src="/foto-noticia-principal.png"
+        {mostrarImagem && (
+          // <img> em vez de next/image: as fotos vêm de diversos veículos de
+          // notícia (cada um com seu próprio domínio de CDN), então validar
+          // caso a caso em next.config.ts não escala como acontece com as
+          // fotos oficiais de parlamentares.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={article!.imageUrl}
             alt=""
-            fill
-            sizes="(max-width: 640px) 100vw, 700px"
             onLoad={() => setImgLoaded(true)}
             onError={() => setImgError(true)}
-            className="object-cover opacity-100 transition-transform duration-500 group-hover:scale-105"
+            className="absolute inset-0 h-full w-full object-cover opacity-100 transition-transform duration-500 group-hover:scale-105"
           />
         )}
 

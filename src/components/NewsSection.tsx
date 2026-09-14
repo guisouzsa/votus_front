@@ -57,12 +57,12 @@ export default function NewsSection({
       </h3>
 
       <div className="relative flex items-center gap-2 rounded-xl border border-black/10 bg-cream-panel p-3 shadow-[0_1px_3px_rgba(0,0,0,0.06)] sm:p-4">
-        {/* Seta esquerda */}
+        {/* Seta esquerda: só no desktop, no mobile o gesto de arrastar já é natural */}
         <button
           type="button"
           onClick={() => scrollByAmount("left")}
           aria-label="Rolar para a esquerda"
-          className="z-10 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center text-[#103D23] transition-transform hover:scale-110"
+          className="z-10 hidden h-8 w-8 shrink-0 cursor-pointer items-center justify-center text-[#103D23] transition-transform hover:scale-110 sm:flex"
         >
           <ChevronLeft size={26} strokeWidth={2.5} />
         </button>
@@ -74,24 +74,24 @@ export default function NewsSection({
           onMouseLeave={stopDrag}
           onMouseUp={stopDrag}
           onMouseMove={onMouseMove}
-          className="flex flex-1 gap-4 overflow-x-auto pb-2 cursor-grab select-none active:cursor-grabbing [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="flex flex-1 snap-x snap-mandatory gap-4 overflow-x-auto pb-2 cursor-grab select-none active:cursor-grabbing [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {items.map((item) => (
             <div
               key={item.id}
-              className="w-[19rem] shrink-0 sm:w-[21rem]"
+              className="w-[80vw] shrink-0 snap-start sm:w-[21rem]"
             >
               <NewsCard {...item} />
             </div>
           ))}
         </div>
 
-        {/* Seta direita */}
+        {/* Seta direita: só no desktop, no mobile o gesto de arrastar já é natural */}
         <button
           type="button"
           onClick={() => scrollByAmount("right")}
           aria-label="Rolar para a direita"
-          className="z-10 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center text-[#103D23] transition-transform hover:scale-110"
+          className="z-10 hidden h-8 w-8 shrink-0 cursor-pointer items-center justify-center text-[#103D23] transition-transform hover:scale-110 sm:flex"
         >
           <ChevronRight size={26} strokeWidth={2.5} />
         </button>

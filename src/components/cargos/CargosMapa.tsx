@@ -25,14 +25,10 @@ export default function CargosMapa({
   onSelect: (id: string) => void;
 }) {
   return (
-    <section aria-labelledby="mapa-cargos-titulo" className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-6">
+    <section aria-labelledby="mapa-cargos-titulo" className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-6">
       {NIVEIS.map((nivel) => (
         <div key={nivel.id} className="flex flex-col gap-4 sm:gap-5">
-          {/* "Municipal" é omitido: Prefeito/Vereador já deixam o nível óbvio,
-              diferente de Federal/Estadual, que ajudam a diferenciar os cargos. */}
-          {nivel.id !== 'municipal' && (
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-ink-soft">{nivel.label}</p>
-          )}
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-ink-soft">{nivel.label}</p>
 
           {(['executivo', 'legislativo'] as Poder[]).map((poder) => {
             const cargosDoGrupo = CARGOS.filter((cargo) => cargo.nivel === nivel.id && cargo.poder === poder);
