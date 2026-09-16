@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Montserrat, Poppins } from "next/font/google";
 import SWRProvider from "@/components/SWRProvider";
+import SiteVisitPing from "@/components/SiteVisitPing";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -36,6 +37,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br" className={`${montserrat.variable} ${poppins.variable}`}>
       <body>
+        <SiteVisitPing />
         <SWRProvider>{children}</SWRProvider>
       </body>
     </html>

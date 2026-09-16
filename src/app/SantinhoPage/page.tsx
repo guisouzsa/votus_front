@@ -101,6 +101,11 @@ export default function SantinhoPage() {
         santinhosPorPagina: Number(santinhosPorPagina),
       });
       setShowPreview(false);
+
+      // Best-effort: só pro contador do painel admin, nunca deve afetar a geração do PDF.
+      import('@/services/metricsService')
+        .then(({ registerSantinhoGeneration }) => registerSantinhoGeneration())
+        .catch(() => {});
     } catch {
       setErro('Não foi possível gerar o PDF. Tente novamente.');
     } finally {

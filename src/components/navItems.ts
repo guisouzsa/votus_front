@@ -35,6 +35,7 @@ export const NAV_ITEMS: NavItem[] = [
   { id: "santinho", label: "Gerador de Santinho", icon: "/IconeSantinho.svg", path: "/SantinhoPage" },
   { id: "explicacoes", label: "Explicações", icon: "/IconeExplicacoes.svg", path: "/ExplicacoesPage" },
   { id: "sobre", label: "Sobre Nós", icon: "/IconeSobreNos.png", path: "/SobreNosPage" },
+  { id: "sugestoes", label: "Sugestões", icon: "/IconeSugestoes.svg", path: "/SugestoesPage" },
 ];
 
 export const DETAIL_ROUTE_PREFIXES: { prefix: string; id: string }[] = [

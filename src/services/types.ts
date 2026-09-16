@@ -144,3 +144,113 @@ export interface NewsListResponse {
   per_page: number;
   total: number;
 }
+
+// Formato padrão do paginator do Laravel (LengthAwarePaginator::toJson), usado
+// pelos endpoints /api/admin/* que devolvem o model puro em vez de um Resource
+// — por isso é uma forma "achatada", diferente de PaginatedResponse<T> acima.
+export interface AdminPaginated<T> {
+  current_page: number;
+  data: T[];
+  last_page: number;
+  per_page: number;
+  total: number;
+}
+
+export interface AdminUser {
+  id: number;
+  name: string;
+  email: string;
+}
+
+export interface AdminNewsSummary {
+  id: number;
+  title: string;
+  topicos: string[];
+  published: boolean;
+  status_resumo: string | null;
+  erro_resumo: string | null;
+  adicionada_em: string | null;
+}
+
+export interface AdminNewsItem {
+  id: number;
+  title: string;
+  category: string | null;
+  published: boolean;
+  status_resumo: string | null;
+  erro_resumo: string | null;
+  tentativas_resumo: number;
+  imported_at: string | null;
+}
+
+export interface AdminDashboard {
+  noticias: {
+    total: number;
+    ultima_atualizacao_em: string | null;
+    adicionadas_na_ultima_execucao: number;
+    status: "ok" | "com_falhas";
+    fontes_com_falha: number;
+    ultimas: AdminNewsSummary[];
+  };
+  dados_politicos: {
+    deputados: number;
+    senadores: number;
+  };
+  participacao: {
+    santinhos_gerados: number;
+    acessos_registrados: number;
+  };
+  moderacao: {
+    propostas_publicadas: number;
+    propostas_removidas: number;
+  };
+  sugestoes: {
+    total: number;
+  };
+}
+
+export interface AdminProposal {
+  id: number;
+  title: string;
+  content: string;
+  author: string | null;
+  categories: string[];
+  status: "published" | "draft" | "removed";
+  created_at: string;
+}
+
+export interface AdminSuggestionAnswer {
+  id: number;
+  answer: string;
+  question: { id: number; text: string } | null;
+}
+
+export interface AdminSuggestion {
+  id: number;
+  name: string | null;
+  email: string | null;
+  message: string | null;
+  answers: AdminSuggestionAnswer[];
+  created_at: string;
+}
+
+export type SuggestionQuestionType = "choice" | "text";
+
+export interface SuggestionQuestion {
+  id: number;
+  text: string;
+  type: SuggestionQuestionType;
+  options: string[] | null;
+  required: boolean;
+  order_index: number;
+  // Só presente na listagem do admin: contagem de respostas por opção,
+  // ex: { "Sim, gostei": 3, "Não gostei": 1 } — undefined em perguntas de texto livre.
+  stats?: Record<string, number>;
+}
+
+export interface NewsCollectResult {
+  status: string;
+  coleta?: string;
+  fila?: string;
+  message?: string;
+}
