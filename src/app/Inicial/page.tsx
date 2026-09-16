@@ -1,9 +1,17 @@
+import type { Metadata } from "next";
 import Sidebar from "@/components/Sidebar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import WovenRibbon from "@/components/WovenRibbon";
 import WelcomeHeader from "@/components/WelcomeHeader";
 import HighlightGrid from "@/components/Highlightgrid";
 import FloatingAIButton from "@/components/FloatingAIButton";
+
+export const metadata: Metadata = {
+  title: "Início",
+  description:
+    "Acompanhe deputados, senadores, notícias políticas, propostas e mais em um só lugar no Votus.",
+  alternates: { canonical: "/Inicial" },
+};
 
 export default function HomePage() {
   return (

@@ -34,7 +34,7 @@ export default function AdminNav() {
 
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-[#FDF8EE]/95 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
+      <div className="mx-auto flex max-w-screen-2xl items-center justify-between gap-4 px-6 py-4">
         <div className="flex items-center gap-3">
           <img src="/IconeVotus.svg" alt="Votus" className="h-7 w-auto" />
           <span className="hidden text-xs font-black uppercase tracking-widest text-[#6b6255] sm:inline">

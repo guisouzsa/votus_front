@@ -54,9 +54,15 @@ function SectionTitle({ children, href }: { children: React.ReactNode; href?: st
 export default function AdminDashboardPage() {
   const { data, error, isLoading, mutate } = useSWR("admin-dashboard", getAdminDashboard, {
     revalidateOnFocus: false,
+    // Enquanto houver notícia pendente de resumo, reconsulta periodicamente
+    // pra reabilitar o botão sozinho assim que a fila terminar de drenar.
+    refreshInterval: (latest) => (latest && latest.noticias.pendentes > 0 ? 15000 : 0),
   });
   const [estadoColeta, setEstadoColeta] = useState<EstadoColeta>("idle");
   const [mensagemErro, setMensagemErro] = useState<string | null>(null);
+
+  const pendentes = data?.noticias.pendentes ?? 0;
+  const atualizarDesabilitado = estadoColeta === "executando" || pendentes > 0;
 
   async function handleAtualizarNoticias() {
     setEstadoColeta("executando");
@@ -85,8 +91,13 @@ export default function AdminDashboardPage() {
       <section className="flex flex-col gap-4">
         <SectionTitle href="/admin/noticias">Notícias</SectionTitle>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <AdminStatCard label="Total de notícias" value={data.noticias.total} icon={Newspaper} />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <AdminStatCard
+            label="Notícias publicadas"
+            value={data.noticias.publicadas}
+            icon={Newspaper}
+            hint={`${data.noticias.total} coletadas ao todo (inclui pendentes e reprovadas)`}
+          />
           <AdminStatCard
             label="Última atualização"
             value={formatDateHora(data.noticias.ultima_atualizacao_em)}
@@ -109,12 +120,17 @@ export default function AdminDashboardPage() {
           <button
             type="button"
             onClick={handleAtualizarNoticias}
-            disabled={estadoColeta === "executando"}
+            disabled={atualizarDesabilitado}
             className="flex h-12 items-center justify-center rounded-[10px] bg-[#1b623a] px-8 text-sm font-bold text-white transition-colors hover:bg-[#164f30] disabled:opacity-60"
           >
             {estadoColeta === "executando" ? "Atualizando notícias..." : "Atualizar notícias"}
           </button>
 
+          {estadoColeta !== "executando" && pendentes > 0 && (
+            <p className="text-sm font-semibold text-[#8D6A00]">
+              {pendentes} notícia(s) ainda sendo processada(s) pelo resumo de IA — aguarde para buscar mais.
+            </p>
+          )}
           {estadoColeta === "sucesso" && (
             <p className="text-sm font-semibold text-[#1B623A]">
               Atualização solicitada com sucesso. O processamento pode continuar em segundo plano.

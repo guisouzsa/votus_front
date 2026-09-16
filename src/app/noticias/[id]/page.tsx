@@ -1,50 +1,35 @@
-"use client";
-
-import { useParams } from "next/navigation";
-import Link from "next/link";
-import useSWR from "swr";
-import { ArrowLeft } from "lucide-react";
-import Sidebar from "@/components/Sidebar";
-import MobileBottomNav from "@/components/MobileBottomNav";
-import WovenRibbon from "@/components/WovenRibbon";
-import FloatingAIButton from "@/components/FloatingAIButton";
-import NewsArticlePage from "@/components/NewsArticlePage";
+import type { Metadata } from "next";
 import { getNewsItem } from "@/services/newsService";
-import { mapApiNewsToArticle } from "@/lib/news";
+import NoticiaPageClient from "./NoticiaPageClient";
 
-export default function NewsPage() {
-  const params = useParams<{ id: string }>();
-  const id = params.id;
+type Params = { id: string };
 
-  const { data, isLoading } = useSWR(id ? ["news", id] : null, () => getNewsItem(id), {
-    revalidateOnFocus: false,
-  });
+function truncar(texto: string, limite: number): string {
+  return texto.length > limite ? `${texto.slice(0, limite - 1).trimEnd()}…` : texto;
+}
 
-  const article = data ? mapApiNewsToArticle(data) : undefined;
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+  const { id } = await params;
 
-  return (
-    <div className="min-h-dvh">
-      <WovenRibbon className="h-14 sm:h-20" />
-      <Sidebar />
-      <MobileBottomNav />
-      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24">
-        <div className="w-full px-6 pb-2 pt-8 sm:px-10">
-          <Link
-            href="/Painelnoticias"
-            className="mb-4 inline-flex items-center gap-1.5 bg-transparent text-sm font-semibold text-[#8d0801] transition-transform hover:-translate-x-0.5"
-          >
-            <ArrowLeft size={16} strokeWidth={2.5} />
-            Voltar
-          </Link>
-        </div>
+  try {
+    const noticia = await getNewsItem(id);
+    const resumo = noticia.ai_summary || noticia.original_summary || "";
+    const description = resumo ? truncar(resumo, 160) : `Notícia publicada em ${noticia.source ?? "Votus"}.`;
 
-        {isLoading ? (
-          <p className="px-6 py-16 text-center text-sm text-[#103D23] sm:px-10">Carregando notícia...</p>
-        ) : (
-          <NewsArticlePage article={article} />
-        )}
-      </main>
-      <FloatingAIButton />
-    </div>
-  );
+    return {
+      title: noticia.title,
+      description,
+      alternates: { canonical: `/noticias/${id}` },
+      openGraph: noticia.image_url ? { images: [noticia.image_url] } : undefined,
+    };
+  } catch {
+    return {
+      title: "Notícia",
+      alternates: { canonical: `/noticias/${id}` },
+    };
+  }
+}
+
+export default function NoticiaPage() {
+  return <NoticiaPageClient />;
 }

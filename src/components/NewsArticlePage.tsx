@@ -11,7 +11,10 @@ export default function NewsArticlePage({ article }: { article?: NewsArticle }) 
           {article?.category && (
             <p className="mb-4 text-sm font-semibold text-[#8D0801]">{article.category}</p>
           )}
-          <h1 className="font-display text-3xl font-bold leading-tight text-[#8D0801] sm:text-5xl">
+          {/* Prévia: só o título desta página usa a Poppins (font-heading,
+              já usada em vários títulos do site) — o resto da página
+              continua em Montserrat, sem mexer em mais nada. */}
+          <h1 className="font-heading text-3xl font-bold leading-tight text-[#8D0801] sm:text-5xl">
             {article?.title || (hasArticle ? "" : "Nenhuma notícia disponível no momento")}
           </h1>
           <p className="mt-4 text-base leading-relaxed text-[#103D23] sm:text-lg">
@@ -33,7 +36,7 @@ export default function NewsArticlePage({ article }: { article?: NewsArticle }) 
       </div>
 
       {article?.imageUrl ? (
-        <img src={article.imageUrl} alt="" className="mt-8 aspect-video w-full rounded-xl object-cover" />
+        <img src={article.imageUrl} alt={article.title ?? ""} className="mt-8 aspect-video w-full rounded-xl object-cover" />
       ) : (
         <div className="mt-8 aspect-video w-full rounded-xl bg-[#F2E4CA]/60" aria-hidden="true" />
       )}

@@ -5,6 +5,7 @@ import useSWR from "swr";
 import { Clock, ChevronDown, ChevronUp, Newspaper, PlusCircle } from "lucide-react";
 import AdminStatCard from "@/components/admin/AdminStatCard";
 import AdminState from "@/components/admin/AdminState";
+import AdminSearchInput from "@/components/admin/AdminSearchInput";
 import { getAdminDashboard, collectNews, getAdminNews } from "@/services/adminService";
 import { apiErrorMessage } from "@/services/apiClient";
 
@@ -32,19 +33,29 @@ type EstadoColeta = "idle" | "executando" | "sucesso" | "erro";
 export default function AdminNoticiasPage() {
   const { data: dashboard, mutate: mutateDashboard } = useSWR("admin-dashboard", getAdminDashboard, {
     revalidateOnFocus: false,
+    refreshInterval: (latest) => (latest && latest.noticias.pendentes > 0 ? 15000 : 0),
   });
   const [page, setPage] = useState(1);
+  const [busca, setBusca] = useState("");
   const {
     data: newsPage,
     error: newsError,
     isLoading: newsLoading,
     mutate: mutateNews,
-  } = useSWR(["admin-news", page], () => getAdminNews(page), { revalidateOnFocus: false });
+  } = useSWR(["admin-news", page, busca], () => getAdminNews(page, busca), { revalidateOnFocus: false });
+
+  function handleBuscaChange(valor: string) {
+    setBusca(valor);
+    setPage(1);
+  }
 
   const [estadoColeta, setEstadoColeta] = useState<EstadoColeta>("idle");
   const [mensagem, setMensagem] = useState<string | null>(null);
   const [detalhesAbertos, setDetalhesAbertos] = useState(false);
   const [detalhesExecucao, setDetalhesExecucao] = useState<{ coleta?: string; fila?: string } | null>(null);
+
+  const pendentes = dashboard?.noticias.pendentes ?? 0;
+  const atualizarDesabilitado = estadoColeta === "executando" || pendentes > 0;
 
   async function handleAtualizarNoticias() {
     setEstadoColeta("executando");
@@ -67,7 +78,12 @@ export default function AdminNoticiasPage() {
   return (
     <div className="flex flex-col gap-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <AdminStatCard label="Total de notícias" value={dashboard?.noticias.total ?? "—"} icon={Newspaper} />
+        <AdminStatCard
+          label="Notícias publicadas"
+          value={dashboard?.noticias.publicadas ?? "—"}
+          icon={Newspaper}
+          hint={dashboard ? `${dashboard.noticias.total} coletadas ao todo` : undefined}
+        />
         <AdminStatCard
           label="Última atualização"
           value={formatDateHora(dashboard?.noticias.ultima_atualizacao_em ?? null)}
@@ -91,11 +107,17 @@ export default function AdminNoticiasPage() {
           <button
             type="button"
             onClick={handleAtualizarNoticias}
-            disabled={estadoColeta === "executando"}
+            disabled={atualizarDesabilitado}
             className="flex h-12 items-center justify-center rounded-[10px] bg-[#1b623a] px-8 text-sm font-bold text-white transition-colors hover:bg-[#164f30] disabled:opacity-60"
           >
             {estadoColeta === "executando" ? "Atualizando notícias..." : "Atualizar notícias"}
           </button>
+
+          {estadoColeta !== "executando" && pendentes > 0 && !mensagem && (
+            <p className="text-sm font-semibold text-[#8D6A00]">
+              {pendentes} notícia(s) ainda sendo processada(s) pelo resumo de IA — aguarde para buscar mais.
+            </p>
+          )}
 
           {mensagem && (
             <p
@@ -144,13 +166,23 @@ export default function AdminNoticiasPage() {
       </div>
 
       <div className="flex flex-col gap-3">
-        <h2 className="text-sm font-black uppercase tracking-wide text-[#1b623a]">Notícias coletadas</h2>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-sm font-black uppercase tracking-wide text-[#1b623a]">Notícias coletadas</h2>
+          <div className="w-full sm:w-72">
+            <AdminSearchInput value={busca} onChange={handleBuscaChange} placeholder="Pesquisar por título..." />
+          </div>
+        </div>
 
         {newsLoading && <AdminState type="loading" message="Carregando notícias..." />}
 
         {newsError && <AdminState type="error" message="Não foi possível carregar as notícias agora." />}
 
-        {newsPage?.data.length === 0 && <AdminState type="empty" message="Nenhuma notícia coletada ainda." />}
+        {newsPage?.data.length === 0 && (
+          <AdminState
+            type="empty"
+            message={busca ? "Nenhuma notícia encontrada para essa busca." : "Nenhuma notícia coletada ainda."}
+          />
+        )}
 
         {newsPage?.data.map((noticia) => {
           const status = STATUS_LABEL[noticia.status_resumo ?? ""] ?? {

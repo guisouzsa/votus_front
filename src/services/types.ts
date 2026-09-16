@@ -15,6 +15,18 @@ export interface Legislator {
       advanced_bills: number | null;
       calculated_at: string | null;
     };
+    productivity: {
+      bills_per_year: number | null;
+    };
+    thematic_focus: {
+      index: number | null;
+      total_bills: number;
+      top_topic: {
+        id: number;
+        name: string;
+        share: number;
+      } | null;
+    };
   };
 }
 
@@ -65,6 +77,11 @@ export interface LegislatorDetail extends Legislator {
   effectiveness_advanced_bills: number | null;
   effectiveness_rate: string | null;
   effectiveness_wilson_lower: string | null;
+  productivity_bills_per_year: string | null;
+  thematic_focus_index: string | null;
+  thematic_focus_total_bills: number | null;
+  thematic_focus_top_topic_share: string | null;
+  thematic_focus_top_topic: Topic | null;
   committees: Committee[];
   bills: Bill[];
   professions: Profession[];
@@ -186,6 +203,8 @@ export interface AdminNewsItem {
 export interface AdminDashboard {
   noticias: {
     total: number;
+    publicadas: number;
+    pendentes: number;
     ultima_atualizacao_em: string | null;
     adicionadas_na_ultima_execucao: number;
     status: "ok" | "com_falhas";

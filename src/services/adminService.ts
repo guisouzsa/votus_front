@@ -8,6 +8,8 @@ import type {
   AdminSuggestion,
   AdminUser,
   NewsCollectResult,
+  PaginatedResponse,
+  ProposalComment,
   SuggestionQuestion,
   SuggestionQuestionType,
 } from "./types";
@@ -37,20 +39,35 @@ export function collectNews() {
   return apiPost<NewsCollectResult>("/api/admin/news/collect", {}, authHeaders());
 }
 
-export function getAdminNews(page = 1) {
-  return apiGet<AdminPaginated<AdminNewsItem>>("/api/admin/news", { page }, authHeaders());
+export function getAdminNews(page = 1, search = "") {
+  return apiGet<AdminPaginated<AdminNewsItem>>("/api/admin/news", { page, search }, authHeaders());
 }
 
-export function getAdminProposals(page = 1) {
-  return apiGet<AdminPaginated<AdminProposal>>("/api/admin/proposals", { page }, authHeaders());
+export function getAdminProposals(page = 1, search = "") {
+  return apiGet<AdminPaginated<AdminProposal>>("/api/admin/proposals", { page, search }, authHeaders());
 }
 
 export function deleteAdminProposal(id: number) {
   return apiDelete<{ message: string }>(`/api/admin/proposals/${id}`, authHeaders());
 }
 
-export function getAdminSuggestions(page = 1) {
-  return apiGet<AdminPaginated<AdminSuggestion>>("/api/admin/suggestions", { page }, authHeaders());
+export function getAdminProposalComments(proposalId: number) {
+  return apiGet<PaginatedResponse<ProposalComment>>(
+    `/api/admin/proposals/${proposalId}/comments`,
+    undefined,
+    authHeaders()
+  );
+}
+
+export function deleteAdminProposalComment(proposalId: number, commentId: number) {
+  return apiDelete<{ message: string }>(
+    `/api/admin/proposals/${proposalId}/comments/${commentId}`,
+    authHeaders()
+  );
+}
+
+export function getAdminSuggestions(page = 1, search = "") {
+  return apiGet<AdminPaginated<AdminSuggestion>>("/api/admin/suggestions", { page, search }, authHeaders());
 }
 
 export interface CreateAdminSuggestionPayload {

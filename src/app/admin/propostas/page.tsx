@@ -2,11 +2,76 @@
 
 import { useState } from "react";
 import useSWR, { mutate as globalMutate } from "swr";
-import { Trash2, FileCheck2, FileX2 } from "lucide-react";
+import { Trash2, FileCheck2, FileX2, MessageSquareText } from "lucide-react";
 import AdminState from "@/components/admin/AdminState";
 import AdminStatCard from "@/components/admin/AdminStatCard";
-import { getAdminDashboard, getAdminProposals, deleteAdminProposal } from "@/services/adminService";
+import AdminSearchInput from "@/components/admin/AdminSearchInput";
+import {
+  getAdminDashboard,
+  getAdminProposals,
+  deleteAdminProposal,
+  getAdminProposalComments,
+  deleteAdminProposalComment,
+} from "@/services/adminService";
 import { apiErrorMessage } from "@/services/apiClient";
+
+function ProposalCommentsPanel({ proposalId }: { proposalId: number }) {
+  const { data, error, isLoading, mutate } = useSWR(
+    ["admin-proposal-comments", proposalId],
+    () => getAdminProposalComments(proposalId),
+    { revalidateOnFocus: false }
+  );
+  const [removendoId, setRemovendoId] = useState<number | null>(null);
+  const [erro, setErro] = useState<string | null>(null);
+
+  async function handleRemover(commentId: number) {
+    if (!window.confirm("Tem certeza que deseja excluir este comentário?")) return;
+
+    setRemovendoId(commentId);
+    setErro(null);
+
+    try {
+      await deleteAdminProposalComment(proposalId, commentId);
+      mutate();
+    } catch (err) {
+      setErro(apiErrorMessage(err, "Não foi possível excluir o comentário. Tente novamente."));
+    } finally {
+      setRemovendoId(null);
+    }
+  }
+
+  return (
+    <div className="mt-4 border-t border-line pt-4">
+      {isLoading && <p className="text-xs text-[#6b6255]">Carregando comentários...</p>}
+      {error && <p className="text-xs font-semibold text-[#8D0801]">Não foi possível carregar os comentários.</p>}
+      {erro && <p className="mb-2 text-xs font-semibold text-[#8D0801]">{erro}</p>}
+      {data?.data.length === 0 && <p className="text-xs text-[#6b6255]">Nenhum comentário nesta proposta.</p>}
+
+      <div className="flex flex-col gap-3">
+        {data?.data.map((comment) => (
+          <div key={comment.id} className="flex items-start justify-between gap-3 rounded-[10px] bg-[#FDF8EE] p-3">
+            <div className="min-w-0">
+              <p className="text-xs font-bold text-[#22201b]">
+                {comment.author_name} · {new Date(comment.created_at).toLocaleDateString("pt-BR")}
+              </p>
+              <p className="mt-1 whitespace-pre-wrap text-sm text-[#22201b]">{comment.content}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleRemover(comment.id)}
+              disabled={removendoId === comment.id}
+              aria-label="Excluir comentário"
+              className="flex shrink-0 items-center gap-1.5 rounded-[8px] border border-[#8D0801] px-3 py-1.5 text-xs font-bold text-[#8D0801] transition-colors hover:bg-[#8D0801] hover:text-white disabled:opacity-60"
+            >
+              <Trash2 size={13} />
+              {removendoId === comment.id ? "Excluindo..." : "Excluir"}
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 const STATUS_LABEL: Record<string, { label: string; className: string }> = {
   published: { label: "Publicada", className: "bg-[#1B623A]/10 text-[#1B623A]" },
@@ -17,13 +82,20 @@ const STATUS_LABEL: Record<string, { label: string; className: string }> = {
 export default function AdminPropostasPage() {
   const { data: dashboard } = useSWR("admin-dashboard", getAdminDashboard, { revalidateOnFocus: false });
   const [page, setPage] = useState(1);
+  const [busca, setBusca] = useState("");
   const { data, error, isLoading, mutate } = useSWR(
-    ["admin-proposals", page],
-    () => getAdminProposals(page),
+    ["admin-proposals", page, busca],
+    () => getAdminProposals(page, busca),
     { revalidateOnFocus: false }
   );
   const [removendoId, setRemovendoId] = useState<number | null>(null);
   const [erroRemocao, setErroRemocao] = useState<string | null>(null);
+  const [comentariosAbertos, setComentariosAbertos] = useState<number | null>(null);
+
+  function handleBuscaChange(valor: string) {
+    setBusca(valor);
+    setPage(1);
+  }
 
   async function handleRemover(id: number) {
     if (!window.confirm("Tem certeza que deseja remover esta proposta?")) return;
@@ -49,9 +121,14 @@ export default function AdminPropostasPage() {
         <AdminStatCard label="Propostas removidas" value={dashboard?.moderacao.propostas_removidas ?? "—"} icon={FileX2} accent="red" />
       </div>
 
-      <h2 className="text-sm font-black uppercase tracking-wide text-[#1b623a]">
-        Propostas publicadas
-      </h2>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-sm font-black uppercase tracking-wide text-[#1b623a]">
+          Propostas publicadas
+        </h2>
+        <div className="w-full sm:w-72">
+          <AdminSearchInput value={busca} onChange={handleBuscaChange} placeholder="Pesquisar por título ou autor..." />
+        </div>
+      </div>
 
       {isLoading && <AdminState type="loading" message="Carregando propostas..." />}
       {error && <AdminState type="error" message="Não foi possível carregar as propostas agora." />}
@@ -101,17 +178,30 @@ export default function AdminPropostasPage() {
 
             <p className="mt-3 whitespace-pre-wrap text-sm text-[#22201b]">{proposta.content}</p>
 
-            {proposta.status !== "removed" && (
+            <div className="mt-4 flex flex-wrap gap-3">
               <button
                 type="button"
-                onClick={() => handleRemover(proposta.id)}
-                disabled={removendoId === proposta.id}
-                className="mt-4 flex items-center gap-2 rounded-[10px] border border-[#8D0801] px-5 py-2 text-sm font-bold text-[#8D0801] transition-colors hover:bg-[#8D0801] hover:text-white disabled:opacity-60"
+                onClick={() => setComentariosAbertos((atual) => (atual === proposta.id ? null : proposta.id))}
+                className="flex items-center gap-2 rounded-[10px] border border-line px-5 py-2 text-sm font-bold text-[#22201b] transition-colors hover:bg-[#FDF8EE]"
               >
-                <Trash2 size={15} />
-                {removendoId === proposta.id ? "Removendo..." : "Remover proposta"}
+                <MessageSquareText size={15} />
+                {comentariosAbertos === proposta.id ? "Ocultar comentários" : "Ver comentários"}
               </button>
-            )}
+
+              {proposta.status !== "removed" && (
+                <button
+                  type="button"
+                  onClick={() => handleRemover(proposta.id)}
+                  disabled={removendoId === proposta.id}
+                  className="flex items-center gap-2 rounded-[10px] border border-[#8D0801] px-5 py-2 text-sm font-bold text-[#8D0801] transition-colors hover:bg-[#8D0801] hover:text-white disabled:opacity-60"
+                >
+                  <Trash2 size={15} />
+                  {removendoId === proposta.id ? "Removendo..." : "Remover proposta"}
+                </button>
+              )}
+            </div>
+
+            {comentariosAbertos === proposta.id && <ProposalCommentsPanel proposalId={proposta.id} />}
           </div>
         );
       })}

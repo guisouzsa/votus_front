@@ -9,7 +9,7 @@ export default function LegislatorDetailSkeleton() {
       <MobileBottomNav />
       <main className="min-h-dvh animate-pulse bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
         <header className="relative h-[84px] w-full overflow-hidden border-b border-[#d7d0c3] bg-[#f7f5f1] md:-ml-24 md:w-[calc(100%+6rem)]">
-          <Image src="/sidebar.svg" alt="Menu superior" fill priority className="object-cover" />
+          <Image src="/sidebar.svg" alt="" fill priority className="object-cover" />
         </header>
 
         <div className="w-full px-6 py-8 sm:px-10">

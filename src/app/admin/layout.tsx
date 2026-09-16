@@ -18,6 +18,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const isLoginPage = pathname === "/admin/login";
   const [checking, setChecking] = useState(!isLoginPage);
 
+  // Esse layout é compartilhado por todas as rotas /admin/* — o Next.js não
+  // o remonta ao navegar entre elas (nem ao voltar de /admin/login), então
+  // "checking" pode continuar false (de uma sessão válida anterior) bem no
+  // momento em que o pathname muda e precisamos reverificar. Resetar aqui,
+  // durante a própria renderização (padrão oficial do React pra "reagir a
+  // uma mudança sem usar efeito"), evita pintar até um único frame com o
+  // conteúdo protegido antes da checagem assíncrona abaixo rodar — que era
+  // exatamente o "pisca" ao apertar voltar depois de sair.
+  const [pathnameChecado, setPathnameChecado] = useState(pathname);
+  if (pathname !== pathnameChecado) {
+    setPathnameChecado(pathname);
+    if (!isLoginPage) {
+      setChecking(true);
+    }
+  }
+
   useEffect(() => {
     if (isLoginPage) return;
 
@@ -31,7 +47,23 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     getAdminMe()
       .then(() => setChecking(false))
       .catch(() => router.replace("/admin/login"));
-  }, [isLoginPage, router]);
+  }, [isLoginPage, router, pathname]);
+
+  // Reforço contra o cache de navegação do próprio navegador (bfcache): se a
+  // página for restaurada de lá (ex: histórico após fechar/reabrir aba), o
+  // React não remonta nem reexecuta a lógica acima — então revalidamos aqui
+  // também, com um reload de verdade em vez de navegação client-side, pra
+  // garantir que nada da versão em cache fique visível.
+  useEffect(() => {
+    function handlePageShow(event: PageTransitionEvent) {
+      if (event.persisted && !isLoginPage && !getAdminToken()) {
+        window.location.replace("/admin/login");
+      }
+    }
+
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
+  }, [isLoginPage]);
 
   if (isLoginPage) {
     return <>{children}</>;
@@ -48,7 +80,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="min-h-dvh bg-[#FDF8EE]">
       <AdminNav />
-      <main className="mx-auto max-w-6xl px-6 py-8 pb-28 sm:px-10 md:pb-8">{children}</main>
+      <main className="mx-auto max-w-screen-2xl px-6 py-8 pb-28 sm:px-10 md:pb-8">{children}</main>
       <AdminMobileNav />
     </div>
   );

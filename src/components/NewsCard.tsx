@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 
 export type NewsItem = {
@@ -9,15 +12,22 @@ export type NewsItem = {
 };
 
 export default function NewsCard({ id, eyebrow, title, gradient, imageUrl }: NewsItem) {
+  const [imgError, setImgError] = useState(false);
+
   return (
     <Link href={`/noticias/${id}`} className="group block h-full">
       <div
         className={`relative flex h-44 w-full flex-col justify-between overflow-hidden rounded-lg ${gradient} p-4 transition-transform duration-300 group-hover:scale-[1.02] sm:h-48`}
       >
-        {imageUrl && (
+        {imageUrl && !imgError && (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={imageUrl} alt="" className="absolute inset-0 h-full w-full object-cover" />
+            <img
+              src={imageUrl}
+              alt=""
+              onError={() => setImgError(true)}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
             <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
           </>
         )}

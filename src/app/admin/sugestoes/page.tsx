@@ -5,6 +5,7 @@ import useSWR, { mutate as globalMutate } from "swr";
 import { Plus, X, Pencil, Trash2, MessageSquareText, BarChart3 } from "lucide-react";
 import AdminState from "@/components/admin/AdminState";
 import AdminStatCard from "@/components/admin/AdminStatCard";
+import AdminSearchInput from "@/components/admin/AdminSearchInput";
 import {
   getAdminDashboard,
   getAdminSuggestions,
@@ -330,11 +331,17 @@ function respostaLinhas(sugestao: AdminSuggestion): { label: string; valor: stri
 export default function AdminSugestoesPage() {
   const { data: dashboard } = useSWR("admin-dashboard", getAdminDashboard, { revalidateOnFocus: false });
   const [page, setPage] = useState(1);
+  const [busca, setBusca] = useState("");
   const { data, error, isLoading, mutate } = useSWR(
-    ["admin-suggestions", page],
-    () => getAdminSuggestions(page),
+    ["admin-suggestions", page, busca],
+    () => getAdminSuggestions(page, busca),
     { revalidateOnFocus: false }
   );
+
+  function handleBuscaChange(valor: string) {
+    setBusca(valor);
+    setPage(1);
+  }
   const {
     data: questionsData,
     error: questionsError,
@@ -452,9 +459,18 @@ export default function AdminSugestoesPage() {
           </button>
         </div>
 
+        <div className="w-full sm:w-72">
+          <AdminSearchInput value={busca} onChange={handleBuscaChange} placeholder="Pesquisar por nome ou conteúdo..." />
+        </div>
+
         {isLoading && <AdminState type="loading" message="Carregando sugestões..." />}
         {error && <AdminState type="error" message="Não foi possível carregar as sugestões agora." />}
-        {data?.data.length === 0 && <AdminState type="empty" message="Nenhuma sugestão recebida ainda." />}
+        {data?.data.length === 0 && (
+          <AdminState
+            type="empty"
+            message={busca ? "Nenhuma sugestão encontrada para essa busca." : "Nenhuma sugestão recebida ainda."}
+          />
+        )}
 
         {data?.data.map((sugestao) => (
           <div key={sugestao.id} className="flex gap-3 rounded-[12px] border border-line bg-white p-5">
