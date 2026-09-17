@@ -184,25 +184,29 @@ export default function ShowSenadoresPageClient() {
               </div>
             </div>
             <div className="flex min-h-[120px] flex-col items-center justify-center rounded-[10px] bg-[#ff7700] p-3 text-center text-white sm:min-h-[145px]">
-              <div className="flex items-center gap-1.5">
-                <p className="text-base font-black uppercase sm:text-lg">Produtividade</p>
+              <p className="text-base font-black uppercase sm:text-lg">Produtividade</p>
+              <div className="flex items-center justify-center gap-1.5 text-2xl font-black sm:text-3xl">
+                {productivityLabel}
                 <InfoTooltip label="Como a produtividade é calculada">
-                  <p className="font-bold text-[#8d0801]">Proposições por ano de mandato</p>
+                  <p className="font-bold text-[#8d0801]">Proposições por ano de mandato (productivity_bills_per_year)</p>
                   <p className="mt-1">Total de proposições apresentadas dividido pelos anos de mandato.</p>
                 </InfoTooltip>
               </div>
-              <p className="text-2xl font-black sm:text-3xl">{productivityLabel}</p>
               {productivityLabel !== '—' && <p className="text-xs font-semibold text-white/80">proposições/ano</p>}
             </div>
             <div className="flex min-h-[120px] flex-col items-center justify-center rounded-[10px] bg-[#1b623a] p-3 text-center text-white sm:min-h-[145px]">
-              <div className="flex items-center gap-1.5">
-                <p className="text-base font-black uppercase sm:text-lg">Foco temático</p>
+              <p className="text-base font-black uppercase sm:text-lg">Foco temático</p>
+              <div className="flex items-center justify-center gap-1.5 text-xl font-black sm:text-2xl">
+                {topTopic?.name ?? '—'}
                 <InfoTooltip label="Como o foco temático é calculado">
-                  <p className="font-bold text-[#8d0801]">Tema mais recorrente</p>
-                  <p className="mt-1">Tópico com maior participação entre as proposições apresentadas.</p>
+                  <p className="font-bold text-[#8d0801]">Tema mais recorrente (thematic_focus_top_topic)</p>
+                  <p className="mt-1">
+                    Tópico com maior participação entre as proposições apresentadas. O índice de concentração
+                    temática (thematic_focus_index) é {topicoIndiceExibicao}: quanto maior, mais as proposições
+                    se concentram nesse tema em vez de se espalharem.
+                  </p>
                 </InfoTooltip>
               </div>
-              <p className="text-xl font-black sm:text-2xl">{topTopic?.name ?? '—'}</p>
               {topTopic && topTopicSharePct && (
                 <p className="text-xs font-semibold text-white/80">{topTopicSharePct} das proposições</p>
               )}
