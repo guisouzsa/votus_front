@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import useSWR from "swr";
 import {
@@ -23,6 +23,7 @@ import {
   publishAdminExplanation,
   unpublishAdminExplanation,
   deleteAdminExplanation,
+  drainExplanations,
   getAdminTrustedSources,
   createAdminTrustedSource,
   updateAdminTrustedSource,
@@ -56,7 +57,7 @@ function FonteSelect({ fontes, onEscolher }: { fontes: TrustedSource[]; onEscolh
         const fonte = ativas.find((f) => String(f.id) === e.target.value);
         if (fonte) onEscolher(fonte);
       }}
-      className="h-10 shrink-0 rounded-[8px] border border-[#d6d1c8] bg-white px-2 text-xs font-bold text-[#1b623a] outline-none focus:border-[#1B623A] sm:w-40"
+      className="h-10 w-24 shrink-0 rounded-[8px] border border-[#d6d1c8] bg-white px-2 text-xs font-bold text-[#1b623a] outline-none focus:border-[#1B623A] sm:w-40"
     >
       <option value="" disabled>
         Escolher fonte...
@@ -204,14 +205,14 @@ function NovaExplicacaoModal({
                     value={url}
                     onChange={(e) => setUrl(index, e.target.value)}
                     placeholder="Cole aqui o link completo da matéria"
-                    className="h-10 flex-1 rounded-[8px] border border-[#d6d1c8] bg-white px-3 text-sm text-[#22201b] outline-none focus:border-[#1B623A]"
+                    className="h-10 min-w-0 flex-1 rounded-[8px] border border-[#d6d1c8] bg-white px-3 text-sm text-[#22201b] outline-none focus:border-[#1B623A]"
                   />
                   {form.source_urls.length > 1 && (
                     <button
                       type="button"
                       onClick={() => removerUrl(index)}
                       aria-label="Remover link"
-                      className="rounded-full p-1.5 text-[#8D0801] hover:bg-[#8D0801]/10"
+                      className="shrink-0 rounded-full p-1.5 text-[#8D0801] hover:bg-[#8D0801]/10"
                     >
                       <X size={14} />
                     </button>
@@ -235,6 +236,89 @@ function NovaExplicacaoModal({
             className="flex h-11 items-center justify-center rounded-[10px] bg-[#1b623a] text-sm font-bold text-white transition-colors hover:bg-[#164f30] disabled:opacity-60"
           >
             {salvando ? "Gerando..." : "Gerar conteúdo com IA"}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function EditarFonteModal({
+  fonte,
+  onClose,
+  onSalva,
+}: {
+  fonte: TrustedSource;
+  onClose: () => void;
+  onSalva: () => void;
+}) {
+  const [name, setName] = useState(fonte.name);
+  const [domain, setDomain] = useState(fonte.domain);
+  const [salvando, setSalvando] = useState(false);
+  const [erro, setErro] = useState<string | null>(null);
+
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    setErro(null);
+    setSalvando(true);
+
+    try {
+      await updateAdminTrustedSource(fonte.id, {
+        name: name.trim(),
+        domain: domain.trim(),
+        is_active: fonte.is_active,
+      });
+      onSalva();
+      onClose();
+    } catch (err) {
+      setErro(apiErrorMessage(err, "Não foi possível salvar. Verifique o domínio e tente novamente."));
+    } finally {
+      setSalvando(false);
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+      <div className="w-full max-w-md rounded-[16px] bg-white p-6 shadow-lg">
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-black uppercase tracking-wide text-[#1b623a]">Editar fonte confiável</h2>
+          <button type="button" onClick={onClose} aria-label="Fechar" className="rounded-full p-1 text-[#6b6255] hover:bg-[#FDF8EE]">
+            <X size={18} />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-4">
+          <label className="flex flex-col text-sm font-bold text-[#1b623a]">
+            Nome
+            <input
+              type="text"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="mt-1.5 h-11 rounded-[8px] border border-[#d6d1c8] bg-[#FDF8EE] px-4 text-sm text-[#22201b] outline-none focus:border-[#1B623A]"
+            />
+          </label>
+
+          <label className="flex flex-col text-sm font-bold text-[#1b623a]">
+            Domínio
+            <input
+              type="text"
+              required
+              value={domain}
+              onChange={(e) => setDomain(e.target.value)}
+              placeholder="camara.leg.br"
+              className="mt-1.5 h-11 rounded-[8px] border border-[#d6d1c8] bg-[#FDF8EE] px-4 text-sm text-[#22201b] outline-none focus:border-[#1B623A]"
+            />
+          </label>
+
+          {erro && <p className="text-sm font-semibold text-[#8D0801]">{erro}</p>}
+
+          <button
+            type="submit"
+            disabled={salvando}
+            className="flex h-11 items-center justify-center rounded-[10px] bg-[#1b623a] text-sm font-bold text-white transition-colors hover:bg-[#164f30] disabled:opacity-60"
+          >
+            {salvando ? "Salvando..." : "Salvar alterações"}
           </button>
         </form>
       </div>
@@ -338,8 +422,36 @@ export default function AdminExplicacoesPage() {
 
   const [modalExplicacao, setModalExplicacao] = useState(false);
   const [modalFonte, setModalFonte] = useState(false);
+  const [fonteEditando, setFonteEditando] = useState<TrustedSource | null>(null);
   const [processandoId, setProcessandoId] = useState<number | null>(null);
   const [erroAcao, setErroAcao] = useState<string | null>(null);
+
+  const temGerando = Boolean(explicacoesPage?.data.some((e) => e.status === "generating"));
+  const drenandoRef = useRef(false);
+
+  // Igual ao painel de notícias: a janela de 30s que o store() já tenta
+  // drenar sozinho pode não bastar (rate limit da Groq, fonte lenta) — sem
+  // isso, a explicação ficava presa em "Gerando..." até o admin recarregar
+  // a página (o que só reexibe o status, não continua o processamento).
+  useEffect(() => {
+    if (!temGerando) return;
+
+    const intervalo = setInterval(async () => {
+      if (drenandoRef.current) return;
+      drenandoRef.current = true;
+
+      try {
+        await drainExplanations();
+        mutateExplicacoes();
+      } catch {
+        // Silencioso: processo de fundo, a próxima tentativa do intervalo cobre falhas passageiras.
+      } finally {
+        drenandoRef.current = false;
+      }
+    }, 8000);
+
+    return () => clearInterval(intervalo);
+  }, [temGerando, mutateExplicacoes]);
 
   function handleBuscaChange(valor: string) {
     setBusca(valor);
@@ -440,7 +552,7 @@ export default function AdminExplicacoesPage() {
         {fontes && fontes.length > 0 && (
           <div className="flex flex-col gap-2">
             {fontes.map((fonte) => (
-              <div key={fonte.id} className="flex items-center gap-3 rounded-[12px] border border-line bg-white p-3">
+              <div key={fonte.id} className="flex flex-wrap items-center gap-3 rounded-[12px] border border-line bg-white p-3">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#EDDBBA]/40 text-[#1B623A]">
                   <Globe size={15} />
                 </span>
@@ -450,31 +562,42 @@ export default function AdminExplicacoesPage() {
                   <p className="truncate text-xs text-[#6b6255]">{fonte.domain}</p>
                 </div>
 
-                <span
-                  className={`shrink-0 rounded-full px-3 py-1 text-xs font-bold ${
-                    fonte.is_active ? "bg-[#1B623A]/10 text-[#1B623A]" : "bg-[#FDF8EE] text-[#6b6255]"
-                  }`}
-                >
-                  {fonte.is_active ? "Ativa" : "Inativa"}
-                </span>
+                <div className="flex shrink-0 items-center gap-1.5">
+                  <span
+                    className={`rounded-full px-3 py-1 text-xs font-bold ${
+                      fonte.is_active ? "bg-[#1B623A]/10 text-[#1B623A]" : "bg-[#FDF8EE] text-[#6b6255]"
+                    }`}
+                  >
+                    {fonte.is_active ? "Ativa" : "Inativa"}
+                  </span>
 
-                <button
-                  type="button"
-                  onClick={() => handleAlternarFonte(fonte)}
-                  aria-label={fonte.is_active ? "Desativar fonte" : "Ativar fonte"}
-                  className="shrink-0 rounded-full p-1.5 text-[#6b6255] hover:bg-[#FDF8EE]"
-                >
-                  {fonte.is_active ? <Eye size={15} /> : <EyeOff size={15} />}
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => handleAlternarFonte(fonte)}
+                    aria-label={fonte.is_active ? "Desativar fonte" : "Ativar fonte"}
+                    className="rounded-full p-1.5 text-[#6b6255] hover:bg-[#FDF8EE]"
+                  >
+                    {fonte.is_active ? <Eye size={15} /> : <EyeOff size={15} />}
+                  </button>
 
-                <button
-                  type="button"
-                  onClick={() => handleRemoverFonte(fonte)}
-                  aria-label="Remover fonte"
-                  className="shrink-0 rounded-full p-1.5 text-[#8D0801] hover:bg-[#8D0801]/10"
-                >
-                  <Trash2 size={15} />
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => setFonteEditando(fonte)}
+                    aria-label="Editar fonte"
+                    className="rounded-full p-1.5 text-[#1B623A] hover:bg-[#1B623A]/10"
+                  >
+                    <Pencil size={15} />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleRemoverFonte(fonte)}
+                    aria-label="Remover fonte"
+                    className="rounded-full p-1.5 text-[#8D0801] hover:bg-[#8D0801]/10"
+                  >
+                    <Trash2 size={15} />
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -620,6 +743,14 @@ export default function AdminExplicacoesPage() {
       )}
 
       {modalFonte && <NovaFonteModal onClose={() => setModalFonte(false)} onCriada={() => mutateFontes()} />}
+
+      {fonteEditando && (
+        <EditarFonteModal
+          fonte={fonteEditando}
+          onClose={() => setFonteEditando(null)}
+          onSalva={() => mutateFontes()}
+        />
+      )}
     </div>
   );
 }

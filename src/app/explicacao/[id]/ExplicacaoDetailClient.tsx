@@ -81,7 +81,7 @@ function QuizCard({ pergunta, indice }: { pergunta: QuizQuestionApi; indice: num
   const acertou = opcaoSelecionada?.is_correct ?? false;
 
   return (
-    <div className="border-t border-line pt-6">
+    <div className="rounded-2xl border border-line bg-white p-5 shadow-sm sm:p-6">
       <h3 className="text-base font-bold text-[#1b623a]">
         <span className="text-[#8D0801]">{indice + 1}. </span>
         {pergunta.question}
@@ -255,7 +255,7 @@ export default function ExplicacaoDetailClient() {
                   </p>
                 </div>
 
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4">
                   {explicacao.quiz_questions.map((pergunta, indice) => (
                     <QuizCard key={pergunta.id} pergunta={pergunta} indice={indice} />
                   ))}

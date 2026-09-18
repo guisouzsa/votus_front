@@ -178,6 +178,14 @@ export function updateAdminExplanation(id: number, payload: UpdateExplanationPay
   return apiPut<AdminExplanation>(`/api/admin/explanations/${id}`, payload, authHeaders());
 }
 
+// Só drena o que já está na fila "explanations" (sem criar nada novo) — o
+// painel chama isso repetidamente enquanto houver explicação "generating",
+// igual ao drainNews(), porque a janela de 30s que o store() já tenta
+// drenar sozinho pode não bastar (rate limit da Groq, fonte lenta etc.).
+export function drainExplanations() {
+  return apiPost<{ status: string; gerando: number }>("/api/admin/explanations/drain", {}, authHeaders());
+}
+
 export function publishAdminExplanation(id: number) {
   return apiPost<AdminExplanation>(`/api/admin/explanations/${id}/publish`, {}, authHeaders());
 }

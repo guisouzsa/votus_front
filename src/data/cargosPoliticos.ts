@@ -11,7 +11,6 @@ export interface CargoPolitico {
   mandato: string;
   eleicao: string;
   funcaoPrincipal: string;
-  rotaVotus?: string;
 }
 
 export const CARGOS: CargoPolitico[] = [
@@ -47,7 +46,6 @@ export const CARGOS: CargoPolitico[] = [
     mandato: '8 anos',
     eleicao: 'Majoritária',
     funcaoPrincipal: 'Votar leis federais e aprovar indicações do Presidente',
-    rotaVotus: '/SenadoresPage',
   },
   {
     id: 'deputado-federal',
@@ -59,7 +57,6 @@ export const CARGOS: CargoPolitico[] = [
     mandato: '4 anos',
     eleicao: 'Proporcional',
     funcaoPrincipal: 'Propor, votar e fiscalizar leis federais',
-    rotaVotus: '/DeputadosPage',
   },
   {
     id: 'deputado-estadual',
