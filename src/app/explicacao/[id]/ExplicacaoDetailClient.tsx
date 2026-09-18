@@ -30,9 +30,8 @@ const SECOES: { campo: CampoConteudo; titulo: string }[] = [
   { campo: "example", titulo: "Um exemplo" },
 ];
 
-// Mesmo estilo de opção usado em Sugestões (botão com bolinha preenchida em
-// vez de checkbox/caixa genérica) — só que aqui, depois de "verificar", a
-// opção certa e a errada marcada ganham cor própria (verde/vermelho).
+// Grade de caixas sólidas lado a lado (sem bolinha de seleção) — depois de
+// "verificar", a opção certa e a errada marcada ganham cor própria.
 function QuizOptionButton({
   texto,
   selecionada,
@@ -46,28 +45,20 @@ function QuizOptionButton({
 }) {
   const estilos =
     estado === "certa"
-      ? "border-[#1b623a] bg-[#1b623a]/10 text-[#1b623a]"
+      ? "border-[#1b623a] bg-[#1b623a] text-white"
       : estado === "errada"
-        ? "border-[#8D0801] bg-[#8D0801]/10 text-[#8D0801]"
+        ? "border-[#8D0801] bg-[#8D0801] text-white"
         : selecionada
           ? "border-[#1b623a] bg-[#1b623a]/10 text-[#1b623a]"
           : "border-[#d6d1c8] bg-[#FDF8EE] text-[#22201b] hover:border-[#1b623a]/40";
-
-  const corBolinha =
-    estado === "certa" ? "border-[#1b623a]" : estado === "errada" ? "border-[#8D0801]" : selecionada ? "border-[#1b623a]" : "border-[#d6d1c8]";
-
-  const corPreenchimento = estado === "certa" ? "bg-[#1b623a]" : estado === "errada" ? "bg-[#8D0801]" : "bg-[#1b623a]";
 
   return (
     <button
       type="button"
       onClick={onSelecionar}
       aria-pressed={selecionada}
-      className={`flex items-center gap-3 rounded-[10px] border px-4 py-3 text-left text-sm font-semibold transition-colors ${estilos}`}
+      className={`flex min-h-[64px] items-center justify-center rounded-[10px] border px-3 py-3 text-center text-sm font-semibold transition-colors ${estilos}`}
     >
-      <span aria-hidden="true" className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 ${corBolinha}`}>
-        {(selecionada || estado === "certa") && <span className={`h-2 w-2 rounded-full ${corPreenchimento}`} />}
-      </span>
       {texto}
     </button>
   );
@@ -87,7 +78,7 @@ function QuizCard({ pergunta, indice }: { pergunta: QuizQuestionApi; indice: num
         {pergunta.question}
       </h3>
 
-      <div className="mt-3 flex flex-col gap-2">
+      <div className="mt-3 grid grid-cols-2 gap-2">
         {pergunta.options.map((opcao) => {
           const isSelected = selecionada === opcao.id;
           const estado: "neutro" | "certa" | "errada" = !verificada

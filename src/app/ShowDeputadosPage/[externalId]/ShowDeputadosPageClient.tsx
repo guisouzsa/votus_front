@@ -3,11 +3,11 @@
 import { useState } from 'react';
 import useSWR from 'swr';
 import { useParams } from 'next/navigation';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
 import MobileBottomNav from '@/components/MobileBottomNav';
+import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import LegislativeTimeline from '@/components/LegislativeTimeline';
 import LegislatorDetailSkeleton from '@/components/LegislatorDetailSkeleton';
@@ -134,13 +134,10 @@ export default function ShowDeputadosPageClient() {
 
   return (
     <div className="min-h-dvh">
+      <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
       <MobileBottomNav />
       <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 text-[#1b623a] md:pb-0 md:pl-24">
-        <header className="relative h-[84px] w-full overflow-hidden border-b border-[#d7d0c3] bg-[#f7f5f1] md:-ml-24 md:w-[calc(100%+6rem)]">
-          <Image src="/sidebar.svg" alt="" fill priority className="object-cover" />
-        </header>
-
         <div className="w-full px-6 py-8 sm:px-10">
           <Link
             href="/DeputadosPage"
