@@ -14,6 +14,7 @@ import DataSourceNote from '@/components/DataSourceNote';
 import Pagination from '@/components/Pagination';
 import { getSenadores } from '@/services/senadoresService';
 import { ApiError } from '@/services/apiClient';
+import type { SimplePaginatedResponse, Legislator } from '@/services/types';
 
 const STATUS_OPTIONS = [
   { value: '', label: 'Todas' },
@@ -24,7 +25,11 @@ const STATUS_OPTIONS = [
 
 const FILTROS_VAZIOS = { search: '', status: '', party: '' };
 
-export default function SenadoresPageClient() {
+export default function SenadoresPageClient({
+  initialData,
+}: {
+  initialData?: SimplePaginatedResponse<Legislator>;
+}) {
   const [page, setPage] = useState(1);
 
   const [filtros, setFiltros] = useState(FILTROS_VAZIOS);
@@ -38,6 +43,7 @@ export default function SenadoresPageClient() {
   } = useSWR(['senadores', page], () => getSenadores({ page }), {
     revalidateOnFocus: false,
     keepPreviousData: true,
+    fallbackData: page === 1 ? initialData : undefined,
   });
 
   const loading = isLoading;
@@ -56,7 +62,11 @@ export default function SenadoresPageClient() {
   // aparece embaixo, então usa a contagem já filtrada — como a API cabe
   // numa página só (4 senadores), isso reflete o total real exibido.
   const total = response ? senadores.length : null;
-  const lastPage = response?.meta.last_page ?? 1;
+  // A API não faz mais a query de contar o total (ver getSenadores) — sem
+  // "last_page" pronto, estimamos pelo link "next": se não tem próxima
+  // página, a atual já é a última. Continua escondendo a paginação sempre
+  // que os dados cabem numa página só (o caso normal aqui).
+  const lastPage = response?.links.next ? page + 1 : page;
 
   const partidos = useMemo(
     () => Array.from(new Set(senadores.map((s) => s.party).filter((p): p is string => Boolean(p)))).sort(),

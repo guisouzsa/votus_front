@@ -14,6 +14,7 @@ import DataSourceNote from '@/components/DataSourceNote';
 import Pagination from '@/components/Pagination';
 import { getDeputados } from '@/services/deputadosService';
 import { ApiError } from '@/services/apiClient';
+import type { SimplePaginatedResponse, Legislator } from '@/services/types';
 
 const STATUS_OPTIONS = [
   { value: '', label: 'Todas' },
@@ -24,7 +25,11 @@ const STATUS_OPTIONS = [
 
 const FILTROS_VAZIOS = { search: '', status: '', party: '' };
 
-export default function DeputadosPageClient() {
+export default function DeputadosPageClient({
+  initialData,
+}: {
+  initialData?: SimplePaginatedResponse<Legislator>;
+}) {
   const [page, setPage] = useState(1);
 
   const [filtros, setFiltros] = useState(FILTROS_VAZIOS);
@@ -38,6 +43,11 @@ export default function DeputadosPageClient() {
   } = useSWR(['deputados', page], () => getDeputados({ page }), {
     revalidateOnFocus: false,
     keepPreviousData: true,
+    // Só serve a página 1 buscada no servidor (ver page.tsx) como ponto de
+    // partida — a tela já nasce com dado real, sem esperar o fetch do
+    // navegador. SWR revalida por trás em seguida, então nunca fica preso
+    // num dado desatualizado.
+    fallbackData: page === 1 ? initialData : undefined,
   });
 
   const loading = isLoading;
@@ -56,7 +66,11 @@ export default function DeputadosPageClient() {
   // contagem já filtrada — como a API cabe numa página só (~22 deputados),
   // isso reflete o total real de deputados ativos exibidos.
   const total = response ? deputados.length : null;
-  const lastPage = response?.meta.last_page ?? 1;
+  // A API não faz mais a query de contar o total (ver getDeputados) — sem
+  // "last_page" pronto, estimamos pelo link "next": se não tem próxima
+  // página, a atual já é a última. Continua escondendo a paginação sempre
+  // que os dados cabem numa página só (o caso normal aqui).
+  const lastPage = response?.links.next ? page + 1 : page;
 
   const partidos = useMemo(
     () => Array.from(new Set(deputados.map((d) => d.party).filter((p): p is string => Boolean(p)))).sort(),

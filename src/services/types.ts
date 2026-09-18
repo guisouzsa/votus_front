@@ -105,6 +105,28 @@ export interface PaginatedResponse<T> {
   };
 }
 
+// Formato do Laravel simplePaginate() — sem last_page/total, porque não faz
+// a query de COUNT (mais barato). Usado só onde o dado sempre cabe numa
+// única página (deputados/senadores, ~20-30 registros), então não faz
+// sentido pagar o custo de contar o total a cada requisição.
+export interface SimplePaginatedResponse<T> {
+  data: T[];
+  links: {
+    first: string | null;
+    last: string | null;
+    prev: string | null;
+    next: string | null;
+  };
+  meta: {
+    current_page: number;
+    current_page_url: string;
+    from: number | null;
+    per_page: number;
+    to: number | null;
+    path: string;
+  };
+}
+
 export interface NewsArticleApi {
   id: number;
   title: string;
