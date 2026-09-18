@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, Newspaper, FileText, MessageSquareText, LogOut } from "lucide-react";
+import { LayoutDashboard, Newspaper, FileText, MessageSquareText, Lightbulb, LogOut } from "lucide-react";
 import { adminLogout } from "@/services/adminService";
 import { clearAdminToken } from "@/lib/adminAuth";
 
@@ -11,6 +11,7 @@ export const ADMIN_NAV_ITEMS = [
   { id: "noticias", label: "Notícias", path: "/admin/noticias", icon: Newspaper },
   { id: "propostas", label: "Propostas", path: "/admin/propostas", icon: FileText },
   { id: "sugestoes", label: "Sugestões", path: "/admin/sugestoes", icon: MessageSquareText },
+  { id: "explicacoes", label: "Explicações", path: "/admin/explicacoes", icon: Lightbulb },
 ];
 
 export function useAdminLogout() {

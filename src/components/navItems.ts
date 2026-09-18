@@ -34,6 +34,7 @@ export const NAV_ITEMS: NavItem[] = [
   { id: "propostas", label: "Propostas", icon: "/IconePropostas.svg", path: "/PropostasPage" },
   { id: "santinho", label: "Gerador de Santinho", icon: "/IconeSantinho.svg", path: "/SantinhoPage" },
   { id: "explicacoes", label: "Explicações", icon: "/IconeExplicacoes.svg", path: "/ExplicacoesPage" },
+  { id: "voce-sabe", label: "Você sabe?", icon: "/IconeVoceSabe.svg", path: "/explicacao" },
   { id: "sobre", label: "Sobre Nós", icon: "/IconeSobreNos.png", path: "/SobreNosPage" },
   { id: "sugestoes", label: "Sugestões", icon: "/IconeSugestoes.svg", path: "/SugestoesPage" },
 ];
@@ -42,6 +43,7 @@ export const DETAIL_ROUTE_PREFIXES: { prefix: string; id: string }[] = [
   { prefix: "/ShowDeputadosPage", id: "deputados" },
   { prefix: "/ShowSenadoresPage", id: "senadores" },
   { prefix: "/noticias/", id: "noticias" },
+  { prefix: "/explicacao/", id: "voce-sabe" },
 ];
 
 export const ACTIVE_CLASS = "bg-[#EDDBBA]/50 text-[#1B623A] shadow-sm";

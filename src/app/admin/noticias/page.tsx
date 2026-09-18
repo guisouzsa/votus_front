@@ -1,13 +1,51 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
-import { Clock, ChevronDown, ChevronUp, Newspaper, PlusCircle } from "lucide-react";
+import { Clock, ChevronDown, ChevronUp, ImageOff, Newspaper, PlusCircle, Trash2 } from "lucide-react";
 import AdminStatCard from "@/components/admin/AdminStatCard";
 import AdminState from "@/components/admin/AdminState";
 import AdminSearchInput from "@/components/admin/AdminSearchInput";
-import { getAdminDashboard, collectNews, getAdminNews } from "@/services/adminService";
+import { getAdminDashboard, collectNews, drainNews, getAdminNews, deleteAdminNews } from "@/services/adminService";
 import { apiErrorMessage } from "@/services/apiClient";
+
+// Duas causas reais e distintas pra ausência de imagem — nunca inventamos um
+// motivo genérico: ou a fonte (RSS) nunca trouxe imagem nenhuma pra essa
+// notícia, ou trouxe um link que o navegador não conseguiu carregar agora
+// (quebrado, expirado ou bloqueado pela fonte).
+function NoticiaThumbnail({ imageUrl, title }: { imageUrl: string | null; title: string }) {
+  const [erro, setErro] = useState(false);
+
+  if (imageUrl && !erro) {
+    return (
+      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-[8px] bg-[#FDF8EE]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={imageUrl}
+          alt=""
+          onError={() => setErro(true)}
+          className="h-full w-full object-cover"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="flex h-16 w-16 shrink-0 flex-col items-center justify-center gap-1 rounded-[8px] bg-[#FDF8EE] p-1 text-center"
+      title={
+        imageUrl
+          ? `Esta notícia (${title}) tem um link de imagem, mas ele falhou ao carregar — pode estar quebrado, expirado ou bloqueado pela fonte.`
+          : `Esta notícia (${title}) não possui imagem porque a fonte não forneceu nenhuma no momento da coleta.`
+      }
+    >
+      <ImageOff size={16} className="text-[#6b6255]" />
+      <span className="text-[9px] font-semibold leading-tight text-[#6b6255]">
+        {imageUrl ? "Link falhou" : "Sem imagem"}
+      </span>
+    </div>
+  );
+}
 
 function formatDateHora(iso: string | null): string {
   if (!iso) return "Nunca executada";
@@ -31,7 +69,11 @@ const STATUS_LABEL: Record<string, { label: string; className: string }> = {
 type EstadoColeta = "idle" | "executando" | "sucesso" | "erro";
 
 export default function AdminNoticiasPage() {
-  const { data: dashboard, mutate: mutateDashboard } = useSWR("admin-dashboard", getAdminDashboard, {
+  const {
+    data: dashboard,
+    isLoading: dashboardLoading,
+    mutate: mutateDashboard,
+  } = useSWR("admin-dashboard", getAdminDashboard, {
     revalidateOnFocus: false,
     refreshInterval: (latest) => (latest && latest.noticias.pendentes > 0 ? 15000 : 0),
   });
@@ -53,9 +95,69 @@ export default function AdminNoticiasPage() {
   const [mensagem, setMensagem] = useState<string | null>(null);
   const [detalhesAbertos, setDetalhesAbertos] = useState(false);
   const [detalhesExecucao, setDetalhesExecucao] = useState<{ coleta?: string; fila?: string } | null>(null);
+  const [removendoId, setRemovendoId] = useState<number | null>(null);
+
+  async function handleRemoverNoticia(id: number) {
+    if (!window.confirm("Tem certeza que deseja remover esta notícia?")) return;
+
+    setRemovendoId(id);
+
+    try {
+      await deleteAdminNews(id);
+      mutateNews();
+      mutateDashboard();
+    } catch {
+      window.alert("Não foi possível remover a notícia. Tente novamente.");
+    } finally {
+      setRemovendoId(null);
+    }
+  }
 
   const pendentes = dashboard?.noticias.pendentes ?? 0;
-  const atualizarDesabilitado = estadoColeta === "executando" || pendentes > 0;
+  // Trava também enquanto o dashboard ainda não carregou — sem isso, o
+  // botão fica clicável por um instante antes de sabermos se já há
+  // resumo pendente, inclusive logo depois de recarregar a página.
+  const atualizarDesabilitado = estadoColeta === "executando" || dashboardLoading || pendentes > 0;
+
+  const drenandoRef = useRef(false);
+  const [drenagemAtiva, setDrenagemAtiva] = useState(false);
+
+  // Sem isso, processar o que já está na fila dependia só do cron externo
+  // (que já se mostrou pouco confiável) ou de o admin ficar clicando em
+  // "Atualizar notícias" várias vezes — cada chamada só drena uma janela
+  // curta (rate limit da IA + teto de segurança contra timeout da
+  // plataforma). Enquanto houver pendente, o painel drena sozinho em
+  // segundo plano até zerar, sem precisar de mais nenhuma ação do admin.
+  useEffect(() => {
+    if (pendentes <= 0) return;
+
+    const intervalo = setInterval(async () => {
+      if (drenandoRef.current) return;
+      drenandoRef.current = true;
+      setDrenagemAtiva(true);
+
+      try {
+        await drainNews();
+        mutateDashboard();
+        mutateNews();
+      } catch {
+        // Silencioso: é um processo de fundo: se uma tentativa falhar
+        // (ex: rede instável), a próxima do próprio intervalo tenta de novo.
+      } finally {
+        drenandoRef.current = false;
+      }
+    }, 8000);
+
+    return () => clearInterval(intervalo);
+    // Depende só de virar >0/0 (não do valor exato de pendentes) de
+    // propósito — senão o intervalo reiniciaria a cada nova contagem vinda
+    // do polling do dashboard, nunca deixando os 8s completarem.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendentes > 0]);
+
+  useEffect(() => {
+    if (pendentes <= 0) setDrenagemAtiva(false);
+  }, [pendentes]);
 
   async function handleAtualizarNoticias() {
     setEstadoColeta("executando");
@@ -115,7 +217,8 @@ export default function AdminNoticiasPage() {
 
           {estadoColeta !== "executando" && pendentes > 0 && !mensagem && (
             <p className="text-sm font-semibold text-[#8D6A00]">
-              {pendentes} notícia(s) ainda sendo processada(s) pelo resumo de IA — aguarde para buscar mais.
+              {pendentes} notícia(s) sendo processada(s) pelo resumo de IA
+              {drenagemAtiva ? " — processando automaticamente em segundo plano..." : "..."}
             </p>
           )}
 
@@ -191,36 +294,51 @@ export default function AdminNoticiasPage() {
           };
 
           return (
-            <div key={noticia.id} className="rounded-[12px] border border-line bg-white p-4">
-              <div className="flex flex-wrap items-start justify-between gap-2">
-                <p className="text-sm font-bold text-[#22201b]">{noticia.title}</p>
-                <span className={`shrink-0 rounded-full px-3 py-1 text-xs font-bold ${status.className}`}>
-                  {status.label}
-                </span>
-              </div>
+            <div key={noticia.id} className="flex gap-3 rounded-[12px] border border-line bg-white p-4">
+              <NoticiaThumbnail imageUrl={noticia.image_url} title={noticia.title} />
 
-              <div className="mt-2 flex flex-wrap items-center gap-2">
-                {noticia.category && (
-                  <span className="rounded-full bg-[#EDDBBA]/50 px-3 py-1 text-xs font-bold text-[#1B623A]">
-                    {noticia.category}
-                  </span>
-                )}
-              </div>
-
-              {noticia.status_resumo === "falhou" && (
-                <div className="mt-3 rounded-[8px] bg-[#8D0801]/5 p-3">
-                  <p className="text-xs font-bold text-[#8D0801]">
-                    Falhou após {noticia.tentativas_resumo} tentativa(s):
-                  </p>
-                  <p className="mt-1 text-xs text-[#8D0801]/90">
-                    {noticia.erro_resumo ?? "Motivo não registrado."}
-                  </p>
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <p className="text-sm font-bold text-[#22201b]">{noticia.title}</p>
+                  <div className="flex shrink-0 items-center gap-2">
+                    <span className={`rounded-full px-3 py-1 text-xs font-bold ${status.className}`}>
+                      {status.label}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoverNoticia(noticia.id)}
+                      disabled={removendoId === noticia.id}
+                      aria-label="Remover notícia"
+                      className="rounded-full p-1.5 text-[#8D0801] transition-colors hover:bg-[#8D0801]/10 disabled:opacity-50"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
                 </div>
-              )}
 
-              <p className="mt-2 text-xs text-[#6b6255]">
-                Adicionada em {formatDateHora(noticia.imported_at)}
-              </p>
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  {noticia.category && (
+                    <span className="rounded-full bg-[#EDDBBA]/50 px-3 py-1 text-xs font-bold text-[#1B623A]">
+                      {noticia.category}
+                    </span>
+                  )}
+                </div>
+
+                {noticia.status_resumo === "falhou" && (
+                  <div className="mt-3 rounded-[8px] bg-[#8D0801]/5 p-3">
+                    <p className="text-xs font-bold text-[#8D0801]">
+                      Falhou após {noticia.tentativas_resumo} tentativa(s):
+                    </p>
+                    <p className="mt-1 text-xs text-[#8D0801]/90">
+                      {noticia.erro_resumo ?? "Motivo não registrado."}
+                    </p>
+                  </div>
+                )}
+
+                <p className="mt-2 text-xs text-[#6b6255]">
+                  Adicionada em {formatDateHora(noticia.imported_at)}
+                </p>
+              </div>
             </div>
           );
         })}

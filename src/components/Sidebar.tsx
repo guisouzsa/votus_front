@@ -214,25 +214,6 @@ export default function Sidebar() {
           })}
         </nav>
       </div>
-
-      {/* Botão de Configurações */}
-      <div className={`pb-5 ${open ? "px-3" : "px-0"}`}>
-        <button
-          type="button"
-          onClick={() => handleItemClick("configuracoes")}
-          aria-current={!activeRouteId && selectedId === "configuracoes" ? "page" : undefined}
-          aria-label="Configurações"
-          title="Configurações"
-          className={`flex w-full cursor-pointer items-center gap-3 rounded-[20px] px-3.5 py-3 text-sm font-medium transition-all duration-200 ${
-            !activeRouteId && selectedId === "configuracoes"
-              ? `${ACTIVE_CLASS} scale-[1.02]`
-              : "text-[#103D23] hover:scale-[1.02] hover:bg-white/10"
-          } ${open ? "" : "justify-center px-0"}`}
-        >
-          <img src="/IconeConfig.svg" alt="" className="h-6 w-6 shrink-0" />
-          {open && <span className="truncate">Configurações</span>}
-        </button>
-      </div>
     </aside>
   );
 }

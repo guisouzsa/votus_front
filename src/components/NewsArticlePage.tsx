@@ -1,8 +1,15 @@
+"use client";
+
+import { useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { formatArticleParagraphs, type NewsArticle } from "@/lib/news";
 
 export default function NewsArticlePage({ article }: { article?: NewsArticle }) {
   const hasArticle = Boolean(article?.title || article?.description || article?.content);
+  const [imgError, setImgError] = useState(false);
+  const [logoError, setLogoError] = useState(false);
+  const mostrarImagem = Boolean(article?.imageUrl) && !imgError;
+  const mostrarLogo = Boolean(article?.source?.logoUrl) && !logoError;
 
   return (
     <article className="w-full px-6 pb-16 sm:px-10">
@@ -24,8 +31,14 @@ export default function NewsArticlePage({ article }: { article?: NewsArticle }) 
 
         <div className="flex items-center justify-between gap-3 px-1 py-2 text-xs text-[#103D23] lg:mb-1 lg:block">
           <div className="flex min-w-0 items-center gap-2">
-            {article?.source?.logoUrl && (
-              <img src={article.source.logoUrl} alt="" className="h-8 w-8 shrink-0 object-contain" />
+            {mostrarLogo && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={article!.source!.logoUrl}
+                alt=""
+                onError={() => setLogoError(true)}
+                className="h-8 w-8 shrink-0 object-contain"
+              />
             )}
             {article?.source?.name && <span className="truncate font-medium">{article.source.name}</span>}
           </div>
@@ -35,8 +48,14 @@ export default function NewsArticlePage({ article }: { article?: NewsArticle }) 
         </div>
       </div>
 
-      {article?.imageUrl ? (
-        <img src={article.imageUrl} alt={article.title ?? ""} className="mt-8 aspect-video w-full rounded-xl object-cover" />
+      {mostrarImagem ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={article!.imageUrl}
+          alt={article!.title ?? ""}
+          onError={() => setImgError(true)}
+          className="mt-8 aspect-video w-full rounded-xl object-cover"
+        />
       ) : (
         <div className="mt-8 aspect-video w-full rounded-xl bg-[#F2E4CA]/60" aria-hidden="true" />
       )}

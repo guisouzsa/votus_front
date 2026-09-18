@@ -13,13 +13,19 @@ export function getNewsItem(id: number | string) {
 
 export async function getAllNews(): Promise<NewsArticleApi[]> {
   const first = await getNewsList(1);
-  const items = [...first.data];
   const lastPage = Math.min(first.last_page, MAX_PAGES);
 
-  for (let page = 2; page <= lastPage; page++) {
-    const next = await getNewsList(page);
-    items.push(...next.data);
+  if (lastPage <= 1) {
+    return first.data;
   }
 
-  return items;
+  // Paralelo em vez de sequencial: já sabemos quantas páginas existem a
+  // partir da primeira resposta, então não há motivo pra esperar uma
+  // terminar pra pedir a próxima — isso sozinho fazia essa tela demorar
+  // até 10x mais que o necessário pra carregar.
+  const restantes = await Promise.all(
+    Array.from({ length: lastPage - 1 }, (_, i) => getNewsList(i + 2))
+  );
+
+  return [...first.data, ...restantes.flatMap((pagina) => pagina.data)];
 }

@@ -51,7 +51,11 @@ export default function SenadoresPageClient() {
     () => (response?.data ?? []).filter((senador) => senador.status !== 'inactive'),
     [response]
   );
-  const total = response?.meta.total ?? null;
+  // response.meta.total é o total bruto da API (inclui inativos/suplentes,
+  // como o senador substituto). O card do topo mostra a mesma lista que
+  // aparece embaixo, então usa a contagem já filtrada — como a API cabe
+  // numa página só (4 senadores), isso reflete o total real exibido.
+  const total = response ? senadores.length : null;
   const lastPage = response?.meta.last_page ?? 1;
 
   const partidos = useMemo(
@@ -74,11 +78,21 @@ export default function SenadoresPageClient() {
     });
   }, [senadores, filtrosAplicados]);
 
+  // Soma real de propostas (PL/PEC — metrics.effectiveness.total_bills já
+  // vem filtrado por tipo na origem, ver SenateApiService) entre os
+  // senadores ativos exibidos. "Emenda" é uma alteração a uma proposta já
+  // existente de outro parlamentar — um dado diferente de "proposta" e que
+  // não é coletado das APIs oficiais (só PL/PEC), então não existe nenhum
+  // valor real pra esse card, e não deve reaproveitar o número de propostas
+  // como se fossem a mesma coisa.
+  const totalProposicoes = senadores.reduce(
+    (soma, senador) => soma + (senador.metrics.effectiveness.total_bills ?? 0),
+    0
+  );
+
   const statCards = [
     { label: 'SENADORES', value: total !== null ? String(total).padStart(2, '0') : '—', color: 'bg-[#1C5D45]' },
-    { label: 'PRESSES POLÍTICOS', value: '91', color: 'bg-[#F4C400]' },
-    { label: 'PROPOSTAS', value: '324', color: 'bg-[#F07A00]' },
-    { label: 'EMENDAS', value: '96', color: 'bg-[#EDDBBA]' },
+    { label: 'PROPOSTAS', value: String(totalProposicoes), color: 'bg-[#F07A00]' },
   ];
 
   return (
@@ -111,7 +125,7 @@ export default function SenadoresPageClient() {
               </div>
             </section>
 
-            <div className="mt-3 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
+            <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
               {statCards.map((item) => (
                 <div
                   key={item.label}

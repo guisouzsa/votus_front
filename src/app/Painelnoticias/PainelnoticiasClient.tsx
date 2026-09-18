@@ -10,6 +10,7 @@ import SearchBar from "@/components/SearchBar";
 import HeroArticle from "@/components/HeroArticle";
 import RelevanceTabs, { type RelevanceTab } from "@/components/RelevanceTabs";
 import NewsSection from "@/components/NewsSection";
+import NewsPanelSkeleton from "@/components/NewsPanelSkeleton";
 import FloatingAIButton from "@/components/FloatingAIButton";
 import Footer from "@/components/Footer";
 import { getAllNews } from "@/services/newsService";
@@ -127,10 +128,14 @@ export default function PainelnoticiasClient() {
             selectedCategories={selectedCategories}
             onToggleCategory={toggleCategory}
           />
-          <HeroArticle article={heroArticle} />
-          <RelevanceTabs value={relevanceTab} onChange={setRelevanceTab} />
+          {!isLoading && (
+            <>
+              <HeroArticle article={heroArticle} />
+              <RelevanceTabs value={relevanceTab} onChange={setRelevanceTab} />
+            </>
+          )}
 
-          {isLoading && <p className="mt-10 text-sm text-[#103D23]">Carregando notícias...</p>}
+          {isLoading && <NewsPanelSkeleton />}
 
           {!isLoading && error && (
             <p className="mt-10 text-sm font-semibold text-[#8D0801]">{error}</p>

@@ -194,6 +194,7 @@ export interface AdminNewsItem {
   title: string;
   category: string | null;
   published: boolean;
+  image_url: string | null;
   status_resumo: string | null;
   erro_resumo: string | null;
   tentativas_resumo: number;
@@ -272,4 +273,97 @@ export interface NewsCollectResult {
   coleta?: string;
   fila?: string;
   message?: string;
+}
+
+export type ExplanationCategory = "Órgãos e instituições" | "Cargos políticos" | "Eleições e voto";
+
+export type ExplanationStatus = "generating" | "review" | "published" | "failed";
+
+export interface ExplanationSourceApi {
+  id: number;
+  name: string;
+  url: string;
+  domain: string;
+}
+
+export interface QuizOptionApi {
+  id: number;
+  text: string;
+  is_correct: boolean;
+  position: number;
+}
+
+export interface QuizQuestionApi {
+  id: number;
+  question: string;
+  explanation: string | null;
+  position: number;
+  options: QuizOptionApi[];
+}
+
+// Formato público (ExplanationResource) — usado em /explicacao.
+export interface ExplanationApi {
+  id: number;
+  title: string;
+  slug: string;
+  question_title: string;
+  category: string;
+  summary: string | null;
+  what_is: string | null;
+  purpose: string | null;
+  practical_role: string | null;
+  why_it_matters: string | null;
+  citizen_impact: string | null;
+  example: string | null;
+  published_at: string | null;
+  sources?: ExplanationSourceApi[];
+  quiz_questions?: QuizQuestionApi[];
+}
+
+export interface ExplanationListResponse {
+  data: ExplanationApi[];
+  current_page: number;
+  last_page: number;
+  per_page: number;
+  total: number;
+}
+
+// Formato do admin (model puro do Laravel) — inclui campos internos que o
+// público nunca vê (status, generation_error, content_version).
+export interface AdminExplanation {
+  id: number;
+  title: string;
+  slug: string;
+  question_title: string;
+  category: string;
+  summary: string | null;
+  what_is: string | null;
+  purpose: string | null;
+  practical_role: string | null;
+  why_it_matters: string | null;
+  citizen_impact: string | null;
+  example: string | null;
+  status: ExplanationStatus;
+  content_version: number;
+  generation_error: string | null;
+  published_at: string | null;
+  created_at: string;
+  sources_count?: number;
+  quiz_questions_count?: number;
+  sources?: { id: number; source_name: string; source_url: string; source_domain: string }[];
+  quiz_questions?: {
+    id: number;
+    question: string;
+    explanation: string | null;
+    position: number;
+    options: { id: number; option_text: string; is_correct: boolean; position: number }[];
+  }[];
+}
+
+export interface TrustedSource {
+  id: number;
+  name: string;
+  domain: string;
+  base_url: string | null;
+  is_active: boolean;
 }

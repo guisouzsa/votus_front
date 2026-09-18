@@ -148,6 +148,44 @@ export async function apiPost<T>(
   return response.json() as Promise<T>;
 }
 
+export async function apiPatch<T>(
+  path: string,
+  body: unknown,
+  headers?: Record<string, string>
+): Promise<T> {
+  if (!API_URL) {
+    throw new ApiError("NEXT_PUBLIC_API_URL não configurada.", 0);
+  }
+
+  const url = new URL(path, API_URL);
+
+  let response: Response;
+
+  try {
+    response = await fetch(url.toString(), {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        ...headers,
+      },
+      body: JSON.stringify(body),
+    });
+  } catch {
+    throw new ApiError("Não foi possível conectar à API.", 0);
+  }
+
+  if (!response.ok) {
+    throw new ApiError(
+      `Erro ao consultar ${path} (${response.status}).`,
+      response.status,
+      await parseErrorBody(response)
+    );
+  }
+
+  return response.json() as Promise<T>;
+}
+
 export async function apiPut<T>(
   path: string,
   body: unknown,

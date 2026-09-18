@@ -101,22 +101,22 @@ export default function MobileBottomNav() {
                     href={child.path}
                     onTouchStart={() => prefetchRoute(child.path)}
                     onClick={closePopover}
-                    className={`flex items-center gap-3 rounded-xl px-4 py-2 text-left text-sm font-medium transition-colors ${
+                    className={`flex items-center gap-3 rounded-xl py-2 pl-4 pr-5 text-left text-sm font-medium transition-colors ${
                       activeRouteId === child.id ? ACTIVE_CLASS : "text-[#103D23] hover:bg-black/5"
                     }`}
                   >
-                    <img src={child.icon} alt="" className="h-5 w-5 opacity-70" />
-                    {child.label}
+                    <img src={child.icon} alt="" className="h-5 w-5 shrink-0 opacity-70" />
+                    <span>{child.label}</span>
                   </Link>
                 ) : (
                   <button
                     key={child.id}
                     type="button"
                     onClick={closePopover}
-                    className="flex items-center gap-3 rounded-xl px-4 py-2 text-left text-sm font-medium text-[#103D23] transition-colors hover:bg-black/5"
+                    className="flex items-center gap-3 rounded-xl py-2 pl-4 pr-5 text-left text-sm font-medium text-[#103D23] transition-colors hover:bg-black/5"
                   >
-                    <img src={child.icon} alt="" className="h-5 w-5 opacity-70" />
-                    {child.label}
+                    <img src={child.icon} alt="" className="h-5 w-5 shrink-0 opacity-70" />
+                    <span>{child.label}</span>
                   </button>
                 )
               ))}

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import useSWR, { mutate as globalMutate } from "swr";
-import { Plus, X, Pencil, Trash2, MessageSquareText, BarChart3 } from "lucide-react";
+import { Plus, X, Pencil, Trash2, MessageSquareText, BarChart3, FileDown } from "lucide-react";
 import AdminState from "@/components/admin/AdminState";
 import AdminStatCard from "@/components/admin/AdminStatCard";
 import AdminSearchInput from "@/components/admin/AdminSearchInput";
@@ -10,6 +10,7 @@ import {
   getAdminDashboard,
   getAdminSuggestions,
   createAdminSuggestion,
+  deleteAdminSuggestion,
   getSuggestionQuestions,
   createSuggestionQuestion,
   updateSuggestionQuestion,
@@ -17,6 +18,7 @@ import {
   type SuggestionQuestionPayload,
 } from "@/services/adminService";
 import { apiErrorMessage } from "@/services/apiClient";
+import { generateSugestoesPdf } from "@/lib/generateSugestoesPdf";
 import type { AdminSuggestion, SuggestionQuestion, SuggestionQuestionType } from "@/services/types";
 
 const EMPTY_FORM: SuggestionQuestionPayload = { text: "", type: "choice", options: ["", ""], required: true };
@@ -356,6 +358,40 @@ export default function AdminSugestoesPage() {
   });
   const [removendoId, setRemovendoId] = useState<number | null>(null);
   const [erroPergunta, setErroPergunta] = useState<string | null>(null);
+  const [gerandoPdf, setGerandoPdf] = useState(false);
+  const [erroPdf, setErroPdf] = useState<string | null>(null);
+  const [removendoSugestaoId, setRemovendoSugestaoId] = useState<number | null>(null);
+  const [erroSugestao, setErroSugestao] = useState<string | null>(null);
+
+  async function handleRemoverSugestao(sugestao: AdminSuggestion) {
+    if (!window.confirm("Tem certeza que deseja apagar esta sugestão? Essa ação não pode ser desfeita.")) return;
+
+    setRemovendoSugestaoId(sugestao.id);
+    setErroSugestao(null);
+
+    try {
+      await deleteAdminSuggestion(sugestao.id);
+      mutate();
+      globalMutate("admin-dashboard");
+    } catch (err) {
+      setErroSugestao(apiErrorMessage(err, "Não foi possível remover a sugestão. Tente novamente."));
+    } finally {
+      setRemovendoSugestaoId(null);
+    }
+  }
+
+  async function handleGerarPdf() {
+    setGerandoPdf(true);
+    setErroPdf(null);
+
+    try {
+      await generateSugestoesPdf({ perguntas });
+    } catch (err) {
+      setErroPdf(apiErrorMessage(err, "Não foi possível gerar o PDF. Tente novamente."));
+    } finally {
+      setGerandoPdf(false);
+    }
+  }
 
   async function handleRemoverPergunta(pergunta: SuggestionQuestion) {
     if (!window.confirm(`Tem certeza que deseja remover a pergunta "${pergunta.text}"? As respostas já recebidas para ela também serão apagadas.`)) {
@@ -379,9 +415,24 @@ export default function AdminSugestoesPage() {
 
   return (
     <div className="flex flex-col gap-10">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <AdminStatCard label="Sugestões recebidas" value={dashboard?.sugestoes.total ?? "—"} icon={MessageSquareText} />
-        <AdminStatCard label="Perguntas ativas" value={perguntas.length} icon={BarChart3} accent="gold" />
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-2">
+          <AdminStatCard label="Sugestões recebidas" value={dashboard?.sugestoes.total ?? "—"} icon={MessageSquareText} />
+          <AdminStatCard label="Perguntas ativas" value={perguntas.length} icon={BarChart3} accent="gold" />
+        </div>
+
+        <div className="flex flex-col items-end gap-1">
+          <button
+            type="button"
+            onClick={handleGerarPdf}
+            disabled={gerandoPdf}
+            className="flex h-11 items-center gap-2 rounded-[10px] bg-[#1b623a] px-5 text-sm font-bold text-white transition-colors hover:bg-[#164f30] disabled:opacity-60"
+          >
+            <FileDown size={16} />
+            {gerandoPdf ? "Gerando PDF..." : "Gerar PDF"}
+          </button>
+          {erroPdf && <p className="text-xs font-semibold text-[#8D0801]">{erroPdf}</p>}
+        </div>
       </div>
 
       <section className="flex flex-col gap-4">
@@ -463,6 +514,8 @@ export default function AdminSugestoesPage() {
           <AdminSearchInput value={busca} onChange={handleBuscaChange} placeholder="Pesquisar por nome ou conteúdo..." />
         </div>
 
+        {erroSugestao && <p className="text-sm font-semibold text-[#8D0801]">{erroSugestao}</p>}
+
         {isLoading && <AdminState type="loading" message="Carregando sugestões..." />}
         {error && <AdminState type="error" message="Não foi possível carregar as sugestões agora." />}
         {data?.data.length === 0 && (
@@ -478,11 +531,22 @@ export default function AdminSugestoesPage() {
               <MessageSquareText size={16} />
             </span>
             <div className="min-w-0 flex-1">
-              <p className="text-xs font-bold text-[#6b6255]">
-                {sugestao.name ?? "Anônimo"}
-                {sugestao.email ? ` · ${sugestao.email}` : ""} ·{" "}
-                {new Date(sugestao.created_at).toLocaleString("pt-BR")}
-              </p>
+              <div className="flex items-start justify-between gap-2">
+                <p className="text-xs font-bold text-[#6b6255]">
+                  {sugestao.name ?? "Anônimo"}
+                  {sugestao.email ? ` · ${sugestao.email}` : ""} ·{" "}
+                  {new Date(sugestao.created_at).toLocaleString("pt-BR")}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => handleRemoverSugestao(sugestao)}
+                  disabled={removendoSugestaoId === sugestao.id}
+                  aria-label="Remover sugestão"
+                  className="shrink-0 rounded-full p-1.5 text-[#8D0801] transition-colors hover:bg-[#8D0801]/10 disabled:opacity-50"
+                >
+                  <Trash2 size={14} />
+                </button>
+              </div>
               <dl className="mt-3 flex flex-col gap-2">
                 {respostaLinhas(sugestao).map((linha, index) => (
                   <div key={index}>
