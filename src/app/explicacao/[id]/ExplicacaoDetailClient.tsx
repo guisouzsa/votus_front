@@ -57,7 +57,7 @@ function QuizOptionButton({
       type="button"
       onClick={onSelecionar}
       aria-pressed={selecionada}
-      className={`flex min-h-[64px] items-center justify-center rounded-[10px] border px-3 py-3 text-center text-sm font-semibold transition-colors ${estilos}`}
+      className={`flex items-center rounded-[10px] border px-4 py-3 text-left text-sm font-semibold transition-colors ${estilos}`}
     >
       {texto}
     </button>
@@ -78,7 +78,7 @@ function QuizCard({ pergunta, indice }: { pergunta: QuizQuestionApi; indice: num
         {pergunta.question}
       </h3>
 
-      <div className="mt-3 grid grid-cols-2 gap-2">
+      <div className="mt-3 flex flex-col gap-2">
         {pergunta.options.map((opcao) => {
           const isSelected = selecionada === opcao.id;
           const estado: "neutro" | "certa" | "errada" = !verificada
@@ -193,7 +193,7 @@ export default function ExplicacaoDetailClient() {
               </section>
             )}
 
-            <div className="mt-5 flex flex-col gap-4">
+            <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
               {SECOES.map(({ campo, titulo }) => {
                 const texto = explicacao[campo];
                 if (!texto) return null;
