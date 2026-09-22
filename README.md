@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+    <img width="400" alt="Votus Logo" src="https://github.com/user-attachments/assets/391c325b-9cb0-4998-a657-c7f587cbefa9" />
+</p>
 
-## Getting Started
+<p align="center">
+    <em>Seu voto, sua escolha, seu futuro.</em>
+</p>
 
-First, run the development server:
+<p align="center">
+    <img loading="lazy" src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=FFDE21&style=for-the-badge"/>
+</p>
+
+## Sobre o projeto
+
+O **Votus** é uma plataforma de transparência e informação política desenvolvida para o **Ceará Científico 2026**.
+
+A plataforma permite que usuários consultem informações sobre deputados federais e senadores, acompanhem notícias relacionadas à política e tenham acesso a diferentes recursos de educação e informação política.
+
+O frontend é responsável pela interface da plataforma, apresentando os dados disponibilizados pela API do Votus de forma organizada, responsiva e acessível.
+
+Entre os principais recursos estão:
+
+- Consulta de deputados federais e senadores;
+- Visualização detalhada dos parlamentares;
+- Informações sobre proposições e comissões;
+- Notícias políticas;
+- Agente de IA para perguntas sobre política;
+- Recursos de educação política;
+- Quiz e conteúdos explicativos;
+- Geração de santinhos;
+- Interface responsiva para dispositivos móveis e desktop.
+
+## 🚀 Começando
+
+Estas instruções permitem executar uma cópia do projeto localmente para desenvolvimento e testes.
+
+### 📋 Pré-requisitos
+
+Antes de iniciar, certifique-se de possuir:
+
+- **Node.js 20+**
+- **npm**
+- Git
+
+### 🔧 Instalação
+
+1. Clone o repositório:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+git clone <URL_DO_REPOSITORIO>
