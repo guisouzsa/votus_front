@@ -5,7 +5,7 @@ import { Loader2, X } from 'lucide-react';
 import { createProposal } from '@/services/proposalsService';
 import { ApiError } from '@/services/apiClient';
 import type { Proposal } from '@/services/types';
-import CategoryTagInput from './CategoryTagInput';
+import ProposalCategoryPicker from './ProposalCategoryPicker';
 
 export default function ProposalFormModal({
   onClose,
@@ -70,7 +70,7 @@ export default function ProposalFormModal({
         aria-modal="true"
         aria-label="Cadastrar uma proposta"
         onClick={(event) => event.stopPropagation()}
-        className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[20px] bg-brasil-orange pb-6 shadow-xl sm:pb-8"
+        className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[20px] bg-[#8d0801] pb-6 shadow-xl sm:pb-8"
       >
         <button
           type="button"
@@ -115,9 +115,9 @@ export default function ProposalFormModal({
               </label>
 
               <label className="text-sm font-bold text-white">
-                Categoria:
+                Categoria <span className="font-normal text-white/70">(opcional)</span>:
                 <div className="mt-1.5">
-                  <CategoryTagInput value={categories} onChange={setCategories} />
+                  <ProposalCategoryPicker value={categories} onChange={setCategories} />
                 </div>
               </label>
             </div>

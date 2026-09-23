@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import useSWR from 'swr';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
 import Link from 'next/link';
 import Sidebar from '@/components/Sidebar';
@@ -14,6 +13,7 @@ import DataSourceNote from '@/components/DataSourceNote';
 import Pagination from '@/components/Pagination';
 import { getSenadores } from '@/services/senadoresService';
 import { ApiError } from '@/services/apiClient';
+import { useSsrPaginatedList } from '@/hooks/useSsrPaginatedList';
 import type { SimplePaginatedResponse, Legislator } from '@/services/types';
 
 const STATUS_OPTIONS = [
@@ -35,18 +35,15 @@ export default function SenadoresPageClient({
   const [filtros, setFiltros] = useState(FILTROS_VAZIOS);
   const [filtrosAplicados, setFiltrosAplicados] = useState(FILTROS_VAZIOS);
 
+  // Página 1 já vem pronta do servidor (ver page.tsx); o hook evita tanto o
+  // skeleton à toa quanto um refetch redundante logo no mount — ver
+  // useSsrPaginatedList.
   const {
     data: response,
     error: swrError,
-    isLoading,
     mutate,
-  } = useSWR(['senadores', page], () => getSenadores({ page }), {
-    revalidateOnFocus: false,
-    keepPreviousData: true,
-    fallbackData: page === 1 ? initialData : undefined,
-  });
-
-  const loading = isLoading;
+    loading,
+  } = useSsrPaginatedList(['senadores', page], () => getSenadores({ page }), page === 1 ? initialData : undefined);
   const error = swrError
     ? swrError instanceof ApiError
       ? 'Não foi possível carregar os senadores agora. Tente novamente em instantes.'

@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import useSWR from 'swr';
 import Link from 'next/link';
 import Sidebar from '@/components/Sidebar';
 import MobileBottomNav from '@/components/MobileBottomNav';
@@ -14,6 +13,7 @@ import DataSourceNote from '@/components/DataSourceNote';
 import Pagination from '@/components/Pagination';
 import { getDeputados } from '@/services/deputadosService';
 import { ApiError } from '@/services/apiClient';
+import { useSsrPaginatedList } from '@/hooks/useSsrPaginatedList';
 import type { SimplePaginatedResponse, Legislator } from '@/services/types';
 
 const STATUS_OPTIONS = [
@@ -35,22 +35,15 @@ export default function DeputadosPageClient({
   const [filtros, setFiltros] = useState(FILTROS_VAZIOS);
   const [filtrosAplicados, setFiltrosAplicados] = useState(FILTROS_VAZIOS);
 
+  // Página 1 já vem pronta do servidor (ver page.tsx); o hook evita tanto o
+  // skeleton à toa quanto um refetch redundante logo no mount — ver
+  // useSsrPaginatedList.
   const {
     data: response,
     error: swrError,
-    isLoading,
     mutate,
-  } = useSWR(['deputados', page], () => getDeputados({ page }), {
-    revalidateOnFocus: false,
-    keepPreviousData: true,
-    // Só serve a página 1 buscada no servidor (ver page.tsx) como ponto de
-    // partida — a tela já nasce com dado real, sem esperar o fetch do
-    // navegador. SWR revalida por trás em seguida, então nunca fica preso
-    // num dado desatualizado.
-    fallbackData: page === 1 ? initialData : undefined,
-  });
-
-  const loading = isLoading;
+    loading,
+  } = useSsrPaginatedList(['deputados', page], () => getDeputados({ page }), page === 1 ? initialData : undefined);
   const error = swrError
     ? swrError instanceof ApiError
       ? 'Não foi possível carregar os deputados agora. Tente novamente em instantes.'

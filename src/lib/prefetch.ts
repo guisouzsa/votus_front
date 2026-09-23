@@ -3,7 +3,6 @@ import { getDeputados } from "@/services/deputadosService";
 import { getSenadores } from "@/services/senadoresService";
 import { getAllNews } from "@/services/newsService";
 import { getProposals } from "@/services/proposalsService";
-import { getCategories } from "@/services/categoriesService";
 
 /**
  * Warms the SWR cache for a route's first-page data before the user
@@ -18,10 +17,7 @@ const PREFETCH_BY_PATH: Record<string, () => void> = {
   "/DeputadosPage": () => safePreload(["deputados", 1], () => getDeputados({ page: 1 })),
   "/SenadoresPage": () => safePreload(["senadores", 1], () => getSenadores({ page: 1 })),
   "/Painelnoticias": () => safePreload("news", () => getAllNews()),
-  "/PropostasPage": () => {
-    safePreload(["proposals", 1], () => getProposals({ page: 1 }));
-    safePreload("proposal-categories", () => getCategories());
-  },
+  "/PropostasPage": () => safePreload(["proposals", 1], () => getProposals({ page: 1 })),
 };
 
 export function prefetchRoute(path?: string): void {

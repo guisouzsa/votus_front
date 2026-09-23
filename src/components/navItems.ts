@@ -31,6 +31,17 @@ export const NAV_ITEMS: NavItem[] = [
       { id: "universidades", label: "Universidades", path: "/Universidades" },
     ],
   },
+  {
+    id: "candidatos",
+    label: "Candidatos",
+    icon: "/IconeCandidatos.svg",
+    children: [
+      { id: "candidatos-governador", label: "Governador", path: "/CandidatosPage/governador" },
+      { id: "candidatos-senado", label: "Senador", path: "/CandidatosPage/senado" },
+      { id: "candidatos-deputado-federal", label: "Deputado Federal", path: "/CandidatosPage/deputado-federal" },
+      { id: "candidatos-deputado-estadual", label: "Deputado Estadual", path: "/CandidatosPage/deputado-estadual" },
+    ],
+  },
   { id: "propostas", label: "Propostas", icon: "/IconePropostas.svg", path: "/PropostasPage" },
   { id: "santinho", label: "Gerador de Santinho", icon: "/IconeSantinho.svg", path: "/SantinhoPage" },
   { id: "explicacoes", label: "Explicações", icon: "/IconeExplicacoes.svg", path: "/ExplicacoesPage" },
@@ -44,6 +55,10 @@ export const DETAIL_ROUTE_PREFIXES: { prefix: string; id: string }[] = [
   { prefix: "/ShowSenadoresPage", id: "senadores" },
   { prefix: "/noticias/", id: "noticias" },
   { prefix: "/explicacao/", id: "voce-sabe" },
+  { prefix: "/CandidatosPage/governador/", id: "candidatos-governador" },
+  { prefix: "/CandidatosPage/senado/", id: "candidatos-senado" },
+  { prefix: "/CandidatosPage/deputado-federal/", id: "candidatos-deputado-federal" },
+  { prefix: "/CandidatosPage/deputado-estadual/", id: "candidatos-deputado-estadual" },
 ];
 
 export const ACTIVE_CLASS = "bg-[#EDDBBA]/50 text-[#1B623A] shadow-sm";

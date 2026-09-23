@@ -93,9 +93,28 @@ export default function MobileBottomNav() {
         {/* Botão 'Mais' agrupando Propostas, Santinho, Explicações, Sobre Nós */}
         <div className="relative flex flex-1 justify-center">
           {expandedGroupId === "mais" && (
-            <div className="absolute bottom-[calc(100%+0.75rem)] right-0 z-40 flex flex-col gap-1 whitespace-nowrap rounded-2xl border border-[#8D0801]/15 bg-[#FDF8EE] p-2 shadow-lg">
-              {NAV_ITEMS.slice(4).map((child) => (
-                child.path ? (
+            <div className="absolute bottom-[calc(100%+0.75rem)] right-0 z-40 flex max-h-[70vh] flex-col gap-1 overflow-y-auto whitespace-nowrap rounded-2xl border border-[#8D0801]/15 bg-[#FDF8EE] p-2 shadow-lg">
+              {NAV_ITEMS.slice(4).map((child) =>
+                child.children ? (
+                  <div key={child.id} className="flex flex-col gap-1">
+                    <span className="flex items-center gap-3 pl-4 pr-5 pt-1.5 text-left text-xs font-bold uppercase tracking-wide text-[#103D23]/60">
+                      {child.label}
+                    </span>
+                    {child.children.map((grandchild) => (
+                      <Link
+                        key={grandchild.id}
+                        href={grandchild.path}
+                        onTouchStart={() => prefetchRoute(grandchild.path)}
+                        onClick={closePopover}
+                        className={`flex items-center gap-3 rounded-xl py-2 pl-8 pr-5 text-left text-sm font-medium transition-colors ${
+                          activeRouteId === grandchild.id ? ACTIVE_CLASS : "text-[#103D23] hover:bg-black/5"
+                        }`}
+                      >
+                        <span>{grandchild.label}</span>
+                      </Link>
+                    ))}
+                  </div>
+                ) : child.path ? (
                   <Link
                     key={child.id}
                     href={child.path}
@@ -119,7 +138,7 @@ export default function MobileBottomNav() {
                     <span>{child.label}</span>
                   </button>
                 )
-              ))}
+              )}
             </div>
           )}
           <button

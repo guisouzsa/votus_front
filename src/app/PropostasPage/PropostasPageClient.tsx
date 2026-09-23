@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import useSWR, { mutate as globalMutate } from 'swr';
+import useSWR from 'swr';
 import { Plus } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
 import MobileBottomNav from '@/components/MobileBottomNav';
@@ -14,9 +14,9 @@ import ProposalFormModal from '@/components/ProposalFormModal';
 import { ProposalListSkeleton } from '@/components/ProposalCardSkeleton';
 import Pagination from '@/components/Pagination';
 import { getProposals } from '@/services/proposalsService';
-import { getCategories } from '@/services/categoriesService';
 import { ApiError } from '@/services/apiClient';
 import type { Proposal } from '@/services/types';
+import { PROPOSAL_CATEGORIES } from '@/lib/proposalCategories';
 
 export default function PropostasPageClient() {
   const [page, setPage] = useState(1);
@@ -44,14 +44,7 @@ export default function PropostasPageClient() {
   const proposals = useMemo(() => response?.data ?? [], [response]);
   const lastPage = response?.meta.last_page ?? 1;
 
-  const { data: categoriesResponse } = useSWR('proposal-categories', () => getCategories(), {
-    revalidateOnFocus: false,
-  });
-
-  const categories = useMemo(
-    () => (categoriesResponse?.data ?? []).map((category) => category.name),
-    [categoriesResponse]
-  );
+  const categories: string[] = [...PROPOSAL_CATEGORIES];
 
   const filteredProposals = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -85,7 +78,6 @@ export default function PropostasPageClient() {
 
   const handleCreated = () => {
     mutate();
-    globalMutate('proposal-categories');
   };
 
   return (

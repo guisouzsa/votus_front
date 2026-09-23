@@ -171,11 +171,6 @@ export interface ProposalComment {
   can_delete: boolean;
 }
 
-export interface Category {
-  id: number;
-  name: string;
-}
-
 export interface NewsListResponse {
   current_page: number;
   data: NewsArticleApi[];
@@ -388,4 +383,140 @@ export interface TrustedSource {
   domain: string;
   base_url: string | null;
   is_active: boolean;
+}
+
+// Vaga privada, importada da Adzuna. Vários campos vêm nulos com frequência
+// (contract_type, salary_min/max) — a própria fonte não preenche sempre.
+export interface Opportunity {
+  external_id: string;
+  opportunity_type: string;
+  title: string;
+  company: string | null;
+  description: string | null;
+  location: string | null;
+  category: string | null;
+  contract_type: string | null;
+  contract_time: string | null;
+  salary_min: string | null;
+  salary_max: string | null;
+  external_url: string | null;
+  published_at: string | null;
+}
+
+export type PublicOpportunityStatus = 'aberto' | 'em_breve' | 'encerrado' | 'indefinido';
+
+// Concurso público / processo seletivo, extraído de diário oficial por IA.
+export interface PublicOpportunity {
+  source_key: string;
+  type: string;
+  title: string;
+  notice_number: string | null;
+  agency: string | null;
+  municipality: string | null;
+  state: string | null;
+  positions: string[];
+  education_levels: string[];
+  vacancies: number | null;
+  salary_min: string | null;
+  salary_max: string | null;
+  registration_start: string | null;
+  registration_end: string | null;
+  exam_date: string | null;
+  fee_min: string | null;
+  fee_max: string | null;
+  registration_url: string | null;
+  summary: string | null;
+  status: PublicOpportunityStatus;
+}
+
+export interface AdmissionMethod {
+  type: string | null;
+  name: string;
+  description: string | null;
+  official_url: string | null;
+  verified_at: string | null;
+}
+
+export interface University {
+  mec_code: string;
+  name: string;
+  acronym: string | null;
+  administrative_category: string | null;
+  academic_organization: string | null;
+  sector: 'public' | 'private' | string;
+  website: string | null;
+  admission_methods?: AdmissionMethod[];
+  campuses?: Campus[];
+}
+
+export interface Campus {
+  name: string;
+  city: string;
+  ibge_city_code: string;
+  state: string;
+  region: string | null;
+  address: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  university?: University;
+  course_offerings?: CourseOffering[];
+}
+
+export interface CourseOffering {
+  id: number;
+  mec_course_code: number | string | null;
+  name: string;
+  degree: string | null;
+  area: string | null;
+  modality: string | null;
+  status: string | null;
+  authorized_vacancies: number | null;
+  workload_hours: number | null;
+  source_name: string | null;
+  source_updated_at: string | null;
+  campus?: Campus;
+}
+
+export interface CourseOfferingFilterOptions {
+  states: string[];
+  modalities: string[];
+  municipalities: { ibge_city_code: string; city: string }[];
+  courses: { name: string; normalized_name: string }[];
+}
+
+export interface CandidateParty {
+  acronym: string | null;
+  name: string | null;
+}
+
+// Mandato anterior do candidato como parlamentar (cruzado por CPF) — reaproveita
+// só os campos de identificação, sem as métricas de efetividade/produtividade.
+export interface CandidatePreviousMandate {
+  id: number;
+  chamber: "lower_house" | "senate";
+  parliamentary_name: string;
+  party: string | null;
+  state: string | null;
+  status: string | null;
+}
+
+export interface Candidate {
+  id: number;
+  ballot_number: string | null;
+  round: number | null;
+  state: string | null;
+  office: string;
+  civil_name: string;
+  ballot_name: string;
+  party: CandidateParty;
+  education_level: string | null;
+  occupation: string | null;
+  race_color: string | null;
+  photo_url: string | null;
+  proposal_document_url: string | null;
+  election_year: number;
+  // Só vêm preenchidos no perfil (/candidates/{id}) — a listagem não carrega
+  // essas relações de propósito, pra não misturar vice/suplente com titular.
+  running_mates?: Candidate[];
+  previous_mandates?: CandidatePreviousMandate[];
 }

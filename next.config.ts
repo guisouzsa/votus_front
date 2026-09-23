@@ -34,6 +34,12 @@ const nextConfig: NextConfig = {
         hostname: "www.senado.leg.br",
         pathname: "/senadores/img/fotos-oficiais/**",
       },
+      {
+        // Fotos dos candidatos, servidas pelo próprio backend (Storage::url).
+        protocol: "https",
+        hostname: "votus-core.onrender.com",
+        pathname: "/storage/candidates/**",
+      },
     ],
   },
 };
