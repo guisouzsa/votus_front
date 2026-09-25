@@ -1,6 +1,6 @@
 'use client';
 
-import useSWR from 'swr';
+import { useSsrDetail } from '@/hooks/useSsrDetail';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, FileText } from 'lucide-react';
@@ -8,6 +8,7 @@ import Sidebar from '@/components/Sidebar';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
+import Footer from '@/components/Footer';
 import LegislatorDetailSkeleton from '@/components/LegislatorDetailSkeleton';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
 import { CANDIDATE_OFFICES, getCandidate, type CandidateOfficeSlug } from '@/services/candidatesService';
@@ -31,7 +32,13 @@ function tituloCaso(texto: string | null): string {
     .join(' ');
 }
 
-export default function CandidatoDetailClient({ office }: { office: CandidateOfficeSlug }) {
+export default function CandidatoDetailClient({
+  office,
+  initialData,
+}: {
+  office: CandidateOfficeSlug;
+  initialData?: Awaited<ReturnType<typeof getCandidate>>;
+}) {
   const params = useParams<{ id: string }>();
   const id = params.id;
   const config = CANDIDATE_OFFICES[office];
@@ -40,9 +47,7 @@ export default function CandidatoDetailClient({ office }: { office: CandidateOff
     data: candidato,
     error: swrError,
     isLoading,
-  } = useSWR(id ? ['candidato', office, id] : null, () => getCandidate(office, id), {
-    revalidateOnFocus: false,
-  });
+  } = useSsrDetail(id ? ['candidato', office, id] : null, () => getCandidate(office, id), initialData);
 
   if (isLoading) {
     return <LegislatorDetailSkeleton />;
@@ -181,7 +186,7 @@ export default function CandidatoDetailClient({ office }: { office: CandidateOff
             <section className="mt-4 rounded-[10px] border border-[#e0d6c4] bg-white p-4 sm:p-6">
               <h2 className="text-base font-black uppercase text-[#1b623a]">Chapa</h2>
               <p className="mt-1 text-xs text-[#4d4d4d]">
-                {office === 'governador' ? 'Vice na chapa de' : 'Suplentes na chapa de'} {candidato.ballot_name}.
+                {office === 'governador' || office === 'presidente' ? 'Vice na chapa de' : 'Suplentes na chapa de'} {candidato.ballot_name}.
               </p>
 
               <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
@@ -207,6 +212,7 @@ export default function CandidatoDetailClient({ office }: { office: CandidateOff
             </section>
           )}
         </div>
+        <Footer />
       </main>
       <FloatingAIButton />
     </div>

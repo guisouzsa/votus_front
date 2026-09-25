@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import useSWR from "swr";
+import { useSsrDetail } from '@/hooks/useSsrDetail';
 import { ArrowLeft } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import MobileBottomNav from "@/components/MobileBottomNav";
@@ -12,13 +12,15 @@ import NewsArticlePage from "@/components/NewsArticlePage";
 import { getNewsItem } from "@/services/newsService";
 import { mapApiNewsToArticle } from "@/lib/news";
 
-export default function NoticiaPageClient() {
+export default function NoticiaPageClient({
+  initialData,
+}: {
+  initialData?: Awaited<ReturnType<typeof getNewsItem>>;
+}) {
   const params = useParams<{ id: string }>();
   const id = params.id;
 
-  const { data, isLoading } = useSWR(id ? ["news", id] : null, () => getNewsItem(id), {
-    revalidateOnFocus: false,
-  });
+  const { data, isLoading } = useSsrDetail(id ? ["news", id] : null, () => getNewsItem(id), initialData);
 
   const article = data ? mapApiNewsToArticle(data) : undefined;
 

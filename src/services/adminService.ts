@@ -65,6 +65,11 @@ export function deleteAdminProposal(id: number) {
   return apiDelete<{ message: string }>(`/api/admin/proposals/${id}`, authHeaders());
 }
 
+// Desfaz a remoção (soft delete) — a proposta volta a ficar publicada.
+export function restoreAdminProposal(id: number) {
+  return apiPatch<{ message: string }>(`/api/admin/proposals/${id}/restore`, {}, authHeaders());
+}
+
 export function getAdminProposalComments(proposalId: number) {
   return apiGet<PaginatedResponse<ProposalComment>>(
     `/api/admin/proposals/${proposalId}/comments`,

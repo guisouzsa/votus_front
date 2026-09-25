@@ -5,9 +5,8 @@ import { CANDIDATE_OFFICES, getCandidates, isCandidateOfficeSlug } from '@/servi
 
 type Params = { office: string };
 
-// Sem isso, o Next.js gera essa página como estática no build — ver o mesmo
-// comentário em DeputadosPage/page.tsx.
-export const dynamic = 'force-dynamic';
+// ISR de 60s — ver o comentário em DeputadosPage/page.tsx.
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   return Object.keys(CANDIDATE_OFFICES).map((office) => ({ office }));
@@ -17,14 +16,14 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const { office } = await params;
 
   if (!isCandidateOfficeSlug(office)) {
-    return { title: 'Candidatos' };
+    return { title: 'Candidatos 2026' };
   }
 
-  const label = CANDIDATE_OFFICES[office].label;
+  const { label, regiao } = CANDIDATE_OFFICES[office];
 
   return {
-    title: `Candidatos a ${label}`,
-    description: `Conheça os candidatos a ${label} nas eleições de 2026 no Ceará.`,
+    title: `Candidatos 2026 a ${label}`,
+    description: `Conheça os candidatos a ${label} nas eleições de 2026 ${regiao}.`,
     alternates: { canonical: `/CandidatosPage/${office}` },
   };
 }

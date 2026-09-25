@@ -9,10 +9,13 @@ export const metadata: Metadata = {
   alternates: { canonical: '/DeputadosPage' },
 };
 
-// Sem isso, o Next.js gera essa página como estática no build — os dados
-// buscados abaixo ficariam congelados no HTML até o próximo deploy, em vez
-// de refletir o banco a cada visita.
-export const dynamic = 'force-dynamic';
+// ISR: a página fica em cache na Vercel e é regenerada em segundo plano no
+// máximo a cada 60s. Antes era force-dynamic (fetch sempre no-store), então
+// TODA visita esperava o backend responder antes de receber qualquer HTML —
+// a demora do Render/Supabase ficava inteira na frente do usuário. Os dados
+// continuam atualizados (no máximo 60s de defasagem), sem ficarem
+// congelados até o próximo deploy como no modo estático puro.
+export const revalidate = 60;
 
 export default async function DeputadosPage() {
   // Busca a primeira página já no servidor — sem isso, a tela chegava vazia

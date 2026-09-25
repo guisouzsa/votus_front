@@ -12,13 +12,30 @@ export type NavItem = {
 export const NAV_ITEMS: NavItem[] = [
   { id: "inicio", label: "Início", icon: "/IconeInicial.svg", path: "/Inicial" },
   { id: "noticias", label: "Notícias", icon: "/IconeNoticias.png", path: "/Painelnoticias" },
+  // "Cargos atuais" = quem exerce mandato hoje (dados da Câmara/Senado).
+  // "Candidatos 2026" = quem concorre na eleição (dados do TSE). São duas
+  // áreas diferentes de propósito — ver MandatoVsCandidatura.
   {
     id: "cargos",
-    label: "Cargos",
+    label: "Cargos atuais",
     icon: "/Iconesenadores.svg",
     children: [
       { id: "senadores", label: "Senadores", path: "/SenadoresPage" },
       { id: "deputados", label: "Deputados", path: "/DeputadosPage" },
+    ],
+  },
+  // Candidatos fica acima de Juventude (pedido do projeto: prioridade na
+  // eleição). No mobile, entra entre os 4 atalhos fixos da barra inferior.
+  {
+    id: "candidatos",
+    label: "Candidatos 2026",
+    icon: "/IconeCandidatos.svg",
+    children: [
+      { id: "candidatos-presidente", label: "Presidente", path: "/CandidatosPage/presidente" },
+      { id: "candidatos-governador", label: "Governador", path: "/CandidatosPage/governador" },
+      { id: "candidatos-senado", label: "Senador", path: "/CandidatosPage/senado" },
+      { id: "candidatos-deputado-federal", label: "Deputado Federal", path: "/CandidatosPage/deputado-federal" },
+      { id: "candidatos-deputado-estadual", label: "Deputado Estadual", path: "/CandidatosPage/deputado-estadual" },
     ],
   },
   {
@@ -31,21 +48,9 @@ export const NAV_ITEMS: NavItem[] = [
       { id: "universidades", label: "Universidades", path: "/Universidades" },
     ],
   },
-  {
-    id: "candidatos",
-    label: "Candidatos",
-    icon: "/IconeCandidatos.svg",
-    children: [
-      { id: "candidatos-governador", label: "Governador", path: "/CandidatosPage/governador" },
-      { id: "candidatos-senado", label: "Senador", path: "/CandidatosPage/senado" },
-      { id: "candidatos-deputado-federal", label: "Deputado Federal", path: "/CandidatosPage/deputado-federal" },
-      { id: "candidatos-deputado-estadual", label: "Deputado Estadual", path: "/CandidatosPage/deputado-estadual" },
-    ],
-  },
   { id: "propostas", label: "Propostas", icon: "/IconePropostas.svg", path: "/PropostasPage" },
   { id: "santinho", label: "Gerador de Santinho", icon: "/IconeSantinho.svg", path: "/SantinhoPage" },
   { id: "explicacoes", label: "Explicações", icon: "/IconeExplicacoes.svg", path: "/ExplicacoesPage" },
-  { id: "voce-sabe", label: "Você sabe?", icon: "/IconeVoceSabe.svg", path: "/explicacao" },
   { id: "sobre", label: "Sobre Nós", icon: "/IconeSobreNos.png", path: "/SobreNosPage" },
   { id: "sugestoes", label: "Sugestões", icon: "/IconeSugestoes.svg", path: "/SugestoesPage" },
 ];
@@ -54,7 +59,9 @@ export const DETAIL_ROUTE_PREFIXES: { prefix: string; id: string }[] = [
   { prefix: "/ShowDeputadosPage", id: "deputados" },
   { prefix: "/ShowSenadoresPage", id: "senadores" },
   { prefix: "/noticias/", id: "noticias" },
-  { prefix: "/explicacao/", id: "voce-sabe" },
+  // "Você Sabia?" (/explicacao e /explicacao/[id]) fica dentro de Explicações.
+  { prefix: "/explicacao", id: "explicacoes" },
+  { prefix: "/CandidatosPage/presidente/", id: "candidatos-presidente" },
   { prefix: "/CandidatosPage/governador/", id: "candidatos-governador" },
   { prefix: "/CandidatosPage/senado/", id: "candidatos-senado" },
   { prefix: "/CandidatosPage/deputado-federal/", id: "candidatos-deputado-federal" },

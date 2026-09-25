@@ -7,6 +7,7 @@ import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import DashboardHeader from '@/components/DashboardHeader';
+import CrossLinkBanner from '@/components/CrossLinkBanner';
 import Pagination from '@/components/Pagination';
 import { ProposalListSkeleton } from '@/components/ProposalCardSkeleton';
 import { useSsrPaginatedList } from '@/hooks/useSsrPaginatedList';
@@ -245,6 +246,15 @@ export default function JuventudeClient({
               </div>
             )}
           </section>
+
+          <CrossLinkBanner
+            titulo="Eleições 2026: quem quer te representar?"
+            descricao="Veja os candidatos do Ceará e compare partido, número e propostas antes de votar."
+            links={[
+              { label: 'Candidatos', href: '/CandidatosPage/governador' },
+              { label: 'Propostas', href: '/PropostasPage' },
+            ]}
+          />
         </div>
       </main>
 

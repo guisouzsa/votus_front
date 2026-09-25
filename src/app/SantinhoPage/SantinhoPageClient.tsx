@@ -10,6 +10,7 @@ import DashboardHeader from '@/components/DashboardHeader';
 import SantinhoPreview, { type SantinhoCandidato } from '@/components/SantinhoPreview';
 import SantinhoForm from '@/components/SantinhoForm';
 import SantinhoExportModal from '@/components/SantinhoExportModal';
+import { useSantinhoCandidatos } from '@/hooks/useSantinhoCandidatos';
 
 const CANDIDATOS_INICIAIS: SantinhoCandidato[] = [
   { id: 1, cargo: 'Deputado Federal', digitos: 4, numero: '' },
@@ -68,6 +69,9 @@ export default function SantinhoPageClient() {
   const [showPreview, setShowPreview] = useState(false);
   const [gerando, setGerando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
+  // Mesmas linhas, completadas com foto/nome reais quando o número bate com
+  // um candidato — usadas no preview, no formulário e no PDF.
+  const candidatosComFoto = useSantinhoCandidatos(candidatos);
 
   function handleNumeroChange(id: number, numero: string) {
     setCandidatos((prev) => prev.map((candidato) => (candidato.id === id ? { ...candidato, numero } : candidato)));
@@ -96,7 +100,7 @@ export default function SantinhoPageClient() {
     try {
       const { generateSantinhoPdf } = await import('@/lib/generateSantinhoPdf');
       await generateSantinhoPdf({
-        candidatos,
+        candidatos: candidatosComFoto,
         quantidadePaginas: Number(quantidadePaginas),
         santinhosPorPagina: Number(santinhosPorPagina),
       });
@@ -129,12 +133,12 @@ export default function SantinhoPageClient() {
 
           <div className="mt-6 flex flex-col gap-10 lg:flex-row lg:items-start">
             <div className="order-2 mx-auto w-full max-w-[260px] lg:order-1 lg:mx-0 lg:shrink-0">
-              <SantinhoPreview candidatos={candidatos} />
+              <SantinhoPreview candidatos={candidatosComFoto} />
             </div>
 
             <div className="order-1 flex-1 lg:order-2">
               <SantinhoForm
-                candidatos={candidatos}
+                candidatos={candidatosComFoto}
                 onNumeroChange={handleNumeroChange}
                 showValidation={showValidation}
               />
@@ -177,7 +181,7 @@ export default function SantinhoPageClient() {
 
       {showPreview && (
         <SantinhoExportModal
-          candidatos={candidatos}
+          candidatos={candidatosComFoto}
           quantidadePaginas={Number(quantidadePaginas)}
           santinhosPorPagina={Number(santinhosPorPagina)}
           salvando={gerando}

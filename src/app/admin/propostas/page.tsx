@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import useSWR, { mutate as globalMutate } from "swr";
-import { Trash2, FileCheck2, FileX2, MessageSquareText } from "lucide-react";
+import { Trash2, FileCheck2, FileX2, MessageSquareText, RotateCcw } from "lucide-react";
+import { useConfirm } from "@/components/admin/ConfirmDialog";
 import AdminState from "@/components/admin/AdminState";
 import AdminStatCard from "@/components/admin/AdminStatCard";
 import AdminSearchInput from "@/components/admin/AdminSearchInput";
@@ -10,6 +11,7 @@ import {
   getAdminDashboard,
   getAdminProposals,
   deleteAdminProposal,
+  restoreAdminProposal,
   getAdminProposalComments,
   deleteAdminProposalComment,
 } from "@/services/adminService";
@@ -23,9 +25,15 @@ function ProposalCommentsPanel({ proposalId }: { proposalId: number }) {
   );
   const [removendoId, setRemovendoId] = useState<number | null>(null);
   const [erro, setErro] = useState<string | null>(null);
+  const { confirm, confirmDialog } = useConfirm();
 
   async function handleRemover(commentId: number) {
-    if (!window.confirm("Tem certeza que deseja excluir este comentário?")) return;
+    const ok = await confirm({
+      title: "Deseja realmente excluir este comentário?",
+      message: "Essa ação não pode ser desfeita.",
+      confirmLabel: "Excluir",
+    });
+    if (!ok) return;
 
     setRemovendoId(commentId);
     setErro(null);
@@ -69,6 +77,7 @@ function ProposalCommentsPanel({ proposalId }: { proposalId: number }) {
           </div>
         ))}
       </div>
+      {confirmDialog}
     </div>
   );
 }
@@ -88,8 +97,12 @@ export default function AdminPropostasPage() {
     () => getAdminProposals(page, busca),
     { revalidateOnFocus: false }
   );
-  const [removendoId, setRemovendoId] = useState<number | null>(null);
+  // Uma ação por vez por proposta (remover/restaurar): trava os botões dela
+  // até a API responder, pra não disparar a mesma ação duas vezes.
+  const [processandoId, setProcessandoId] = useState<number | null>(null);
   const [erroRemocao, setErroRemocao] = useState<string | null>(null);
+  const [sucesso, setSucesso] = useState<string | null>(null);
+  const { confirm, confirmDialog } = useConfirm();
   const [comentariosAbertos, setComentariosAbertos] = useState<number | null>(null);
 
   function handleBuscaChange(valor: string) {
@@ -97,21 +110,44 @@ export default function AdminPropostasPage() {
     setPage(1);
   }
 
-  async function handleRemover(id: number) {
-    if (!window.confirm("Tem certeza que deseja remover esta proposta?")) return;
-
-    setRemovendoId(id);
+  async function executar(id: number, acao: () => Promise<unknown>, mensagemSucesso: string, mensagemErro: string) {
+    setProcessandoId(id);
     setErroRemocao(null);
+    setSucesso(null);
 
     try {
-      await deleteAdminProposal(id);
-      mutate();
+      await acao();
+      await mutate();
       globalMutate("admin-dashboard");
+      setSucesso(mensagemSucesso);
     } catch (err) {
-      setErroRemocao(apiErrorMessage(err, "Não foi possível remover a proposta. Tente novamente."));
+      setErroRemocao(apiErrorMessage(err, mensagemErro));
     } finally {
-      setRemovendoId(null);
+      setProcessandoId(null);
     }
+  }
+
+  async function handleRemover(id: number) {
+    const ok = await confirm({
+      title: "Deseja realmente remover esta proposta?",
+      message: "Ela deixa de aparecer no site. Você pode restaurá-la depois.",
+      confirmLabel: "Remover",
+    });
+    if (!ok) return;
+
+    await executar(id, () => deleteAdminProposal(id), "Proposta removida.", "Não foi possível remover a proposta. Tente novamente.");
+  }
+
+  async function handleRestaurar(id: number) {
+    const ok = await confirm({
+      title: "Deseja publicar esta proposta novamente?",
+      message: "Ela volta a aparecer para todos no site.",
+      confirmLabel: "Publicar",
+      tone: "primary",
+    });
+    if (!ok) return;
+
+    await executar(id, () => restoreAdminProposal(id), "Proposta publicada novamente.", "Não foi possível restaurar a proposta. Tente novamente.");
   }
 
   return (
@@ -123,7 +159,7 @@ export default function AdminPropostasPage() {
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-sm font-black uppercase tracking-wide text-[#1b623a]">
-          Propostas publicadas
+          Propostas
         </h2>
         <div className="w-full sm:w-72">
           <AdminSearchInput value={busca} onChange={handleBuscaChange} placeholder="Pesquisar por título ou autor..." />
@@ -132,7 +168,8 @@ export default function AdminPropostasPage() {
 
       {isLoading && <AdminState type="loading" message="Carregando propostas..." />}
       {error && <AdminState type="error" message="Não foi possível carregar as propostas agora." />}
-      {erroRemocao && <p className="text-sm font-semibold text-[#8D0801]">{erroRemocao}</p>}
+      {erroRemocao && <p role="alert" className="text-sm font-semibold text-[#8D0801]">{erroRemocao}</p>}
+      {sucesso && <p role="status" className="text-sm font-semibold text-[#1B623A]">{sucesso}</p>}
       {data?.data.length === 0 && <AdminState type="empty" message="Nenhuma proposta encontrada." />}
 
       {data?.data.map((proposta) => {
@@ -192,11 +229,23 @@ export default function AdminPropostasPage() {
                 <button
                   type="button"
                   onClick={() => handleRemover(proposta.id)}
-                  disabled={removendoId === proposta.id}
+                  disabled={processandoId === proposta.id}
                   className="flex items-center gap-2 rounded-[10px] border border-[#8D0801] px-5 py-2 text-sm font-bold text-[#8D0801] transition-colors hover:bg-[#8D0801] hover:text-white disabled:opacity-60"
                 >
                   <Trash2 size={15} />
-                  {removendoId === proposta.id ? "Removendo..." : "Remover proposta"}
+                  {processandoId === proposta.id ? "Removendo..." : "Remover proposta"}
+                </button>
+              )}
+
+              {proposta.status === "removed" && (
+                <button
+                  type="button"
+                  onClick={() => handleRestaurar(proposta.id)}
+                  disabled={processandoId === proposta.id}
+                  className="flex items-center gap-2 rounded-[10px] border border-[#1B623A] px-5 py-2 text-sm font-bold text-[#1B623A] transition-colors hover:bg-[#1B623A] hover:text-white disabled:opacity-60"
+                >
+                  <RotateCcw size={15} />
+                  {processandoId === proposta.id ? "Restaurando..." : "Restaurar"}
                 </button>
               )}
             </div>
@@ -229,6 +278,7 @@ export default function AdminPropostasPage() {
           </button>
         </div>
       )}
+      {confirmDialog}
     </div>
   );
 }

@@ -30,6 +30,13 @@ export default function SantinhoForm({
             {invalid && (
               <p className="text-xs font-semibold text-[#8d0801]">Preencha os {candidato.digitos} dígitos.</p>
             )}
+            {/* Confirma de quem é o número digitado (dado real do TSE). */}
+            {preenchido && candidato.nome && (
+              <p className="text-xs font-semibold text-[#1b623a]" aria-live="polite">
+                {candidato.nome}
+                {candidato.partido ? ` · ${candidato.partido}` : ''}
+              </p>
+            )}
           </div>
         );
       })}

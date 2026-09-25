@@ -13,6 +13,10 @@ export const metadata: Metadata = {
   alternates: { canonical: "/Inicial" },
 };
 
+// ISR: as manchetes do card de Notícias vêm da API, mas a página continua
+// saindo do cache — regenerada em segundo plano no máximo a cada 60s.
+export const revalidate = 60;
+
 export default function HomePage() {
   return (
     <div className="min-h-dvh">

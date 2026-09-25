@@ -86,6 +86,38 @@ function loadImageCoveringAspect(src: string, targetAspect: number): Promise<str
   });
 }
 
+// Foto do candidato recortada em círculo (object-fit: cover, alinhada ao
+// topo como no preview), com fundo transparente. jsPDF não sabe recortar
+// imagem em círculo, então o recorte é feito aqui no canvas. crossOrigin é
+// necessário pro canvas poder exportar a imagem do Supabase (o bucket
+// responde Access-Control-Allow-Origin: *).
+function loadCircularPhoto(src: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const size = 240;
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return reject(new Error('Canvas indisponível.'));
+
+      const lado = Math.min(img.naturalWidth || 1, img.naturalHeight || 1);
+      const sx = ((img.naturalWidth || 1) - lado) / 2;
+
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(img, sx, 0, lado, lado, 0, 0, size, size);
+      resolve(canvas.toDataURL('image/png'));
+    };
+    img.onerror = () => reject(new Error(`Não foi possível carregar ${src}.`));
+    img.src = src;
+  });
+}
+
 function drawSantinho(
   pdf: jsPDF,
   {
@@ -96,6 +128,7 @@ function drawSantinho(
     candidatos,
     lateralImg,
     logoImg,
+    fotos,
   }: {
     x: number;
     y: number;
@@ -104,6 +137,7 @@ function drawSantinho(
     candidatos: SantinhoCandidato[];
     lateralImg: string;
     logoImg: string;
+    fotos: Map<string, string>;
   }
 ) {
   // Cartão branco com cantos arredondados
@@ -152,13 +186,27 @@ function drawSantinho(
   candidatos.forEach((candidato, index) => {
     const rowY = listTop + rowHeight * index;
 
+    // Com foto (mesmo layout do preview): círculo à esquerda e cargo/números
+    // deslocados pra direita. Sem foto, a linha fica exatamente como antes.
+    const foto = candidato.fotoUrl ? fotos.get(candidato.fotoUrl) : undefined;
+    const fotoSize = width * 0.13;
+    const rowLeft = foto ? contentLeft + fotoSize + width * 0.025 : contentLeft;
+
+    if (foto) {
+      const fotoY = rowY - width * 0.045;
+      pdf.addImage(foto, 'PNG', contentLeft, fotoY, fotoSize, fotoSize);
+      pdf.setDrawColor(...ORANGE);
+      pdf.setLineWidth(width * 0.0035);
+      pdf.circle(contentLeft + fotoSize / 2, fotoY + fotoSize / 2, fotoSize / 2, 'S');
+    }
+
     pdf.setFont('helvetica', 'bold');
     setFontSizeMm(pdf, width * 0.052);
     pdf.setTextColor(...ORANGE);
-    pdf.text(candidato.cargo, contentLeft, rowY);
+    pdf.text(candidato.cargo, rowLeft, rowY);
 
     const boxGap = width * 0.012;
-    const availableWidth = contentRight - contentLeft - boxGap * (candidato.digitos - 1);
+    const availableWidth = contentRight - rowLeft - boxGap * (candidato.digitos - 1);
     const boxSize = Math.min(width * 0.078, availableWidth / candidato.digitos);
     const boxY = rowY + width * 0.02;
 
@@ -166,7 +214,7 @@ function drawSantinho(
     pdf.setLineWidth(width * 0.0025);
 
     for (let digitIndex = 0; digitIndex < candidato.digitos; digitIndex += 1) {
-      const boxX = contentLeft + digitIndex * (boxSize + boxGap);
+      const boxX = rowLeft + digitIndex * (boxSize + boxGap);
       pdf.roundedRect(boxX, boxY, boxSize, boxSize, width * 0.006, width * 0.006, 'D');
 
       const digit = candidato.numero[digitIndex];
@@ -199,10 +247,17 @@ export async function generateSantinhoPdf({
   // altura = altura total do cartao (CARD_ASPECT vezes a largura).
   const lateralBoxAspect = LATERAL_WIDTH_RATIO / CARD_ASPECT;
 
-  const [lateralImg, logoImg] = await Promise.all([
+  const urlsFotos = [...new Set(candidatos.map((c) => c.fotoUrl).filter((u): u is string => Boolean(u)))];
+
+  const [lateralImg, logoImg, fotosCarregadas] = await Promise.all([
     loadImageCoveringAspect('/SantinhoElementos/lateral.svg', lateralBoxAspect),
     loadImageAsPngDataUrl('/SantinhoElementos/LogoVotus.svg'),
+    // Foto que falhar ao carregar só fica de fora (linha sem foto) — nunca
+    // impede a geração do PDF.
+    Promise.all(urlsFotos.map((url) => loadCircularPhoto(url).then((png) => [url, png] as const).catch(() => null))),
   ]);
+
+  const fotos = new Map(fotosCarregadas.filter((f): f is readonly [string, string] => f !== null));
 
   const grid = GRID_BY_COUNT[santinhosPorPagina] ?? GRID_BY_COUNT[1];
 
@@ -238,7 +293,7 @@ export async function generateSantinhoPdf({
       const x = cellX + (cellWidth - cardWidth) / 2;
       const y = cellY + (cellHeight - cardHeight) / 2;
 
-      drawSantinho(pdf, { x, y, width: cardWidth, height: cardHeight, candidatos, lateralImg, logoImg });
+      drawSantinho(pdf, { x, y, width: cardWidth, height: cardHeight, candidatos, lateralImg, logoImg, fotos });
     }
   }
 

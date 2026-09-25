@@ -1,5 +1,7 @@
 "use client";
 
+import { useConfirm } from "@/components/admin/ConfirmDialog";
+
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import useSWR from "swr";
@@ -399,6 +401,7 @@ function NovaFonteModal({ onClose, onCriada }: { onClose: () => void; onCriada: 
 }
 
 export default function AdminExplicacoesPage() {
+  const { confirm, confirmDialog } = useConfirm();
   const [page, setPage] = useState(1);
   const [busca, setBusca] = useState("");
 
@@ -461,6 +464,14 @@ export default function AdminExplicacoesPage() {
   const explicacoes = explicacoesPage?.data ?? [];
 
   async function handlePublicar(explicacao: AdminExplanation) {
+    const ok = await confirm({
+      title: "Deseja publicar esta explicação?",
+      message: `"${explicacao.title}" ficará visível para todos no site.`,
+      confirmLabel: "Publicar",
+      tone: "primary",
+    });
+    if (!ok) return;
+
     setProcessandoId(explicacao.id);
     setErroAcao(null);
     try {
@@ -474,6 +485,13 @@ export default function AdminExplicacoesPage() {
   }
 
   async function handleDespublicar(explicacao: AdminExplanation) {
+    const ok = await confirm({
+      title: "Deseja despublicar esta explicação?",
+      message: `"${explicacao.title}" deixará de aparecer no site. Você pode publicá-la de novo depois.`,
+      confirmLabel: "Despublicar",
+    });
+    if (!ok) return;
+
     setProcessandoId(explicacao.id);
     setErroAcao(null);
     try {
@@ -487,7 +505,12 @@ export default function AdminExplicacoesPage() {
   }
 
   async function handleRemover(explicacao: AdminExplanation) {
-    if (!window.confirm(`Tem certeza que deseja apagar "${explicacao.title}"? Essa ação não pode ser desfeita.`)) return;
+    const ok = await confirm({
+      title: "Deseja realmente excluir esta explicação?",
+      message: `"${explicacao.title}" será apagada. Essa ação não pode ser desfeita.`,
+      confirmLabel: "Excluir",
+    });
+    if (!ok) return;
 
     setProcessandoId(explicacao.id);
     setErroAcao(null);
@@ -511,7 +534,8 @@ export default function AdminExplicacoesPage() {
   }
 
   async function handleRemoverFonte(fonte: TrustedSource) {
-    if (!window.confirm(`Remover a fonte "${fonte.name}"?`)) return;
+    const ok = await confirm({ title: "Deseja remover esta fonte?", message: fonte.name, confirmLabel: "Remover" });
+    if (!ok) return;
     try {
       await deleteAdminTrustedSource(fonte.id);
       mutateFontes();
@@ -751,6 +775,7 @@ export default function AdminExplicacoesPage() {
           onSalva={() => mutateFontes()}
         />
       )}
+      {confirmDialog}
     </div>
   );
 }

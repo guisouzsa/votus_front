@@ -61,7 +61,7 @@ export default function Sidebar() {
         backgroundPosition: "center",
       }}
     >
-      <div className="flex flex-col gap-6 px-3 pt-5">
+      <div className="flex h-full flex-col gap-6 px-3 pt-5">
         <div className={`flex items-center ${open ? "gap-3" : "justify-center"}`}>
           {!open ? (
             <button
@@ -101,8 +101,14 @@ export default function Sidebar() {
 
         <div className="h-px w-full bg-[#8D0801]" aria-hidden="true" />
 
-        {/* Lista de Navegação com animação em todos os botões */}
-        <nav className="flex flex-col gap-2">
+        {/* Lista de Navegação com animação em todos os botões. flex-1 +
+        overflow-y-auto: sem isso, itens no fim da lista (ex: Sugestões)
+        ficavam cortados e inacessíveis em telas mais baixas assim que a
+        lista cresceu o suficiente pra não caber inteira na altura fixa da
+        sidebar — o container pai usa overflow-hidden só pelas bordas
+        arredondadas, então sem rolagem própria aqui não tinha como alcançar
+        o que passasse da altura. */}
+        <nav className="flex flex-1 flex-col gap-2 overflow-y-auto overflow-x-hidden pb-4 pr-1 scrollbar-hide">
           {NAV_ITEMS.map(({ id, label, icon, iconClass, path, children }) => {
             const isActive = activeRouteId
               ? activeRouteId === id

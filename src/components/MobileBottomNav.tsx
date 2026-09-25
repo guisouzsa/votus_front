@@ -28,7 +28,7 @@ export default function MobileBottomNav() {
         aria-label="Navegação principal"
         className="fixed inset-x-3 bottom-3 z-40 flex items-center justify-between gap-0.5 rounded-full border border-[#8D0801]/15 bg-[#FDF8EE] px-2 py-2 shadow-lg md:hidden"
       >
-        {/* Primeiros 4 itens (Início, Notícias, Cargos, Juventude) */}
+        {/* Primeiros 4 itens (Início, Notícias, Cargos atuais, Candidatos 2026) */}
         {NAV_ITEMS.slice(0, 4).map(({ id, label, icon, iconClass, path, children }) => {
           const isActive = activeRouteId === id;
           const isGroupActive = children?.some((child) => child.id === activeRouteId) ?? false;

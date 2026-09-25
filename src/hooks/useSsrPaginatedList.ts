@@ -21,13 +21,15 @@ export function useSsrPaginatedList<T>(
   key: unknown[],
   fetcher: () => Promise<T>,
   fallbackData: T | undefined
-): Pick<SWRResponse<T>, 'error' | 'mutate'> & { data: T | undefined; loading: boolean } {
-  const { data, error, mutate } = useSWR(key, fetcher, {
+): Pick<SWRResponse<T>, 'error' | 'mutate' | 'isValidating'> & { data: T | undefined; loading: boolean } {
+  const { data, error, mutate, isValidating } = useSWR(key, fetcher, {
     revalidateOnFocus: false,
     keepPreviousData: true,
     fallbackData,
     revalidateIfStale: !fallbackData,
   });
 
-  return { data, error, mutate, loading: !data && !error };
+  // isValidating: com keepPreviousData a lista anterior continua na tela
+  // enquanto a nova (outra página/filtro) carrega — serve pra sinalizar isso.
+  return { data, error, mutate, isValidating, loading: !data && !error };
 }

@@ -1,6 +1,4 @@
 import { preload } from "swr";
-import { getDeputados } from "@/services/deputadosService";
-import { getSenadores } from "@/services/senadoresService";
 import { getAllNews } from "@/services/newsService";
 import { getProposals } from "@/services/proposalsService";
 
@@ -13,9 +11,11 @@ function safePreload<T>(key: string | readonly unknown[], fetcher: () => Promise
   Promise.resolve(preload(key, fetcher)).catch(() => {});
 }
 
+// Só rotas cujos dados são buscados no navegador. Deputados, Senadores e
+// Candidatos saíram daqui: a página já vem com os dados do servidor (ISR, ver
+// page.tsx de cada uma) e o <Link> do Next pré-carrega isso sozinho — o
+// preload via API só gerava mais uma requisição ao backend a cada hover.
 const PREFETCH_BY_PATH: Record<string, () => void> = {
-  "/DeputadosPage": () => safePreload(["deputados", 1], () => getDeputados({ page: 1 })),
-  "/SenadoresPage": () => safePreload(["senadores", 1], () => getSenadores({ page: 1 })),
   "/Painelnoticias": () => safePreload("news", () => getAllNews()),
   "/PropostasPage": () => safePreload(["proposals", 1], () => getProposals({ page: 1 })),
 };

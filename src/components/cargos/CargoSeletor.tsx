@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { CARGOS, NIVEIS, type Poder } from '@/data/cargosPoliticos';
 
 const PODER_DOT: Record<Poder, string> = {
@@ -51,6 +53,21 @@ export default function CargoSeletor({
           </div>
         </div>
       ))}
+
+      {/* "Você Sabia?" não é um cargo: é a área de explicações com quiz
+      (/explicacao), incorporada aqui como último item da lista. Por isso é
+      um link de navegação, não um botão que troca a ficha ao lado. */}
+      <div>
+        <p className="mb-3 text-xs font-black uppercase tracking-[0.2em] text-ink-soft">Aprenda mais</p>
+        <Link
+          href="/explicacao"
+          className="flex items-center gap-2.5 rounded-[10px] border border-line px-4 py-3 text-left text-sm font-bold text-ink transition-colors hover:border-brasil-red/40 hover:bg-sand/30"
+        >
+          <span className="h-2 w-2 shrink-0 rounded-full bg-brasil-red" aria-hidden="true" />
+          Você Sabia?
+          <ArrowRight size={16} className="ml-auto text-brasil-red" aria-hidden="true" />
+        </Link>
+      </div>
     </nav>
   );
 }

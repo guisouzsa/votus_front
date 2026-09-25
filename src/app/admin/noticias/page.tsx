@@ -1,5 +1,7 @@
 "use client";
 
+import { useConfirm } from "@/components/admin/ConfirmDialog";
+
 import { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import { Clock, ChevronDown, ChevronUp, ImageOff, Newspaper, PlusCircle, Trash2 } from "lucide-react";
@@ -69,6 +71,7 @@ const STATUS_LABEL: Record<string, { label: string; className: string }> = {
 type EstadoColeta = "idle" | "executando" | "sucesso" | "erro";
 
 export default function AdminNoticiasPage() {
+  const { confirm, confirmDialog } = useConfirm();
   const {
     data: dashboard,
     isLoading: dashboardLoading,
@@ -98,7 +101,12 @@ export default function AdminNoticiasPage() {
   const [removendoId, setRemovendoId] = useState<number | null>(null);
 
   async function handleRemoverNoticia(id: number) {
-    if (!window.confirm("Tem certeza que deseja remover esta notícia?")) return;
+    const ok = await confirm({
+      title: "Deseja realmente remover esta notícia?",
+      message: "Ela deixará de aparecer no painel de notícias do site.",
+      confirmLabel: "Remover",
+    });
+    if (!ok) return;
 
     setRemovendoId(id);
 
@@ -367,6 +375,7 @@ export default function AdminNoticiasPage() {
           </button>
         </div>
       )}
+      {confirmDialog}
     </div>
   );
 }

@@ -1,5 +1,8 @@
 "use client";
 
+import { useConfirm } from "@/components/admin/ConfirmDialog";
+import AnswersDonut from "@/components/admin/AnswersDonut";
+
 import { useState } from "react";
 import useSWR, { mutate as globalMutate } from "swr";
 import { Plus, X, Pencil, Trash2, MessageSquareText, BarChart3, FileDown } from "lucide-react";
@@ -272,31 +275,6 @@ function CadastrarSugestaoModal({ onClose, onCriada }: { onClose: () => void; on
   );
 }
 
-function QuestionStatsBar({ question }: { question: SuggestionQuestion }) {
-  if (!question.stats || Object.keys(question.stats).length === 0) return null;
-
-  const total = Object.values(question.stats).reduce((acc, n) => acc + n, 0);
-
-  return (
-    <div className="mt-3 flex flex-col gap-1.5 border-t border-line pt-3">
-      {(question.options ?? []).map((opcao) => {
-        const contagem = question.stats?.[opcao] ?? 0;
-        const pct = total > 0 ? Math.round((contagem / total) * 100) : 0;
-
-        return (
-          <div key={opcao} className="flex items-center gap-2 text-xs">
-            <span className="w-32 shrink-0 truncate text-[#6b6255]">{opcao}</span>
-            <div className="h-2 flex-1 overflow-hidden rounded-full bg-[#FDF8EE]">
-              <div className="h-full rounded-full bg-[#1B623A]" style={{ width: `${pct}%` }} />
-            </div>
-            <span className="w-10 shrink-0 text-right font-bold text-[#22201b]">{contagem}</span>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
 function respostaLinhas(sugestao: AdminSuggestion): { label: string; valor: string }[] {
   if (sugestao.answers.length > 0) {
     return sugestao.answers.map((a) => ({ label: a.question?.text ?? "Pergunta removida", valor: a.answer }));
@@ -331,6 +309,7 @@ function respostaLinhas(sugestao: AdminSuggestion): { label: string; valor: stri
 }
 
 export default function AdminSugestoesPage() {
+  const { confirm, confirmDialog } = useConfirm();
   const { data: dashboard } = useSWR("admin-dashboard", getAdminDashboard, { revalidateOnFocus: false });
   const [page, setPage] = useState(1);
   const [busca, setBusca] = useState("");
@@ -364,7 +343,12 @@ export default function AdminSugestoesPage() {
   const [erroSugestao, setErroSugestao] = useState<string | null>(null);
 
   async function handleRemoverSugestao(sugestao: AdminSuggestion) {
-    if (!window.confirm("Tem certeza que deseja apagar esta sugestão? Essa ação não pode ser desfeita.")) return;
+    const ok = await confirm({
+      title: "Deseja realmente excluir esta sugestão?",
+      message: "Essa ação não pode ser desfeita.",
+      confirmLabel: "Excluir",
+    });
+    if (!ok) return;
 
     setRemovendoSugestaoId(sugestao.id);
     setErroSugestao(null);
@@ -394,9 +378,12 @@ export default function AdminSugestoesPage() {
   }
 
   async function handleRemoverPergunta(pergunta: SuggestionQuestion) {
-    if (!window.confirm(`Tem certeza que deseja remover a pergunta "${pergunta.text}"? As respostas já recebidas para ela também serão apagadas.`)) {
-      return;
-    }
+    const ok = await confirm({
+      title: "Deseja realmente remover esta pergunta?",
+      message: `"${pergunta.text}" — as respostas já recebidas para ela também serão apagadas.`,
+      confirmLabel: "Remover",
+    });
+    if (!ok) return;
 
     setRemovendoId(pergunta.id);
     setErroPergunta(null);
@@ -490,7 +477,7 @@ export default function AdminSugestoesPage() {
               </div>
             </div>
 
-            <QuestionStatsBar question={pergunta} />
+            <AnswersDonut question={pergunta} />
           </div>
         ))}
       </section>
@@ -603,6 +590,7 @@ export default function AdminSugestoesPage() {
           }}
         />
       )}
+      {confirmDialog}
     </div>
   );
 }

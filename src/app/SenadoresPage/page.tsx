@@ -9,9 +9,8 @@ export const metadata: Metadata = {
   alternates: { canonical: '/SenadoresPage' },
 };
 
-// Sem isso, o Next.js gera essa página como estática no build — ver o
-// mesmo comentário em DeputadosPage/page.tsx.
-export const dynamic = 'force-dynamic';
+// ISR de 60s — ver o comentário em DeputadosPage/page.tsx.
+export const revalidate = 60;
 
 export default async function SenadoresPage() {
   // Busca a primeira página já no servidor — ver o mesmo comentário em

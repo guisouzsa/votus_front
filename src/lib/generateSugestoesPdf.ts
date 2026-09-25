@@ -1,6 +1,7 @@
 import jsPDF from 'jspdf';
 import { getAdminSuggestions } from '@/services/adminService';
 import type { AdminSuggestion, SuggestionQuestion } from '@/services/types';
+import { distribuicaoRespostas, formatarPercentual } from '@/lib/suggestionStats';
 
 const GREEN: [number, number, number] = [27, 98, 58];
 const ORANGE: [number, number, number] = [255, 119, 0];
@@ -157,14 +158,14 @@ export async function generateSugestoesPdf({
       { tamanho: 8.5, cor: GRAY, espacoDepois: 2 }
     );
 
-    if (pergunta.stats && Object.keys(pergunta.stats).length > 0) {
-      const total = Object.values(pergunta.stats).reduce((acc, n) => acc + n, 0);
+    // Mesma fonte de números da tela do admin (ver lib/suggestionStats).
+    const { total, fatias } = distribuicaoRespostas(pergunta);
 
-      (pergunta.options ?? Object.keys(pergunta.stats)).forEach((opcao) => {
-        const contagem = pergunta.stats?.[opcao] ?? 0;
-        const pct = total > 0 ? Math.round((contagem / total) * 100) : 0;
+    if (pergunta.type === 'choice' && total > 0) {
+      fatias.forEach(({ label, count: contagem, share, orfa }) => {
+        const opcao = orfa ? `${label} (opção antiga)` : label;
         const barraLargura = 60;
-        const barraPreenchida = (pct / 100) * barraLargura;
+        const barraPreenchida = share * barraLargura;
 
         garantirEspaco(6);
         pdf.setFont('helvetica', 'normal');
@@ -179,7 +180,7 @@ export async function generateSugestoesPdf({
         pdf.rect(barraX, y - 3, barraPreenchida, 3.2, 'F');
 
         pdf.setTextColor(...DARK);
-        pdf.text(`${contagem} (${pct}%)`, barraX + barraLargura + 4, y);
+        pdf.text(`${contagem} (${formatarPercentual(share)})`, barraX + barraLargura + 4, y);
 
         y += 6;
       });

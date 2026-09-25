@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import useSWR from 'swr';
+import { useSsrDetail } from '@/hooks/useSsrDetail';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
@@ -42,7 +42,11 @@ const STATUS_LABELS: Record<string, string> = {
   unknown: 'Desconhecido',
 };
 
-export default function ShowSenadoresPageClient() {
+export default function ShowSenadoresPageClient({
+  initialData,
+}: {
+  initialData?: Awaited<ReturnType<typeof getSenador>>;
+}) {
   const params = useParams<{ externalId: string }>();
   const externalId = params.externalId;
 
@@ -52,9 +56,7 @@ export default function ShowSenadoresPageClient() {
     data: senador,
     error: swrError,
     isLoading,
-  } = useSWR(externalId ? ['senador', externalId] : null, () => getSenador(externalId), {
-    revalidateOnFocus: false,
-  });
+  } = useSsrDetail(externalId ? ['senador', externalId] : null, () => getSenador(externalId), initialData);
 
   if (isLoading) {
     return <LegislatorDetailSkeleton />;

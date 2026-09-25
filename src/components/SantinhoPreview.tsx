@@ -5,6 +5,11 @@ export interface SantinhoCandidato {
   cargo: string;
   digitos: number;
   numero: string;
+  // Preenchidos por useSantinhoCandidatos quando o número digitado bate com
+  // um candidato real do cargo: foto oficial (Supabase Storage) e nome.
+  fotoUrl?: string | null;
+  nome?: string | null;
+  partido?: string | null;
 }
 
 // Todo o dimensionamento interno usa unidades de container query (cqw = 1%
@@ -29,7 +34,19 @@ export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCa
 
         <div className="mt-[5cqw] flex flex-1 flex-col justify-between gap-[1.5cqw]">
           {candidatos.map((candidato) => (
-            <div key={candidato.id} className="flex flex-col gap-[0.8cqw]">
+            <div key={candidato.id} className="flex items-center gap-[1.8cqw]">
+              {candidato.fotoUrl && (
+                <div className="relative aspect-square w-[10cqw] shrink-0 overflow-hidden rounded-full border-[0.35cqw] border-brasil-orange bg-white">
+                  <Image
+                    src={candidato.fotoUrl}
+                    alt={candidato.nome ? `Foto de ${candidato.nome}` : ''}
+                    fill
+                    sizes="64px"
+                    className="object-cover object-top"
+                  />
+                </div>
+              )}
+              <div className="flex min-w-0 flex-col gap-[0.8cqw]">
               <p className="text-[2.3cqw] font-bold uppercase leading-tight text-brasil-orange">
                 {candidato.cargo}
               </p>
@@ -45,6 +62,7 @@ export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCa
                     </div>
                   );
                 })}
+              </div>
               </div>
             </div>
           ))}

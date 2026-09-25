@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import useSWR from "swr";
+import { useSsrDetail } from '@/hooks/useSsrDetail';
 import { ArrowLeft, ExternalLink, CheckCircle2, XCircle } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import MobileBottomNav from "@/components/MobileBottomNav";
@@ -138,13 +138,19 @@ function QuizCard({ pergunta, indice }: { pergunta: QuizQuestionApi; indice: num
   );
 }
 
-export default function ExplicacaoDetailClient() {
+export default function ExplicacaoDetailClient({
+  initialData,
+}: {
+  initialData?: ExplanationApi;
+}) {
   const params = useParams<{ id: string }>();
   const id = params.id;
 
-  const { data: explicacao, isLoading } = useSWR(id ? ["explicacao", id] : null, () => getExplanation(id), {
-    revalidateOnFocus: false,
-  });
+  const { data: explicacao, isLoading } = useSsrDetail(
+    id ? ["explicacao", id] : null,
+    () => getExplanation(id),
+    initialData
+  );
 
   return (
     <div className="min-h-dvh">

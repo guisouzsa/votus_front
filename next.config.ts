@@ -35,12 +35,27 @@ const nextConfig: NextConfig = {
         pathname: "/senadores/img/fotos-oficiais/**",
       },
       {
-        // Fotos dos candidatos, servidas pelo próprio backend (Storage::url).
+        // Fotos antigas dos candidatos, servidas pelo próprio backend
+        // (Storage::url no disco local). Mantido por compatibilidade.
         protocol: "https",
         hostname: "votus-core.onrender.com",
         pathname: "/storage/candidates/**",
       },
+      {
+        // Fotos atuais dos candidatos: o backend agora usa o disco
+        // "supabase" e devolve a URL pública absoluta do bucket. Sem esta
+        // entrada o otimizador do next/image recusava a URL (400
+        // INVALID_IMAGE_OPTIMIZE_REQUEST, confirmado em produção) e todo
+        // card caía no placeholder via onError — nenhuma foto real aparecia.
+        protocol: "https",
+        hostname: "bibpgfltcdrgbxvvnixn.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
     ],
+    // As fotos do bucket vêm com Cache-Control: no-cache (definido no
+    // upload), então sem isso a versão otimizada seria revalidada a toda
+    // hora. Fotos oficiais mudam raramente; 1 dia de cache é seguro.
+    minimumCacheTTL: 86400,
   },
 };
 
