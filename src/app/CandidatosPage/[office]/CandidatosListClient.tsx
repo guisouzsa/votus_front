@@ -6,8 +6,6 @@ import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import Footer from '@/components/Footer';
-import CrossLinkBanner from '@/components/CrossLinkBanner';
-import MandatoVsCandidatura from '@/components/MandatoVsCandidatura';
 import LegislatorFilterFrame from '@/components/LegislatorFilterFrame';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
 import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
@@ -175,7 +173,6 @@ export default function CandidatosListClient({
               })}
             </nav>
 
-            <MandatoVsCandidatura atual="candidatura" />
 
             <LegislatorFilterFrame
               searchValue={filtros.search}
@@ -284,14 +281,6 @@ export default function CandidatosListClient({
                 <Pagination page={page} lastPage={lastPage} onChange={setPage} />
               </div>
 
-              <CrossLinkBanner
-                titulo="Juventude em Pauta"
-                descricao="Vagas, concursos, universidades e um espaço para propor e debater ideias para a juventude."
-                links={[
-                  { label: 'Juventude em Pauta', href: '/Juventude' },
-                  { label: 'Propostas', href: '/PropostasPage' },
-                ]}
-              />
             </div>
           </div>
         </div>

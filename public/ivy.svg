@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 628 706" role="img" aria-label="Ivy, mascote do Votus">
+  <!-- Ivy (mascote do Votus) vetorizada a partir de ivy_votus.png, com as
+       mesmas cores. Escala sem perda — use no lugar do PNG quando precisar
+       de tamanhos grandes ou muito pequenos. -->
+  <rect x="0" y="548" width="282" height="40" rx="16" fill="#8C1410"/>
+  <rect x="470" y="550" width="158" height="38" rx="16" fill="#8C1410"/>
+  <path fill="#436C35" d="M480 540c-8-72 44-130 135-142 5 74-36 138-135 142Z"/>
+  <path fill="#fff" d="M500 522c30-30 55-62 78-100l6 3c-20 40-46 74-78 102Z"/>
+  <path fill="#F4B315" d="M305 498l52 46 4 98c-15 22-42 22-57 0Z"/>
+  <path fill="#436C35" d="M370 556l76 54c10 42 6 82-16 94h-52c-10-44-12-102-8-148Z"/>
+  <path fill="#436C35" d="M160 288c20-16 52-10 66 12l14 122c14 48 30 78 40 88-52-14-106-58-120-130-8-32-8-64 0-92Z"/>
+  <path fill="#436C35" d="M248 230c34-46 114-52 174-20 46 30 50 110 40 210v100c-10 40-20 80-42 90l-60-58c-40-30-90-82-114-150-10-60-8-128 2-172Z"/>
+  <path fill="#F4B315" d="M160 42c60-44 170-48 220 8 40 46 36 110 26 140l-106-4c-40-10-72-36-86-76Z"/>
+  <path fill="#F28C38" d="M206 108c36-8 76 22 86 72-20 36-50 70-82 88l-38 4c14-52 22-120 34-164Z"/>
+  <path fill="#8C1410" d="M126 70c14-16 50-12 60-6l10 88c-36 2-66 4-74-2-4-30-4-60 4-80Z"/>
+  <circle cx="258" cy="62" r="30" fill="#fff"/>
+  <circle cx="258" cy="62" r="19" fill="#2D5237"/>
+  <ellipse cx="170" cy="532" rx="26" ry="14" fill="#E07B1A"/>
+  <ellipse cx="232" cy="530" rx="36" ry="15" fill="#FF7700"/>
+</svg>

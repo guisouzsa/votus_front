@@ -21,7 +21,6 @@ export const TEAM_MEMBERS: TeamMember[] = [
   { name: 'Gustavo Coutinho', role: 'Desenvolvedor e Pré-projeto', image: '/coutinho.jpeg' },
   { name: 'Kerllon Sousa', role: 'Desenvolvedor Frontend e Designer', image: '/kerllon_sousa_votus.jpg' },
   { name: 'Arielly Vitória', role: 'Pré-projeto e Diário de Bordo', image: '/arielly.jpeg' },
-  { name: 'Anna Julia', role: 'Pré-projeto e Diário de Bordo', image: '/julia.jpeg' },
 ];
 
 export const TEAM_ADVISOR: TeamMember = { name: 'Israely', role: 'Orientadora do projeto', image: '/israely.jpeg' };

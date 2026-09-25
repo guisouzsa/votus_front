@@ -74,7 +74,6 @@ export default function AdminNoticiasPage() {
   const { confirm, confirmDialog } = useConfirm();
   const {
     data: dashboard,
-    isLoading: dashboardLoading,
     mutate: mutateDashboard,
   } = useSWR("admin-dashboard", getAdminDashboard, {
     revalidateOnFocus: false,
@@ -125,7 +124,9 @@ export default function AdminNoticiasPage() {
   // Trava também enquanto o dashboard ainda não carregou — sem isso, o
   // botão fica clicável por um instante antes de sabermos se já há
   // resumo pendente, inclusive logo depois de recarregar a página.
-  const atualizarDesabilitado = estadoColeta === "executando" || dashboardLoading || pendentes > 0;
+  // Só trava durante o próprio clique (evita disparo duplo). Resumos pendentes
+  // do ciclo automático não bloqueiam mais: a atualização manual é independente.
+  const atualizarDesabilitado = estadoColeta === "executando";
 
   const drenandoRef = useRef(false);
   const [drenagemAtiva, setDrenagemAtiva] = useState(false);

@@ -13,11 +13,31 @@ export function getNewsItem(id: number | string) {
 
 const PER_PAGE_PADRAO = 15;
 
-export async function getAllNews(): Promise<NewsArticleApi[]> {
+// Segunda camada da regra "notícia sem imagem não aparece" — a primeira é no
+// backend (não grava nem lista sem imagem). Protege contra resposta antiga
+// em cache ou backend ainda não atualizado.
+export function temImagem(noticia: NewsArticleApi): boolean {
+  return typeof noticia.image_url === "string" && /^https?:\/\//i.test(noticia.image_url.trim());
+}
+
+export interface NewsFeed {
+  noticias: NewsArticleApi[];
+  destaque: NewsArticleApi | null;
+}
+
+export async function getNewsFeed(): Promise<NewsFeed> {
+  const first = await getNewsList(1, MAX_PAGES * PER_PAGE_PADRAO);
+  const noticias = await getAllNews(first);
+  const destaque = first.destaque && temImagem(first.destaque) ? first.destaque : null;
+
+  return { noticias: noticias.filter(temImagem), destaque };
+}
+
+export async function getAllNews(primeiraPagina?: NewsListResponse): Promise<NewsArticleApi[]> {
   // Uma requisição só com as mesmas até 150 notícias (MAX_PAGES × 15) que
   // antes vinham em 10 chamadas. O backend processava as 10 em fila, uma de
   // cada vez, então "em paralelo" na prática somava ~10× a latência.
-  const first = await getNewsList(1, MAX_PAGES * PER_PAGE_PADRAO);
+  const first = primeiraPagina ?? (await getNewsList(1, MAX_PAGES * PER_PAGE_PADRAO));
 
   // Backend ainda sem suporte a per_page (responde 15 por página): segue o
   // caminho antigo pra nunca mostrar menos notícias do que antes.

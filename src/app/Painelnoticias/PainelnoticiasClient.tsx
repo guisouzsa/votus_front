@@ -13,7 +13,7 @@ import NewsSection from "@/components/NewsSection";
 import NewsPanelSkeleton from "@/components/NewsPanelSkeleton";
 import FloatingAIButton from "@/components/FloatingAIButton";
 import Footer from "@/components/Footer";
-import { getAllNews } from "@/services/newsService";
+import { getNewsFeed } from "@/services/newsService";
 import { categoryGradient, mapApiNewsToArticle } from "@/lib/news";
 import { ApiError } from "@/services/apiClient";
 import type { NewsArticleApi } from "@/services/types";
@@ -24,10 +24,11 @@ export default function PainelnoticiasClient() {
   const [relevanceTab, setRelevanceTab] = useState<RelevanceTab>("Mais relevantes");
 
   const {
-    data: news,
+    data: feed,
     error: swrError,
     isLoading,
-  } = useSWR("news", () => getAllNews(), { revalidateOnFocus: false });
+  } = useSWR("news-feed", getNewsFeed, { revalidateOnFocus: false });
+  const news = feed?.noticias;
 
   const error = swrError
     ? swrError instanceof ApiError
@@ -85,11 +86,13 @@ export default function PainelnoticiasClient() {
     return Array.from(groups.entries());
   }, [filteredNews]);
 
-  // A notícia em destaque é sempre a mais relevante entre todas as publicadas
-  // (relevance_score é atribuído pela IA no resumo, de 0 a 10), fixa
-  // independente da aba de ordenação ou dos filtros aplicados na lista abaixo.
-  // Em empate de relevância, desempata pela mais recente.
+  // A notícia principal agora é escolhida no backend (SelecionadorDestaqueNoticia:
+  // recentes com imagem, alternando 1–2 por dia). Antes era "a mais relevante
+  // entre TODAS as publicadas", o que prendia o destaque numa notícia antiga
+  // de nota 9 por dias. A regra antiga fica só como fallback, pra backend
+  // ainda sem o campo "destaque".
   const mostRelevantNews = useMemo(() => {
+    if (feed?.destaque) return feed.destaque;
     if (publishedNews.length === 0) return undefined;
 
     return [...publishedNews].sort((a, b) => {
@@ -98,7 +101,7 @@ export default function PainelnoticiasClient() {
 
       return new Date(b.published_at ?? 0).getTime() - new Date(a.published_at ?? 0).getTime();
     })[0];
-  }, [publishedNews]);
+  }, [feed, publishedNews]);
 
   const heroArticle = mostRelevantNews ? mapApiNewsToArticle(mostRelevantNews) : undefined;
 

@@ -177,6 +177,9 @@ export interface NewsListResponse {
   last_page: number;
   per_page: number;
   total: number;
+  // Notícia principal escolhida no backend (só na página 1). Opcional: um
+  // backend ainda sem esse campo simplesmente não manda.
+  destaque?: NewsArticleApi | null;
 }
 
 // Formato padrão do paginator do Laravel (LengthAwarePaginator::toJson), usado

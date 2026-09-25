@@ -62,7 +62,9 @@ export default function AdminDashboardPage() {
   const [mensagemErro, setMensagemErro] = useState<string | null>(null);
 
   const pendentes = data?.noticias.pendentes ?? 0;
-  const atualizarDesabilitado = estadoColeta === "executando" || pendentes > 0;
+  // Só trava durante o próprio clique (evita disparo duplo). Resumos pendentes
+  // do ciclo automático não bloqueiam mais: a atualização manual é independente.
+  const atualizarDesabilitado = estadoColeta === "executando";
 
   async function handleAtualizarNoticias() {
     setEstadoColeta("executando");
@@ -128,7 +130,7 @@ export default function AdminDashboardPage() {
 
           {estadoColeta !== "executando" && pendentes > 0 && (
             <p className="text-sm font-semibold text-[#8D6A00]">
-              {pendentes} notícia(s) ainda sendo processada(s) pelo resumo de IA — aguarde para buscar mais.
+              {pendentes} notícia(s) ainda sendo processada(s) pelo resumo de IA.
             </p>
           )}
           {estadoColeta === "sucesso" && (

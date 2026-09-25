@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <!-- Cursor Ivy (Votus): cabeça da Ivy vetorizada. A ponta do bico, em
+       (3,5), é o ponto de clique (hotspot definido no CSS). Contorno branco
+       + sombra escura fina para ficar visível sobre qualquer fundo. -->
+  <g stroke="#1b1b1b" stroke-opacity=".35" stroke-width="3.6" stroke-linejoin="round" fill="none">
+    <path d="M10 5C14 1.5 22 1 26 5c3 3 3.5 8 2.5 12L20 17.5c-4-1.5-6-4.5-7-7.5Z"/>
+    <path d="M3 5c2-1.5 6-1.2 7.5-.5l1 7.5c-3 .2-5.5 0-6.7-.7C3.6 9.5 3 7 3 5Z"/>
+    <path d="M13 10c3 0 6 3 6.5 7-1.5 3-3.5 5.5-6 7H11c1-5 1.5-10 2-14Z"/>
+    <path d="M17 18c3-2.5 8-2.5 11 0 2.5 3 2 8 1 12h-7c-3-2.5-5-6.5-5-12Z"/>
+  </g>
+  <g stroke="#fff" stroke-width="2.2" stroke-linejoin="round" paint-order="stroke">
+    <path fill="#F4B315" d="M10 5C14 1.5 22 1 26 5c3 3 3.5 8 2.5 12L20 17.5c-4-1.5-6-4.5-7-7.5Z"/>
+    <path fill="#436C35" d="M17 18c3-2.5 8-2.5 11 0 2.5 3 2 8 1 12h-7c-3-2.5-5-6.5-5-12Z"/>
+    <path fill="#F28C38" d="M13 10c3 0 6 3 6.5 7-1.5 3-3.5 5.5-6 7H11c1-5 1.5-10 2-14Z"/>
+    <path fill="#8C1410" d="M3 5c2-1.5 6-1.2 7.5-.5l1 7.5c-3 .2-5.5 0-6.7-.7C3.6 9.5 3 7 3 5Z"/>
+  </g>
+  <circle cx="18.2" cy="7" r="2.3" fill="#fff"/>
+  <circle cx="18.2" cy="7" r="1.4" fill="#2D5237"/>
+</svg>

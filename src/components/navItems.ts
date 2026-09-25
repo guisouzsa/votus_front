@@ -14,7 +14,7 @@ export const NAV_ITEMS: NavItem[] = [
   { id: "noticias", label: "Notícias", icon: "/IconeNoticias.png", path: "/Painelnoticias" },
   // "Cargos atuais" = quem exerce mandato hoje (dados da Câmara/Senado).
   // "Candidatos 2026" = quem concorre na eleição (dados do TSE). São duas
-  // áreas diferentes de propósito — ver MandatoVsCandidatura.
+  // áreas diferentes de propósito.
   {
     id: "cargos",
     label: "Cargos atuais",

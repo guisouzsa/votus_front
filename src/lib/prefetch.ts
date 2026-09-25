@@ -1,5 +1,5 @@
 import { preload } from "swr";
-import { getAllNews } from "@/services/newsService";
+import { getNewsFeed } from "@/services/newsService";
 import { getProposals } from "@/services/proposalsService";
 
 /**
@@ -16,7 +16,7 @@ function safePreload<T>(key: string | readonly unknown[], fetcher: () => Promise
 // page.tsx de cada uma) e o <Link> do Next pré-carrega isso sozinho — o
 // preload via API só gerava mais uma requisição ao backend a cada hover.
 const PREFETCH_BY_PATH: Record<string, () => void> = {
-  "/Painelnoticias": () => safePreload("news", () => getAllNews()),
+  "/Painelnoticias": () => safePreload("news-feed", getNewsFeed),
   "/PropostasPage": () => safePreload(["proposals", 1], () => getProposals({ page: 1 })),
 };
 

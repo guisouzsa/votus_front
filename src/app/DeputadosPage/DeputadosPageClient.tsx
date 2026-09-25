@@ -7,7 +7,6 @@ import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import Footer from '@/components/Footer';
-import MandatoVsCandidatura from '@/components/MandatoVsCandidatura';
 import LegislatorFilterFrame from '@/components/LegislatorFilterFrame';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
 import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
@@ -125,8 +124,6 @@ export default function DeputadosPageClient({
               </div>
             </section>
 
-            {/* Quem legisla hoje × quem concorre em 2026 — ver MandatoVsCandidatura. */}
-            <MandatoVsCandidatura atual="mandato" />
 
             <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
               {statCards.map((item) => (

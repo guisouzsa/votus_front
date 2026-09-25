@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, BookOpen, GraduationCap, Landmark, Newspaper, Vote, type LucideIcon } from "lucide-react";
-import { getNewsList } from "@/services/newsService";
+import { getNewsList, temImagem } from "@/services/newsService";
 import type { NewsArticleApi } from "@/services/types";
 
 type Atalho = { label: string; href: string };
@@ -164,7 +164,7 @@ function ModuloCard({ titulo, descricao, href, cta, icon: Icon, cor, atalhos, ma
 async function carregarManchetes(): Promise<NewsArticleApi[]> {
   try {
     const resposta = await getNewsList(1);
-    return resposta.data.filter((noticia) => noticia.published).slice(0, 3);
+    return resposta.data.filter((noticia) => noticia.published && temImagem(noticia)).slice(0, 3);
   } catch {
     return [];
   }
