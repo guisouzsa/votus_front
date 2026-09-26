@@ -33,6 +33,16 @@ body {
   font-family: var(--font-montserrat), sans-serif;
 }
 
+/* Cursor da Ivy (mascote do Votus) — só a imagem, no tamanho padrão de
+   cursor (32x32), sem variante extra para links/botões. Ponto de clique na
+   ponta do bico (3px, 5px). Só em mouse/trackpad; toque não é afetado, e no
+   modo de alto contraste do sistema volta ao cursor nativo. */
+@media (pointer: fine) and (forced-colors: none) {
+  html {
+    cursor: url("/cursor-ivy.svg") 3 5, auto;
+  }
+}
+
 .scrollbar-hide {
   scrollbar-width: none;
   -ms-overflow-style: none;

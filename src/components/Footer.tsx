@@ -10,7 +10,7 @@ const SOCIAL_LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="mt-12 border-t border-line bg-[#FDF8EE]">
+    <footer className="mt-12 border-t border-line bg-white">
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-10 sm:px-10">
         {/* Logo ao lado do texto (empilha só no celular). */}
         <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-center sm:gap-6 sm:text-left">
