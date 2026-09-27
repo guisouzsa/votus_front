@@ -189,7 +189,7 @@ export default function JuventudeClient({
             {!concursosLoading && !concursosError && concursos.length > 0 && (
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {concursos.map((concurso) => {
-                  const statusInfo = STATUS_LABELS[concurso.status];
+                  const statusInfo = STATUS_LABELS[concurso.status] ?? STATUS_LABELS.indefinido;
                   const salario = formatSalario(concurso.salary_min, concurso.salary_max);
                   const prazo = formatData(concurso.registration_end);
 
@@ -218,7 +218,7 @@ export default function JuventudeClient({
                         {salario && <span className="font-semibold text-[#1b623a]">{salario}</span>}
                       </div>
 
-                      {concurso.positions.length > 0 && (
+                      {concurso.positions && concurso.positions.length > 0 && (
                         <p className="text-xs text-[#4d4d4d]">{concurso.positions.join(', ')}</p>
                       )}
 

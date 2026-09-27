@@ -395,8 +395,8 @@ export interface PublicOpportunity {
   agency: string | null;
   municipality: string | null;
   state: string | null;
-  positions: string[];
-  education_levels: string[];
+  positions: string[] | null;
+  education_levels: string[] | null;
   vacancies: number | null;
   salary_min: string | null;
   salary_max: string | null;
