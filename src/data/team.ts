@@ -10,9 +10,9 @@ export const TEAM_MEMBERS: TeamMember[] = [
   // DS3
   { name: 'Marianne Moreira Lima', role: 'Líder da Logística e do Diário de Bordo e Designer', image: '/marianne_moreira_votus.jpg' },
   { name: 'Eva Lohane Costa Cordeiro', role: 'Líder da Logística, do Protótipo e do Pré-projeto', image: '/Eva_lohane_votus.jpg' },
-  { name: 'Emanuel Rodrigues Cordeiro Sousa', role: 'Líder do Desenvolvimento e Desenvolvedor Full Stack', image: '/emanuel_sousa_votus.jpg' },
   { name: 'Larissa Felix de Lima', role: 'Desenvolvedora Full Stack', image: '/larissa_felix_votus.jpg' },
-  { name: 'Guilherme Rodrigues de Souza', role: 'Desenvolvedor Full Stack', image: '/guilhermejpeg.jpeg' },
+  { name: 'Guilherme Rodrigues de Souza', role: 'Desenvolvedor Full Stack, QA e Analista de Requisitos', image: '/guilhermejpeg.jpeg' },
+  { name: 'Emanuel Rodrigues Cordeiro Sousa', role: 'Líder do Desenvolvimento e Desenvolvedor Full Stack', image: '/emanuel_sousa_votus.jpg' },
   { name: 'Pedro Henrique de Oliveira Costa', role: 'Desenvolvedor Backend', image: '/pedro_oliveira_votus.jpg' },
   // Infor2 + demais integrantes
   { name: 'Ivens de Araújo Silva', role: 'Designer', image: '/ivens_araujo_votus.jpeg' },
