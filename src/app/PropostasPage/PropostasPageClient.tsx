@@ -13,6 +13,7 @@ import ProposalCard from '@/components/ProposalCard';
 import ProposalFormModal from '@/components/ProposalFormModal';
 import { ProposalListSkeleton } from '@/components/ProposalCardSkeleton';
 import Pagination from '@/components/Pagination';
+import PageTransitionOverlay from '@/components/PageTransitionOverlay';
 import { getProposals } from '@/services/proposalsService';
 import { ApiError } from '@/services/apiClient';
 import type { Proposal } from '@/services/types';
@@ -28,6 +29,7 @@ export default function PropostasPageClient() {
     data: response,
     error: swrError,
     isLoading,
+    isValidating,
     mutate,
   } = useSWR(['proposals', page], () => getProposals({ page }), {
     revalidateOnFocus: false,
@@ -146,10 +148,13 @@ export default function PropostasPageClient() {
             )}
 
             {!loading && !error && filteredProposals.length > 0 && (
-              <div className="flex flex-col gap-4">
-                {filteredProposals.map((proposal, index) => (
-                  <ProposalCard key={proposal.id} proposal={proposal} index={index} onVoted={handleVoted} />
-                ))}
+              <div className="relative">
+                {isValidating && <PageTransitionOverlay />}
+                <div className={`flex flex-col gap-4 transition-opacity ${isValidating ? 'opacity-60' : ''}`}>
+                  {filteredProposals.map((proposal, index) => (
+                    <ProposalCard key={proposal.id} proposal={proposal} index={index} onVoted={handleVoted} />
+                  ))}
+                </div>
               </div>
             )}
 

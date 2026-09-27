@@ -8,6 +8,7 @@ import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import LegislatorFilterFrame from '@/components/LegislatorFilterFrame';
+import CargoQuickNav from '@/components/CargoQuickNav';
 import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
 import DataSourceNote from '@/components/DataSourceNote';
 import Pagination from '@/components/Pagination';
@@ -119,6 +120,7 @@ export default function SenadoresPageClient({
               </div>
             </section>
 
+            <CargoQuickNav atual="SenadoresPage" />
 
             <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
               {statCards.map((item) => (

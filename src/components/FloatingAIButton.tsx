@@ -15,6 +15,7 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { getVisitorId } from "@/lib/visitorId";
 
 interface ChatMessage {
   id: string;
@@ -33,6 +34,11 @@ const CHAT_STORAGE_KEY = "votus-ai-chat-messages";
 // "chegando" em vez de tudo aparecer de uma vez.
 const CHAT_REVEAL = "animate-[votus-chat-in_0.45s_ease-out_both]";
 
+// Só pra exibição ("X/5 perguntas"). O limite de verdade é aplicado no
+// backend (app/api/chat/route.ts, PERSON_MAX_REQUESTS) — mudar este número
+// aqui não muda quantas perguntas são realmente permitidas.
+const LIMITE_PERGUNTAS_POR_HORA = 5;
+
 export default function FloatingAIButton({ onClick }: { onClick?: () => void }) {
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -41,6 +47,11 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [sending, setSending] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  // Quantas perguntas ainda restam na hora atual (limite de 5/h por
+  // pessoa, controlado no backend — ver app/api/chat/route.ts). Só
+  // exibição; null enquanto ainda não fez nenhuma pergunta nesta sessão.
+  const [perguntasRestantes, setPerguntasRestantes] = useState<number | null>(null);
+  const limiteAtingido = perguntasRestantes === 0;
   const logRef = useRef<HTMLDivElement>(null);
 
   const suggestions = [
@@ -110,7 +121,10 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        // X-Visitor-Id: mesmo identificador anônimo já usado nos votos de
+        // proposta (getVisitorId/lib/visitorId.ts) — é o que o backend do
+        // chat usa pra aplicar o limite de 5 perguntas/hora por pessoa.
+        headers: { "Content-Type": "application/json", "X-Visitor-Id": getVisitorId() },
         body: JSON.stringify({
           messages: nextMessages.map(({ role, content }) => ({ role, content })),
         }),
@@ -118,8 +132,16 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
 
       const data = await response.json();
 
+      if (response.status === 429) {
+        setPerguntasRestantes(0);
+      }
+
       if (!response.ok || typeof data.reply !== "string") {
         throw new Error(data?.error || "Não consegui responder agora. Tente novamente.");
+      }
+
+      if (typeof data.limite?.restantes === "number") {
+        setPerguntasRestantes(data.limite.restantes);
       }
 
       setMessages((prev) => [...prev, { id: createId(), role: "assistant", content: data.reply }]);
@@ -141,10 +163,16 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
     <div className="fixed bottom-24 right-4 z-50 flex items-end justify-end md:bottom-6 md:right-6">
       <section
         aria-label="Chat Votus IA"
-        className={`fixed bottom-40 z-50 flex w-auto origin-bottom-right flex-col overflow-hidden rounded-[1.25rem] border border-[#EDDBBA] bg-[#FDF8EE] shadow-[0_16px_40px_rgba(27,98,58,0.2)] transition-all duration-300 ease-out md:inset-x-auto md:right-6 md:bottom-24 ${
+        className={`fixed z-50 flex w-auto origin-bottom-right flex-col overflow-hidden rounded-[1.25rem] border border-[#EDDBBA] bg-[#FDF8EE] shadow-[0_16px_40px_rgba(27,98,58,0.2)] transition-all duration-300 ease-out md:inset-x-auto md:right-6 md:bottom-24 ${
           expanded
-            ? "inset-x-1 max-h-[calc(100dvh-5rem)] md:h-[85dvh] md:max-h-[calc(100dvh-4rem)] md:w-[65vw] md:min-w-[26rem] md:max-w-[56rem]"
-            : "inset-x-4 max-h-[calc(100dvh-11rem)] md:max-h-[min(46rem,calc(100dvh-7rem))] md:w-[22rem]"
+            ? // bottom-4 no mobile expandido (não bottom-40): com o painel
+              // ocupando quase a tela inteira (max-h-[calc(100dvh-5rem)]) e
+              // a base ainda a 160px do rodapé, o topo do painel passava do
+              // limite superior da tela em celulares comuns. bottom-40 some
+              // ao maximizar, então nem invade o botão flutuante logo
+              // abaixo (ele fica coberto pelo próprio painel, que é maior).
+              "inset-x-1 bottom-4 max-h-[calc(100dvh-5rem)] md:bottom-24 md:h-[85dvh] md:max-h-[calc(100dvh-4rem)] md:w-[65vw] md:min-w-[26rem] md:max-w-[56rem]"
+            : "inset-x-4 bottom-40 max-h-[calc(100dvh-11rem)] md:bottom-24 md:max-h-[min(46rem,calc(100dvh-7rem))] md:w-[22rem]"
         } ${open ? "translate-y-0 scale-100 opacity-100" : "pointer-events-none translate-y-5 scale-95 opacity-0"}`}
         style={{ backgroundImage: "url(/fundochatia.png)", backgroundSize: "cover", backgroundPosition: "center" }}
       >
@@ -264,22 +292,26 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
                   sendMessage();
                 }
               }}
-              placeholder="Digite sua pergunta..."
+              placeholder={limiteAtingido ? "Limite de perguntas atingido" : "Digite sua pergunta..."}
               aria-label="Digite sua pergunta"
-              disabled={sending}
+              disabled={sending || limiteAtingido}
               className="h-10 min-w-0 flex-1 rounded-md border border-[#1B623A] bg-[#FDF8EE] px-2 text-xs text-[#103D23] outline-none placeholder:text-[#6B6255] focus:ring-2 focus:ring-[#1B623A]/20 disabled:opacity-60"
             />
             <button
               type="button"
               onClick={sendMessage}
-              disabled={sending || !message.trim()}
+              disabled={sending || limiteAtingido || !message.trim()}
               aria-label="Enviar pergunta"
               className="flex h-9 w-10 shrink-0 items-center justify-center rounded-md bg-[#1B623A] text-[#FDF8EE] transition-colors hover:bg-[#103D23] cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Send size={18} />
             </button>
           </div>
-          <p className="mt-1 text-[10px] text-[#103D23]">Enter envia · Shift + Enter quebra linha</p>
+          <p className={`mt-1 text-[10px] ${limiteAtingido ? "font-semibold text-[#8D0801]" : "text-[#103D23]"}`}>
+            {perguntasRestantes !== null
+              ? `${LIMITE_PERGUNTAS_POR_HORA - perguntasRestantes}/${LIMITE_PERGUNTAS_POR_HORA} perguntas nesta hora · Enter envia`
+              : "Enter envia · Shift + Enter quebra linha"}
+          </p>
         </div>
 
         <div

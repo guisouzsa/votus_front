@@ -3,6 +3,8 @@ import { SITE_URL } from "@/lib/siteConfig";
 import { getDeputados } from "@/services/deputadosService";
 import { getSenadores } from "@/services/senadoresService";
 import { getNewsList } from "@/services/newsService";
+import { getExplanations } from "@/services/explanationService";
+import { CANDIDATE_OFFICES, getCandidates, type CandidateOfficeSlug } from "@/services/candidatesService";
 
 const PAGINAS_ESTATICAS = [
   { path: "/", priority: 1 },
@@ -12,11 +14,18 @@ const PAGINAS_ESTATICAS = [
   { path: "/Painelnoticias", priority: 0.9 },
   { path: "/PropostasPage", priority: 0.8 },
   { path: "/ExplicacoesPage", priority: 0.7 },
+  { path: "/explicacao", priority: 0.7 },
   { path: "/Juventude", priority: 0.6 },
   { path: "/Universidades", priority: 0.6 },
   { path: "/SantinhoPage", priority: 0.5 },
   { path: "/SobreNosPage", priority: 0.5 },
   { path: "/SugestoesPage", priority: 0.4 },
+  // Candidatos 2026 — 5 páginas reais (CANDIDATE_OFFICES), faltavam
+  // inteiramente no sitemap.
+  ...(Object.keys(CANDIDATE_OFFICES) as CandidateOfficeSlug[]).map((slug) => ({
+    path: `/CandidatosPage/${slug}`,
+    priority: 0.9,
+  })),
 ];
 
 // Quantas páginas de notícias buscar pro sitemap — não é preciso incluir o
@@ -32,13 +41,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority,
   }));
 
-  const [deputados, senadores, noticias] = await Promise.all([
+  const [deputados, senadores, noticias, explicacoes, candidatos] = await Promise.all([
     buscarDeputados(),
     buscarSenadores(),
     buscarNoticias(),
+    buscarExplicacoes(),
+    buscarCandidatos(),
   ]);
 
-  return [...estaticas, ...deputados, ...senadores, ...noticias];
+  return [...estaticas, ...deputados, ...senadores, ...noticias, ...explicacoes, ...candidatos];
 }
 
 async function buscarDeputados(): Promise<MetadataRoute.Sitemap> {
@@ -65,6 +76,60 @@ async function buscarSenadores(): Promise<MetadataRoute.Sitemap> {
   } catch {
     return [];
   }
+}
+
+async function buscarExplicacoes(): Promise<MetadataRoute.Sitemap> {
+  try {
+    const entradas: MetadataRoute.Sitemap = [];
+    let page = 1;
+
+    while (page <= PAGINAS_NOTICIAS_NO_SITEMAP) {
+      const response = await getExplanations(page);
+
+      for (const explicacao of response.data) {
+        entradas.push({ url: `${SITE_URL}/explicacao/${explicacao.id}`, priority: 0.5 });
+      }
+
+      if (page >= response.last_page) break;
+      page++;
+    }
+
+    return entradas;
+  } catch {
+    return [];
+  }
+}
+
+// Candidatos titulares dos 5 cargos — igual à listagem pública, sem
+// suplentes/vices (que não têm página própria). Ao contrário das notícias,
+// aqui não há "mais recente/relevante" pra priorizar — é a chapa inteira da
+// eleição —, então percorre todas as páginas de cada cargo, não só a 1ª.
+async function buscarCandidatos(): Promise<MetadataRoute.Sitemap> {
+  const porCargo = await Promise.all(
+    (Object.keys(CANDIDATE_OFFICES) as CandidateOfficeSlug[]).map(async (slug) => {
+      try {
+        const entradas: MetadataRoute.Sitemap = [];
+        let page = 1;
+
+        while (true) {
+          const response = await getCandidates(slug, page);
+
+          for (const candidato of response.data) {
+            entradas.push({ url: `${SITE_URL}/CandidatosPage/${slug}/${candidato.id}`, priority: 0.6 });
+          }
+
+          if (page >= response.meta.last_page) break;
+          page++;
+        }
+
+        return entradas;
+      } catch {
+        return [];
+      }
+    })
+  );
+
+  return porCargo.flat();
 }
 
 async function buscarNoticias(): Promise<MetadataRoute.Sitemap> {

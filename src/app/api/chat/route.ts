@@ -107,14 +107,32 @@ interface IncomingMessage {
   content?: unknown;
 }
 
-// Rate limit simples por IP (best-effort, em memória do processo): sem isso,
-// qualquer pessoa podia bater nesse endpoint sem limite nenhum e estourar a
-// cota da chave da Groq — diferente do /api/agente/perguntar do backend, que
-// já tem throttle:10,1. Não é distribuído (reseta se o processo reiniciar ou
-// em deploy multi-instância), mas cobre o caso comum de um cliente abusando.
-const RATE_LIMIT_WINDOW_MS = 60_000;
-const RATE_LIMIT_MAX_REQUESTS = 10;
-const requestLog = new Map<string, number[]>();
+// Rate limit em memória do processo (best-effort): sem isso, qualquer
+// pessoa podia bater nesse endpoint sem limite nenhum e estourar a cota da
+// chave da Groq — diferente do /api/agente/perguntar do backend, que já tem
+// throttle:10,1. Não é distribuído (reseta se o processo reiniciar ou em
+// deploy multi-instância), mas cobre o caso comum de um cliente abusando.
+//
+// Dois limites, dois propósitos:
+// - por IP (rajada curta): trava um script disparando muitas requisições
+//   rápido, inclusive alternando um X-Visitor-Id falso a cada chamada.
+// - por pessoa (5/hora): a regra pedida. "Pessoa" aqui é o mesmo
+//   identificador anônimo que o projeto já gera e persiste em
+//   localStorage pra votos de proposta (getVisitorId, ver lib/visitorId.ts
+//   e ProposalController::vote no backend, que já usa esse mesmo header
+//   X-Visitor-Id) — não um identificador novo. Sobrevive a atualizar a
+//   página/abrir outra aba (o id vem do localStorage, não muda), e o
+//   controle real é aqui no servidor: o frontend só manda o header, quem
+//   decide se passou do limite é este código, então zerar/trocar o valor
+//   no localStorage do navegador não abre passe livre — só criaria uma
+//   "pessoa" nova do zero, que também começa a contar do seu próprio 0/5.
+const IP_BURST_WINDOW_MS = 60_000;
+const IP_BURST_MAX_REQUESTS = 10;
+const PERSON_WINDOW_MS = 60 * 60_000; // 1 hora
+const PERSON_MAX_REQUESTS = 5;
+
+const ipLog = new Map<string, number[]>();
+const personLog = new Map<string, number[]>();
 
 function getClientIp(request: Request): string {
   const forwardedFor = request.headers.get("x-forwarded-for");
@@ -123,26 +141,61 @@ function getClientIp(request: Request): string {
   return request.headers.get("x-real-ip") ?? "desconhecido";
 }
 
-function estaDentroDoLimite(ip: string): boolean {
-  const agora = Date.now();
-  const timestamps = (requestLog.get(ip) ?? []).filter(
-    (timestamp) => agora - timestamp < RATE_LIMIT_WINDOW_MS
-  );
+// X-Visitor-Id é o mesmo identificador de lib/visitorId.ts (getVisitorId),
+// já usado pra votos/comentários de proposta — reaproveitado aqui, não é
+// um identificador novo. Sem o header (cliente antigo ou chamada direta à
+// API sem passar pelo nosso frontend), cai pro IP: nunca fica sem limite.
+function getPersonKey(request: Request): string {
+  const visitorId = request.headers.get("x-visitor-id")?.trim();
+  return visitorId ? `visitor:${visitorId}` : `ip:${getClientIp(request)}`;
+}
 
-  if (timestamps.length >= RATE_LIMIT_MAX_REQUESTS) {
-    requestLog.set(ip, timestamps);
-    return false;
+function checarLimite(
+  log: Map<string, number[]>,
+  chave: string,
+  janelaMs: number,
+  maximo: number
+): { permitido: boolean; restantes: number } {
+  const agora = Date.now();
+  const timestamps = (log.get(chave) ?? []).filter((timestamp) => agora - timestamp < janelaMs);
+
+  if (timestamps.length >= maximo) {
+    log.set(chave, timestamps);
+    return { permitido: false, restantes: 0 };
   }
 
   timestamps.push(agora);
-  requestLog.set(ip, timestamps);
-  return true;
+  log.set(chave, timestamps);
+  return { permitido: true, restantes: maximo - timestamps.length };
 }
 
 export async function POST(request: Request) {
-  if (!estaDentroDoLimite(getClientIp(request))) {
+  const { permitido: dentroDaRajada } = checarLimite(
+    ipLog,
+    getClientIp(request),
+    IP_BURST_WINDOW_MS,
+    IP_BURST_MAX_REQUESTS
+  );
+
+  if (!dentroDaRajada) {
     return NextResponse.json(
       { error: "Muitas perguntas em pouco tempo. Espere um instante e tente de novo." },
+      { status: 429 }
+    );
+  }
+
+  const { permitido: dentroDoLimitePessoal, restantes } = checarLimite(
+    personLog,
+    getPersonKey(request),
+    PERSON_WINDOW_MS,
+    PERSON_MAX_REQUESTS
+  );
+
+  if (!dentroDoLimitePessoal) {
+    return NextResponse.json(
+      {
+        error: `Você atingiu o limite de ${PERSON_MAX_REQUESTS} perguntas por hora. Tente novamente mais tarde.`,
+      },
       { status: 429 }
     );
   }
@@ -196,7 +249,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Resposta inesperada da IA." }, { status: 502 });
     }
 
-    return NextResponse.json({ reply: sanitizeReply(reply) });
+    // "restantes" pro frontend poder mostrar "Pergunta X/5" — puramente
+    // informativo, quem decide o limite de verdade é o checarLimite acima.
+    return NextResponse.json({ reply: sanitizeReply(reply), limite: { restantes, maximo: PERSON_MAX_REQUESTS } });
   } catch (error) {
     console.error("Erro ao chamar o Groq:", error);
 

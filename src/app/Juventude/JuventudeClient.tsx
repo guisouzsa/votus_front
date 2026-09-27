@@ -8,6 +8,7 @@ import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import DashboardHeader from '@/components/DashboardHeader';
 import Pagination from '@/components/Pagination';
+import PageTransitionOverlay from '@/components/PageTransitionOverlay';
 import { ProposalListSkeleton } from '@/components/ProposalCardSkeleton';
 import { useSsrPaginatedList } from '@/hooks/useSsrPaginatedList';
 import { getOpportunities, getPublicOpportunities } from '@/services/opportunitiesService';
@@ -50,6 +51,7 @@ export default function JuventudeClient({
     data: vagasResponse,
     error: vagasError,
     loading: vagasLoading,
+    isValidating: vagasValidating,
   } = useSsrPaginatedList(
     ['opportunities', pageVagas],
     () => getOpportunities(pageVagas),
@@ -60,6 +62,7 @@ export default function JuventudeClient({
     data: concursosResponse,
     error: concursosError,
     loading: concursosLoading,
+    isValidating: concursosValidating,
   } = useSsrPaginatedList(
     ['public-opportunities', pageConcursos],
     () => getPublicOpportunities(pageConcursos),
@@ -115,7 +118,9 @@ export default function JuventudeClient({
             )}
 
             {!vagasLoading && !vagasError && vagas.length > 0 && (
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="relative">
+              {vagasValidating && <PageTransitionOverlay />}
+              <div className={`grid grid-cols-1 gap-4 transition-opacity md:grid-cols-2 ${vagasValidating ? 'opacity-60' : ''}`}>
                 {vagas.map((vaga) => {
                   const salario = formatSalario(vaga.salary_min, vaga.salary_max);
 
@@ -156,6 +161,7 @@ export default function JuventudeClient({
                   );
                 })}
               </div>
+              </div>
             )}
           </section>
 
@@ -187,7 +193,9 @@ export default function JuventudeClient({
             )}
 
             {!concursosLoading && !concursosError && concursos.length > 0 && (
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="relative">
+              {concursosValidating && <PageTransitionOverlay />}
+              <div className={`grid grid-cols-1 gap-4 transition-opacity md:grid-cols-2 ${concursosValidating ? 'opacity-60' : ''}`}>
                 {concursos.map((concurso) => {
                   const statusInfo = STATUS_LABELS[concurso.status] ?? STATUS_LABELS.indefinido;
                   const salario = formatSalario(concurso.salary_min, concurso.salary_max);
@@ -222,6 +230,12 @@ export default function JuventudeClient({
                         <p className="text-xs text-[#4d4d4d]">{concurso.positions.join(', ')}</p>
                       )}
 
+                      {/* O resumo já vinha da API (PublicOpportunityResource.summary),
+                          mas nunca era exibido aqui — chegava no front e ficava sem uso. */}
+                      {concurso.summary && (
+                        <p className="line-clamp-2 text-sm text-[#4d4d4d]">{concurso.summary}</p>
+                      )}
+
                       {prazo && (
                         <p className="text-xs text-[#6b6255]">
                           Inscrições até <strong>{prazo}</strong>
@@ -242,6 +256,7 @@ export default function JuventudeClient({
                     </article>
                   );
                 })}
+              </div>
               </div>
             )}
           </section>

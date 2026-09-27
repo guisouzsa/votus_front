@@ -8,6 +8,7 @@ import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import Footer from '@/components/Footer';
 import LegislatorFilterFrame from '@/components/LegislatorFilterFrame';
+import CargoQuickNav from '@/components/CargoQuickNav';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
 import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
 import DataSourceNote from '@/components/DataSourceNote';
@@ -120,6 +121,7 @@ export default function DeputadosPageClient({
               </div>
             </section>
 
+            <CargoQuickNav atual="DeputadosPage" />
 
             <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
               {statCards.map((item) => (

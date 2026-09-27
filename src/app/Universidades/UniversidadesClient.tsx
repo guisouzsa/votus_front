@@ -9,6 +9,7 @@ import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import DashboardHeader from '@/components/DashboardHeader';
 import Pagination from '@/components/Pagination';
+import PageTransitionOverlay from '@/components/PageTransitionOverlay';
 import { ProposalListSkeleton } from '@/components/ProposalCardSkeleton';
 import { useSsrPaginatedList } from '@/hooks/useSsrPaginatedList';
 import {
@@ -94,6 +95,7 @@ export default function UniversidadesClient({
     data: response,
     error: swrError,
     loading,
+    isValidating,
   } = useSsrPaginatedList(
     ['course-offerings', JSON.stringify(queryFilters)],
     () => getCourseOfferings(queryFilters),
@@ -265,7 +267,9 @@ export default function UniversidadesClient({
                   <Pagination page={page} lastPage={lastPage} onChange={setPage} />
                 </div>
 
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="relative">
+                {isValidating && <PageTransitionOverlay />}
+                <div className={`grid grid-cols-1 gap-4 transition-opacity md:grid-cols-2 ${isValidating ? 'opacity-60' : ''}`}>
                   {ofertas.map((oferta) => {
                     const universidade = oferta.campus?.university;
                     const linkIngresso = universidade?.admission_methods?.[0]?.official_url;
@@ -316,6 +320,7 @@ export default function UniversidadesClient({
                       </article>
                     );
                   })}
+                </div>
                 </div>
 
                 <div className="mt-6 flex justify-center">

@@ -10,6 +10,7 @@ import LegislatorFilterFrame from '@/components/LegislatorFilterFrame';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
 import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
 import Pagination from '@/components/Pagination';
+import PageTransitionOverlay from '@/components/PageTransitionOverlay';
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import {
   CANDIDATE_OFFICES,
@@ -167,6 +168,12 @@ export default function CandidatosListClient({
                   <Link
                     key={slug}
                     href={`/CandidatosPage/${slug}`}
+                    // scroll={false}: trocar de cargo é uma navegação de
+                    // verdade (rota /CandidatosPage/[office] muda) — sem
+                    // isso o Next rolava a página de volta pro topo a cada
+                    // clique, e no mobile isso parecia "a página voltou pro
+                    // início" mesmo com o cargo certo já selecionado.
+                    scroll={false}
                     aria-current={ativo ? 'page' : undefined}
                     className={`shrink-0 rounded-full border px-4 py-2 text-xs font-bold transition-colors sm:text-sm ${
                       ativo
@@ -237,12 +244,14 @@ export default function CandidatosListClient({
               )}
 
               {!loading && !error && candidatos.length > 0 && (
-                <div
-                  aria-busy={isValidating}
-                  className={`grid grid-cols-2 gap-3 transition-opacity sm:grid-cols-3 sm:gap-4 md:grid-cols-[repeat(5,minmax(0,1fr))] md:gap-5 ${
-                    isValidating ? 'opacity-60' : ''
-                  }`}
-                >
+                <div className="relative">
+                  {isValidating && <PageTransitionOverlay />}
+                  <div
+                    aria-busy={isValidating}
+                    className={`grid grid-cols-2 gap-3 transition-opacity sm:grid-cols-3 sm:gap-4 md:grid-cols-[repeat(5,minmax(0,1fr))] md:gap-5 ${
+                      isValidating ? 'opacity-60' : ''
+                    }`}
+                  >
                   {candidatos.map((candidato) => (
                     <Link
                       key={candidato.id}
@@ -281,6 +290,7 @@ export default function CandidatosListClient({
                       </div>
                     </Link>
                   ))}
+                  </div>
                 </div>
               )}
 
