@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useSsrDetail } from '@/hooks/useSsrDetail';
+import LoadingState from "@/components/LoadingState";
 import { ArrowLeft, ExternalLink, CheckCircle2, XCircle } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import MobileBottomNav from "@/components/MobileBottomNav";
@@ -169,9 +170,7 @@ export default function ExplicacaoDetailClient({
           </Link>
         </div>
 
-        {isLoading && (
-          <p className="px-6 py-16 text-center text-sm text-[#103D23] sm:px-10">Carregando...</p>
-        )}
+        {isLoading && <LoadingState message="Carregando explicação..." />}
 
         {!isLoading && !explicacao && (
           <p className="px-6 py-16 text-center text-sm text-[#103D23] sm:px-10">

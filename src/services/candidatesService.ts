@@ -1,5 +1,5 @@
 import { apiGet } from "./apiClient";
-import type { Candidate, SimplePaginatedResponse } from "./types";
+import type { Candidate, PaginatedResponse } from "./types";
 
 export type CandidateOfficeSlug = "presidente" | "governador" | "senado" | "deputado-federal" | "deputado-estadual";
 
@@ -63,7 +63,7 @@ export interface CandidateFilters {
 
 // A listagem ganha "filters.parties": todos os partidos com candidatos no
 // cargo (não só os da página atual), pra montar o select do filtro.
-export type CandidatesResponse = SimplePaginatedResponse<Candidate> & {
+export type CandidatesResponse = PaginatedResponse<Candidate> & {
   filters?: { parties: string[] };
 };
 

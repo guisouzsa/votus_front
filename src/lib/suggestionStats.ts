@@ -1,5 +1,18 @@
 import type { SuggestionQuestion } from '@/services/types';
 
+// Cores da família Votus (amarelo, verde, azul, magenta, violeta, vermelho)
+// ajustadas pra ficarem distinguíveis entre si — inclusive pra daltonismo
+// protan/deutan — em QUALQUER par vizinho da rosca, incluindo o fechamento
+// última↔primeira fatia pra perguntas de 2 a 6 opções (ΔE >= 9,9, validado
+// com o script de paleta). A ordem é fixa: a cor segue a opção, nunca o
+// ranking. Não reordenar sem revalidar. Compartilhada entre o gráfico da
+// tela (AnswersDonut) e o do PDF (generateSugestoesPdf) — os dois usam
+// exatamente as mesmas cores pra mesma opção.
+export const PALETA_GRAFICO = ['#C99400', '#1F8A4C', '#2A78D6', '#B8327A', '#5B4AB0', '#C4302B'];
+// Da 7ª opção em diante o gráfico agrupa numa fatia neutra ("Demais
+// opções"); a legenda continua listando cada uma com o próprio número.
+export const COR_DEMAIS_GRAFICO = '#8A8378';
+
 export type FatiaResposta = {
   label: string;
   count: number;

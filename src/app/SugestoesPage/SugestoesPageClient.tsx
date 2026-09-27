@@ -7,6 +7,7 @@ import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import DashboardHeader from '@/components/DashboardHeader';
+import LoadingState from '@/components/LoadingState';
 import { getSuggestionQuestions, createSuggestion } from '@/services/suggestionsService';
 import { apiErrorMessage } from '@/services/apiClient';
 
@@ -133,7 +134,7 @@ export default function SugestoesPageClient() {
           Sua resposta é anônima. Não pedimos seu nome, e-mail ou cadastro.
         </div>
 
-        {isLoading && <p className="mt-6 text-sm text-[#6b6255]">Carregando perguntas...</p>}
+        {isLoading && <LoadingState message="Carregando perguntas..." />}
 
         {error && (
           <p className="mt-6 text-sm font-semibold text-[#8d0801]">

@@ -101,8 +101,17 @@ export default function UniversidadesClient({
   );
 
   const ofertas = response?.data ?? [];
-  const lastPage = response?.links.next ? page + 1 : page;
+  const lastPage = response?.meta.last_page ?? 1;
   const modalidades = response?.filter_options.modalities ?? [];
+
+  // Segurança extra: se a página atual deixou de existir (ex: um filtro
+  // reduziu o total), volta pra última válida em vez de ficar numa página
+  // vazia. aplicarFiltros/limparFiltros já resetam pra 1, isso cobre o resto.
+  useEffect(() => {
+    if (response && page > lastPage) {
+      setPage(lastPage);
+    }
+  }, [response, page, lastPage]);
   const error = swrError
     ? swrError instanceof ApiError
       ? 'Não foi possível carregar os cursos agora. Tente novamente em instantes.'

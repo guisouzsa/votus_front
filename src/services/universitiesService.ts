@@ -1,5 +1,5 @@
 import { apiGet } from './apiClient';
-import type { CourseOffering, CourseOfferingFilterOptions, SimplePaginatedResponse } from './types';
+import type { CourseOffering, CourseOfferingFilterOptions, PaginatedResponse } from './types';
 
 export interface CourseOfferingFilters {
   state?: string;
@@ -10,7 +10,7 @@ export interface CourseOfferingFilters {
   page?: number;
 }
 
-export type CourseOfferingListResponse = SimplePaginatedResponse<CourseOffering> & {
+export type CourseOfferingListResponse = PaginatedResponse<CourseOffering> & {
   filter_options: CourseOfferingFilterOptions;
 };
 

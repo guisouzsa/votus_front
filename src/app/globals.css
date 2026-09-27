@@ -27,19 +27,62 @@
   --color-forest: #1B623A;
 }
 
+html {
+  /* Rede de segurança contra rolagem/zoom lateral no iPhone: qualquer
+     elemento que acidentalmente fique mais largo que a tela (ex: uma
+     imagem sem max-width, um card sem "min-w-0" num flex) fica cortado em
+     vez de empurrar a página inteira pro lado. Não mexe no zoom de
+     acessibilidade (pinch-to-zoom) — isso é controlado pelo <meta
+     viewport>, que continua sem restrição (ver "viewport" em layout.tsx) —
+     só limita o *scroll horizontal* do documento. */
+  overflow-x: hidden;
+}
+
 body {
   background: #FDFDFD;
   color: var(--color-ink);
   font-family: var(--font-montserrat), sans-serif;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
-/* Cursor da Ivy (mascote do Votus) — só a imagem, no tamanho padrão de
-   cursor (32x32), sem variante extra para links/botões. Ponto de clique na
-   ponta do bico (3px, 5px). Só em mouse/trackpad; toque não é afetado, e no
-   modo de alto contraste do sistema volta ao cursor nativo. */
+/* Cursor da asa da Ivy (mascote do Votus) — asset já existente no projeto
+   (public/CursorAsa.svg; só o width/height do SVG foram ajustados de
+   2375x2670 pra 37x42, um tamanho utilizável como cursor — o viewBox e o
+   desenho continuam os mesmos). Ponto de clique na ponta da pena de cima
+   (2px, 2px). Só em mouse/trackpad; toque não é afetado, e no modo de alto
+   contraste do sistema volta ao cursor nativo.
+
+   Por que "*" com !important em vez de só "html": botões/links/cards do
+   projeto usam a classe utilitária "cursor-pointer" (ou "cursor-grab" etc.)
+   do Tailwind por todo o código (filtros, navegação, cards, carrossel de
+   notícias...). Um seletor de classe (.cursor-pointer) tem mais
+   especificidade que o seletor de tag (html), então SEM !important esse
+   cursor personalizado desaparecia exatamente em cima de botões e links —
+   voltando pra mãozinha padrão do navegador — que era o bug relatado. Não é
+   um segundo sistema de cursor: é a mesma regra única de sempre, só que
+   forte o bastante pra ganhar de qualquer "cursor-*" utilitário espalhado
+   pelos componentes, sem precisar caçar/remover cada ocorrência deles.
+   As exceções abaixo (campo de texto e elemento desabilitado) continuam
+   valendo mesmo com o !important, porque são regras mais específicas ainda
+   (seletor de atributo/pseudo-classe + !important também). */
 @media (pointer: fine) and (forced-colors: none) {
-  html {
-    cursor: url("/cursor-ivy.svg") 3 5, auto;
+  * {
+    cursor: url("/CursorAsa.svg") 2 2, auto !important;
+  }
+
+  /* Campo de texto precisa do cursor de texto (I-beam) pra dar pra ver onde
+     vai digitar — a asa por cima disso quebraria a usabilidade do input. */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="range"]):not(:disabled),
+  textarea:not(:disabled),
+  [contenteditable="true"] {
+    cursor: text !important;
+  }
+
+  /* Elemento desabilitado continua sinalizando isso visualmente. */
+  :disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed !important;
   }
 }
 

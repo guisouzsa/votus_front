@@ -6,12 +6,14 @@ import type {
   AdminNewsItem,
   AdminPaginated,
   AdminProposal,
+  AdminPublicOpportunity,
   AdminSuggestion,
   AdminUser,
   ExplanationCategory,
   NewsCollectResult,
   PaginatedResponse,
   ProposalComment,
+  PublicOpportunityReviewStatus,
   SuggestionQuestion,
   SuggestionQuestionType,
   TrustedSource,
@@ -63,6 +65,12 @@ export function getAdminProposals(page = 1, search = "") {
 
 export function deleteAdminProposal(id: number) {
   return apiDelete<{ message: string }>(`/api/admin/proposals/${id}`, authHeaders());
+}
+
+// Apaga a proposta permanentemente (linha + votos/comentários/categorias),
+// sem como desfazer — diferente de deleteAdminProposal, que é reversível.
+export function forceDeleteAdminProposal(id: number) {
+  return apiDelete<{ message: string }>(`/api/admin/proposals/${id}/permanent`, authHeaders());
 }
 
 // Desfaz a remoção (soft delete) — a proposta volta a ficar publicada.
@@ -229,3 +237,82 @@ export function updateAdminTrustedSource(id: number, payload: UpdateTrustedSourc
 export function deleteAdminTrustedSource(id: number) {
   return apiDelete<{ message: string }>(`/api/admin/trusted-sources/${id}`, authHeaders());
 }
+
+// --- Juventude em Pauta: concursos/oportunidades públicas (moderação) ---
+// "source_key" é a chave usada na URL (o backend faz route-model-binding
+// por ela, não pelo id numérico — ver PublicOpportunity::getRouteKeyName).
+
+export function getAdminPublicOpportunities(page = 1, search = "", status = "") {
+  return apiGet<AdminPaginated<AdminPublicOpportunity>>(
+    "/api/admin/public-opportunities",
+    { page, search, status: status || undefined },
+    authHeaders()
+  );
+}
+
+export function getAdminPublicOpportunity(sourceKey: string) {
+  return apiGet<{ data: AdminPublicOpportunity }>(
+    `/api/admin/public-opportunities/${sourceKey}`,
+    undefined,
+    authHeaders()
+  );
+}
+
+export function approveAdminPublicOpportunity(sourceKey: string) {
+  return apiPost<{ data: AdminPublicOpportunity }>(
+    `/api/admin/public-opportunities/${sourceKey}/approve`,
+    {},
+    authHeaders()
+  );
+}
+
+export function rejectAdminPublicOpportunity(sourceKey: string) {
+  return apiPost<{ data: AdminPublicOpportunity }>(
+    `/api/admin/public-opportunities/${sourceKey}/reject`,
+    {},
+    authHeaders()
+  );
+}
+
+export function toggleAdminPublicOpportunityPublished(sourceKey: string) {
+  return apiPatch<{ data: AdminPublicOpportunity }>(
+    `/api/admin/public-opportunities/${sourceKey}/toggle-published`,
+    {},
+    authHeaders()
+  );
+}
+
+export type PublicOpportunityUpdatePayload = Partial<{
+  type: string;
+  title: string | null;
+  notice_number: string | null;
+  agency: string | null;
+  municipality: string | null;
+  state: string | null;
+  positions: string[];
+  education_levels: string[];
+  vacancies: number | null;
+  salary_min: number | null;
+  salary_max: number | null;
+  registration_start: string | null;
+  registration_end: string | null;
+  exam_date: string | null;
+  fee_min: number | null;
+  fee_max: number | null;
+  registration_url: string | null;
+  summary: string | null;
+}>;
+
+export function updateAdminPublicOpportunity(sourceKey: string, payload: PublicOpportunityUpdatePayload) {
+  return apiPut<{ data: AdminPublicOpportunity }>(
+    `/api/admin/public-opportunities/${sourceKey}`,
+    payload,
+    authHeaders()
+  );
+}
+
+export const PUBLIC_OPPORTUNITY_REVIEW_LABELS: Record<PublicOpportunityReviewStatus, string> = {
+  pending: "Pendente",
+  approved: "Aprovada",
+  rejected: "Rejeitada",
+};

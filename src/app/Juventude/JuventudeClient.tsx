@@ -13,7 +13,7 @@ import { useSsrPaginatedList } from '@/hooks/useSsrPaginatedList';
 import { getOpportunities, getPublicOpportunities } from '@/services/opportunitiesService';
 import { ApiError } from '@/services/apiClient';
 import { useState } from 'react';
-import type { Opportunity, PublicOpportunity, PublicOpportunityStatus, SimplePaginatedResponse } from '@/services/types';
+import type { Opportunity, PublicOpportunity, PublicOpportunityStatus, PaginatedResponse } from '@/services/types';
 
 const STATUS_LABELS: Record<PublicOpportunityStatus, { label: string; className: string }> = {
   aberto: { label: 'Inscrições abertas', className: 'bg-[#1B623A] text-white' },
@@ -40,8 +40,8 @@ export default function JuventudeClient({
   initialOpportunities,
   initialPublicOpportunities,
 }: {
-  initialOpportunities?: SimplePaginatedResponse<Opportunity>;
-  initialPublicOpportunities?: SimplePaginatedResponse<PublicOpportunity>;
+  initialOpportunities?: PaginatedResponse<Opportunity>;
+  initialPublicOpportunities?: PaginatedResponse<PublicOpportunity>;
 }) {
   const [pageVagas, setPageVagas] = useState(1);
   const [pageConcursos, setPageConcursos] = useState(1);
@@ -67,10 +67,10 @@ export default function JuventudeClient({
   );
 
   const vagas = vagasResponse?.data ?? [];
-  const vagasLastPage = vagasResponse?.links.next ? pageVagas + 1 : pageVagas;
+  const vagasLastPage = vagasResponse?.meta.last_page ?? 1;
 
   const concursos = concursosResponse?.data ?? [];
-  const concursosLastPage = concursosResponse?.links.next ? pageConcursos + 1 : pageConcursos;
+  const concursosLastPage = concursosResponse?.meta.last_page ?? 1;
 
   return (
     <div className="min-h-dvh">

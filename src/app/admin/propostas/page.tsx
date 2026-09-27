@@ -11,6 +11,7 @@ import {
   getAdminDashboard,
   getAdminProposals,
   deleteAdminProposal,
+  forceDeleteAdminProposal,
   restoreAdminProposal,
   getAdminProposalComments,
   deleteAdminProposalComment,
@@ -150,6 +151,22 @@ export default function AdminPropostasPage() {
     await executar(id, () => restoreAdminProposal(id), "Proposta publicada novamente.", "Não foi possível restaurar a proposta. Tente novamente.");
   }
 
+  async function handleExcluirPermanente(id: number, titulo: string) {
+    const ok = await confirm({
+      title: "Excluir esta proposta permanentemente?",
+      message: `"${titulo}" será apagada de vez, junto com seus votos e comentários. Essa ação NÃO pode ser desfeita.`,
+      confirmLabel: "Excluir para sempre",
+    });
+    if (!ok) return;
+
+    await executar(
+      id,
+      () => forceDeleteAdminProposal(id),
+      "Proposta apagada permanentemente.",
+      "Não foi possível apagar a proposta. Tente novamente."
+    );
+  }
+
   return (
     <div className="flex flex-col gap-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -238,15 +255,30 @@ export default function AdminPropostasPage() {
               )}
 
               {proposta.status === "removed" && (
-                <button
-                  type="button"
-                  onClick={() => handleRestaurar(proposta.id)}
-                  disabled={processandoId === proposta.id}
-                  className="flex items-center gap-2 rounded-[10px] border border-[#1B623A] px-5 py-2 text-sm font-bold text-[#1B623A] transition-colors hover:bg-[#1B623A] hover:text-white disabled:opacity-60"
-                >
-                  <RotateCcw size={15} />
-                  {processandoId === proposta.id ? "Restaurando..." : "Restaurar"}
-                </button>
+                <>
+                  <button
+                    type="button"
+                    onClick={() => handleRestaurar(proposta.id)}
+                    disabled={processandoId === proposta.id}
+                    className="flex items-center gap-2 rounded-[10px] border border-[#1B623A] px-5 py-2 text-sm font-bold text-[#1B623A] transition-colors hover:bg-[#1B623A] hover:text-white disabled:opacity-60"
+                  >
+                    <RotateCcw size={15} />
+                    {processandoId === proposta.id ? "Restaurando..." : "Restaurar"}
+                  </button>
+
+                  {/* Só aparece depois que a proposta já está removida —
+                      exclusão definitiva é a etapa seguinte, não um atalho
+                      a partir de uma proposta publicada. */}
+                  <button
+                    type="button"
+                    onClick={() => handleExcluirPermanente(proposta.id, proposta.title)}
+                    disabled={processandoId === proposta.id}
+                    className="flex items-center gap-2 rounded-[10px] bg-[#8D0801] px-5 py-2 text-sm font-bold text-white transition-colors hover:bg-[#6d0601] disabled:opacity-60"
+                  >
+                    <Trash2 size={15} />
+                    {processandoId === proposta.id ? "Excluindo..." : "Excluir permanentemente"}
+                  </button>
+                </>
               )}
             </div>
 

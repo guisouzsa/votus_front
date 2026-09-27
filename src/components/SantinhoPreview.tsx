@@ -36,14 +36,21 @@ export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCa
           {candidatos.map((candidato) => (
             <div key={candidato.id} className="flex items-center gap-[1.8cqw]">
               {candidato.fotoUrl && (
-                <div className="relative aspect-square w-[10cqw] shrink-0 overflow-hidden rounded-full border-[0.35cqw] border-brasil-orange bg-white">
-                  <Image
-                    src={candidato.fotoUrl}
-                    alt={candidato.nome ? `Foto de ${candidato.nome}` : ''}
-                    fill
-                    sizes="64px"
-                    className="object-cover object-top"
-                  />
+                // Anel branco fino entre a foto e a borda laranja: acabamento
+                // mais limpo, evita a cor da própria foto encostar direto na
+                // borda. object-top: as fotos oficiais do TSE são verticais
+                // (retrato, ~161x225) — ancorar no topo mantém o rosto
+                // inteiro visível ao recortar num círculo.
+                <div className="relative aspect-square w-[10cqw] shrink-0 rounded-full border-[0.35cqw] border-brasil-orange bg-white p-[0.5cqw]">
+                  <div className="relative h-full w-full overflow-hidden rounded-full">
+                    <Image
+                      src={candidato.fotoUrl}
+                      alt={candidato.nome ? `Foto de ${candidato.nome}` : ''}
+                      fill
+                      sizes="64px"
+                      className="object-cover object-top"
+                    />
+                  </div>
                 </div>
               )}
               <div className="flex min-w-0 flex-col gap-[0.8cqw]">

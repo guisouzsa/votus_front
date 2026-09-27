@@ -297,10 +297,10 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
         onClick={toggleChat}
         aria-label={open ? "Fechar chat de IA" : "Perguntar à IA"}
         aria-expanded={open}
-        className="flex h-14 w-14 items-center justify-center gap-3 rounded-full bg-cover bg-center px-0 text-sm font-semibold text-[#EDDBBA] shadow-lg shadow-brasil-green-deep/20 transition-all duration-300 hover:brightness-110 hover:scale-105 active:scale-90 cursor-pointer md:w-44 md:justify-start md:px-2"
+        className="flex h-16 w-16 items-center justify-center gap-3 overflow-hidden rounded-full bg-cover bg-center px-0 text-sm font-semibold text-[#EDDBBA] shadow-[0_6px_18px_-2px_rgba(19,74,42,0.35)] transition-all duration-300 hover:brightness-110 hover:scale-105 active:scale-90 cursor-pointer md:h-14 md:w-44 md:justify-start md:px-2"
         style={{ backgroundImage: "url(/FundoFlooatingbutton.svg)" }}
       >
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#EDDBBA]">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#EDDBBA] md:h-9 md:w-9">
           <MessageCircleQuestion size={25} className="text-[#246840]" strokeWidth={1.8} />
         </span>
         <span className="hidden whitespace-nowrap md:inline">Pergunte à IA</span>

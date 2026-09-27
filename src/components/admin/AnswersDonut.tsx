@@ -2,18 +2,12 @@
 
 import { useState } from "react";
 import type { SuggestionQuestion } from "@/services/types";
-import { distribuicaoRespostas, formatarPercentual } from "@/lib/suggestionStats";
+import { distribuicaoRespostas, formatarPercentual, PALETA_GRAFICO, COR_DEMAIS_GRAFICO } from "@/lib/suggestionStats";
 
-// Cores da família Votus (amarelo, verde, azul, magenta, violeta, vermelho)
-// ajustadas pra ficarem distinguíveis entre si — inclusive pra daltonismo
-// protan/deutan — em QUALQUER par vizinho da rosca, incluindo o fechamento
-// última↔primeira fatia pra perguntas de 2 a 6 opções (ΔE >= 9,9, validado
-// com o script de paleta). A ordem é fixa: a cor segue a opção, nunca o
-// ranking. Não reordenar sem revalidar.
-const PALETA = ["#C99400", "#1F8A4C", "#2A78D6", "#B8327A", "#5B4AB0", "#C4302B"];
-// Da 7ª opção em diante a rosca agrupa numa fatia neutra ("Demais opções");
-// a legenda continua listando cada uma com o próprio número.
-const COR_DEMAIS = "#8A8378";
+// Mesma paleta usada no PDF (ver lib/suggestionStats) — mesma cor pra mesma
+// opção nos dois lugares.
+const PALETA = PALETA_GRAFICO;
+const COR_DEMAIS = COR_DEMAIS_GRAFICO;
 
 const TAMANHO = 144;
 const RAIO_EXTERNO = 68;

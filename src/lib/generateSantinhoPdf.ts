@@ -194,10 +194,17 @@ function drawSantinho(
 
     if (foto) {
       const fotoY = rowY - width * 0.045;
-      pdf.addImage(foto, 'PNG', contentLeft, fotoY, fotoSize, fotoSize);
+      const centroX = contentLeft + fotoSize / 2;
+      const centroY = fotoY + fotoSize / 2;
+
+      // Foto ligeiramente menor que o círculo laranja, com o fundo branco da
+      // página aparecendo no vão — mesmo anel fino do preview em tela, em
+      // vez da foto encostar direto na borda.
+      const fotoInterna = fotoSize * 0.88;
+      pdf.addImage(foto, 'PNG', centroX - fotoInterna / 2, centroY - fotoInterna / 2, fotoInterna, fotoInterna);
       pdf.setDrawColor(...ORANGE);
       pdf.setLineWidth(width * 0.0035);
-      pdf.circle(contentLeft + fotoSize / 2, fotoY + fotoSize / 2, fotoSize / 2, 'S');
+      pdf.circle(centroX, centroY, fotoSize / 2, 'S');
     }
 
     pdf.setFont('helvetica', 'bold');

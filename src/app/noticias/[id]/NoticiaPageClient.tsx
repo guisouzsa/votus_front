@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useSsrDetail } from '@/hooks/useSsrDetail';
+import LoadingState from "@/components/LoadingState";
 import { ArrowLeft } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import MobileBottomNav from "@/components/MobileBottomNav";
@@ -41,7 +42,7 @@ export default function NoticiaPageClient({
         </div>
 
         {isLoading ? (
-          <p className="px-6 py-16 text-center text-sm text-[#103D23] sm:px-10">Carregando notícia...</p>
+          <LoadingState message="Carregando notícia..." />
         ) : (
           <NewsArticlePage article={article} />
         )}

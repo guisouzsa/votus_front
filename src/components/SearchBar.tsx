@@ -47,21 +47,41 @@ export default function SearchBar({
       </label>
 
       {categories.length > 0 && (
-        <div className="relative w-24 shrink-0 md:w-72 md:max-w-[90vw]">
+        // w-10 no mobile (só cabe o círculo do ícone) e md:w-72 restaurando
+        // exatamente a largura original do desktop — a versão anterior desta
+        // correção tinha deixado o botão em md:w-auto, encolhendo a pílula
+        // do desktop/web sem querer.
+        <div className="relative w-10 shrink-0 md:w-72 md:max-w-[90vw]">
+          {/* Mobile: só o ícone, num botão circular — sem texto nem badge
+              separado (padrão usado em todos os filtros do Votus quando não
+              há espaço pro rótulo). A partir de md, volta a ser a pílula
+              com rótulo de sempre (mesmo tamanho/padding de antes). */}
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
+            aria-label={selectedCategories.length > 0 ? `Filtros (${selectedCategories.length} selecionados)` : "Filtros"}
             style={{ borderColor, backgroundColor: bgColor, color: accentColor }}
-            className="flex h-10 w-full items-center justify-between gap-1 rounded-full border py-1.5 pl-3 pr-1.5 text-sm font-medium cursor-pointer md:gap-2 md:pl-5"
+            className="relative flex h-10 w-full items-center justify-center rounded-full border cursor-pointer md:justify-between md:gap-2 md:py-1.5 md:pl-5 md:pr-1.5"
           >
-            <span className="flex min-w-0 items-center gap-1.5 md:gap-2">
+            <span className="flex min-w-0 items-center gap-2">
               <SlidersHorizontal size={16} className="shrink-0" />
-              <span className="hidden truncate md:inline">
+              <span className="hidden truncate text-sm font-medium md:inline">
                 {selectedCategories.length > 0 ? `Filtros (${selectedCategories.length})` : "Filtros"}
               </span>
             </span>
+
+            {selectedCategories.length > 0 && (
+              <span
+                aria-hidden="true"
+                className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold text-white md:hidden"
+                style={{ backgroundColor: accentColor }}
+              >
+                {selectedCategories.length}
+              </span>
+            )}
+
             <span
-              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
+              className="hidden h-7 w-7 shrink-0 items-center justify-center rounded-full md:flex"
               style={{ backgroundColor: badgeColor }}
             >
               <ChevronDown

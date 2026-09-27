@@ -10,7 +10,7 @@ import LegislatorFilterFrame from '@/components/LegislatorFilterFrame';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
 import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
 import Pagination from '@/components/Pagination';
-import { useMemo, useState, useSyncExternalStore } from 'react';
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import {
   CANDIDATE_OFFICES,
   getCandidates,
@@ -122,10 +122,17 @@ export default function CandidatosListClient({
     : null;
 
   const candidatos = response?.data ?? [];
-  // A API não faz mais a query de contar o total (ver getCandidates) — sem
-  // "last_page" pronto, estimamos pelo link "next": se não tem próxima
-  // página, a atual já é a última.
-  const lastPage = response?.links.next ? page + 1 : page;
+  const lastPage = response?.meta.last_page ?? 1;
+
+  // Página inexistente (ex: URL editada à mão, ou um filtro reduziu o total
+  // enquanto o usuário estava numa página alta) — volta pra última válida
+  // em vez de mostrar uma lista vazia presa numa página que não existe.
+  useEffect(() => {
+    if (response && page > lastPage) {
+      gravarNaUrl(aplicados, lastPage);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [response, page, lastPage]);
 
   return (
     <div className="min-h-dvh">

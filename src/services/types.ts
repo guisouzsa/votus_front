@@ -105,28 +105,6 @@ export interface PaginatedResponse<T> {
   };
 }
 
-// Formato do Laravel simplePaginate() — sem last_page/total, porque não faz
-// a query de COUNT (mais barato). Usado só onde o dado sempre cabe numa
-// única página (deputados/senadores, ~20-30 registros), então não faz
-// sentido pagar o custo de contar o total a cada requisição.
-export interface SimplePaginatedResponse<T> {
-  data: T[];
-  links: {
-    first: string | null;
-    last: string | null;
-    prev: string | null;
-    next: string | null;
-  };
-  meta: {
-    current_page: number;
-    current_page_url: string;
-    from: number | null;
-    per_page: number;
-    to: number | null;
-    path: string;
-  };
-}
-
 export interface NewsArticleApi {
   id: number;
   title: string;
@@ -430,6 +408,28 @@ export interface PublicOpportunity {
   registration_url: string | null;
   summary: string | null;
   status: PublicOpportunityStatus;
+}
+
+export type PublicOpportunityReviewStatus = "pending" | "approved" | "rejected";
+
+export interface PublicOpportunityPublication {
+  publication_type: string | null;
+  gazette_date: string | null;
+  edition: string | null;
+  gazette_url: string | null;
+}
+
+// Formato do painel admin de Juventude em Pauta (Admin\PublicOpportunityController)
+// — mesmos campos de PublicOpportunity, mais o que só interessa à moderação
+// (id, review_status, contagem/lista de publicações, quando foi visto pelo
+// import do n8n). O endpoint público não expõe esses campos.
+export interface AdminPublicOpportunity extends PublicOpportunity {
+  id: number;
+  review_status: PublicOpportunityReviewStatus;
+  publications_count: number;
+  first_seen_at: string | null;
+  last_seen_at: string | null;
+  publications?: PublicOpportunityPublication[];
 }
 
 export interface AdmissionMethod {
