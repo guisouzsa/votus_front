@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { TEAM_ADVISOR, TEAM_MEMBERS, type TeamMember } from '@/data/team';
 
-const PAGE_SIZE = 4;
+const PAGE_SIZE = 6;
 
 function useInView<T extends HTMLElement>() {
   const ref = useRef<T>(null);
@@ -90,7 +90,7 @@ function TeamCarousel({ members }: { members: TeamMember[] }) {
           <ChevronLeft size={28} strokeWidth={2.5} />
         </button>
 
-        <div className="grid flex-1 grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-5 md:gap-x-6">
+        <div className="grid flex-1 grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-6 md:gap-x-6">
           {visible.map((member, index) => (
             <div
               key={member.name}
