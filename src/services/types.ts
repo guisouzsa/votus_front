@@ -503,6 +503,22 @@ export interface CandidatePreviousMandate {
   status: string | null;
 }
 
+// Candidatura anterior (qualquer cargo, qualquer eleição), direto do TSE — ao
+// contrário de previous_mandates (que só pega deputado federal/senador da
+// legislatura atual rastreada pelo Votus), este vem do histórico oficial e
+// cobre qualquer cargo/ano, com o resultado (eleito ou não).
+export interface CandidacyHistoryEntry {
+  id: number;
+  election_year: number;
+  round: number | null;
+  state: string | null;
+  office: string;
+  ballot_number: string | null;
+  party: CandidateParty;
+  candidacy_status: string | null;
+  result_status: string | null;
+}
+
 export interface Candidate {
   id: number;
   ballot_number: string | null;
@@ -522,4 +538,5 @@ export interface Candidate {
   // essas relações de propósito, pra não misturar vice/suplente com titular.
   running_mates?: Candidate[];
   previous_mandates?: CandidatePreviousMandate[];
+  candidacy_history?: CandidacyHistoryEntry[];
 }

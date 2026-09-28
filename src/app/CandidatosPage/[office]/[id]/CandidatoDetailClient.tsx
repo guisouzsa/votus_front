@@ -22,6 +22,13 @@ const RACE_COLOR_LABELS: Record<string, string> = {
   INDÍGENA: 'Indígena',
 };
 
+function foiEleito(resultado: string | null): boolean {
+  if (!resultado) return false;
+
+  const normalizado = resultado.toLowerCase();
+  return normalizado.includes('eleito') && !normalizado.includes('não eleito') && !normalizado.includes('nao eleito');
+}
+
 function tituloCaso(texto: string | null): string {
   if (!texto) return '—';
 
@@ -74,7 +81,7 @@ export default function CandidatoDetailClient({
   }
 
   const runningMates = candidato.running_mates ?? [];
-  const previousMandates = candidato.previous_mandates ?? [];
+  const candidacyHistory = candidato.candidacy_history ?? [];
 
   return (
     <div className="min-h-dvh">
@@ -158,23 +165,30 @@ export default function CandidatoDetailClient({
             </div>
 
             <div className="rounded-[10px] border border-[#e0d6c4] bg-white p-4 text-sm sm:p-6">
-              <h2 className="text-base font-black uppercase text-[#1b623a]">Já foi parlamentar</h2>
+              <h2 className="text-base font-black uppercase text-[#1b623a]">Histórico de candidaturas</h2>
 
-              {previousMandates.length === 0 ? (
-                <p className="mt-2 text-[#4d4d4d]">Sem mandato anterior registrado.</p>
+              {candidacyHistory.length === 0 ? (
+                <p className="mt-2 text-[#4d4d4d]">Sem candidatura anterior registrada no TSE.</p>
               ) : (
                 <ul className="mt-3 flex flex-col gap-2">
-                  {previousMandates.map((mandato) => (
-                    <li key={mandato.id}>
-                      <Link
-                        href={mandato.chamber === 'senate' ? `/ShowSenadoresPage/${mandato.id}` : `/ShowDeputadosPage/${mandato.id}`}
-                        className="flex items-center justify-between gap-2 rounded-lg border border-[#e0d6c4] px-3 py-2 transition-colors hover:bg-[#f7f5f2]"
-                      >
-                        <span className="font-semibold">{mandato.parliamentary_name}</span>
-                        <span className="text-xs text-[#4d4d4d]">
-                          {mandato.chamber === 'senate' ? 'Senador(a)' : 'Deputado(a) Federal'}
+                  {candidacyHistory.map((historico) => (
+                    <li
+                      key={historico.id}
+                      className="flex items-center justify-between gap-2 rounded-lg border border-[#e0d6c4] px-3 py-2"
+                    >
+                      <div>
+                        <span className="font-semibold">{tituloCaso(historico.office)}</span>
+                        <span className="ml-1.5 text-xs text-[#4d4d4d]">
+                          {historico.election_year} · {historico.party.acronym ?? '—'}
                         </span>
-                      </Link>
+                      </div>
+                      <span
+                        className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase ${
+                          foiEleito(historico.result_status) ? 'bg-[#1B623A] text-white' : 'bg-[#EDDBBA] text-[#6b6255]'
+                        }`}
+                      >
+                        {historico.result_status ?? '—'}
+                      </span>
                     </li>
                   ))}
                 </ul>
