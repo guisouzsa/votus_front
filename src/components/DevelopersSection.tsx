@@ -62,8 +62,8 @@ function MemberCard({ member, size }: { member: TeamMember; size?: 'md' | 'lg' }
   return (
     <div className="flex flex-col items-center text-center">
       <MemberPhoto member={member} size={size} />
-      <p className="mt-3 text-sm font-bold leading-snug text-ink sm:text-base">{member.name}</p>
-      <p className="mt-1 max-w-[9rem] text-xs leading-snug text-ink-soft sm:max-w-[10rem] sm:text-sm">{member.role}</p>
+      <p className="mt-3 max-w-[9rem] break-words text-sm font-bold leading-snug text-ink sm:max-w-[10rem] sm:text-base">{member.name}</p>
+      <p className="mt-1 max-w-[9rem] break-words text-xs leading-snug text-ink-soft sm:max-w-[10rem] sm:text-sm">{member.role}</p>
     </div>
   );
 }
