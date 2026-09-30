@@ -86,8 +86,9 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 # URL pública do site (usada em metadados, sitemap e SEO)
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
-# Chave da API da Groq, usada pelo assistente de IA (rota /api/chat)
-GROQ_API_KEY=
+# Chave da API da Groq, usada pelo assistente de IA (rota /api/chat) —
+# nome próprio pra não confundir com as GROQ_API_KEY_1..5 do backend
+CHAT_API_KEY=
 
 # Opcional: sobrescreve o modelo padrão (openai/gpt-oss-20b)
 # GROQ_MODEL=
@@ -231,7 +232,7 @@ npm run build
 npm run start
 ```
 
-Configure `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_SITE_URL` e `GROQ_API_KEY` como variáveis de ambiente na plataforma de deploy.
+Configure `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_SITE_URL` e `CHAT_API_KEY` como variáveis de ambiente na plataforma de deploy.
 
 ---
 

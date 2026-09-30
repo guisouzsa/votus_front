@@ -200,7 +200,11 @@ export async function POST(request: Request) {
     );
   }
 
-  const apiKey = process.env.GROQ_API_KEY;
+  // Nome próprio (não GROQ_API_KEY genérico) pra não confundir com as
+  // GROQ_API_KEY_1..5 do backend (votus-general-api) — são chaves Groq
+  // diferentes, em projetos/plataformas diferentes (esta aqui é só do chat
+  // do frontend, configurada na Vercel).
+  const apiKey = process.env.CHAT_API_KEY;
 
   if (!apiKey) {
     return NextResponse.json(
