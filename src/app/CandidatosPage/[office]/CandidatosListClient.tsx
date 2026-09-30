@@ -12,6 +12,7 @@ import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
 import Pagination from '@/components/Pagination';
 import PageTransitionOverlay from '@/components/PageTransitionOverlay';
 import StatCard from '@/components/StatCard';
+import DataSourceNote from '@/components/DataSourceNote';
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import {
   CANDIDATE_OFFICES,
@@ -388,6 +389,10 @@ export default function CandidatosListClient({
                 <Pagination page={page} lastPage={lastPage} onChange={setPage} />
               </div>
 
+            </div>
+
+            <div className="mt-10">
+              <DataSourceNote variant="prominent" />
             </div>
           </div>
         </div>

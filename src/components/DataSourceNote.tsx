@@ -114,6 +114,22 @@ export default function DataSourceNote({
               </a>
             </div>
 
+            <div className="mt-3 rounded-[10px] border border-[#e0d6c4] bg-[#f7f5f2] p-4">
+              <p className="text-sm font-bold text-[#8d0801]">Tribunal Superior Eleitoral (TSE)</p>
+              <p className="mt-1 text-xs leading-relaxed text-ink-soft">
+                Os dados dos candidatos às eleições de 2026 são obtidos do Portal de Dados Abertos do TSE (registro
+                de candidaturas, número na urna, partido e histórico de candidaturas).
+              </p>
+              <a
+                href="https://dadosabertos.tse.jus.br/dataset/candidatos-2026"
+                target="_blank"
+                rel="noreferrer noopener"
+                className="mt-2 inline-block text-xs font-semibold text-[#1b623a] underline"
+              >
+                Ver conjunto de dados oficial ↗
+              </a>
+            </div>
+
             <p className="mt-4 text-xs italic text-ink-soft">
               Os dados podem ser atualizados ou alterados conforme as fontes oficiais.
             </p>
