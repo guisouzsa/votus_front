@@ -329,8 +329,15 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
         onClick={toggleChat}
         aria-label={open ? "Fechar chat de IA" : "Perguntar à IA"}
         aria-expanded={open}
-        className="flex h-16 w-16 items-center justify-center gap-3 overflow-hidden rounded-full bg-cover bg-center px-0 text-sm font-semibold text-[#EDDBBA] shadow-[0_6px_18px_-2px_rgba(19,74,42,0.35)] transition-all duration-300 hover:brightness-110 hover:scale-105 active:scale-90 cursor-pointer md:h-14 md:w-44 md:justify-start md:px-2"
-        style={{ backgroundImage: "url(/FundoFlooatingbutton.svg)" }}
+        // FundoFlooatingbutton.svg é bem largo (725x241, ~3:1) — desenhado
+        // pra caber no botão retangular do desktop (md:w-44). No mobile o
+        // botão é quadrado (h-16 w-16): bg-cover cortava as laterais dessa
+        // arte larga pra cobrir o quadrado, sobrando no meio um pedaço torto
+        // da "pílula" arredondada original (a mancha/artefato reportada).
+        // Solução: usar essa imagem só a partir do desktop (md:), e no
+        // mobile uma cor sólida do mesmo verde já usado no botão (shadow
+        // logo abaixo já é rgba(19,74,42,...), o mesmo tom).
+        className="flex h-16 w-16 items-center justify-center gap-3 overflow-hidden rounded-full bg-[#134A2A] bg-cover bg-center px-0 text-sm font-semibold text-[#EDDBBA] shadow-[0_6px_18px_-2px_rgba(19,74,42,0.35)] transition-all duration-300 hover:brightness-110 hover:scale-105 active:scale-90 cursor-pointer md:h-14 md:w-44 md:justify-start md:bg-[url('/FundoFlooatingbutton.svg')] md:px-2"
       >
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#EDDBBA] md:h-9 md:w-9">
           <MessageCircleQuestion size={25} className="text-[#246840]" strokeWidth={1.8} />
