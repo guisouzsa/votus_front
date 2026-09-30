@@ -32,16 +32,16 @@ export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCa
           Eleitoral
         </h1>
 
-        <div className="mt-[5cqw] flex flex-1 flex-col justify-between gap-[1.5cqw]">
+        <div className="mt-[5.5cqw] flex flex-1 flex-col justify-between gap-[2cqw]">
           {candidatos.map((candidato) => (
-            <div key={candidato.id} className="flex items-center gap-[1.8cqw]">
+            <div key={candidato.id} className="flex items-center gap-[2.2cqw]">
               {candidato.fotoUrl && (
                 // Anel branco fino entre a foto e a borda laranja: acabamento
                 // mais limpo, evita a cor da própria foto encostar direto na
                 // borda. object-top: as fotos oficiais do TSE são verticais
                 // (retrato, ~161x225) — ancorar no topo mantém o rosto
                 // inteiro visível ao recortar num círculo.
-                <div className="relative aspect-square w-[10cqw] shrink-0 rounded-full border-[0.35cqw] border-brasil-orange bg-white p-[0.5cqw]">
+                <div className="relative aspect-square w-[10.5cqw] shrink-0 rounded-full border-[0.35cqw] border-brasil-orange bg-white p-[0.5cqw]">
                   <div className="relative h-full w-full overflow-hidden rounded-full">
                     <Image
                       src={candidato.fotoUrl}
@@ -53,22 +53,25 @@ export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCa
                   </div>
                 </div>
               )}
-              <div className="flex min-w-0 flex-col gap-[0.6cqw]">
-              <p className="text-[2.3cqw] font-bold uppercase leading-tight text-brasil-orange">
-                {candidato.cargo}
-              </p>
+              <div className="flex min-w-0 flex-col gap-[0.9cqw]">
+              {/* Hierarquia: número (maior) > nome > cargo > demais — nome
+                  fica um pouco maior que o cargo, invertendo a ênfase de
+                  antes (cargo era o maior texto do bloco de identificação). */}
               {candidato.nome && (
-                <p className="truncate text-[2.1cqw] font-black uppercase leading-tight text-ink">
+                <p className="truncate text-[2.6cqw] font-black uppercase leading-tight text-ink">
                   {candidato.nome}
                 </p>
               )}
-              <div className="mt-[0.6cqw] flex flex-wrap gap-[1cqw]">
+              <p className="text-[2.2cqw] font-bold uppercase leading-tight text-brasil-orange">
+                {candidato.cargo}
+              </p>
+              <div className="mt-[1cqw] flex flex-wrap gap-[1.2cqw]">
                 {Array.from({ length: candidato.digitos }).map((_, digitIndex) => {
                   const digit = candidato.numero[digitIndex];
                   return (
                     <div
                       key={digitIndex}
-                      className="flex aspect-square w-[7cqw] shrink-0 items-center justify-center rounded-[0.8cqw] border-[0.35cqw] border-brasil-orange text-[2.6cqw] font-bold text-brasil-orange"
+                      className="flex aspect-square w-[7.6cqw] shrink-0 items-center justify-center rounded-[0.8cqw] border-[0.35cqw] border-brasil-orange text-[2.9cqw] font-bold text-brasil-orange"
                     >
                       {digit && digit !== ' ' ? digit : ''}
                     </div>
@@ -80,7 +83,7 @@ export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCa
           ))}
         </div>
 
-        <div className="mt-[2cqw] shrink-0">
+        <div className="mt-[2.5cqw] shrink-0">
           <Image
             src="/SantinhoElementos/LogoVotus.svg"
             alt="Votus"
@@ -88,6 +91,7 @@ export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCa
             height={32}
             className="h-[4.5cqw] w-auto"
           />
+          <p className="mt-[0.8cqw] text-[1.3cqw] font-medium leading-none text-ink-soft">votusproj.vercel.app</p>
         </div>
       </div>
     </div>

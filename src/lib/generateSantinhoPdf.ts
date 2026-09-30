@@ -12,6 +12,7 @@ const LOGO_ASPECT = 32 / 133; // altura / largura, conforme o viewBox de LogoVot
 const ORANGE: [number, number, number] = [255, 119, 0];
 const BORDER: [number, number, number] = [224, 214, 196];
 const INK: [number, number, number] = [34, 32, 27]; // mesmo tom de --color-ink usado no nome, no preview em tela
+const INK_SOFT: [number, number, number] = [107, 98, 85]; // --color-ink-soft, usado no endereço do Votus
 const CARD_ASPECT = 5 / 3; // altura / largura do santinho, igual ao preview na tela
 const LATERAL_WIDTH_RATIO = 0.26; // fração da largura do cartão ocupada pela arte lateral
 const MM_TO_PT = 72 / 25.4;
@@ -208,18 +209,13 @@ function drawSantinho(
       pdf.circle(centroX, centroY, fotoSize / 2, 'S');
     }
 
-    pdf.setFont('helvetica', 'bold');
-    setFontSizeMm(pdf, width * 0.052);
-    pdf.setTextColor(...ORANGE);
-    pdf.text(candidato.cargo, rowLeft, rowY);
-
-    // Nome do candidato, entre o cargo e os números — mesmo par de
-    // informações que o preview em tela mostra, ver SantinhoPreview.tsx.
-    // pdf.text() não trunca sozinho: mede e corta com reticências pra nunca
-    // desenhar por cima da arte lateral quando o nome for muito longo.
-    let numerosOffsetY = width * 0.02;
+    // Hierarquia — mesma ordem/ênfase do preview em tela (SantinhoPreview.tsx):
+    // nome (maior, cor de texto) acima do cargo (menor, laranja), depois os
+    // números. pdf.text() não trunca sozinho: mede e corta com reticências
+    // pra nunca desenhar por cima da arte lateral quando o nome for longo.
+    let cargoOffsetY = 0;
     if (candidato.nome) {
-      const nomeFontSize = width * 0.034;
+      const nomeFontSize = width * 0.04;
       pdf.setFont('helvetica', 'bold');
       setFontSizeMm(pdf, nomeFontSize);
       pdf.setTextColor(...INK);
@@ -233,14 +229,19 @@ function drawSantinho(
         nomeExibido = `${nomeExibido.trimEnd()}...`;
       }
 
-      pdf.text(nomeExibido, rowLeft, rowY + width * 0.042);
-      numerosOffsetY = width * 0.062;
+      pdf.text(nomeExibido, rowLeft, rowY);
+      cargoOffsetY = width * 0.048;
     }
 
-    const boxGap = width * 0.012;
+    pdf.setFont('helvetica', 'bold');
+    setFontSizeMm(pdf, width * 0.048);
+    pdf.setTextColor(...ORANGE);
+    pdf.text(candidato.cargo, rowLeft, rowY + cargoOffsetY);
+
+    const boxGap = width * 0.014;
     const availableWidth = contentRight - rowLeft - boxGap * (candidato.digitos - 1);
-    const boxSize = Math.min(width * 0.078, availableWidth / candidato.digitos);
-    const boxY = rowY + numerosOffsetY;
+    const boxSize = Math.min(width * 0.086, availableWidth / candidato.digitos);
+    const boxY = rowY + cargoOffsetY + width * 0.024;
 
     pdf.setDrawColor(...ORANGE);
     pdf.setLineWidth(width * 0.0025);
@@ -261,7 +262,15 @@ function drawSantinho(
 
   // Logo Votus, canto inferior esquerdo — nunca recortada (object-contain),
   // senao a palavra "VOTUS" ficaria cortada.
-  pdf.addImage(logoImg, 'PNG', contentLeft, y + height - padding - logoHeight, logoWidth, logoHeight);
+  const logoY = y + height - padding - logoHeight;
+  pdf.addImage(logoImg, 'PNG', contentLeft, logoY, logoWidth, logoHeight);
+
+  // Endereço do Votus, discreto, logo abaixo da logo — mesmo texto do
+  // preview em tela.
+  pdf.setFont('helvetica', 'normal');
+  setFontSizeMm(pdf, width * 0.024);
+  pdf.setTextColor(...INK_SOFT);
+  pdf.text('votusproj.vercel.app', contentLeft, logoY + logoHeight + width * 0.028);
 }
 
 export async function generateSantinhoPdf({
