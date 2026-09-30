@@ -128,6 +128,9 @@ export default function MobileBottomNav() {
               >
                 {isOpen && (
                   <div className="absolute bottom-[calc(100%+0.75rem)] left-1/2 z-40 flex -translate-x-1/2 flex-col gap-1 whitespace-nowrap rounded-2xl border border-[#8D0801]/15 bg-[#FDF8EE] p-2 shadow-lg">
+                    <span className="px-4 pb-1 pt-1.5 text-left text-xs font-bold uppercase tracking-wide text-[#103D23]/60">
+                      {label}
+                    </span>
                     {children.map((child) => (
                       <Link
                         key={child.id}
