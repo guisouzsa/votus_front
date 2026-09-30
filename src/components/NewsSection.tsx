@@ -84,13 +84,13 @@ export default function NewsSection({
             </div>
           )}
 
-          {temMaisItens && !mobileExpandido && (
+          {temMaisItens && (
             <button
               type="button"
-              onClick={() => setMobileExpandido(true)}
+              onClick={() => setMobileExpandido((valor) => !valor)}
               className="mt-3 w-full rounded-lg border border-black/10 bg-cream-panel py-2 text-sm font-semibold text-[#103D23] transition-colors hover:bg-black/5"
             >
-              Ver mais
+              {mobileExpandido ? "Ver menos" : "Ver mais"}
             </button>
           )}
         </div>

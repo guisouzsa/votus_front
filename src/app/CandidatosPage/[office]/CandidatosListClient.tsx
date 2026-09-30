@@ -114,12 +114,11 @@ export default function CandidatosListClient({
   // Só existe vice/suplente pra Presidente/Governador/Senador — Deputado
   // Federal/Estadual não tem chapa, então vem sempre 0 (ver comChapaByOffice).
   const comChapa = response?.filters?.com_chapa ?? initialData?.filters?.com_chapa ?? 0;
-  const jaFoiParlamentar = response?.filters?.ja_foi_parlamentar ?? initialData?.filters?.ja_foi_parlamentar ?? 0;
 
   // As duas primeiras (Candidatos/Partidos) ficam sempre visíveis; estas
-  // quatro só existem pra alguns cargos (chapa/plano de governo) e, mesmo
-  // quando existem todas, 6 cardizinhos de uma vez ficava poluído — por
-  // isso entram atrás de "Ver mais estatísticas" em vez de sempre visíveis.
+  // só existem pra alguns cargos (chapa/plano de governo) e, mesmo quando
+  // existem todas, muitos cardizinhos de uma vez ficava poluído — por isso
+  // entram atrás de "Ver mais estatísticas" em vez de sempre visíveis.
   const estatisticasExtras = [
     comProposta > 0 && {
       value: comProposta.toString().padStart(2, '0'),
@@ -143,12 +142,6 @@ export default function CandidatosListClient({
       label: 'Com chapa completa',
       valueColor: 'text-[#F07A00]',
       tooltip: <p>Quantidade de candidatos com vice ou suplentes já registrados na chapa.</p>,
-    },
-    jaFoiParlamentar > 0 && {
-      value: jaFoiParlamentar.toString().padStart(2, '0'),
-      label: 'Já foi parlamentar',
-      valueColor: 'text-[#8d0801]',
-      tooltip: <p>Quantidade de candidatos que já foram eleitos antes, para qualquer cargo.</p>,
     },
   ].filter((item): item is Exclude<typeof item, false> => item !== false);
 
