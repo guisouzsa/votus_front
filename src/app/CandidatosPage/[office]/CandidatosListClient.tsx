@@ -115,6 +115,44 @@ export default function CandidatosListClient({
   const comChapa = response?.filters?.com_chapa ?? initialData?.filters?.com_chapa ?? 0;
   const jaFoiParlamentar = response?.filters?.ja_foi_parlamentar ?? initialData?.filters?.ja_foi_parlamentar ?? 0;
 
+  // As duas primeiras (Candidatos/Partidos) ficam sempre visíveis; estas
+  // quatro só existem pra alguns cargos (chapa/plano de governo) e, mesmo
+  // quando existem todas, 6 cardizinhos de uma vez ficava poluído — por
+  // isso entram atrás de "Ver mais estatísticas" em vez de sempre visíveis.
+  const estatisticasExtras = [
+    comProposta > 0 && {
+      value: comProposta.toString().padStart(2, '0'),
+      label: 'Com plano de governo',
+      valueColor: 'text-[#8d0801]',
+      tooltip: (
+        <p>
+          Quantidade de candidatos que anexaram plano de governo no registro do TSE. Só é obrigatório para
+          Presidente e Governador.
+        </p>
+      ),
+    },
+    {
+      value: comEnsinoSuperior.toString().padStart(2, '0'),
+      label: 'Ensino superior completo',
+      valueColor: 'text-[#1B623A]',
+      tooltip: <p>Quantidade de candidatos que declararam ensino superior completo ao TSE.</p>,
+    },
+    comChapa > 0 && {
+      value: comChapa.toString().padStart(2, '0'),
+      label: 'Com chapa completa',
+      valueColor: 'text-[#F07A00]',
+      tooltip: <p>Quantidade de candidatos com vice ou suplentes já registrados na chapa.</p>,
+    },
+    jaFoiParlamentar > 0 && {
+      value: jaFoiParlamentar.toString().padStart(2, '0'),
+      label: 'Já foi parlamentar',
+      valueColor: 'text-[#8d0801]',
+      tooltip: <p>Quantidade de candidatos que já foram eleitos antes, para qualquer cargo.</p>,
+    },
+  ].filter((item): item is Exclude<typeof item, false> => item !== false);
+
+  const [mostrarEstatisticasExtras, setMostrarEstatisticasExtras] = useState(false);
+
   const setPage = (novaPagina: number) => gravarNaUrl(aplicados, novaPagina);
 
   function aplicarFiltros() {
@@ -194,7 +232,7 @@ export default function CandidatosListClient({
               })}
             </nav>
 
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
               <StatCard
                 value={totalCandidatos !== undefined ? String(totalCandidatos).padStart(2, '0') : '—'}
                 label="Candidatos"
@@ -207,42 +245,27 @@ export default function CandidatosListClient({
                 valueColor="text-[#F07A00]"
                 tooltip={<p>Quantidade de partidos diferentes com candidatos a {config.label} nesta lista.</p>}
               />
-              {comProposta > 0 && (
-                <StatCard
-                  value={comProposta.toString().padStart(2, '0')}
-                  label="Com plano de governo"
-                  valueColor="text-[#8d0801]"
-                  tooltip={
-                    <p>
-                      Quantidade de candidatos que anexaram plano de governo no registro do TSE. Só é obrigatório
-                      para Presidente e Governador.
-                    </p>
-                  }
-                />
-              )}
-              <StatCard
-                value={comEnsinoSuperior.toString().padStart(2, '0')}
-                label="Ensino superior completo"
-                valueColor="text-[#1B623A]"
-                tooltip={<p>Quantidade de candidatos que declararam ensino superior completo ao TSE.</p>}
-              />
-              {comChapa > 0 && (
-                <StatCard
-                  value={comChapa.toString().padStart(2, '0')}
-                  label="Com chapa completa"
-                  valueColor="text-[#F07A00]"
-                  tooltip={<p>Quantidade de candidatos com vice ou suplentes já registrados na chapa.</p>}
-                />
-              )}
-              {jaFoiParlamentar > 0 && (
-                <StatCard
-                  value={jaFoiParlamentar.toString().padStart(2, '0')}
-                  label="Já foi parlamentar"
-                  valueColor="text-[#8d0801]"
-                  tooltip={<p>Quantidade de candidatos que já tiveram mandato de parlamentar antes.</p>}
-                />
-              )}
             </div>
+
+            {estatisticasExtras.length > 0 && (
+              <div className="mt-2">
+                {mostrarEstatisticasExtras ? (
+                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                    {estatisticasExtras.map((item) => (
+                      <StatCard key={item.label} {...item} />
+                    ))}
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setMostrarEstatisticasExtras(true)}
+                    className="text-xs font-semibold text-[#1b623a] underline underline-offset-2"
+                  >
+                    Ver mais estatísticas
+                  </button>
+                )}
+              </div>
+            )}
 
             <LegislatorFilterFrame
               searchValue={filtros.search}

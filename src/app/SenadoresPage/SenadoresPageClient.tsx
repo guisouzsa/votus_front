@@ -122,7 +122,7 @@ export default function SenadoresPageClient({
 
             <CargoQuickNav atual="SenadoresPage" />
 
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
               <StatCard
                 value={total !== null ? String(total).padStart(2, '0') : '—'}
                 label="Senadores"
