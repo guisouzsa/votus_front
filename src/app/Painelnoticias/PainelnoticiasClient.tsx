@@ -83,7 +83,9 @@ export default function PainelnoticiasClient() {
       }
     }
 
-    return Array.from(groups.entries());
+    // Tópicos com mais notícias aparecem primeiro; só afeta a ordem visual
+    // das seções, não a seleção de notícia principal (feed.destaque, acima).
+    return Array.from(groups.entries()).sort((a, b) => b[1].length - a[1].length);
   }, [filteredNews]);
 
   // A notícia principal agora é escolhida no backend (SelecionadorDestaqueNoticia:

@@ -1,8 +1,12 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import NewsCard, { NewsItem } from "@/components/NewsCard";
+
+// Quantos itens (além do destaque no topo) aparecem na grade do mobile antes
+// do "Ver mais" — mantém a seção compacta sem esconder que há mais notícias.
+const MOBILE_GRID_INICIAL = 4;
 
 export default function NewsSection({
   title,
@@ -15,6 +19,7 @@ export default function NewsSection({
   const isDown = useRef(false);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
+  const [mobileExpandido, setMobileExpandido] = useState(false);
 
   function onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
     if (!scrollRef.current) return;
@@ -50,13 +55,49 @@ export default function NewsSection({
     });
   }
 
+  const [itemDestaque, ...itensRestantes] = items;
+  const itensGradeVisiveis = mobileExpandido
+    ? itensRestantes
+    : itensRestantes.slice(0, MOBILE_GRID_INICIAL);
+  const temMaisItens = itensRestantes.length > MOBILE_GRID_INICIAL;
+
   return (
     <section className="mt-10">
       <h3 className="mb-3 font-display text-lg font-bold text-[#103D23]">
         {title}
       </h3>
 
-      <div className="relative flex items-center gap-2 rounded-xl border border-black/10 bg-cream-panel p-3 shadow-[0_1px_3px_rgba(0,0,0,0.06)] sm:p-4">
+      {/* Mobile: notícia em destaque + grade 2 colunas (com "Ver mais"), em vez
+          do carrossel horizontal do desktop — mais fácil de perceber que há
+          várias notícias no tópico sem precisar arrastar a tela. */}
+      {itemDestaque && (
+        <div className="sm:hidden">
+          <div className="mb-3">
+            <NewsCard {...itemDestaque} />
+          </div>
+
+          {itensGradeVisiveis.length > 0 && (
+            <div className="grid grid-cols-2 gap-3">
+              {itensGradeVisiveis.map((item) => (
+                <NewsCard key={item.id} {...item} />
+              ))}
+            </div>
+          )}
+
+          {temMaisItens && !mobileExpandido && (
+            <button
+              type="button"
+              onClick={() => setMobileExpandido(true)}
+              className="mt-3 w-full rounded-lg border border-black/10 bg-cream-panel py-2 text-sm font-semibold text-[#103D23] transition-colors hover:bg-black/5"
+            >
+              Ver mais
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* Desktop: carrossel horizontal original, inalterado */}
+      <div className="relative hidden items-center gap-2 rounded-xl border border-black/10 bg-cream-panel p-3 shadow-[0_1px_3px_rgba(0,0,0,0.06)] sm:flex sm:p-4">
         {/* Seta esquerda: só no desktop, no mobile o gesto de arrastar já é natural */}
         <button
           type="button"
