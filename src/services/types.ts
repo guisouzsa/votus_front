@@ -1,3 +1,46 @@
+// Cargos executivos em exercício (Presidente/Vice e Governador/Vice do
+// Ceará) — diferente de Legislator: não tem proposições/comissões nem
+// métricas de efetividade, e sim um feed de "ações" (ExecutiveAction).
+export interface ExecutiveAction {
+  id: number;
+  title: string;
+  summary: string | null;
+  action_type: string | null;
+  occurred_at: string | null;
+  published_at: string | null;
+  location: string | null;
+  source: { name: string | null; type: string | null; url: string | null };
+  entities: unknown;
+  relevance_score: number | null;
+  analysis_status: string | null;
+  analyzed_at: string | null;
+}
+
+export interface Executive {
+  id: number;
+  external_id: string | null;
+  name: string;
+  display_name: string;
+  office: "president" | "vice_president" | "governor" | "vice_governor";
+  level: "federal" | "state";
+  state: string | null;
+  party: { acronym: string | null; name: string | null };
+  birth_date: string | null;
+  birth_place: string | null;
+  occupation: string | null;
+  education: string | null;
+  biography: string | null;
+  photo_url: string | null;
+  started_at: string | null;
+  ended_at: string | null;
+  is_current: boolean;
+  source: { name: string | null; url: string | null };
+}
+
+export interface ExecutiveDetail extends Executive {
+  actions: ExecutiveAction[];
+}
+
 export interface Legislator {
   external_id: number;
   chamber: "lower_house" | "senate" | "state_house";

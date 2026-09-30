@@ -60,6 +60,14 @@ const nextConfig: NextConfig = {
         hostname: "www.al.ce.gov.br",
         pathname: "/image/**",
       },
+      {
+        // Foto do governador do Ceará (cargos executivos/GovernadoresPage) —
+        // vem direto do site do Governo do Estado, não do bucket Supabase.
+        // Mesmo erro fatal de render das outras entradas acima sem isso.
+        protocol: "https",
+        hostname: "www.ce.gov.br",
+        pathname: "/wp-content/uploads/**",
+      },
     ],
     // As fotos do bucket vêm com Cache-Control: no-cache (definido no
     // upload), então sem isso a versão otimizada seria revalidada a toda

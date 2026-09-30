@@ -20,6 +20,8 @@ export const NAV_ITEMS: NavItem[] = [
     label: "Cargos atuais",
     icon: "/Iconesenadores.svg",
     children: [
+      { id: "presidente", label: "Presidente", path: "/PresidentePage" },
+      { id: "governadores", label: "Governadores", path: "/GovernadoresPage" },
       { id: "senadores", label: "Senadores", path: "/SenadoresPage" },
       { id: "deputados", label: "Deputados Federais", path: "/DeputadosPage" },
       { id: "deputados-estaduais", label: "Deputados Estaduais", path: "/DeputadosEstaduaisPage" },
@@ -60,6 +62,8 @@ export const DETAIL_ROUTE_PREFIXES: { prefix: string; id: string }[] = [
   { prefix: "/ShowDeputadosPage", id: "deputados" },
   { prefix: "/ShowSenadoresPage", id: "senadores" },
   { prefix: "/ShowDeputadosEstaduaisPage", id: "deputados-estaduais" },
+  { prefix: "/ShowPresidentePage", id: "presidente" },
+  { prefix: "/ShowGovernadoresPage", id: "governadores" },
   { prefix: "/noticias/", id: "noticias" },
   // "Você Sabia?" (/explicacao e /explicacao/[id]) fica dentro de Explicações.
   { prefix: "/explicacao", id: "explicacoes" },
