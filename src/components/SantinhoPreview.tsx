@@ -53,11 +53,16 @@ export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCa
                   </div>
                 </div>
               )}
-              <div className="flex min-w-0 flex-col gap-[0.8cqw]">
+              <div className="flex min-w-0 flex-col gap-[0.6cqw]">
               <p className="text-[2.3cqw] font-bold uppercase leading-tight text-brasil-orange">
                 {candidato.cargo}
               </p>
-              <div className="flex flex-wrap gap-[1cqw]">
+              {candidato.nome && (
+                <p className="truncate text-[2.1cqw] font-black uppercase leading-tight text-ink">
+                  {candidato.nome}
+                </p>
+              )}
+              <div className="mt-[0.6cqw] flex flex-wrap gap-[1cqw]">
                 {Array.from({ length: candidato.digitos }).map((_, digitIndex) => {
                   const digit = candidato.numero[digitIndex];
                   return (

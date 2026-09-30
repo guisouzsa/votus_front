@@ -11,6 +11,7 @@ const GRID_BY_COUNT: Record<number, { cols: number; rows: number }> = {
 const LOGO_ASPECT = 32 / 133; // altura / largura, conforme o viewBox de LogoVotus.svg
 const ORANGE: [number, number, number] = [255, 119, 0];
 const BORDER: [number, number, number] = [224, 214, 196];
+const INK: [number, number, number] = [34, 32, 27]; // mesmo tom de --color-ink usado no nome, no preview em tela
 const CARD_ASPECT = 5 / 3; // altura / largura do santinho, igual ao preview na tela
 const LATERAL_WIDTH_RATIO = 0.26; // fração da largura do cartão ocupada pela arte lateral
 const MM_TO_PT = 72 / 25.4;
@@ -212,10 +213,34 @@ function drawSantinho(
     pdf.setTextColor(...ORANGE);
     pdf.text(candidato.cargo, rowLeft, rowY);
 
+    // Nome do candidato, entre o cargo e os números — mesmo par de
+    // informações que o preview em tela mostra, ver SantinhoPreview.tsx.
+    // pdf.text() não trunca sozinho: mede e corta com reticências pra nunca
+    // desenhar por cima da arte lateral quando o nome for muito longo.
+    let numerosOffsetY = width * 0.02;
+    if (candidato.nome) {
+      const nomeFontSize = width * 0.034;
+      pdf.setFont('helvetica', 'bold');
+      setFontSizeMm(pdf, nomeFontSize);
+      pdf.setTextColor(...INK);
+
+      const nomeMaxWidth = contentRight - rowLeft;
+      let nomeExibido = candidato.nome;
+      while (nomeExibido.length > 1 && pdf.getTextWidth(nomeExibido) > nomeMaxWidth) {
+        nomeExibido = nomeExibido.slice(0, -1);
+      }
+      if (nomeExibido !== candidato.nome) {
+        nomeExibido = `${nomeExibido.trimEnd()}...`;
+      }
+
+      pdf.text(nomeExibido, rowLeft, rowY + width * 0.042);
+      numerosOffsetY = width * 0.062;
+    }
+
     const boxGap = width * 0.012;
     const availableWidth = contentRight - rowLeft - boxGap * (candidato.digitos - 1);
     const boxSize = Math.min(width * 0.078, availableWidth / candidato.digitos);
-    const boxY = rowY + width * 0.02;
+    const boxY = rowY + numerosOffsetY;
 
     pdf.setDrawColor(...ORANGE);
     pdf.setLineWidth(width * 0.0025);
