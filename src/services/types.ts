@@ -1,6 +1,7 @@
 export interface Legislator {
   external_id: number;
-  chamber: "lower_house" | "senate";
+  chamber: "lower_house" | "senate" | "state_house";
+  source_slug?: string | null;
   parliamentary_name: string;
   photo_url: string | null;
   party: string | null;
@@ -534,6 +535,10 @@ export interface Candidate {
   photo_url: string | null;
   proposal_document_url: string | null;
   election_year: number;
+  // Situação da candidatura julgada pelo TSE (ex.: "DEFERIDO", "INDEFERIDO",
+  // "DEFERIDO EM PRAZO RECURSAL OU COM RECURSO") — a listagem já só traz
+  // candidatos deferidos, mas o campo continua útil no perfil individual.
+  judgment_status: string | null;
   // Só vêm preenchidos no perfil (/candidates/{id}) — a listagem não carrega
   // essas relações de propósito, pra não misturar vice/suplente com titular.
   running_mates?: Candidate[];

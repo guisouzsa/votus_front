@@ -149,6 +149,10 @@ export default function CandidatoDetailClient({
                     {candidato.race_color ? RACE_COLOR_LABELS[candidato.race_color] ?? tituloCaso(candidato.race_color) : '—'}
                   </dd>
                 </div>
+                <div className="flex justify-between gap-2">
+                  <dt className="text-[#4d4d4d]">Situação da candidatura (TSE)</dt>
+                  <dd className="text-right font-semibold">{tituloCaso(candidato.judgment_status)}</dd>
+                </div>
               </dl>
 
               {candidato.proposal_document_url && (

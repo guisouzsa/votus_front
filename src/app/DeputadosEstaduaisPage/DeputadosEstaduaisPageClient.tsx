@@ -14,7 +14,7 @@ import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
 import DataSourceNote from '@/components/DataSourceNote';
 import Pagination from '@/components/Pagination';
 import StatCard from '@/components/StatCard';
-import { getDeputados } from '@/services/deputadosService';
+import { getDeputadosEstaduais } from '@/services/deputadosEstaduaisService';
 import { ApiError } from '@/services/apiClient';
 import { useSsrPaginatedList } from '@/hooks/useSsrPaginatedList';
 import type { PaginatedResponse, Legislator } from '@/services/types';
@@ -28,7 +28,7 @@ const STATUS_OPTIONS = [
 
 const FILTROS_VAZIOS = { search: '', status: '', party: '' };
 
-export default function DeputadosPageClient({
+export default function DeputadosEstaduaisPageClient({
   initialData,
 }: {
   initialData?: PaginatedResponse<Legislator>;
@@ -38,29 +38,26 @@ export default function DeputadosPageClient({
   const [filtros, setFiltros] = useState(FILTROS_VAZIOS);
   const [filtrosAplicados, setFiltrosAplicados] = useState(FILTROS_VAZIOS);
 
-  // Página 1 já vem pronta do servidor (ver page.tsx); o hook evita tanto o
-  // skeleton à toa quanto um refetch redundante logo no mount — ver
-  // useSsrPaginatedList.
   const {
     data: response,
     error: swrError,
     mutate,
     loading,
-  } = useSsrPaginatedList(['deputados', page], () => getDeputados({ page }), page === 1 ? initialData : undefined);
+  } = useSsrPaginatedList(
+    ['deputados-estaduais', page],
+    () => getDeputadosEstaduais({ page }),
+    page === 1 ? initialData : undefined
+  );
   const error = swrError
     ? swrError instanceof ApiError
-      ? 'Não foi possível carregar os deputados agora. Tente novamente em instantes.'
-      : 'Ocorreu um erro inesperado ao carregar os deputados.'
+      ? 'Não foi possível carregar os deputados estaduais agora. Tente novamente em instantes.'
+      : 'Ocorreu um erro inesperado ao carregar os deputados estaduais.'
     : null;
 
   const deputados = useMemo(
     () => (response?.data ?? []).filter((deputado) => deputado.status !== 'inactive'),
     [response]
   );
-  // response.meta.total é o total bruto da API (inclui inativos/suplentes).
-  // O card do topo mostra a mesma lista que aparece embaixo, então usa a
-  // contagem já filtrada — como a API cabe numa página só (~22 deputados),
-  // isso reflete o total real de deputados ativos exibidos.
   const total = response ? deputados.length : null;
   const lastPage = response?.meta.last_page ?? 1;
 
@@ -84,13 +81,6 @@ export default function DeputadosPageClient({
     });
   }, [deputados, filtrosAplicados]);
 
-  // Soma real de propostas (PL/PEC — metrics.effectiveness.total_bills já
-  // vem filtrado por tipo na origem, ver LowerHouseApiService) entre os
-  // deputados ativos exibidos. "Emenda" é uma alteração a uma proposta já
-  // existente de outro parlamentar — um dado diferente de "proposta" e que
-  // não é coletado das APIs oficiais (só PL/PEC), então não existe nenhum
-  // valor real pra esse card, e não deve reaproveitar o número de propostas
-  // como se fossem a mesma coisa.
   const totalProposicoes = deputados.reduce(
     (soma, deputado) => soma + (deputado.metrics.effectiveness.total_bills ?? 0),
     0
@@ -114,38 +104,39 @@ export default function DeputadosPageClient({
         <div className="w-full px-6 py-8 sm:px-10">
             <section className="rounded-lg bg-[#8d0801] px-4 py-3 text-white sm:px-6 sm:py-4">
               <h1 className="text-lg font-black uppercase leading-tight tracking-tight sm:text-xl md:text-2xl">
-                ENCONTRE E ACOMPANHE OS DEPUTADOS DO CEARÁ
+                ENCONTRE E ACOMPANHE OS DEPUTADOS ESTADUAIS DO CEARÁ
               </h1>
               <p className="mt-1 max-w-2xl text-xs leading-snug text-white/90 sm:text-sm">
-                Consulte informações públicas sobre mandato, votações, projetos, recursos e registros oficiais.
+                Consulte informações públicas sobre mandato, votações, projetos, recursos e registros oficiais na
+                Assembleia Legislativa do Ceará (ALECE).
               </p>
             </section>
 
-            <CargoQuickNav atual="DeputadosPage" />
+            <CargoQuickNav atual="DeputadosEstaduaisPage" />
 
             <div className="mt-3 flex flex-wrap gap-2">
               <StatCard
                 value={total !== null ? String(total).padStart(2, '0') : '—'}
-                label="Deputados"
-                valueColor="text-[#B98A00]"
-                tooltip={<p>Quantidade de deputados federais em mandato ativo pelo Ceará, exibidos nesta lista.</p>}
+                label="Deputados Estaduais"
+                valueColor="text-[#8D0801]"
+                tooltip={<p>Quantidade de deputados estaduais em mandato ativo na ALECE, exibidos nesta lista.</p>}
               />
               <StatCard
                 value={String(totalProposicoes)}
                 label="Propostas"
-                valueColor="text-[#8C6A2A]"
+                valueColor="text-[#1B623A]"
                 tooltip={<p>Soma das proposições (projetos de lei e PECs) apresentadas por quem está nesta lista.</p>}
               />
               <StatCard
                 value={partidos.length.toString().padStart(2, '0')}
                 label="Partidos"
-                valueColor="text-[#8d0801]"
+                valueColor="text-[#B98A00]"
                 tooltip={<p>Quantidade de partidos diferentes representados entre os deputados desta lista.</p>}
               />
               <StatCard
                 value={efetividadeMedia !== null ? `${efetividadeMedia}%` : '—'}
                 label="Efetividade média"
-                valueColor="text-[#1b623a]"
+                valueColor="text-[#8C6A2A]"
                 tooltip={
                   <p>
                     Média da taxa de efetividade legislativa (proposições que avançaram na tramitação) entre os
@@ -173,7 +164,7 @@ export default function DeputadosPageClient({
 
             <div className="mt-8">
               <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-                <h2 className="text-xl font-black uppercase text-[#8d0801] sm:text-2xl md:text-3xl">DEPUTADOS</h2>
+                <h2 className="text-xl font-black uppercase text-[#8d0801] sm:text-2xl md:text-3xl">DEPUTADOS ESTADUAIS</h2>
                 <Pagination page={page} lastPage={lastPage} onChange={setPage} />
               </div>
 
@@ -203,8 +194,8 @@ export default function DeputadosPageClient({
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-[repeat(5,minmax(0,1fr))] md:gap-5">
                   {deputadosFiltrados.map((deputado) => (
                     <Link
-                      key={deputado.external_id}
-                      href={`/ShowDeputadosPage/${deputado.external_id}`}
+                      key={deputado.source_slug ?? deputado.external_id}
+                      href={`/ShowDeputadosEstaduaisPage/${deputado.source_slug}`}
                       aria-label={`Ver detalhes de ${deputado.parliamentary_name}`}
                       className="flex h-full flex-col overflow-hidden rounded-[12px] border border-[#e0d6c4] bg-white shadow-sm"
                     >

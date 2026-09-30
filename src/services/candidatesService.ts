@@ -64,7 +64,13 @@ export interface CandidateFilters {
 // A listagem ganha "filters.parties": todos os partidos com candidatos no
 // cargo (não só os da página atual), pra montar o select do filtro.
 export type CandidatesResponse = PaginatedResponse<Candidate> & {
-  filters?: { parties: string[] };
+  filters?: {
+    parties: string[];
+    com_proposta: number;
+    com_ensino_superior: number;
+    com_chapa: number;
+    ja_foi_parlamentar: number;
+  };
 };
 
 export async function getCandidates(office: CandidateOfficeSlug, page = 1, filters: CandidateFilters = {}) {

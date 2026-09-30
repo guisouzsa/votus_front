@@ -51,6 +51,15 @@ const nextConfig: NextConfig = {
         hostname: "bibpgfltcdrgbxvvnixn.supabase.co",
         pathname: "/storage/v1/object/public/**",
       },
+      {
+        // Fotos dos deputados estaduais, raspadas direto do site da ALECE
+        // (Assembleia Legislativa do Ceará) — sem isso next/image recusa a
+        // URL e a página inteira quebra com 500 (erro fatal de render, não
+        // só um placeholder), confirmado em /DeputadosEstaduaisPage.
+        protocol: "https",
+        hostname: "www.al.ce.gov.br",
+        pathname: "/image/**",
+      },
     ],
     // As fotos do bucket vêm com Cache-Control: no-cache (definido no
     // upload), então sem isso a versão otimizada seria revalidada a toda

@@ -7,10 +7,15 @@ export default function InfoTooltip({
   label,
   children,
   className = '',
+  iconClassName = 'text-white',
 }: {
   label: string;
   children: ReactNode;
   className?: string;
+  // Os usos originais ficam sobre fundo colorido (precisa de ícone branco);
+  // em cima de um card branco (ex: StatCard) o ícone precisa de outra cor
+  // pra não sumir.
+  iconClassName?: string;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
@@ -33,7 +38,7 @@ export default function InfoTooltip({
         aria-label={label}
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
-        className="flex items-center justify-center bg-transparent text-white transition-transform hover:scale-110"
+        className={`flex items-center justify-center bg-transparent transition-transform hover:scale-110 ${iconClassName}`}
       >
         <Info size={16} strokeWidth={2.5} />
       </button>

@@ -11,6 +11,7 @@ import LegislatorPhoto from '@/components/LegislatorPhoto';
 import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
 import Pagination from '@/components/Pagination';
 import PageTransitionOverlay from '@/components/PageTransitionOverlay';
+import StatCard from '@/components/StatCard';
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import {
   CANDIDATE_OFFICES,
@@ -104,6 +105,15 @@ export default function CandidatosListClient({
   // A lista de partidos é a mesma pra qualquer página/filtro do cargo; com
   // keepPreviousData ela não some enquanto a próxima resposta carrega.
   const partidos = response?.filters?.parties ?? initialData?.filters?.parties ?? [];
+  // Só Presidente e Governador são obrigados a registrar plano de governo no
+  // TSE — nos demais cargos isso vem sempre 0, então a linha de estatística
+  // só aparece quando fizer sentido (ver comPropostaByOffice no backend).
+  const comProposta = response?.filters?.com_proposta ?? initialData?.filters?.com_proposta ?? 0;
+  const comEnsinoSuperior = response?.filters?.com_ensino_superior ?? initialData?.filters?.com_ensino_superior ?? 0;
+  // Só existe vice/suplente pra Presidente/Governador/Senador — Deputado
+  // Federal/Estadual não tem chapa, então vem sempre 0 (ver comChapaByOffice).
+  const comChapa = response?.filters?.com_chapa ?? initialData?.filters?.com_chapa ?? 0;
+  const jaFoiParlamentar = response?.filters?.ja_foi_parlamentar ?? initialData?.filters?.ja_foi_parlamentar ?? 0;
 
   const setPage = (novaPagina: number) => gravarNaUrl(aplicados, novaPagina);
 
@@ -124,6 +134,7 @@ export default function CandidatosListClient({
 
   const candidatos = response?.data ?? [];
   const lastPage = response?.meta.last_page ?? 1;
+  const totalCandidatos = response?.meta.total ?? initialData?.meta.total;
 
   // Página inexistente (ex: URL editada à mão, ou um filtro reduziu o total
   // enquanto o usuário estava numa página alta) — volta pra última válida
@@ -143,21 +154,17 @@ export default function CandidatosListClient({
       <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
         <div className="min-h-dvh">
           <div className="w-full px-6 py-8 sm:px-10">
-            <section className="overflow-hidden rounded-[10px] bg-[#1B623A] text-white shadow-sm">
-              <div className="flex items-center justify-between gap-4 px-6 py-5">
-                <div className="flex-1">
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/80 sm:text-sm">
-                    Eleições 2026
-                  </p>
-                  <h1 className="mt-1 text-xl font-black uppercase leading-tight tracking-tight sm:text-2xl md:text-4xl md:leading-none">
-                    Candidatos 2026 a {config.label} {config.regiao}
-                  </h1>
-                  <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base md:text-xl">
-                    Quem está concorrendo nas eleições de 2026, segundo o registro de candidaturas do TSE. Cada perfil
-                    traz partido, número na urna e, quando houver, a chapa completa (vice ou suplentes).
-                  </p>
-                </div>
-              </div>
+            <section className="rounded-lg bg-[#1B623A] px-4 py-3 text-white sm:px-6 sm:py-4">
+              <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-white/80 sm:text-xs">
+                Eleições 2026
+              </p>
+              <h1 className="mt-0.5 text-lg font-black uppercase leading-tight tracking-tight sm:text-xl md:text-2xl">
+                Candidatos 2026 a {config.label} {config.regiao}
+              </h1>
+              <p className="mt-1 max-w-2xl text-xs leading-snug text-white/90 sm:text-sm">
+                Quem está concorrendo nas eleições de 2026, segundo o registro de candidaturas do TSE. Cada perfil
+                traz partido, número na urna e, quando houver, a chapa completa (vice ou suplentes).
+              </p>
             </section>
 
             {/* Abas por cargo: trocar de cargo sem voltar pra sidebar. */}
@@ -187,6 +194,55 @@ export default function CandidatosListClient({
               })}
             </nav>
 
+            <div className="mt-3 flex flex-wrap gap-2">
+              <StatCard
+                value={totalCandidatos !== undefined ? String(totalCandidatos).padStart(2, '0') : '—'}
+                label="Candidatos"
+                valueColor="text-[#1B623A]"
+                tooltip={<p>Quantidade de candidatos a {config.label} com candidatura deferida pelo TSE.</p>}
+              />
+              <StatCard
+                value={partidos.length.toString().padStart(2, '0')}
+                label="Partidos"
+                valueColor="text-[#F07A00]"
+                tooltip={<p>Quantidade de partidos diferentes com candidatos a {config.label} nesta lista.</p>}
+              />
+              {comProposta > 0 && (
+                <StatCard
+                  value={comProposta.toString().padStart(2, '0')}
+                  label="Com plano de governo"
+                  valueColor="text-[#8d0801]"
+                  tooltip={
+                    <p>
+                      Quantidade de candidatos que anexaram plano de governo no registro do TSE. Só é obrigatório
+                      para Presidente e Governador.
+                    </p>
+                  }
+                />
+              )}
+              <StatCard
+                value={comEnsinoSuperior.toString().padStart(2, '0')}
+                label="Ensino superior completo"
+                valueColor="text-[#1B623A]"
+                tooltip={<p>Quantidade de candidatos que declararam ensino superior completo ao TSE.</p>}
+              />
+              {comChapa > 0 && (
+                <StatCard
+                  value={comChapa.toString().padStart(2, '0')}
+                  label="Com chapa completa"
+                  valueColor="text-[#F07A00]"
+                  tooltip={<p>Quantidade de candidatos com vice ou suplentes já registrados na chapa.</p>}
+                />
+              )}
+              {jaFoiParlamentar > 0 && (
+                <StatCard
+                  value={jaFoiParlamentar.toString().padStart(2, '0')}
+                  label="Já foi parlamentar"
+                  valueColor="text-[#8d0801]"
+                  tooltip={<p>Quantidade de candidatos que já tiveram mandato de parlamentar antes.</p>}
+                />
+              )}
+            </div>
 
             <LegislatorFilterFrame
               searchValue={filtros.search}
@@ -281,9 +337,20 @@ export default function CandidatosListClient({
                           <div className="mt-1 text-xs text-[#4d4d4d] sm:text-sm">
                             {candidato.party.acronym ?? '—'}
                           </div>
+                          {/* Mesma 3ª linha (Estado) do card de cargos atuais
+                              (Senadores/Deputados) — mantém os dois tipos de
+                              card consistentes. */}
+                          <div className="mt-2 text-xs font-medium text-[#4d4d4d] sm:text-sm">
+                            {candidato.state ?? '—'}
+                          </div>
                           <div className="mt-2 text-xs font-medium text-[#4d4d4d] sm:text-sm">
                             Nº {candidato.ballot_number ?? '—'}
                           </div>
+                          {candidato.judgment_status && (
+                            <div className="mt-2 inline-block self-center rounded-full border border-[#e0d6c4] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#1b623a]">
+                              {candidato.judgment_status}
+                            </div>
+                          )}
                         </div>
 
                         <div className="h-3 w-full shrink-0 bg-[url('/sidebar.svg')] bg-repeat-x bg-[length:auto_100%]" />

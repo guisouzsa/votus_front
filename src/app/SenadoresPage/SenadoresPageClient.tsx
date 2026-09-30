@@ -12,6 +12,7 @@ import CargoQuickNav from '@/components/CargoQuickNav';
 import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
 import DataSourceNote from '@/components/DataSourceNote';
 import Pagination from '@/components/Pagination';
+import StatCard from '@/components/StatCard';
 import { getSenadores } from '@/services/senadoresService';
 import { ApiError } from '@/services/apiClient';
 import { useSsrPaginatedList } from '@/hooks/useSsrPaginatedList';
@@ -94,10 +95,13 @@ export default function SenadoresPageClient({
     0
   );
 
-  const statCards = [
-    { label: 'SENADORES', value: total !== null ? String(total).padStart(2, '0') : '—', color: 'bg-[#1C5D45]' },
-    { label: 'PROPOSTAS', value: String(totalProposicoes), color: 'bg-[#F07A00]' },
-  ];
+  const taxasEfetividade = senadores
+    .map((s) => s.metrics.effectiveness.rate)
+    .filter((r): r is number => r !== null);
+  const efetividadeMedia =
+    taxasEfetividade.length > 0
+      ? Math.round((taxasEfetividade.reduce((soma, r) => soma + r, 0) / taxasEfetividade.length) * 100)
+      : null;
 
   return (
     <div className="min-h-dvh">
@@ -107,35 +111,47 @@ export default function SenadoresPageClient({
       <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
       <div className="min-h-dvh">
         <div className="w-full px-6 py-8 sm:px-10">
-            <section className="overflow-hidden rounded-[10px] bg-[#8d0801] text-white shadow-sm">
-              <div className="flex items-center justify-between gap-4 px-6 py-5">
-                <div className="flex-1">
-                  <h1 className="text-xl font-black uppercase leading-tight tracking-tight sm:text-2xl md:text-4xl md:leading-none">
-                    ENCONTRE E ACOMPANHE OS SENADORES DO CEARÁ
-                  </h1>
-                  <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base md:text-xl">
-                    Consulte informações públicas sobre mandato, votações, projetos, recursos e registros oficiais.
-                  </p>
-                </div>
-              </div>
+            <section className="rounded-lg bg-[#8d0801] px-4 py-3 text-white sm:px-6 sm:py-4">
+              <h1 className="text-lg font-black uppercase leading-tight tracking-tight sm:text-xl md:text-2xl">
+                ENCONTRE E ACOMPANHE OS SENADORES DO CEARÁ
+              </h1>
+              <p className="mt-1 max-w-2xl text-xs leading-snug text-white/90 sm:text-sm">
+                Consulte informações públicas sobre mandato, votações, projetos, recursos e registros oficiais.
+              </p>
             </section>
 
             <CargoQuickNav atual="SenadoresPage" />
 
-            <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
-              {statCards.map((item) => (
-                <div
-                  key={item.label}
-                  className={`${item.color} flex min-h-[100px] flex-col justify-center rounded-md border border-[#d8cdb8] px-4 py-3 sm:min-h-[120px]`}
-                >
-                  <div className="text-right text-sm font-black uppercase tracking-wide text-white sm:text-base md:text-xl">
-                    {item.label}
-                  </div>
-                  <div className="mt-3 text-left text-2xl font-black uppercase text-white sm:text-3xl md:text-5xl">
-                    {item.value}
-                  </div>
-                </div>
-              ))}
+            <div className="mt-3 flex flex-wrap gap-2">
+              <StatCard
+                value={total !== null ? String(total).padStart(2, '0') : '—'}
+                label="Senadores"
+                valueColor="text-[#1C5D45]"
+                tooltip={<p>Quantidade de senadores em mandato ativo pelo Ceará, exibidos nesta lista.</p>}
+              />
+              <StatCard
+                value={String(totalProposicoes)}
+                label="Propostas"
+                valueColor="text-[#F07A00]"
+                tooltip={<p>Soma das proposições (projetos de lei e PECs) apresentadas por quem está nesta lista.</p>}
+              />
+              <StatCard
+                value={partidos.length.toString().padStart(2, '0')}
+                label="Partidos"
+                valueColor="text-[#8d0801]"
+                tooltip={<p>Quantidade de partidos diferentes representados entre os senadores desta lista.</p>}
+              />
+              <StatCard
+                value={efetividadeMedia !== null ? `${efetividadeMedia}%` : '—'}
+                label="Efetividade média"
+                valueColor="text-[#1b623a]"
+                tooltip={
+                  <p>
+                    Média da taxa de efetividade legislativa (proposições que avançaram na tramitação) entre os
+                    senadores desta lista.
+                  </p>
+                }
+              />
             </div>
 
             <LegislatorFilterFrame

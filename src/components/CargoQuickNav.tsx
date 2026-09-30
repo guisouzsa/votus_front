@@ -3,17 +3,22 @@
 import Link from 'next/link';
 
 const ITENS = [
-  { href: '/DeputadosPage', label: 'Deputados' },
+  { href: '/DeputadosPage', label: 'Deputados Federais' },
   { href: '/SenadoresPage', label: 'Senadores' },
+  { href: '/DeputadosEstaduaisPage', label: 'Deputados Estaduais' },
 ] as const;
 
 /**
- * Navegação rápida entre Deputados/Senadores — mesmo padrão visual e
- * comportamento das abas de cargo em CandidatosPage (pílulas, cor ativa em
- * verde, scroll horizontal no mobile), pra trocar de cargo sem precisar do
- * sidebar.
+ * Navegação rápida entre Deputados Federais/Senadores/Deputados Estaduais —
+ * mesmo padrão visual e comportamento das abas de cargo em CandidatosPage
+ * (pílulas, cor ativa em verde, scroll horizontal no mobile), pra trocar de
+ * cargo sem precisar do sidebar.
  */
-export default function CargoQuickNav({ atual }: { atual: 'DeputadosPage' | 'SenadoresPage' }) {
+export default function CargoQuickNav({
+  atual,
+}: {
+  atual: 'DeputadosPage' | 'SenadoresPage' | 'DeputadosEstaduaisPage';
+}) {
   return (
     <nav aria-label="Cargos" className="mt-4 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
       {ITENS.map(({ href, label }) => {

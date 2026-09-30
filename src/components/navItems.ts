@@ -21,7 +21,8 @@ export const NAV_ITEMS: NavItem[] = [
     icon: "/Iconesenadores.svg",
     children: [
       { id: "senadores", label: "Senadores", path: "/SenadoresPage" },
-      { id: "deputados", label: "Deputados", path: "/DeputadosPage" },
+      { id: "deputados", label: "Deputados Federais", path: "/DeputadosPage" },
+      { id: "deputados-estaduais", label: "Deputados Estaduais", path: "/DeputadosEstaduaisPage" },
     ],
   },
   // Candidatos fica acima de Juventude (pedido do projeto: prioridade na
@@ -58,6 +59,7 @@ export const NAV_ITEMS: NavItem[] = [
 export const DETAIL_ROUTE_PREFIXES: { prefix: string; id: string }[] = [
   { prefix: "/ShowDeputadosPage", id: "deputados" },
   { prefix: "/ShowSenadoresPage", id: "senadores" },
+  { prefix: "/ShowDeputadosEstaduaisPage", id: "deputados-estaduais" },
   { prefix: "/noticias/", id: "noticias" },
   // "Você Sabia?" (/explicacao e /explicacao/[id]) fica dentro de Explicações.
   { prefix: "/explicacao", id: "explicacoes" },
