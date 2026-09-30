@@ -115,10 +115,8 @@ export default function CandidatosListClient({
   // Federal/Estadual não tem chapa, então vem sempre 0 (ver comChapaByOffice).
   const comChapa = response?.filters?.com_chapa ?? initialData?.filters?.com_chapa ?? 0;
 
-  // As duas primeiras (Candidatos/Partidos) ficam sempre visíveis; estas
-  // só existem pra alguns cargos (chapa/plano de governo) e, mesmo quando
-  // existem todas, muitos cardizinhos de uma vez ficava poluído — por isso
-  // entram atrás de "Ver mais estatísticas" em vez de sempre visíveis.
+  // Além de Candidatos/Partidos, estas só existem pra alguns cargos
+  // (chapa/plano de governo não fazem sentido pra Deputado, por exemplo).
   const estatisticasExtras = [
     comProposta > 0 && {
       value: comProposta.toString().padStart(2, '0'),
@@ -144,8 +142,6 @@ export default function CandidatosListClient({
       tooltip: <p>Quantidade de candidatos com vice ou suplentes já registrados na chapa.</p>,
     },
   ].filter((item): item is Exclude<typeof item, false> => item !== false);
-
-  const [mostrarEstatisticasExtras, setMostrarEstatisticasExtras] = useState(false);
 
   const setPage = (novaPagina: number) => gravarNaUrl(aplicados, novaPagina);
 
@@ -226,7 +222,7 @@ export default function CandidatosListClient({
               })}
             </nav>
 
-            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
               <StatCard
                 value={totalCandidatos !== undefined ? String(totalCandidatos).padStart(2, '0') : '—'}
                 label="Candidatos"
@@ -239,27 +235,10 @@ export default function CandidatosListClient({
                 valueColor="text-[#F07A00]"
                 tooltip={<p>Quantidade de partidos diferentes com candidatos a {config.label} nesta lista.</p>}
               />
+              {estatisticasExtras.map((item) => (
+                <StatCard key={item.label} {...item} />
+              ))}
             </div>
-
-            {estatisticasExtras.length > 0 && (
-              <div className="mt-2">
-                {mostrarEstatisticasExtras ? (
-                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-                    {estatisticasExtras.map((item) => (
-                      <StatCard key={item.label} {...item} />
-                    ))}
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => setMostrarEstatisticasExtras(true)}
-                    className="text-xs font-semibold text-[#1b623a] underline underline-offset-2"
-                  >
-                    Ver mais estatísticas
-                  </button>
-                )}
-              </div>
-            )}
 
             <LegislatorFilterFrame
               searchValue={filtros.search}
