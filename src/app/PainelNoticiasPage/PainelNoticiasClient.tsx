@@ -18,7 +18,7 @@ import { categoryGradient, mapApiNewsToArticle } from "@/lib/news";
 import { ApiError } from "@/services/apiClient";
 import type { NewsArticleApi } from "@/services/types";
 
-export default function PainelnoticiasClient() {
+export default function PainelNoticiasClient() {
   const [search, setSearch] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [relevanceTab, setRelevanceTab] = useState<RelevanceTab>("Mais relevantes");

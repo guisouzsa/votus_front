@@ -27,7 +27,7 @@ const MODULES: Module[] = [
   {
     title: "Notícias em alta",
     description: "Acompanhe notícias relevantes sobre política e assuntos públicos, com resumo e link para a fonte original.",
-    href: "/Painelnoticias",
+    href: "/PainelNoticiasPage",
     cta: "Ver notícias",
     icon: Newspaper,
     cor: { texto: "text-brasil-red", fundoIcone: "bg-brasil-red/10" },
@@ -78,13 +78,13 @@ const MODULES: Module[] = [
   {
     title: "Juventude em Pauta",
     description: "Vagas, concursos e cursos para quem está começando, e um espaço para propor e debater ideias.",
-    href: "/Juventude",
+    href: "/JuventudePage",
     cta: "Ver oportunidades",
     icon: GraduationCap,
     cor: { texto: "text-brasil-red", fundoIcone: "bg-brasil-orange/10" },
     shortcuts: [
-      { label: "Vagas e concursos", href: "/Juventude" },
-      { label: "Universidades", href: "/Universidades" },
+      { label: "Vagas e concursos", href: "/JuventudePage" },
+      { label: "Universidades", href: "/UniversidadesPage" },
       { label: "Propostas", href: "/PropostasPage" },
     ],
     className: "lg:col-span-2",
@@ -181,7 +181,7 @@ export default async function HighlightGrid() {
         <ModuleCard
           key={module.href}
           {...module}
-          headlines={module.href === "/Painelnoticias" ? headlines : undefined}
+          headlines={module.href === "/PainelNoticiasPage" ? headlines : undefined}
           className={`${module.className ?? ""} ${index === MODULES.length - 1 ? "sm:col-span-2" : ""}`}
         />
       ))}

@@ -5,7 +5,7 @@ import { getCourseOfferings } from '@/services/universitiesService';
 export const metadata: Metadata = {
   title: 'Universidades',
   description: 'Encontre universidades e cursos pelo Ceará: estado, município, curso e modalidade.',
-  alternates: { canonical: '/Universidades' },
+  alternates: { canonical: '/UniversidadesPage' },
 };
 
 // ISR de 60s — ver o comentário em DeputadosPage/page.tsx.

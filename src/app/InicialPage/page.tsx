@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Início",
   description:
     "Acompanhe deputados, senadores, notícias políticas, propostas e mais em um só lugar no Votus.",
-  alternates: { canonical: "/Inicial" },
+  alternates: { canonical: "/InicialPage" },
 };
 
 // ISR: as manchetes do card de Notícias vêm da API, mas a página continua

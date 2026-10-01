@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Juventude em Pauta',
   description:
     'Vagas de emprego e concursos públicos abertos, pensados para quem está entrando no mercado de trabalho.',
-  alternates: { canonical: '/Juventude' },
+  alternates: { canonical: '/JuventudePage' },
 };
 
 // ISR de 60s — ver o comentário em DeputadosPage/page.tsx.

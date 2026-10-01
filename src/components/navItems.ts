@@ -10,8 +10,8 @@ export type NavItem = {
 };
 
 export const NAV_ITEMS: NavItem[] = [
-  { id: "inicio", label: "Início", icon: "/IconeInicial.svg", path: "/Inicial" },
-  { id: "noticias", label: "Notícias", icon: "/IconeNoticias.png", path: "/Painelnoticias" },
+  { id: "inicio", label: "Início", icon: "/IconeInicial.svg", path: "/InicialPage" },
+  { id: "noticias", label: "Notícias", icon: "/IconeNoticias.png", path: "/PainelNoticiasPage" },
   // "Cargos atuais" = quem exerce mandato hoje (dados da Câmara/Senado).
   // "Candidatos 2026" = quem concorre na eleição (dados do TSE). São duas
   // áreas diferentes de propósito.
@@ -47,8 +47,8 @@ export const NAV_ITEMS: NavItem[] = [
     icon: "/IconeJuventude.svg",
     iconClass: "h-9 w-9",
     children: [
-      { id: "juventude-pauta", label: "Juventude em Pauta", path: "/Juventude" },
-      { id: "universidades", label: "Universidades", path: "/Universidades" },
+      { id: "juventude-pauta", label: "Juventude em Pauta", path: "/JuventudePage" },
+      { id: "universidades", label: "Universidades", path: "/UniversidadesPage" },
     ],
   },
   { id: "propostas", label: "Propostas", icon: "/IconePropostas.svg", path: "/PropostasPage" },
@@ -83,7 +83,7 @@ export function getActiveRouteId(pathname: string): string | undefined {
 
   return (
     flatRoutes.find(
-      ({ path }) => path && (pathname === path || (path === "/Inicial" && pathname === "/"))
+      ({ path }) => path && (pathname === path || (path === "/InicialPage" && pathname === "/"))
     )?.id ?? DETAIL_ROUTE_PREFIXES.find(({ prefix }) => pathname.startsWith(prefix))?.id
   );
 }

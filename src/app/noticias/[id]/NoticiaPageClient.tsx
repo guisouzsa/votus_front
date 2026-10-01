@@ -33,7 +33,7 @@ export default function NoticiaPageClient({
       <main className="overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24">
         <div className="w-full px-6 pb-2 pt-8 sm:px-10">
           <Link
-            href="/Painelnoticias"
+            href="/PainelNoticiasPage"
             className="mb-4 inline-flex items-center gap-1.5 bg-transparent text-sm font-semibold text-[#8d0801] transition-transform hover:-translate-x-0.5"
           >
             <ArrowLeft size={16} strokeWidth={2.5} />

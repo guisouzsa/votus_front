@@ -15,6 +15,16 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  // Pastas de rota renomeadas para padronizar o sufixo "Page" — mantém
+  // links antigos salvos/compartilhados funcionando.
+  async redirects() {
+    return [
+      { source: "/Inicial", destination: "/InicialPage", permanent: false },
+      { source: "/Juventude", destination: "/JuventudePage", permanent: false },
+      { source: "/Universidades", destination: "/UniversidadesPage", permanent: false },
+      { source: "/Painelnoticias", destination: "/PainelNoticiasPage", permanent: false },
+    ];
+  },
   images: {
     // Next.js blocks SVG optimization by default ("image type is not
     // allowed"), which silently broke every next/image usage of a local

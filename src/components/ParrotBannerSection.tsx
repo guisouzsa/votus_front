@@ -23,7 +23,7 @@ export default function ParrotBannerSection() {
               Sua participação começa com informação. Acesse o Votus agora.
             </p>
 
-            <Link href="/Inicial" className="shrink-0 rounded-md bg-brasil-orange px-6 py-3 text-sm font-bold uppercase text-white shadow-sm transition hover:opacity-90 md:px-8 md:text-base">
+            <Link href="/InicialPage" className="shrink-0 rounded-md bg-brasil-orange px-6 py-3 text-sm font-bold uppercase text-white shadow-sm transition hover:opacity-90 md:px-8 md:text-base">
               Acesse aqui
             </Link>
           </div>

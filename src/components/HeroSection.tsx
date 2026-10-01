@@ -18,7 +18,7 @@ export default function HeroSection() {
           <p className="text-lg text-ink-soft mb-12 max-w-3xl mx-auto leading-relaxed">
             O Votus é uma iniciativa voltada para jovens e a pessoas que querem conhecer mais sobre o candidato que desejam elegê-los sua página.
           </p>
-          <Link href="/Inicial" className="px-8 py-3 bg-brick text-white rounded font-bold hover:opacity-90 transition-opacity inline-block">
+          <Link href="/InicialPage" className="px-8 py-3 bg-brick text-white rounded font-bold hover:opacity-90 transition-opacity inline-block">
             Conheça o projeto
           </Link>
         </div>
