@@ -12,9 +12,8 @@ import OfficeQuickNav from '@/components/OfficeQuickNav';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
 import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
 import DataSourceNote from '@/components/DataSourceNote';
-import Pagination from '@/components/Pagination';
 import StatCard from '@/components/StatCard';
-import { getStateDeputies } from '@/services/stateDeputiesService';
+import { getAllStateDeputies } from '@/services/stateDeputiesService';
 import { ApiError } from '@/services/apiClient';
 import { useSsrPaginatedList } from '@/hooks/useSsrPaginatedList';
 import type { PaginatedResponse, Legislator } from '@/services/types';
@@ -33,21 +32,18 @@ export default function DeputadosEstaduaisPageClient({
 }: {
   initialData?: PaginatedResponse<Legislator>;
 }) {
-  const [page, setPage] = useState(1);
-
   const [filtros, setFiltros] = useState(FILTROS_VAZIOS);
   const [filtrosAplicados, setFiltrosAplicados] = useState(FILTROS_VAZIOS);
 
+  // Time inteiro de uma vez (ver getAllStateDeputies) — não é uma "página"
+  // de verdade, por isso não há Pagination aqui (igual a Senadores, que com
+  // só 4 pessoas também nunca precisou).
   const {
     data: response,
     error: swrError,
     mutate,
     loading,
-  } = useSsrPaginatedList(
-    ['deputados-estaduais', page],
-    () => getStateDeputies({ page }),
-    page === 1 ? initialData : undefined
-  );
+  } = useSsrPaginatedList(['deputados-estaduais'], () => getAllStateDeputies(), initialData);
   const error = swrError
     ? swrError instanceof ApiError
       ? 'Não foi possível carregar os deputados estaduais agora. Tente novamente em instantes.'
@@ -59,7 +55,6 @@ export default function DeputadosEstaduaisPageClient({
     [response]
   );
   const total = response ? deputados.length : null;
-  const lastPage = response?.meta.last_page ?? 1;
 
   const partidos = useMemo(
     () => Array.from(new Set(deputados.map((d) => d.party).filter((p): p is string => Boolean(p)))).sort(),
@@ -165,7 +160,6 @@ export default function DeputadosEstaduaisPageClient({
             <div className="mt-8">
               <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                 <h2 className="text-xl font-black uppercase text-[#8d0801] sm:text-2xl md:text-3xl">DEPUTADOS ESTADUAIS</h2>
-                <Pagination page={page} lastPage={lastPage} onChange={setPage} />
               </div>
 
               {loading && <LegislatorGridSkeleton />}

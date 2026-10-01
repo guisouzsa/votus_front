@@ -163,16 +163,12 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
     <div className="fixed bottom-24 right-4 z-50 flex items-end justify-end md:bottom-6 md:right-6">
       <section
         aria-label="Chat Votus IA"
-        className={`fixed z-50 flex w-auto origin-bottom-right flex-col overflow-hidden rounded-[1.25rem] border border-[#EDDBBA] bg-[#FDF8EE] shadow-[0_16px_40px_rgba(27,98,58,0.2)] transition-all duration-300 ease-out md:inset-x-auto md:right-6 md:bottom-24 ${
+        className={`fixed z-50 flex w-auto origin-bottom-right flex-col overflow-hidden border border-[#EDDBBA] bg-[#FDF8EE] shadow-[0_16px_40px_rgba(27,98,58,0.2)] transition-all duration-300 ease-out ${
           expanded
-            ? // bottom-4 no mobile expandido (não bottom-40): com o painel
-              // ocupando quase a tela inteira (max-h-[calc(100dvh-5rem)]) e
-              // a base ainda a 160px do rodapé, o topo do painel passava do
-              // limite superior da tela em celulares comuns. bottom-40 some
-              // ao maximizar, então nem invade o botão flutuante logo
-              // abaixo (ele fica coberto pelo próprio painel, que é maior).
-              "inset-x-1 bottom-4 max-h-[calc(100dvh-5rem)] md:bottom-24 md:h-[85dvh] md:max-h-[calc(100dvh-4rem)] md:w-[65vw] md:min-w-[26rem] md:max-w-[56rem]"
-            : "inset-x-4 bottom-40 max-h-[calc(100dvh-11rem)] md:bottom-24 md:max-h-[min(46rem,calc(100dvh-7rem))] md:w-[22rem]"
+            ? // Tela inteira, sem margens nem cantos arredondados, em
+              // qualquer breakpoint.
+              "inset-0 h-dvh max-h-none rounded-none"
+            : `md:inset-x-auto md:right-6 md:bottom-24 md:rounded-[1.25rem] inset-x-4 bottom-40 max-h-[min(26rem,calc(100dvh-11rem))] rounded-[1.25rem] md:max-h-[min(46rem,calc(100dvh-7rem))] md:w-[22rem]`
         } ${open ? "translate-y-0 scale-100 opacity-100" : "pointer-events-none translate-y-5 scale-95 opacity-0"}`}
         style={{ backgroundImage: "url(/fundochatia.png)", backgroundSize: "cover", backgroundPosition: "center" }}
       >
@@ -337,7 +333,12 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
         // Solução: usar essa imagem só a partir do desktop (md:), e no
         // mobile uma cor sólida do mesmo verde já usado no botão (shadow
         // logo abaixo já é rgba(19,74,42,...), o mesmo tom).
-        className="flex h-16 w-16 items-center justify-center gap-3 overflow-hidden rounded-full bg-[#134A2A] bg-cover bg-center px-0 text-sm font-semibold text-[#EDDBBA] shadow-[0_6px_18px_-2px_rgba(19,74,42,0.35)] transition-all duration-300 hover:brightness-110 hover:scale-105 active:scale-90 cursor-pointer md:h-14 md:w-44 md:justify-start md:bg-[url('/FundoFlooatingbutton.svg')] md:px-2"
+        // Some (sem desmontar) quando expandido: o painel fica em tela
+        // cheia sobre esse botão, que tem o mesmo z-50 e vem depois no DOM
+        // — sem isso ele ficaria flutuando por cima do chat fullscreen.
+        className={`flex h-16 w-16 items-center justify-center gap-3 overflow-hidden rounded-full bg-[#134A2A] bg-cover bg-center px-0 text-sm font-semibold text-[#EDDBBA] shadow-[0_6px_18px_-2px_rgba(19,74,42,0.35)] transition-all duration-300 hover:brightness-110 hover:scale-105 active:scale-90 cursor-pointer md:h-14 md:w-44 md:justify-start md:bg-[url('/FundoFlooatingbutton.svg')] md:px-2 ${
+          open && expanded ? "pointer-events-none opacity-0" : ""
+        }`}
       >
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#EDDBBA] md:h-9 md:w-9">
           <MessageCircleQuestion size={25} className="text-[#246840]" strokeWidth={1.8} />

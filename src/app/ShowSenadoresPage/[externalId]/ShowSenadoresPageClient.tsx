@@ -189,13 +189,13 @@ export default function ShowSenadoresPageClient({
                 // Ícone logo depois de "proposições/ano" — o termo que ele
                 // explica, não solto perto do número (mesmo padrão do card
                 // de Foco temático abaixo).
-                <p className="flex items-center justify-center gap-1.5 text-xs font-semibold text-white/80">
+                <div className="flex items-center justify-center gap-1.5 text-xs font-semibold text-white/80">
                   proposições/ano
                   <InfoTooltip label="Como a cadência legislativa é calculada">
                     <p className="font-bold text-[#8d0801]">Proposições por ano de mandato</p>
                     <p className="mt-1">Total de proposições apresentadas dividido pelos anos de mandato.</p>
                   </InfoTooltip>
-                </p>
+                </div>
               )}
             </div>
             <div className="flex min-h-[120px] flex-col items-center justify-center rounded-[10px] bg-[#1b623a] p-3 text-center text-white sm:min-h-[145px]">
@@ -204,7 +204,7 @@ export default function ShowSenadoresPageClient({
               {topTopic && topTopicSharePct && (
                 // Ícone logo depois de "proposições" — a palavra a que ele
                 // se relaciona, em vez de ficar junto do nome do tópico lá em cima.
-                <p className="flex items-center justify-center gap-1.5 text-xs font-semibold text-white/80">
+                <div className="flex items-center justify-center gap-1.5 text-xs font-semibold text-white/80">
                   {topTopicSharePct} das proposições
                   <InfoTooltip label="Como o foco temático é calculado">
                     <p className="font-bold text-[#8d0801]">Tema mais recorrente</p>
@@ -214,7 +214,7 @@ export default function ShowSenadoresPageClient({
                       se concentram nesse tema em vez de se espalharem.
                     </p>
                   </InfoTooltip>
-                </p>
+                </div>
               )}
             </div>
           </section>

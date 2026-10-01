@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import DeputadosEstaduaisPageClient from './DeputadosEstaduaisPageClient';
-import { getStateDeputies } from '@/services/stateDeputiesService';
+import { getAllStateDeputies } from '@/services/stateDeputiesService';
 
 export const metadata: Metadata = {
   title: 'Deputados Estaduais',
@@ -13,7 +13,9 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function DeputadosEstaduaisPage() {
-  const initialData = await getStateDeputies({ page: 1 }).catch(() => undefined);
+  // Busca o time inteiro (todas as páginas da API) — ver comentário em
+  // getAllStateDeputies: são 52 deputados, mas a API pagina de 50 em 50.
+  const initialData = await getAllStateDeputies().catch(() => undefined);
 
   return <DeputadosEstaduaisPageClient initialData={initialData} />;
 }
