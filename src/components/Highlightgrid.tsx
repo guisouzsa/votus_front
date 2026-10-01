@@ -1,32 +1,32 @@
 import Link from "next/link";
 import { ArrowRight, BookOpen, GraduationCap, Landmark, Newspaper, Vote, type LucideIcon } from "lucide-react";
-import { getNewsList, temImagem } from "@/services/newsService";
+import { getNewsList, hasImage } from "@/services/newsService";
 import type { NewsArticleApi } from "@/services/types";
 
-type Atalho = { label: string; href: string };
+type Shortcut = { label: string; href: string };
 
-type Modulo = {
-  titulo: string;
+type Module = {
+  title: string;
   // Responde "o que eu encontro aqui?" em uma frase.
-  descricao: string;
+  description: string;
   href: string;
   cta: string;
   icon: LucideIcon;
   // Cor de destaque da identidade Votus (mesmas do padrão da faixa).
   cor: { texto: string; fundoIcone: string };
-  atalhos?: Atalho[];
+  shortcuts?: Shortcut[];
   className?: string;
-  manchetes?: NewsArticleApi[];
+  headlines?: NewsArticleApi[];
 };
 
 // Antes eram 4 blocos verdes só com o título, e 3 deles apontavam pra "#"
 // (Explicações, Senadores e deputados, Juventude) — clicar não levava a lugar
 // nenhum. Agora cada módulo diz o que tem dentro e aponta pra rota real.
 // Todos os links abaixo existem em src/app (conferido rota a rota).
-const MODULOS: Modulo[] = [
+const MODULES: Module[] = [
   {
-    titulo: "Notícias em alta",
-    descricao: "Acompanhe notícias relevantes sobre política e assuntos públicos, com resumo e link para a fonte original.",
+    title: "Notícias em alta",
+    description: "Acompanhe notícias relevantes sobre política e assuntos públicos, com resumo e link para a fonte original.",
     href: "/Painelnoticias",
     cta: "Ver notícias",
     icon: Newspaper,
@@ -34,13 +34,13 @@ const MODULOS: Modulo[] = [
     className: "lg:col-span-3",
   },
   {
-    titulo: "Candidatos 2026",
-    descricao: "Quem concorre em 2026 à Presidência e aos cargos do Ceará: partido, número na urna, chapa e plano de governo.",
+    title: "Candidatos 2026",
+    description: "Quem concorre em 2026 à Presidência e aos cargos do Ceará: partido, número na urna, chapa e plano de governo.",
     href: "/CandidatosPage/presidente",
     cta: "Ver candidatos",
     icon: Vote,
     cor: { texto: "text-brasil-orange", fundoIcone: "bg-brasil-orange/10" },
-    atalhos: [
+    shortcuts: [
       { label: "Presidente", href: "/CandidatosPage/presidente" },
       { label: "Governador", href: "/CandidatosPage/governador" },
       { label: "Senador", href: "/CandidatosPage/senado" },
@@ -50,39 +50,39 @@ const MODULOS: Modulo[] = [
     className: "lg:col-span-3",
   },
   {
-    titulo: "Explicações",
-    descricao: "Entenda cargos, instituições e processos políticos de forma simples, e teste o que aprendeu.",
+    title: "Explicações",
+    description: "Entenda cargos, instituições e processos políticos de forma simples, e teste o que aprendeu.",
     href: "/ExplicacoesPage",
     cta: "Entender os cargos",
     icon: BookOpen,
     cor: { texto: "text-brasil-green", fundoIcone: "bg-brasil-green/10" },
-    atalhos: [
+    shortcuts: [
       { label: "Quem faz o quê", href: "/ExplicacoesPage" },
       { label: "Você Sabia?", href: "/explicacao" },
     ],
     className: "lg:col-span-2",
   },
   {
-    titulo: "Senadores e deputados",
-    descricao: "Quem exerce mandato hoje: representantes do Ceará no Congresso, com comissões, proposições e linha do tempo.",
+    title: "Senadores e deputados",
+    description: "Quem exerce mandato hoje: representantes do Ceará no Congresso, com comissões, proposições e linha do tempo.",
     href: "/DeputadosPage",
     cta: "Ver parlamentares",
     icon: Landmark,
     cor: { texto: "text-brasil-green", fundoIcone: "bg-brasil-gold/20" },
-    atalhos: [
+    shortcuts: [
       { label: "Deputados", href: "/DeputadosPage" },
       { label: "Senadores", href: "/SenadoresPage" },
     ],
     className: "lg:col-span-2",
   },
   {
-    titulo: "Juventude em Pauta",
-    descricao: "Vagas, concursos e cursos para quem está começando, e um espaço para propor e debater ideias.",
+    title: "Juventude em Pauta",
+    description: "Vagas, concursos e cursos para quem está começando, e um espaço para propor e debater ideias.",
     href: "/Juventude",
     cta: "Ver oportunidades",
     icon: GraduationCap,
     cor: { texto: "text-brasil-red", fundoIcone: "bg-brasil-orange/10" },
-    atalhos: [
+    shortcuts: [
       { label: "Vagas e concursos", href: "/Juventude" },
       { label: "Universidades", href: "/Universidades" },
       { label: "Propostas", href: "/PropostasPage" },
@@ -91,7 +91,7 @@ const MODULOS: Modulo[] = [
   },
 ];
 
-function ModuloCard({ titulo, descricao, href, cta, icon: Icon, cor, atalhos, manchetes, className = "" }: Modulo) {
+function ModuleCard({ title, description, href, cta, icon: Icon, cor, shortcuts, headlines, className = "" }: Module) {
   return (
     <section
       aria-labelledby={`modulo-${href}`}
@@ -107,23 +107,23 @@ function ModuloCard({ titulo, descricao, href, cta, icon: Icon, cor, atalhos, ma
           </span>
           <div className="min-w-0">
             <h2 id={`modulo-${href}`} className="font-heading text-lg font-bold leading-tight text-ink">
-              {titulo}
+              {title}
             </h2>
-            <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{descricao}</p>
+            <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{description}</p>
           </div>
         </div>
 
-        {manchetes && manchetes.length > 0 && (
+        {headlines && headlines.length > 0 && (
           <ul className="mt-4 flex flex-col divide-y divide-line border-y border-line">
-            {manchetes.map((noticia) => (
-              <li key={noticia.id}>
+            {headlines.map((newsItem) => (
+              <li key={newsItem.id}>
                 <Link
-                  href={`/noticias/${noticia.id}`}
+                  href={`/noticias/${newsItem.id}`}
                   className="flex items-baseline gap-2 py-2.5 text-sm font-semibold leading-snug text-ink transition-colors hover:text-brasil-red"
                 >
-                  <span className="line-clamp-2 flex-1">{noticia.title}</span>
-                  {noticia.source && (
-                    <span className="shrink-0 text-[11px] font-medium text-ink-soft">{noticia.source}</span>
+                  <span className="line-clamp-2 flex-1">{newsItem.title}</span>
+                  {newsItem.source && (
+                    <span className="shrink-0 text-[11px] font-medium text-ink-soft">{newsItem.source}</span>
                   )}
                 </Link>
               </li>
@@ -131,15 +131,15 @@ function ModuloCard({ titulo, descricao, href, cta, icon: Icon, cor, atalhos, ma
           </ul>
         )}
 
-        {atalhos && (
+        {shortcuts && (
           <ul className="mt-4 flex flex-wrap gap-2">
-            {atalhos.map((atalho) => (
-              <li key={atalho.label}>
+            {shortcuts.map((shortcut) => (
+              <li key={shortcut.label}>
                 <Link
-                  href={atalho.href}
+                  href={shortcut.href}
                   className="inline-flex rounded-full border border-line bg-white px-3 py-1.5 text-xs font-bold text-ink transition-colors hover:border-brasil-green/40 hover:text-brasil-green"
                 >
-                  {atalho.label}
+                  {shortcut.label}
                 </Link>
               </li>
             ))}
@@ -161,28 +161,28 @@ function ModuloCard({ titulo, descricao, href, cta, icon: Icon, cor, atalhos, ma
 // Manchetes reais mais recentes no card de Notícias. Roda no servidor e a
 // página fica em cache (ISR, ver Inicial/page.tsx) — então não atrasa a home.
 // Se a API falhar, o card só aparece sem a lista, como antes.
-async function carregarManchetes(): Promise<NewsArticleApi[]> {
+async function loadHeadlines(): Promise<NewsArticleApi[]> {
   try {
     const resposta = await getNewsList(1);
-    return resposta.data.filter((noticia) => noticia.published && temImagem(noticia)).slice(0, 3);
+    return resposta.data.filter((noticia) => noticia.published && hasImage(noticia)).slice(0, 3);
   } catch {
     return [];
   }
 }
 
 export default async function HighlightGrid() {
-  const manchetes = await carregarManchetes();
+  const headlines = await loadHeadlines();
 
   return (
     <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
-      {MODULOS.map((modulo, indice) => (
+      {MODULES.map((module, index) => (
         // No tablet (2 colunas) o último módulo ocupa a linha inteira em vez
         // de sobrar sozinho pela metade.
-        <ModuloCard
-          key={modulo.href}
-          {...modulo}
-          manchetes={modulo.href === "/Painelnoticias" ? manchetes : undefined}
-          className={`${modulo.className ?? ""} ${indice === MODULOS.length - 1 ? "sm:col-span-2" : ""}`}
+        <ModuleCard
+          key={module.href}
+          {...module}
+          headlines={module.href === "/Painelnoticias" ? headlines : undefined}
+          className={`${module.className ?? ""} ${index === MODULES.length - 1 ? "sm:col-span-2" : ""}`}
         />
       ))}
     </div>

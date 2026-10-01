@@ -11,7 +11,7 @@ import FloatingAIButton from '@/components/FloatingAIButton';
 import Footer from '@/components/Footer';
 import LegislatorDetailSkeleton from '@/components/LegislatorDetailSkeleton';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
-import { getPresidente } from '@/services/executivesService';
+import { getPresident } from '@/services/executivesService';
 import { ApiError } from '@/services/apiClient';
 
 const OFFICE_LABELS: Record<string, string> = {
@@ -37,7 +37,7 @@ function tituloCaso(texto: string | null): string {
 export default function ShowPresidentePageClient({
   initialData,
 }: {
-  initialData?: Awaited<ReturnType<typeof getPresidente>>;
+  initialData?: Awaited<ReturnType<typeof getPresident>>;
 }) {
   const params = useParams<{ id: string }>();
   const id = params.id;
@@ -46,7 +46,7 @@ export default function ShowPresidentePageClient({
     data: executivo,
     error: swrError,
     isLoading,
-  } = useSsrDetail(id ? ['presidente', id] : null, () => getPresidente(id), initialData);
+  } = useSsrDetail(id ? ['presidente', id] : null, () => getPresident(id), initialData);
 
   if (isLoading) {
     return <LegislatorDetailSkeleton />;

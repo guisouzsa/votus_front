@@ -6,12 +6,12 @@ import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import Footer from '@/components/Footer';
-import CargoQuickNav from '@/components/CargoQuickNav';
+import OfficeQuickNav from '@/components/OfficeQuickNav';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
 import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
 import DataSourceNote from '@/components/DataSourceNote';
 import StatCard from '@/components/StatCard';
-import { getGovernadores } from '@/services/executivesService';
+import { getGovernors } from '@/services/executivesService';
 import { ApiError } from '@/services/apiClient';
 import { useSsrPaginatedList } from '@/hooks/useSsrPaginatedList';
 import type { PaginatedResponse, Executive } from '@/services/types';
@@ -31,7 +31,7 @@ export default function GovernadoresPageClient({
     error: swrError,
     mutate,
     loading,
-  } = useSsrPaginatedList(['governadores'], () => getGovernadores(), initialData);
+  } = useSsrPaginatedList(['governadores'], () => getGovernors(), initialData);
   const error = swrError
     ? swrError instanceof ApiError
       ? 'Não foi possível carregar os dados agora. Tente novamente em instantes.'
@@ -57,7 +57,7 @@ export default function GovernadoresPageClient({
               </p>
             </section>
 
-            <CargoQuickNav atual="GovernadoresPage" />
+            <OfficeQuickNav current="GovernadoresPage" />
 
             <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
               <StatCard

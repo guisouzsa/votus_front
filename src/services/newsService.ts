@@ -16,7 +16,7 @@ const PER_PAGE_PADRAO = 15;
 // Segunda camada da regra "notícia sem imagem não aparece" — a primeira é no
 // backend (não grava nem lista sem imagem). Protege contra resposta antiga
 // em cache ou backend ainda não atualizado.
-export function temImagem(noticia: NewsArticleApi): boolean {
+export function hasImage(noticia: NewsArticleApi): boolean {
   return typeof noticia.image_url === "string" && /^https?:\/\//i.test(noticia.image_url.trim());
 }
 
@@ -28,9 +28,9 @@ export interface NewsFeed {
 export async function getNewsFeed(): Promise<NewsFeed> {
   const first = await getNewsList(1, MAX_PAGES * PER_PAGE_PADRAO);
   const noticias = await getAllNews(first);
-  const destaque = first.destaque && temImagem(first.destaque) ? first.destaque : null;
+  const destaque = first.destaque && hasImage(first.destaque) ? first.destaque : null;
 
-  return { noticias: noticias.filter(temImagem), destaque };
+  return { noticias: noticias.filter(hasImage), destaque };
 }
 
 export async function getAllNews(primeiraPagina?: NewsListResponse): Promise<NewsArticleApi[]> {

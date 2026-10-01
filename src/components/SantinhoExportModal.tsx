@@ -2,7 +2,7 @@
 
 import { FileDown, Loader2, X } from 'lucide-react';
 import WovenRibbon from './WovenRibbon';
-import SantinhoPreview, { type SantinhoCandidato } from './SantinhoPreview';
+import SantinhoPreview, { type SantinhoCandidate } from './SantinhoPreview';
 
 const GRID_CLASS_BY_COUNT: Record<number, string> = {
   1: 'grid-cols-1',
@@ -20,7 +20,7 @@ export default function SantinhoExportModal({
   onClose,
   onConfirm,
 }: {
-  candidatos: SantinhoCandidato[];
+  candidatos: SantinhoCandidate[];
   quantidadePaginas: number;
   santinhosPorPagina: number;
   salvando: boolean;

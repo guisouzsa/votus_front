@@ -8,12 +8,12 @@ import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import LegislatorFilterFrame from '@/components/LegislatorFilterFrame';
-import CargoQuickNav from '@/components/CargoQuickNav';
+import OfficeQuickNav from '@/components/OfficeQuickNav';
 import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
 import DataSourceNote from '@/components/DataSourceNote';
 import Pagination from '@/components/Pagination';
 import StatCard from '@/components/StatCard';
-import { getSenadores } from '@/services/senadoresService';
+import { getSenators } from '@/services/senatorsService';
 import { ApiError } from '@/services/apiClient';
 import { useSsrPaginatedList } from '@/hooks/useSsrPaginatedList';
 import type { PaginatedResponse, Legislator } from '@/services/types';
@@ -45,7 +45,7 @@ export default function SenadoresPageClient({
     error: swrError,
     mutate,
     loading,
-  } = useSsrPaginatedList(['senadores', page], () => getSenadores({ page }), page === 1 ? initialData : undefined);
+  } = useSsrPaginatedList(['senadores', page], () => getSenators({ page }), page === 1 ? initialData : undefined);
   const error = swrError
     ? swrError instanceof ApiError
       ? 'Não foi possível carregar os senadores agora. Tente novamente em instantes.'
@@ -120,7 +120,7 @@ export default function SenadoresPageClient({
               </p>
             </section>
 
-            <CargoQuickNav atual="SenadoresPage" />
+            <OfficeQuickNav current="SenadoresPage" />
 
             <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
               <StatCard

@@ -6,14 +6,14 @@ import type { SuggestionQuestion } from '@/services/types';
 // última↔primeira fatia pra perguntas de 2 a 6 opções (ΔE >= 9,9, validado
 // com o script de paleta). A ordem é fixa: a cor segue a opção, nunca o
 // ranking. Não reordenar sem revalidar. Compartilhada entre o gráfico da
-// tela (AnswersDonut) e o do PDF (generateSugestoesPdf) — os dois usam
+// tela (AnswersDonut) e o do PDF (generateSuggestionsPdf) — os dois usam
 // exatamente as mesmas cores pra mesma opção.
-export const PALETA_GRAFICO = ['#C99400', '#1F8A4C', '#2A78D6', '#B8327A', '#5B4AB0', '#C4302B'];
+export const CHART_PALETTE = ['#C99400', '#1F8A4C', '#2A78D6', '#B8327A', '#5B4AB0', '#C4302B'];
 // Da 7ª opção em diante o gráfico agrupa numa fatia neutra ("Demais
 // opções"); a legenda continua listando cada uma com o próprio número.
-export const COR_DEMAIS_GRAFICO = '#8A8378';
+export const OTHER_SLICE_COLOR = '#8A8378';
 
-export type FatiaResposta = {
+export type AnswerSlice = {
   label: string;
   count: number;
   // Proporção exata (0–1), sem arredondar — o arredondamento é só na exibição.
@@ -34,7 +34,7 @@ export type FatiaResposta = {
  * depois qualquer resposta órfã. Nenhum valor é inventado ou omitido — a
  * soma de `count` é sempre igual a `total`.
  */
-export function distribuicaoRespostas(pergunta: SuggestionQuestion): { total: number; fatias: FatiaResposta[] } {
+export function answerDistribution(pergunta: SuggestionQuestion): { total: number; fatias: AnswerSlice[] } {
   const stats = pergunta.stats ?? {};
   const opcoes = pergunta.options ?? [];
   const total = Object.values(stats).reduce((acc, n) => acc + Number(n), 0);
@@ -51,6 +51,6 @@ export function distribuicaoRespostas(pergunta: SuggestionQuestion): { total: nu
 
 // Uma casa decimal: arredondar pra inteiro fazia, por exemplo, 5/1/1 virar
 // 71% + 14% + 14% = 99%. Com uma casa: 71,4% + 14,3% + 14,3%.
-export function formatarPercentual(share: number): string {
+export function formatPercentage(share: number): string {
   return `${(share * 100).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`;
 }

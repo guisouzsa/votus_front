@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { RELACOES_ENTRE_PODERES } from '@/data/cargosPoliticos';
+import { BRANCH_RELATIONS } from '@/data/politicalPositions';
 
-export default function CargosRelacaoPoderes() {
+export default function BranchesOfGovernmentDiagram() {
   const [ativa, setAtiva] = useState<number | null>(null);
 
   return (
@@ -18,7 +18,7 @@ export default function CargosRelacaoPoderes() {
         </div>
 
         <div className="flex flex-col gap-3 py-4 sm:py-5">
-          {RELACOES_ENTRE_PODERES.map((relacao, index) => {
+          {BRANCH_RELATIONS.map((relacao, index) => {
             const destacada = ativa === index;
 
             return (

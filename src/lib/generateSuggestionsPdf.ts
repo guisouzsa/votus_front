@@ -1,7 +1,7 @@
 import jsPDF from 'jspdf';
 import { getAdminSuggestions } from '@/services/adminService';
 import type { AdminSuggestion, SuggestionQuestion } from '@/services/types';
-import { distribuicaoRespostas, formatarPercentual, PALETA_GRAFICO, COR_DEMAIS_GRAFICO } from '@/lib/suggestionStats';
+import { answerDistribution, formatPercentage, CHART_PALETTE, OTHER_SLICE_COLOR } from '@/lib/suggestionStats';
 
 const GREEN: [number, number, number] = [27, 98, 58];
 const ORANGE: [number, number, number] = [255, 119, 0];
@@ -17,8 +17,8 @@ function hexParaRgb(hex: string): [number, number, number] {
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
 }
 
-const PALETA_RGB = PALETA_GRAFICO.map(hexParaRgb);
-const COR_DEMAIS_RGB = hexParaRgb(COR_DEMAIS_GRAFICO);
+const PALETA_RGB = CHART_PALETTE.map(hexParaRgb);
+const COR_DEMAIS_RGB = hexParaRgb(OTHER_SLICE_COLOR);
 
 // Ângulo 0 = topo, crescendo no sentido horário — mesma convenção do
 // gráfico em tela (ver components/admin/AnswersDonut.tsx), pra a mesma
@@ -138,7 +138,7 @@ async function buscarTodasSugestoes(): Promise<{ sugestoes: AdminSuggestion[]; t
   return { sugestoes: todas, total: primeira.total };
 }
 
-export async function generateSugestoesPdf({
+export async function generateSuggestionsPdf({
   perguntas,
   fileName = 'sugestoes-votus.pdf',
 }: {
@@ -248,7 +248,7 @@ export async function generateSugestoesPdf({
 
     // Mesma fonte de números da tela do admin (ver lib/suggestionStats) —
     // os mesmos dados, sem inventar nem arredondar diferente.
-    const { total, fatias } = distribuicaoRespostas(pergunta);
+    const { total, fatias } = answerDistribution(pergunta);
 
     if (pergunta.type === 'choice' && total > 0) {
       // Mesmo agrupamento da tela: só as 6 primeiras opções ganham cor
@@ -301,7 +301,7 @@ export async function generateSugestoesPdf({
         pdf.text(opcao, legendaX + 5, legendaY, { maxWidth: legendaLargura - 28 });
 
         pdf.setFont('helvetica', 'bold');
-        pdf.text(`${contagem} (${formatarPercentual(share)})`, legendaX + legendaLargura, legendaY, { align: 'right' });
+        pdf.text(`${contagem} (${formatPercentage(share)})`, legendaX + legendaLargura, legendaY, { align: 'right' });
 
         legendaY += 5;
       });

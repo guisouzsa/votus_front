@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import type { SuggestionQuestion } from "@/services/types";
-import { distribuicaoRespostas, formatarPercentual, PALETA_GRAFICO, COR_DEMAIS_GRAFICO } from "@/lib/suggestionStats";
+import { answerDistribution, formatPercentage, CHART_PALETTE, OTHER_SLICE_COLOR } from "@/lib/suggestionStats";
 
 // Mesma paleta usada no PDF (ver lib/suggestionStats) — mesma cor pra mesma
 // opção nos dois lugares.
-const PALETA = PALETA_GRAFICO;
-const COR_DEMAIS = COR_DEMAIS_GRAFICO;
+const PALETA = CHART_PALETTE;
+const COR_DEMAIS = OTHER_SLICE_COLOR;
 
 const TAMANHO = 144;
 const RAIO_EXTERNO = 68;
@@ -31,14 +31,14 @@ function arco(inicio: number, fim: number) {
 /**
  * Distribuição das respostas de uma pergunta de múltipla escolha. Os valores
  * vêm só de `question.stats` (contagem real do backend) via
- * distribuicaoRespostas — a mesma função usada no PDF.
+ * answerDistribution — a mesma função usada no PDF.
  */
 export default function AnswersDonut({ question }: { question: SuggestionQuestion }) {
   const [ativo, setAtivo] = useState<number | null>(null);
 
   if (question.type !== "choice") return null;
 
-  const { total, fatias } = distribuicaoRespostas(question);
+  const { total, fatias } = answerDistribution(question);
 
   if (total === 0) {
     return (
@@ -84,7 +84,7 @@ export default function AnswersDonut({ question }: { question: SuggestionQuestio
           viewBox={`0 0 ${TAMANHO} ${TAMANHO}`}
           role="img"
           aria-label={`${question.text}: ${fatias
-            .map((f) => `${f.label}, ${f.count} de ${total} (${formatarPercentual(f.share)})`)
+            .map((f) => `${f.label}, ${f.count} de ${total} (${formatPercentage(f.share)})`)
             .join("; ")}`}
         >
           {arcos.map((a) =>
@@ -122,7 +122,7 @@ export default function AnswersDonut({ question }: { question: SuggestionQuestio
           {fatiaAtiva ? (
             <>
               <span className="text-lg font-black leading-none text-[#22201b]">
-                {formatarPercentual(fatiaAtiva.share)}
+                {formatPercentage(fatiaAtiva.share)}
               </span>
               <span className="mt-1 text-[10px] font-semibold leading-tight text-[#6b6255]">
                 {fatiaAtiva.count} de {total}
@@ -159,7 +159,7 @@ export default function AnswersDonut({ question }: { question: SuggestionQuestio
               {fatia.orfa && <span className="ml-1 text-[10px] text-[#6b6255]">(opção antiga)</span>}
             </span>
             <span className="shrink-0 font-bold tabular-nums text-[#22201b]">{fatia.count}</span>
-            <span className="w-12 shrink-0 text-right tabular-nums text-[#6b6255]">{formatarPercentual(fatia.share)}</span>
+            <span className="w-12 shrink-0 text-right tabular-nums text-[#6b6255]">{formatPercentage(fatia.share)}</span>
           </li>
         ))}
         <li className="mt-1 flex items-center justify-between border-t border-line px-2 pt-1.5 text-xs text-[#6b6255]">

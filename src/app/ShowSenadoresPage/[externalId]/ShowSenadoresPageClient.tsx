@@ -14,7 +14,7 @@ import LegislatorDetailSkeleton from '@/components/LegislatorDetailSkeleton';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
 import InfoTooltip from '@/components/InfoTooltip';
 import ProposicoesList from '@/components/ProposicoesList';
-import { getSenador } from '@/services/senadoresService';
+import { getSenator } from '@/services/senatorsService';
 import { ApiError } from '@/services/apiClient';
 
 const tabs = ['Visão geral', 'Comissões', 'Proposições', 'Linha do tempo'] as const;
@@ -45,7 +45,7 @@ const STATUS_LABELS: Record<string, string> = {
 export default function ShowSenadoresPageClient({
   initialData,
 }: {
-  initialData?: Awaited<ReturnType<typeof getSenador>>;
+  initialData?: Awaited<ReturnType<typeof getSenator>>;
 }) {
   const params = useParams<{ externalId: string }>();
   const externalId = params.externalId;
@@ -56,7 +56,7 @@ export default function ShowSenadoresPageClient({
     data: senador,
     error: swrError,
     isLoading,
-  } = useSsrDetail(externalId ? ['senador', externalId] : null, () => getSenador(externalId), initialData);
+  } = useSsrDetail(externalId ? ['senador', externalId] : null, () => getSenator(externalId), initialData);
 
   if (isLoading) {
     return <LegislatorDetailSkeleton />;

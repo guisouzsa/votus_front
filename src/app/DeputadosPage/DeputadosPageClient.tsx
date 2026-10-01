@@ -8,13 +8,13 @@ import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import Footer from '@/components/Footer';
 import LegislatorFilterFrame from '@/components/LegislatorFilterFrame';
-import CargoQuickNav from '@/components/CargoQuickNav';
+import OfficeQuickNav from '@/components/OfficeQuickNav';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
 import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
 import DataSourceNote from '@/components/DataSourceNote';
 import Pagination from '@/components/Pagination';
 import StatCard from '@/components/StatCard';
-import { getDeputados } from '@/services/deputadosService';
+import { getDeputies } from '@/services/deputiesService';
 import { ApiError } from '@/services/apiClient';
 import { useSsrPaginatedList } from '@/hooks/useSsrPaginatedList';
 import type { PaginatedResponse, Legislator } from '@/services/types';
@@ -46,7 +46,7 @@ export default function DeputadosPageClient({
     error: swrError,
     mutate,
     loading,
-  } = useSsrPaginatedList(['deputados', page], () => getDeputados({ page }), page === 1 ? initialData : undefined);
+  } = useSsrPaginatedList(['deputados', page], () => getDeputies({ page }), page === 1 ? initialData : undefined);
   const error = swrError
     ? swrError instanceof ApiError
       ? 'Não foi possível carregar os deputados agora. Tente novamente em instantes.'
@@ -121,7 +121,7 @@ export default function DeputadosPageClient({
               </p>
             </section>
 
-            <CargoQuickNav atual="DeputadosPage" />
+            <OfficeQuickNav current="DeputadosPage" />
 
             <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
               <StatCard

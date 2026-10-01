@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import DeputadosPageClient from './DeputadosPageClient';
-import { getDeputados } from '@/services/deputadosService';
+import { getDeputies } from '@/services/deputiesService';
 
 export const metadata: Metadata = {
   title: 'Deputados',
@@ -22,7 +22,7 @@ export default async function DeputadosPage() {
   // no navegador e só então disparava a chamada à API, deixando a demora
   // do backend totalmente visível pro usuário. Se falhar aqui, sem
   // problema: o client faz o fetch normal do jeito que já fazia.
-  const initialData = await getDeputados({ page: 1 }).catch(() => undefined);
+  const initialData = await getDeputies({ page: 1 }).catch(() => undefined);
 
   return <DeputadosPageClient initialData={initialData} />;
 }

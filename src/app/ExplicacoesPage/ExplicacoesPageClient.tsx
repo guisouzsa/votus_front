@@ -6,13 +6,13 @@ import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import DashboardHeader from '@/components/DashboardHeader';
-import CargoSeletor from '@/components/cargos/CargoSeletor';
-import CargoFicha from '@/components/cargos/CargoFicha';
-import CargoAcoes from '@/components/cargos/CargoAcoes';
-import CargosComparacao from '@/components/cargos/CargosComparacao';
-import CargosRelacaoPoderes from '@/components/cargos/CargosRelacaoPoderes';
-import CargosVotoAoCargo from '@/components/cargos/CargosVotoAoCargo';
-import { getCargoPorId } from '@/data/cargosPoliticos';
+import OfficeSelector from '@/components/cargos/OfficeSelector';
+import OfficeFactSheet from '@/components/cargos/OfficeFactSheet';
+import OfficeActions from '@/components/cargos/OfficeActions';
+import OfficeComparison from '@/components/cargos/OfficeComparison';
+import BranchesOfGovernmentDiagram from '@/components/cargos/BranchesOfGovernmentDiagram';
+import VoteToOfficeMapping from '@/components/cargos/VoteToOfficeMapping';
+import { getPositionById } from '@/data/politicalPositions';
 
 // Cada seção do cargo escolhido ganha o mesmo tratamento visual (cartão
 // branco com borda) — antes cada uma tinha um estilo próprio (grade, tabela,
@@ -24,7 +24,7 @@ function SecaoCard({ children }: { children: React.ReactNode }) {
 
 export default function ExplicacoesPageClient() {
   const [cargoId, setCargoId] = useState('senador');
-  const cargo = getCargoPorId(cargoId);
+  const cargo = getPositionById(cargoId);
 
   return (
     <div className="min-h-dvh">
@@ -43,28 +43,28 @@ export default function ExplicacoesPageClient() {
 
             <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] lg:items-start">
               <div className="lg:sticky lg:top-8">
-                <CargoSeletor selecionadoId={cargoId} onSelect={setCargoId} />
+                <OfficeSelector selecionadoId={cargoId} onSelect={setCargoId} />
               </div>
 
               <div className="flex flex-col gap-6">
                 <SecaoCard>
-                  <CargoFicha cargo={cargo} />
+                  <OfficeFactSheet cargo={cargo} />
                 </SecaoCard>
 
                 <SecaoCard>
-                  <CargoAcoes cargo={cargo} />
+                  <OfficeActions cargo={cargo} />
                 </SecaoCard>
 
                 <SecaoCard>
-                  <CargosComparacao cargoSelecionadoId={cargoId} />
+                  <OfficeComparison selectedOfficeId={cargoId} />
                 </SecaoCard>
 
                 <SecaoCard>
-                  <CargosRelacaoPoderes />
+                  <BranchesOfGovernmentDiagram />
                 </SecaoCard>
 
                 <SecaoCard>
-                  <CargosVotoAoCargo />
+                  <VoteToOfficeMapping />
                 </SecaoCard>
               </div>
             </div>

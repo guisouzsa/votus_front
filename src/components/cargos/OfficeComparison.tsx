@@ -1,40 +1,40 @@
 'use client';
 
 import { useState } from 'react';
-import { COMPARACOES, COMPARACAO_PADRAO_POR_CARGO, getCargoPorId } from '@/data/cargosPoliticos';
+import { COMPARISONS, DEFAULT_COMPARISON_BY_POSITION, getPositionById } from '@/data/politicalPositions';
 
 const PODER_COLOR = {
   executivo: 'text-brasil-orange',
   legislativo: 'text-brasil-green',
 } as const;
 
-function comparacaoPadrao(cargoSelecionadoId: string) {
-  return COMPARACAO_PADRAO_POR_CARGO[cargoSelecionadoId] ?? COMPARACOES[0].id;
+function comparacaoPadrao(selectedOfficeId: string) {
+  return DEFAULT_COMPARISON_BY_POSITION[selectedOfficeId] ?? COMPARISONS[0].id;
 }
 
-export default function CargosComparacao({ cargoSelecionadoId }: { cargoSelecionadoId: string }) {
-  const [comparacaoId, setComparacaoId] = useState(comparacaoPadrao(cargoSelecionadoId));
+export default function OfficeComparison({ selectedOfficeId }: { selectedOfficeId: string }) {
+  const [comparacaoId, setComparacaoId] = useState(comparacaoPadrao(selectedOfficeId));
 
   // Sempre que o cargo escolhido no mapa muda, a comparação acompanha — a
   // seção deve parecer conectada ao resto da página, não uma ferramenta à
   // parte. Ajustado durante a renderização (em vez de em um efeito) para
   // não disparar uma renderização em cascata.
-  const [cargoAnterior, setCargoAnterior] = useState(cargoSelecionadoId);
-  if (cargoSelecionadoId !== cargoAnterior) {
-    setCargoAnterior(cargoSelecionadoId);
-    setComparacaoId(comparacaoPadrao(cargoSelecionadoId));
+  const [cargoAnterior, setCargoAnterior] = useState(selectedOfficeId);
+  if (selectedOfficeId !== cargoAnterior) {
+    setCargoAnterior(selectedOfficeId);
+    setComparacaoId(comparacaoPadrao(selectedOfficeId));
   }
 
-  const comparacaoAtual = COMPARACOES.find((c) => c.id === comparacaoId) ?? COMPARACOES[0];
-  const cargoA = getCargoPorId(comparacaoAtual.cargoAId);
-  const cargoB = getCargoPorId(comparacaoAtual.cargoBId);
+  const comparacaoAtual = COMPARISONS.find((c) => c.id === comparacaoId) ?? COMPARISONS[0];
+  const cargoA = getPositionById(comparacaoAtual.cargoAId);
+  const cargoB = getPositionById(comparacaoAtual.cargoBId);
 
   const linhas = [
-    { label: 'Poder', a: cargoA.poder === 'executivo' ? 'Executivo' : 'Legislativo', b: cargoB.poder === 'executivo' ? 'Executivo' : 'Legislativo' },
-    { label: 'Âmbito', a: cargoA.nivelLabel, b: cargoB.nivelLabel },
-    { label: 'Mandato', a: cargoA.mandato, b: cargoB.mandato },
-    { label: 'Eleição', a: cargoA.eleicao, b: cargoB.eleicao },
-    { label: 'Função principal', a: cargoA.funcaoPrincipal, b: cargoB.funcaoPrincipal },
+    { label: 'Poder', a: cargoA.branch === 'executivo' ? 'Executivo' : 'Legislativo', b: cargoB.branch === 'executivo' ? 'Executivo' : 'Legislativo' },
+    { label: 'Âmbito', a: cargoA.levelLabel, b: cargoB.levelLabel },
+    { label: 'Mandato', a: cargoA.termLength, b: cargoB.termLength },
+    { label: 'Eleição', a: cargoA.election, b: cargoB.election },
+    { label: 'Função principal', a: cargoA.mainFunction, b: cargoB.mainFunction },
   ];
 
   return (
@@ -44,9 +44,9 @@ export default function CargosComparacao({ cargoSelecionadoId }: { cargoSelecion
       </h3>
 
       <div className="mt-5 flex gap-2 overflow-x-auto scrollbar-hide">
-        {COMPARACOES.map((comparacao) => {
-          const nomeA = getCargoPorId(comparacao.cargoAId).nome;
-          const nomeB = getCargoPorId(comparacao.cargoBId).nome;
+        {COMPARISONS.map((comparacao) => {
+          const nomeA = getPositionById(comparacao.cargoAId).name;
+          const nomeB = getPositionById(comparacao.cargoBId).name;
           const ativo = comparacao.id === comparacaoId;
 
           return (
@@ -67,11 +67,11 @@ export default function CargosComparacao({ cargoSelecionadoId }: { cargoSelecion
       <div key={comparacaoId} className="mt-6 animate-[votus-chat-in_0.35s_ease-out_both] overflow-x-auto">
         <div className="grid min-w-[520px] grid-cols-[1fr_1.3fr_1.3fr] gap-x-4 sm:min-w-0">
           <div />
-          <p className={`pb-3 text-center font-heading text-sm font-black uppercase tracking-tight sm:text-base ${PODER_COLOR[cargoA.poder]}`}>
-            {cargoA.nome}
+          <p className={`pb-3 text-center font-heading text-sm font-black uppercase tracking-tight sm:text-base ${PODER_COLOR[cargoA.branch]}`}>
+            {cargoA.name}
           </p>
-          <p className={`pb-3 text-center font-heading text-sm font-black uppercase tracking-tight sm:text-base ${PODER_COLOR[cargoB.poder]}`}>
-            {cargoB.nome}
+          <p className={`pb-3 text-center font-heading text-sm font-black uppercase tracking-tight sm:text-base ${PODER_COLOR[cargoB.branch]}`}>
+            {cargoB.name}
           </p>
 
           {linhas.map((linha) => (

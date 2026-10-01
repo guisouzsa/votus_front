@@ -21,7 +21,7 @@ import {
   type SuggestionQuestionPayload,
 } from "@/services/adminService";
 import { apiErrorMessage } from "@/services/apiClient";
-import { generateSugestoesPdf } from "@/lib/generateSugestoesPdf";
+import { generateSuggestionsPdf } from "@/lib/generateSuggestionsPdf";
 import type { AdminSuggestion, SuggestionQuestion, SuggestionQuestionType } from "@/services/types";
 
 const EMPTY_FORM: SuggestionQuestionPayload = { text: "", type: "choice", options: ["", ""], required: true };
@@ -369,7 +369,7 @@ export default function AdminSugestoesPage() {
     setErroPdf(null);
 
     try {
-      await generateSugestoesPdf({ perguntas });
+      await generateSuggestionsPdf({ perguntas });
     } catch (err) {
       setErroPdf(apiErrorMessage(err, "Não foi possível gerar o PDF. Tente novamente."));
     } finally {

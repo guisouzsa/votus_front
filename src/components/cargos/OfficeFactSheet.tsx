@@ -1,6 +1,6 @@
 'use client';
 
-import type { CargoPolitico } from '@/data/cargosPoliticos';
+import type { PoliticalPosition } from '@/data/politicalPositions';
 
 const PODER_COLOR = {
   executivo: 'text-brasil-orange',
@@ -12,12 +12,12 @@ const PODER_LABEL = {
   legislativo: 'Legislativo',
 } as const;
 
-export default function CargoFicha({ cargo }: { cargo: CargoPolitico }) {
+export default function OfficeFactSheet({ cargo }: { cargo: PoliticalPosition }) {
   const fatos = [
-    { label: 'Poder', valor: PODER_LABEL[cargo.poder] },
-    { label: 'Âmbito', valor: cargo.nivelLabel },
-    { label: 'Mandato', valor: cargo.mandato },
-    { label: 'Eleição', valor: cargo.eleicao },
+    { label: 'Poder', valor: PODER_LABEL[cargo.branch] },
+    { label: 'Âmbito', valor: cargo.levelLabel },
+    { label: 'Mandato', valor: cargo.termLength },
+    { label: 'Eleição', valor: cargo.election },
   ];
 
   return (
@@ -29,11 +29,11 @@ export default function CargoFicha({ cargo }: { cargo: CargoPolitico }) {
       <div>
         <h2
           id="ficha-cargo-titulo"
-          className={`font-heading text-3xl font-black uppercase leading-[1.05] tracking-tight sm:text-4xl md:text-5xl ${PODER_COLOR[cargo.poder]}`}
+          className={`font-heading text-3xl font-black uppercase leading-[1.05] tracking-tight sm:text-4xl md:text-5xl ${PODER_COLOR[cargo.branch]}`}
         >
-          {cargo.nome}
+          {cargo.name}
         </h2>
-        <p className="mt-4 max-w-md text-base leading-relaxed text-ink sm:text-lg">{cargo.descricao}</p>
+        <p className="mt-4 max-w-md text-base leading-relaxed text-ink sm:text-lg">{cargo.description}</p>
       </div>
 
       <dl className="flex flex-col">

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import SenadoresPageClient from './SenadoresPageClient';
-import { getSenadores } from '@/services/senadoresService';
+import { getSenators } from '@/services/senatorsService';
 
 export const metadata: Metadata = {
   title: 'Senadores',
@@ -15,7 +15,7 @@ export const revalidate = 60;
 export default async function SenadoresPage() {
   // Busca a primeira página já no servidor — ver o mesmo comentário em
   // DeputadosPage/page.tsx.
-  const initialData = await getSenadores({ page: 1 }).catch(() => undefined);
+  const initialData = await getSenators({ page: 1 }).catch(() => undefined);
 
   return <SenadoresPageClient initialData={initialData} />;
 }

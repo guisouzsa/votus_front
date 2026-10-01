@@ -1,23 +1,23 @@
 'use client';
 
 import { useState } from 'react';
-import type { CargoPolitico } from '@/data/cargosPoliticos';
-import { ACOES_POR_PODER } from '@/data/cargosPoliticos';
+import type { PoliticalPosition } from '@/data/politicalPositions';
+import { ACTIONS_BY_BRANCH } from '@/data/politicalPositions';
 
 const PODER_DOT = {
   executivo: 'bg-brasil-orange',
   legislativo: 'bg-brasil-green',
 } as const;
 
-export default function CargoAcoes({ cargo }: { cargo: CargoPolitico }) {
+export default function OfficeActions({ cargo }: { cargo: PoliticalPosition }) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-  const acoes = ACOES_POR_PODER[cargo.poder];
-  const dotColor = PODER_DOT[cargo.poder];
+  const acoes = ACTIONS_BY_BRANCH[cargo.branch];
+  const dotColor = PODER_DOT[cargo.branch];
 
   return (
     <section key={cargo.id} aria-labelledby="acoes-cargo-titulo" className="animate-[votus-chat-in_0.35s_ease-out_both]">
       <h3 id="acoes-cargo-titulo" className="font-heading text-xl font-black uppercase tracking-tight text-ink sm:text-2xl">
-        O que {cargo.poder === 'executivo' ? 'ele/ela faz' : 'faz'}?
+        O que {cargo.branch === 'executivo' ? 'ele/ela faz' : 'faz'}?
       </h3>
 
       <div className="relative mt-8">

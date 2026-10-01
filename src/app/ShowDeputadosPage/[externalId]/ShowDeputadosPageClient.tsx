@@ -14,7 +14,7 @@ import LegislatorDetailSkeleton from '@/components/LegislatorDetailSkeleton';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
 import InfoTooltip from '@/components/InfoTooltip';
 import ProposicoesList from '@/components/ProposicoesList';
-import { getDeputado } from '@/services/deputadosService';
+import { getDeputy } from '@/services/deputiesService';
 import { ApiError } from '@/services/apiClient';
 
 const tabs = ['Visão geral', 'Comissões', 'Proposições', 'Linha do tempo'] as const;
@@ -45,7 +45,7 @@ const STATUS_LABELS: Record<string, string> = {
 export default function ShowDeputadosPageClient({
   initialData,
 }: {
-  initialData?: Awaited<ReturnType<typeof getDeputado>>;
+  initialData?: Awaited<ReturnType<typeof getDeputy>>;
 }) {
   const params = useParams<{ externalId: string }>();
   const externalId = params.externalId;
@@ -56,7 +56,7 @@ export default function ShowDeputadosPageClient({
     data: deputado,
     error: swrError,
     isLoading,
-  } = useSsrDetail(externalId ? ['deputado', externalId] : null, () => getDeputado(externalId), initialData);
+  } = useSsrDetail(externalId ? ['deputado', externalId] : null, () => getDeputy(externalId), initialData);
 
   if (isLoading) {
     return <LegislatorDetailSkeleton />;

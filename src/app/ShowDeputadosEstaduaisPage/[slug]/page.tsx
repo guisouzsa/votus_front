@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { cache } from 'react';
-import { getDeputadoEstadual } from '@/services/deputadosEstaduaisService';
+import { getStateDeputy } from '@/services/stateDeputiesService';
 import ShowDeputadosEstaduaisPageClient from './ShowDeputadosEstaduaisPageClient';
 
 type Params = { slug: string };
@@ -14,7 +14,7 @@ export async function generateStaticParams() {
   return [];
 }
 
-const carregar = cache((slug: string) => getDeputadoEstadual(slug));
+const carregar = cache((slug: string) => getStateDeputy(slug));
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { slug } = await params;

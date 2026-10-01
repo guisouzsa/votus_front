@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
-import { getDeputados } from "@/services/deputadosService";
-import { getSenadores } from "@/services/senadoresService";
+import { getDeputies } from "@/services/deputiesService";
+import { getSenators } from "@/services/senatorsService";
 import type { Legislator } from "@/services/types";
 import { TEAM_ADVISOR, TEAM_MEMBERS } from "@/data/team";
 
@@ -70,8 +70,8 @@ async function getRosterSection(): Promise<string> {
 
   try {
     const [deputadosRes, senadoresRes] = await Promise.all([
-      getDeputados({ page: 1 }),
-      getSenadores({ page: 1 }),
+      getDeputies({ page: 1 }),
+      getSenators({ page: 1 }),
     ]);
 
     const deputadosList = deputadosRes.data.map((d) => formatLegislator(d, "deputado federal")).join("\n");

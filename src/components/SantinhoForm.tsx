@@ -1,14 +1,14 @@
 'use client';
 
 import SantinhoCandidateInput from './SantinhoCandidateInput';
-import type { SantinhoCandidato } from './SantinhoPreview';
+import type { SantinhoCandidate } from './SantinhoPreview';
 
 export default function SantinhoForm({
   candidatos,
   onNumeroChange,
   showValidation = false,
 }: {
-  candidatos: SantinhoCandidato[];
+  candidatos: SantinhoCandidate[];
   onNumeroChange: (id: number, numero: string) => void;
   showValidation?: boolean;
 }) {

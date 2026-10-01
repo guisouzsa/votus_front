@@ -1,5 +1,5 @@
 import jsPDF from 'jspdf';
-import type { SantinhoCandidato } from '@/components/SantinhoPreview';
+import type { SantinhoCandidate } from '@/components/SantinhoPreview';
 
 const GRID_BY_COUNT: Record<number, { cols: number; rows: number }> = {
   1: { cols: 1, rows: 1 },
@@ -136,7 +136,7 @@ function drawSantinho(
     y: number;
     width: number;
     height: number;
-    candidatos: SantinhoCandidato[];
+    candidatos: SantinhoCandidate[];
     lateralImg: string;
     logoImg: string;
     fotos: Map<string, string>;
@@ -279,7 +279,7 @@ export async function generateSantinhoPdf({
   santinhosPorPagina,
   fileName = 'santinho-eleitoral.pdf',
 }: {
-  candidatos: SantinhoCandidato[];
+  candidatos: SantinhoCandidate[];
   quantidadePaginas: number;
   santinhosPorPagina: number;
   fileName?: string;

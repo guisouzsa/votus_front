@@ -7,12 +7,12 @@ import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import DashboardHeader from '@/components/DashboardHeader';
-import SantinhoPreview, { type SantinhoCandidato } from '@/components/SantinhoPreview';
+import SantinhoPreview, { type SantinhoCandidate } from '@/components/SantinhoPreview';
 import SantinhoForm from '@/components/SantinhoForm';
 import SantinhoExportModal from '@/components/SantinhoExportModal';
-import { useSantinhoCandidatos } from '@/hooks/useSantinhoCandidatos';
+import { useSantinhoCandidates } from '@/hooks/useSantinhoCandidates';
 
-const CANDIDATOS_INICIAIS: SantinhoCandidato[] = [
+const CANDIDATOS_INICIAIS: SantinhoCandidate[] = [
   { id: 1, cargo: 'Deputado Federal', digitos: 4, numero: '' },
   { id: 2, cargo: 'Deputado Estadual', digitos: 5, numero: '' },
   { id: 3, cargo: 'Senador 1', digitos: 3, numero: '' },
@@ -62,7 +62,7 @@ function SantinhoSelect({
 }
 
 export default function SantinhoPageClient() {
-  const [candidatos, setCandidatos] = useState<SantinhoCandidato[]>(CANDIDATOS_INICIAIS);
+  const [candidatos, setCandidatos] = useState<SantinhoCandidate[]>(CANDIDATOS_INICIAIS);
   const [quantidadePaginas, setQuantidadePaginas] = useState('');
   const [santinhosPorPagina, setSantinhosPorPagina] = useState('');
   const [showValidation, setShowValidation] = useState(false);
@@ -71,7 +71,7 @@ export default function SantinhoPageClient() {
   const [erro, setErro] = useState<string | null>(null);
   // Mesmas linhas, completadas com foto/nome reais quando o número bate com
   // um candidato — usadas no preview, no formulário e no PDF.
-  const candidatosComFoto = useSantinhoCandidatos(candidatos);
+  const candidatosComFoto = useSantinhoCandidates(candidatos);
 
   function handleNumeroChange(id: number, numero: string) {
     setCandidatos((prev) => prev.map((candidato) => (candidato.id === id ? { ...candidato, numero } : candidato)));

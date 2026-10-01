@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { cache } from 'react';
-import { getSenador } from '@/services/senadoresService';
+import { getSenator } from '@/services/senatorsService';
 import ShowSenadoresPageClient from './ShowSenadoresPageClient';
 
 type Params = { externalId: string };
@@ -19,7 +19,7 @@ export async function generateStaticParams() {
   return [];
 }
 
-const carregar = cache((externalId: string) => getSenador(externalId));
+const carregar = cache((externalId: string) => getSenator(externalId));
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { externalId } = await params;

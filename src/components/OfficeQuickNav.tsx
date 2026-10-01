@@ -16,15 +16,15 @@ const ITENS = [
  * verde, scroll horizontal no mobile), pra trocar de cargo sem precisar do
  * sidebar.
  */
-export default function CargoQuickNav({
-  atual,
+export default function OfficeQuickNav({
+  current,
 }: {
-  atual: 'PresidentePage' | 'GovernadoresPage' | 'DeputadosPage' | 'SenadoresPage' | 'DeputadosEstaduaisPage';
+  current: 'PresidentePage' | 'GovernadoresPage' | 'DeputadosPage' | 'SenadoresPage' | 'DeputadosEstaduaisPage';
 }) {
   return (
     <nav aria-label="Cargos" className="mt-4 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
       {ITENS.map(({ href, label }) => {
-        const ativo = href === `/${atual}`;
+        const ativo = href === `/${current}`;
         return (
           <Link
             key={href}

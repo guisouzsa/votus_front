@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { TRILHA_VOTO_AO_CARGO } from '@/data/cargosPoliticos';
+import { VOTE_TO_OFFICE_TRAIL } from '@/data/politicalPositions';
 
-export default function CargosVotoAoCargo() {
+export default function VoteToOfficeMapping() {
   const ref = useRef<HTMLDivElement>(null);
   const [visivel, setVisivel] = useState(false);
 
@@ -38,8 +38,8 @@ export default function CargosVotoAoCargo() {
         />
 
         <div className="relative flex flex-col gap-5 sm:flex-row sm:justify-between sm:gap-2">
-          {TRILHA_VOTO_AO_CARGO.map((passo, index) => {
-            const ultimo = index === TRILHA_VOTO_AO_CARGO.length - 1;
+          {VOTE_TO_OFFICE_TRAIL.map((passo, index) => {
+            const ultimo = index === VOTE_TO_OFFICE_TRAIL.length - 1;
 
             return (
               <div

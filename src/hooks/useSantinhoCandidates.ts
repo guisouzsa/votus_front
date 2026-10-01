@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import { findCandidateByNumber, type CandidateOfficeSlug } from '@/services/candidatesService';
-import type { SantinhoCandidato } from '@/components/SantinhoPreview';
+import type { SantinhoCandidate } from '@/components/SantinhoPreview';
 
 // Cargo do santinho → listagem de candidatos correspondente.
 const OFFICE_POR_CARGO: Record<string, CandidateOfficeSlug> = {
@@ -12,7 +12,7 @@ const OFFICE_POR_CARGO: Record<string, CandidateOfficeSlug> = {
   Governador: 'governador',
 };
 
-function numeroCompleto(candidato: SantinhoCandidato) {
+function numeroCompleto(candidato: SantinhoCandidate) {
   const numero = candidato.numero.replace(/\s/g, '');
   return numero.length === candidato.digitos ? numero : null;
 }
@@ -23,7 +23,7 @@ function numeroCompleto(candidato: SantinhoCandidato) {
  * os dígitos do cargo estão preenchidos; sem correspondência exata, a linha
  * fica como está (sem foto, sem placeholder).
  */
-export function useSantinhoCandidatos(candidatos: SantinhoCandidato[]): SantinhoCandidato[] {
+export function useSantinhoCandidates(candidatos: SantinhoCandidate[]): SantinhoCandidate[] {
   const consultas = candidatos
     .map((candidato) => ({ id: candidato.id, office: OFFICE_POR_CARGO[candidato.cargo], numero: numeroCompleto(candidato) }))
     .filter((c): c is { id: number; office: CandidateOfficeSlug; numero: string } => Boolean(c.office && c.numero));

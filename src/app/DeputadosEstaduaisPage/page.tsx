@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import DeputadosEstaduaisPageClient from './DeputadosEstaduaisPageClient';
-import { getDeputadosEstaduais } from '@/services/deputadosEstaduaisService';
+import { getStateDeputies } from '@/services/stateDeputiesService';
 
 export const metadata: Metadata = {
   title: 'Deputados Estaduais',
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function DeputadosEstaduaisPage() {
-  const initialData = await getDeputadosEstaduais({ page: 1 }).catch(() => undefined);
+  const initialData = await getStateDeputies({ page: 1 }).catch(() => undefined);
 
   return <DeputadosEstaduaisPageClient initialData={initialData} />;
 }

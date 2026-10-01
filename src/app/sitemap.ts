@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/siteConfig";
-import { getDeputados } from "@/services/deputadosService";
-import { getSenadores } from "@/services/senadoresService";
+import { getDeputies } from "@/services/deputiesService";
+import { getSenators } from "@/services/senatorsService";
 import { getNewsList } from "@/services/newsService";
 import { getExplanations } from "@/services/explanationService";
 import { CANDIDATE_OFFICES, getCandidates, type CandidateOfficeSlug } from "@/services/candidatesService";
@@ -54,7 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 async function buscarDeputados(): Promise<MetadataRoute.Sitemap> {
   try {
-    const response = await getDeputados({ page: 1 });
+    const response = await getDeputies({ page: 1 });
 
     return response.data.map((deputado) => ({
       url: `${SITE_URL}/ShowDeputadosPage/${deputado.external_id}`,
@@ -67,7 +67,7 @@ async function buscarDeputados(): Promise<MetadataRoute.Sitemap> {
 
 async function buscarSenadores(): Promise<MetadataRoute.Sitemap> {
   try {
-    const response = await getSenadores({ page: 1 });
+    const response = await getSenators({ page: 1 });
 
     return response.data.map((senador) => ({
       url: `${SITE_URL}/ShowSenadoresPage/${senador.external_id}`,

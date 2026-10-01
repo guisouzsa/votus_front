@@ -1,11 +1,11 @@
 import Image from 'next/image';
 
-export interface SantinhoCandidato {
+export interface SantinhoCandidate {
   id: number;
   cargo: string;
   digitos: number;
   numero: string;
-  // Preenchidos por useSantinhoCandidatos quando o número digitado bate com
+  // Preenchidos por useSantinhoCandidates quando o número digitado bate com
   // um candidato real do cargo: foto oficial (Supabase Storage) e nome.
   fotoUrl?: string | null;
   nome?: string | null;
@@ -18,7 +18,7 @@ export interface SantinhoCandidato {
 // página, miniaturas lado a lado no popup de exportação) — com px fixo o
 // conteúdo cabia só no tamanho "calibrado" e "comia" a logo/números em
 // qualquer outro.
-export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCandidato[] }) {
+export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCandidate[] }) {
   return (
     <div className="relative mx-auto flex aspect-[3/5] w-full max-w-[260px] flex-col overflow-hidden rounded-[16px] bg-[#ffffff] shadow-[0_4px_20px_rgba(0,0,0,0.12)] [container-type:inline-size]">
       <div className="absolute right-0 top-0 h-full w-[26%]">
