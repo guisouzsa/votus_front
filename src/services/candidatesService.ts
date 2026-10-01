@@ -66,10 +66,10 @@ export interface CandidateFilters {
 export type CandidatesResponse = PaginatedResponse<Candidate> & {
   filters?: {
     parties: string[];
-    com_proposta: number;
-    com_ensino_superior: number;
-    com_chapa: number;
-    ja_foi_parlamentar: number;
+    with_proposal_document: number;
+    with_higher_education: number;
+    with_full_ticket: number;
+    previously_elected: number;
   };
 };
 

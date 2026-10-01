@@ -108,12 +108,12 @@ export default function CandidatosListClient({
   const partidos = response?.filters?.parties ?? initialData?.filters?.parties ?? [];
   // Só Presidente e Governador são obrigados a registrar plano de governo no
   // TSE — nos demais cargos isso vem sempre 0, então a linha de estatística
-  // só aparece quando fizer sentido (ver comPropostaByOffice no backend).
-  const comProposta = response?.filters?.com_proposta ?? initialData?.filters?.com_proposta ?? 0;
-  const comEnsinoSuperior = response?.filters?.com_ensino_superior ?? initialData?.filters?.com_ensino_superior ?? 0;
+  // só aparece quando fizer sentido (ver countWithProposalDocumentByOffice no backend).
+  const comProposta = response?.filters?.with_proposal_document ?? initialData?.filters?.with_proposal_document ?? 0;
+  const comEnsinoSuperior = response?.filters?.with_higher_education ?? initialData?.filters?.with_higher_education ?? 0;
   // Só existe vice/suplente pra Presidente/Governador/Senador — Deputado
-  // Federal/Estadual não tem chapa, então vem sempre 0 (ver comChapaByOffice).
-  const comChapa = response?.filters?.com_chapa ?? initialData?.filters?.com_chapa ?? 0;
+  // Federal/Estadual não tem chapa, então vem sempre 0 (ver countWithFullTicketByOffice).
+  const comChapa = response?.filters?.with_full_ticket ?? initialData?.filters?.with_full_ticket ?? 0;
 
   // Além de Candidatos/Partidos, estas só existem pra alguns cargos
   // (chapa/plano de governo não fazem sentido pra Deputado, por exemplo).
