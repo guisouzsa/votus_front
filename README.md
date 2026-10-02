@@ -65,8 +65,8 @@ O **Votus** é uma plataforma de transparência e educação política desenvolv
 ### Instalação
 
 ```bash
-git clone https://github.com/NotCrazyDog-hub/votus_frontend.git
-cd votus_frontend
+git clone https://github.com/guisouzsa/votus_front.git
+cd votus_front
 npm install
 ```
 
