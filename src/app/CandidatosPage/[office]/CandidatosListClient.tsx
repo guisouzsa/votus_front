@@ -251,7 +251,7 @@ export default function CandidatosListClient({
               <RegionStateSelector selectedState={aplicados.state} onSelectState={selecionarEstado} />
             )}
 
-            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
+            <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
               <StatCard
                 value={totalCandidatos !== undefined ? String(totalCandidatos).padStart(2, '0') : '—'}
                 label="Candidatos"
