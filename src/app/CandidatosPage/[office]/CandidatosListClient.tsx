@@ -74,10 +74,18 @@ export default function CandidatosListClient({
   initialData?: CandidatesResponse;
 }) {
   const config = CANDIDATE_OFFICES[office];
+  // Presidente é eleição nacional (UF "BR"); os demais cargos ficam
+  // restritos ao Ceará nesta branch — a navegação por região/estado do país
+  // inteiro ainda está em teste noutra branch, sem seletor aqui.
+  const isPresidente = office === 'presidente';
 
   const query = useSyncExternalStore(assinarUrl, lerQueryAtual, lerQueryServidor);
   const { filtros: aplicados, page } = useMemo(() => interpretarQuery(query), [query]);
   const semFiltro = !aplicados.search.trim() && !aplicados.party;
+  const filtrosEfetivos = useMemo(
+    () => (isPresidente ? aplicados : { ...aplicados, state: 'CE' }),
+    [aplicados, isPresidente]
+  );
 
   // "filtros" é o que está digitado/selecionado nos campos; "aplicados" é o
   // que de fato foi pra API. Separados pra não disparar uma requisição a
@@ -98,7 +106,7 @@ export default function CandidatosListClient({
     isValidating,
   } = useSsrPaginatedList(
     ['candidatos', office, page, aplicados.party, aplicados.search.trim()],
-    () => getCandidates(office, page, aplicados),
+    () => getCandidates(office, page, filtrosEfetivos),
     // O que veio do servidor é só a página 1 sem filtro.
     page === 1 && semFiltro ? initialData : undefined
   );

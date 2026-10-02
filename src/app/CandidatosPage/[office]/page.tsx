@@ -36,8 +36,12 @@ export default async function CandidatosPageRoute({ params }: { params: Promise<
   }
 
   // Busca a primeira página já no servidor — ver o mesmo comentário em
-  // DeputadosPage/page.tsx.
-  const initialData = await getCandidates(office, 1).catch(() => undefined);
+  // DeputadosPage/page.tsx. Só Presidente é eleição nacional (UF "BR"); os
+  // demais cargos ficam restritos ao Ceará nesta branch — a navegação por
+  // região/estado do país inteiro ainda está em teste noutra branch.
+  const initialData = await getCandidates(office, 1, office === 'presidente' ? {} : { state: 'CE' }).catch(
+    () => undefined
+  );
 
   return <CandidatosListClient office={office} initialData={initialData} />;
 }
