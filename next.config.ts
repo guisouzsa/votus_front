@@ -81,8 +81,21 @@ const nextConfig: NextConfig = {
     ],
     // As fotos do bucket vêm com Cache-Control: no-cache (definido no
     // upload), então sem isso a versão otimizada seria revalidada a toda
-    // hora. Fotos oficiais mudam raramente; 1 dia de cache é seguro.
-    minimumCacheTTL: 86400,
+    // hora. O problema é que cada expiração RE-transforma a mesma foto, e
+    // isso conta de novo no teto da Vercel: com 1 dia, as ~629 fotos de
+    // candidatos do Ceará eram re-transformadas ~30x/mês. Em out/2026 isso
+    // estourou o limite de 5k/mês do plano Hobby e a conta inteira foi
+    // pausada com DEPLOYMENT_DISABLED (402) — os 10 projetos saíram do ar,
+    // não só este (Cache Writes 9k > Transformations 6k confirmou que era
+    // re-gravação, não imagem nova).
+    // 31 dias derruba a projeção pra ~1,3k/mês. Fotos oficiais mudam
+    // raramente; o custo é uma foto corrigida no bucket levar até um mês
+    // pra aparecer.
+    // Nota: não restringir deviceSizes/imageSizes aqui. Larguras removidas
+    // passam a responder 400, e quem tiver a página em cache com o srcset
+    // antigo fica sem a foto. O ganho vinha do TTL e dos `sizes` corretos
+    // nos <Image> de perfil, não de proibir larguras.
+    minimumCacheTTL: 2678400,
   },
 };
 

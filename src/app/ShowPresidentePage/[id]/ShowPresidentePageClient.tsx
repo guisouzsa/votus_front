@@ -96,6 +96,7 @@ export default function ShowPresidentePageClient({
                   src={executivo.photo_url}
                   alt={executivo.display_name}
                   fallbackSrc="/deputados.png"
+                  sizes="170px"
                   className="object-cover"
                 />
               </div>

@@ -156,6 +156,7 @@ export default function ShowDeputadosEstaduaisPageClient({
                   src={deputado.photo_url}
                   alt={deputado.parliamentary_name}
                   fallbackSrc="/deputados.png"
+                  sizes="170px"
                   className="object-cover"
                 />
               </div>

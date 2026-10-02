@@ -156,6 +156,7 @@ export default function ShowSenadoresPageClient({
                   src={senador.photo_url}
                   alt={senador.parliamentary_name}
                   fallbackSrc="/senadores.png"
+                  sizes="170px"
                   className="object-cover"
                 />
               </div>

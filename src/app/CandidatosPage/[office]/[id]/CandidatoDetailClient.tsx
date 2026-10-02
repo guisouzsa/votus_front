@@ -105,6 +105,7 @@ export default function CandidatoDetailClient({
                   src={candidato.photo_url}
                   alt={candidato.ballot_name}
                   fallbackSrc={config.fallbackPhoto}
+                  sizes="170px"
                   className="object-cover"
                 />
               </div>
@@ -218,6 +219,7 @@ export default function CandidatoDetailClient({
                         src={mate.photo_url}
                         alt={mate.ballot_name}
                         fallbackSrc={config.fallbackPhoto}
+                        sizes="80px"
                         className="object-cover"
                       />
                     </div>
