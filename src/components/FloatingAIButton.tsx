@@ -32,7 +32,7 @@ const CHAT_STORAGE_KEY = "votus-ai-chat-messages";
 // Animação de entrada em cascata: cada bloco interno do chat aparece com um
 // pequeno atraso em relação ao anterior, dando a sensação de conteúdo
 // "chegando" em vez de tudo aparecer de uma vez.
-const CHAT_REVEAL = "animate-[votus-chat-in_0.45s_ease-out_both]";
+const CHAT_REVEAL = "animate-[votus-chat-in_0.55s_ease-out_both]";
 
 // Só pra exibição ("X/5 perguntas"). O limite de verdade é aplicado no
 // backend (app/api/chat/route.ts, PERSON_MAX_REQUESTS) — mudar este número
@@ -163,13 +163,17 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
     <div className="fixed bottom-24 right-4 z-50 flex items-end justify-end md:bottom-6 md:right-6">
       <section
         aria-label="Chat Votus IA"
-        className={`fixed z-50 flex w-auto origin-bottom-right flex-col overflow-hidden border border-[#EDDBBA] bg-[#FDF8EE] shadow-[0_16px_40px_rgba(27,98,58,0.2)] transition-all duration-300 ease-out ${
+        className={`fixed z-50 flex w-auto origin-bottom-right flex-col overflow-hidden border border-[#EDDBBA] bg-[#FDF8EE] shadow-[0_16px_40px_rgba(27,98,58,0.2)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           expanded
             ? // Tela inteira, sem margens nem cantos arredondados, em
               // qualquer breakpoint.
               "inset-0 h-dvh max-h-none rounded-none"
             : `md:inset-x-auto md:right-6 md:bottom-24 md:rounded-[1.25rem] inset-x-4 bottom-40 max-h-[min(26rem,calc(100dvh-11rem))] rounded-[1.25rem] md:max-h-[min(46rem,calc(100dvh-7rem))] md:w-[22rem]`
-        } ${open ? "translate-y-0 scale-100 opacity-100" : "pointer-events-none translate-y-5 scale-95 opacity-0"}`}
+        } ${
+          open
+            ? "translate-y-0 scale-100 opacity-100"
+            : "pointer-events-none translate-y-8 scale-90 opacity-0"
+        }`}
         style={{ backgroundImage: "url(/fundochatia.png)", backgroundSize: "cover", backgroundPosition: "center" }}
       >
         <div
@@ -220,7 +224,7 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
           <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#EDDBBA] text-[#8D0801]">
             <Info size={14} strokeWidth={2.5} />
           </span>
-          <span>Sou uma ferramenta de apoio. Não substituo fontes oficiais.</span>
+          <span>Sou uma ferramenta de apoio e posso cometer erros. Não substituo fontes oficiais.</span>
         </div>
 
         <div
