@@ -7,6 +7,8 @@ import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import Footer from '@/components/Footer';
 import LegislatorFilterFrame from '@/components/LegislatorFilterFrame';
+import RegionStateSelector from '@/components/RegionStateSelector';
+import { STATE_NAMES } from '@/data/brazilRegions';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
 import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
 import Pagination from '@/components/Pagination';
@@ -25,6 +27,11 @@ import { useSsrPaginatedList } from '@/hooks/useSsrPaginatedList';
 
 const FILTROS_VAZIOS = { search: '', party: '' };
 type Filtros = typeof FILTROS_VAZIOS;
+
+// Ceará é o padrão de sempre do Votus (presidente é eleição nacional — não
+// tem UF própria, "BR" no TSE —, por isso não entra nesse default).
+const ESTADO_PADRAO = 'CE';
+type Aplicados = Filtros & { state: string };
 
 // Filtros aplicados e página moram na URL (?partido=PT&busca=joao&pagina=2):
 // ao abrir um candidato e voltar, a lista reaparece do jeito que estava, e o
@@ -46,19 +53,24 @@ function assinarUrl(callback: () => void) {
 const lerQueryAtual = () => window.location.search;
 const lerQueryServidor = () => '';
 
-function interpretarQuery(query: string): { filtros: Filtros; page: number } {
+function interpretarQuery(query: string): { aplicados: Aplicados; page: number } {
   const params = new URLSearchParams(query);
 
   return {
-    filtros: { search: params.get('busca') ?? '', party: params.get('partido') ?? '' },
+    aplicados: {
+      search: params.get('busca') ?? '',
+      party: params.get('partido') ?? '',
+      state: params.get('uf') ?? ESTADO_PADRAO,
+    },
     page: Math.max(1, Math.floor(Number(params.get('pagina'))) || 1),
   };
 }
 
-function gravarNaUrl(filtros: Filtros, page: number) {
+function gravarNaUrl(aplicados: Aplicados, page: number) {
   const params = new URLSearchParams();
-  if (filtros.search.trim()) params.set('busca', filtros.search.trim());
-  if (filtros.party) params.set('partido', filtros.party);
+  if (aplicados.search.trim()) params.set('busca', aplicados.search.trim());
+  if (aplicados.party) params.set('partido', aplicados.party);
+  if (aplicados.state) params.set('uf', aplicados.state);
   if (page > 1) params.set('pagina', String(page));
 
   const query = params.toString();
@@ -74,10 +86,15 @@ export default function CandidatosListClient({
   initialData?: CandidatesResponse;
 }) {
   const config = CANDIDATE_OFFICES[office];
+  // Presidente é eleição nacional (UF "BR" no TSE, sem variação por estado) —
+  // não faz sentido navegar por região/estado nesse cargo.
+  const isPresidente = office === 'presidente';
 
   const query = useSyncExternalStore(assinarUrl, lerQueryAtual, lerQueryServidor);
-  const { filtros: aplicados, page } = useMemo(() => interpretarQuery(query), [query]);
+  const { aplicados, page } = useMemo(() => interpretarQuery(query), [query]);
   const semFiltro = !aplicados.search.trim() && !aplicados.party;
+  // Pro backend, "state" só existe pros cargos que de fato variam por UF.
+  const filtrosEfetivos = isPresidente ? { search: aplicados.search, party: aplicados.party } : aplicados;
 
   // "filtros" é o que está digitado/selecionado nos campos; "aplicados" é o
   // que de fato foi pra API. Separados pra não disparar uma requisição a
@@ -97,10 +114,10 @@ export default function CandidatosListClient({
     loading,
     isValidating,
   } = useSsrPaginatedList(
-    ['candidatos', office, page, aplicados.party, aplicados.search.trim()],
-    () => getCandidates(office, page, aplicados),
-    // O que veio do servidor é só a página 1 sem filtro.
-    page === 1 && semFiltro ? initialData : undefined
+    ['candidatos', office, page, filtrosEfetivos.party, filtrosEfetivos.search.trim(), isPresidente ? null : aplicados.state],
+    () => getCandidates(office, page, filtrosEfetivos),
+    // O que veio do servidor é só a página 1 sem filtro (estado padrão).
+    page === 1 && semFiltro && (isPresidente || aplicados.state === ESTADO_PADRAO) ? initialData : undefined
   );
 
   // A lista de partidos é a mesma pra qualquer página/filtro do cargo; com
@@ -146,12 +163,19 @@ export default function CandidatosListClient({
   const setPage = (novaPagina: number) => gravarNaUrl(aplicados, novaPagina);
 
   function aplicarFiltros() {
-    gravarNaUrl({ search: filtros.search.trim(), party: filtros.party }, 1);
+    gravarNaUrl({ search: filtros.search.trim(), party: filtros.party, state: aplicados.state }, 1);
   }
 
   function limparFiltros() {
     setFiltros(FILTROS_VAZIOS);
-    gravarNaUrl(FILTROS_VAZIOS, 1);
+    gravarNaUrl({ ...FILTROS_VAZIOS, state: aplicados.state }, 1);
+  }
+
+  // Seleção de região/estado é imediata (não passa pelo estágio de "Aplicar
+  // filtros" do busca/partido) — clicar num estado já é a ação final, igual
+  // a clicar numa aba de cargo.
+  function selecionarEstado(uf: string) {
+    gravarNaUrl({ ...aplicados, state: uf }, 1);
   }
 
   const error = swrError
@@ -187,7 +211,8 @@ export default function CandidatosListClient({
                 Eleições 2026
               </p>
               <h1 className="mt-0.5 text-lg font-black uppercase leading-tight tracking-tight sm:text-xl md:text-2xl">
-                Candidatos 2026 a {config.label} {config.regiao}
+                Candidatos 2026 a {config.label}
+                {isPresidente && ` ${config.regiao}`}
               </h1>
               <p className="mt-1 max-w-2xl text-xs leading-snug text-white/90 sm:text-sm">
                 Quem está concorrendo nas eleições de 2026, segundo o registro de candidaturas do TSE. Cada perfil
@@ -221,6 +246,10 @@ export default function CandidatosListClient({
                 );
               })}
             </nav>
+
+            {!isPresidente && (
+              <RegionStateSelector selectedState={aplicados.state} onSelectState={selecionarEstado} />
+            )}
 
             <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
               <StatCard
@@ -279,7 +308,11 @@ export default function CandidatosListClient({
                 <div className="flex min-h-[200px] flex-col items-center justify-center gap-1 rounded-[12px] border border-[#e0d6c4] bg-[#f7f5f2] p-6 text-center">
                   <p className="text-sm font-bold text-[#8d0801]">Nenhum candidato encontrado</p>
                   {semFiltro ? (
-                    <p className="text-xs text-[#4d4d4d]">Os dados desta candidatura ainda não foram publicados.</p>
+                    <p className="text-xs text-[#4d4d4d]">
+                      {isPresidente
+                        ? 'Os dados desta candidatura ainda não foram publicados.'
+                        : `Não há candidatos disponíveis para ${STATE_NAMES[aplicados.state] ?? aplicados.state} ainda.`}
+                    </p>
                   ) : (
                     <>
                       <p className="text-xs text-[#4d4d4d]">Nenhum resultado para os filtros aplicados.</p>

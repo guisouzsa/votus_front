@@ -57,6 +57,7 @@ function normalizeCandidate(candidate: Candidate): Candidate {
 }
 
 export interface CandidateFilters {
+  state?: string;
   party?: string;
   search?: string;
 }
@@ -76,6 +77,7 @@ export type CandidatesResponse = PaginatedResponse<Candidate> & {
 export async function getCandidates(office: CandidateOfficeSlug, page = 1, filters: CandidateFilters = {}) {
   const response = await apiGet<CandidatesResponse>(`/api/${CANDIDATE_OFFICES[office].endpoint}`, {
     page,
+    state: filters.state,
     party: filters.party,
     search: filters.search?.trim(),
   });

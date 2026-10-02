@@ -36,8 +36,12 @@ export default async function CandidatosPageRoute({ params }: { params: Promise<
   }
 
   // Busca a primeira página já no servidor — ver o mesmo comentário em
-  // DeputadosPage/page.tsx.
-  const initialData = await getCandidates(office, 1).catch(() => undefined);
+  // DeputadosPage/page.tsx. Ceará é o estado padrão da navegação por
+  // região/estado (ver RegionStateSelector); Presidente é eleição nacional
+  // (UF "BR"), sem filtro de estado.
+  const initialData = await getCandidates(office, 1, office === 'presidente' ? {} : { state: 'CE' }).catch(
+    () => undefined
+  );
 
   return <CandidatosListClient office={office} initialData={initialData} />;
 }
