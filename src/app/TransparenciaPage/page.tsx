@@ -5,7 +5,6 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import WovenRibbon from "@/components/WovenRibbon";
 import DashboardHeader from "@/components/DashboardHeader";
 import FloatingAIButton from "@/components/FloatingAIButton";
-import IaUseSection from "@/components/IaUseSection";
 
 export const metadata: Metadata = {
   title: "Transparência dos Dados",
@@ -95,7 +94,10 @@ export default function TransparenciaPage() {
       <MobileBottomNav />
 
       <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
-        <div className="w-full px-6 py-8 sm:px-10">
+        {/* pr-16 no mobile/tablet: o botão flutuante "Pergunte à IA" fica fixo
+            no canto inferior direito (bottom-24 right-4, só sai dessa posição
+            em md:) e cobria pedaços de título/texto que chegavam até ali. */}
+        <div className="w-full py-8 pl-6 pr-16 sm:pl-10 md:pr-10">
           <DashboardHeader
             titleText="Transparência dos dados"
             titleColor="text-brasil-green"
@@ -202,10 +204,6 @@ export default function TransparenciaPage() {
               novas versões — não em tempo real.
             </p>
           </section>
-
-          <div className="mt-14 sm:mt-20">
-            <IaUseSection />
-          </div>
         </div>
       </main>
 
