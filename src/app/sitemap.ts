@@ -104,15 +104,20 @@ async function buscarExplicacoes(): Promise<MetadataRoute.Sitemap> {
 // suplentes/vices (que não têm página própria). Ao contrário das notícias,
 // aqui não há "mais recente/relevante" pra priorizar — é a chapa inteira da
 // eleição —, então percorre todas as páginas de cada cargo, não só a 1ª.
+// Restrito ao Ceará (exceto Presidente, nacional) igual à listagem pública —
+// sem isso, cada cargo percorria TODOS os 27 estados (até ~11 mil candidatos
+// em centenas de páginas só pra Deputado Estadual), estourando o timeout de
+// build do sitemap.
 async function buscarCandidatos(): Promise<MetadataRoute.Sitemap> {
   const porCargo = await Promise.all(
     (Object.keys(CANDIDATE_OFFICES) as CandidateOfficeSlug[]).map(async (slug) => {
       try {
         const entradas: MetadataRoute.Sitemap = [];
         let page = 1;
+        const filtro = slug === 'presidente' ? {} : { state: 'CE' };
 
         while (true) {
-          const response = await getCandidates(slug, page);
+          const response = await getCandidates(slug, page, filtro);
 
           for (const candidato of response.data) {
             entradas.push({ url: `${SITE_URL}/CandidatosPage/${slug}/${candidato.id}`, priority: 0.6 });
