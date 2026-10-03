@@ -18,7 +18,7 @@ const PAGINAS_ESTATICAS = [
   { path: "/JuventudePage", priority: 0.6 },
   { path: "/UniversidadesPage", priority: 0.6 },
   { path: "/SantinhoPage", priority: 0.5 },
-  { path: "/SobreNosPage", priority: 0.5 },
+  { path: "/SimuladorUrnaPage", priority: 0.5 },
   { path: "/SugestoesPage", priority: 0.4 },
   // Candidatos 2026 — 5 páginas reais (CANDIDATE_OFFICES), faltavam
   // inteiramente no sitemap.

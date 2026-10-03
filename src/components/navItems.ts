@@ -54,7 +54,7 @@ export const NAV_ITEMS: NavItem[] = [
   { id: "propostas", label: "Propostas", icon: "/IconePropostas.svg", path: "/PropostasPage" },
   { id: "santinho", label: "Gerador de Santinho", icon: "/IconeSantinho.svg", path: "/SantinhoPage" },
   { id: "explicacoes", label: "Explicações", icon: "/IconeExplicacoes.svg", path: "/ExplicacoesPage" },
-  { id: "sobre", label: "Sobre Nós", icon: "/IconeSobreNos.png", path: "/SobreNosPage" },
+  { id: "urna", label: "Simulador de Urna", icon: "/IconeUrna.svg", path: "/SimuladorUrnaPage" },
   { id: "sugestoes", label: "Sugestões", icon: "/IconeSugestoes.svg", path: "/SugestoesPage" },
 ];
 
