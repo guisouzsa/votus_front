@@ -20,7 +20,11 @@ export default function SimuladorUrnaPage() {
       <Sidebar />
       <MobileBottomNav />
 
-      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
+      {/* overflow-x-hidden: a arte de textura da urna "vaza" de propósito pra
+          fora da moldura (efeito decorativo igual ao modelo original) — no
+          mobile isso ultrapassava a borda da tela e criava rolagem
+          horizontal. Mesmo padrão já usado em SantinhoPageClient. */}
+      <main className="min-h-dvh overflow-x-hidden bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
         <div className="w-full px-6 py-8 sm:px-10">
           <DashboardHeader
             titleText="Simulador de Urna"
