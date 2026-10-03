@@ -326,6 +326,7 @@ export default function CandidatosListClient({
                               src={candidato.photo_url}
                               alt={`Foto de ${candidato.ballot_name}`}
                               fallbackSrc={config.fallbackPhoto}
+                              optimize={false}
                               sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
                               className="object-contain"
                             />

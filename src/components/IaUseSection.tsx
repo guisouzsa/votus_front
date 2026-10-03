@@ -21,6 +21,7 @@ export default function IaUseSection() {
               alt="Ilustração representando o uso consciente de inteligência artificial"
               fill
               priority
+              sizes="(min-width: 768px) 480px, 100vw"
               className="object-contain"
             />
           </div>

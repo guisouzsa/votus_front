@@ -96,6 +96,13 @@ const nextConfig: NextConfig = {
     // antigo fica sem a foto. O ganho vinha do TTL e dos `sizes` corretos
     // nos <Image> de perfil, não de proibir larguras.
     minimumCacheTTL: 2678400,
+    // Mesmo incidente, segunda frente: as fotos de CANDIDATO (bucket
+    // Supabase, milhares de arquivos de ~5KB cada) usam optimize={false} em
+    // LegislatorPhoto de propósito, pulando o otimizador da Vercel
+    // inteiramente — a imagem já chega pequena, então otimizar não reduz
+    // peso, só consome a franquia de transformação. Parlamentares (fotos
+    // oficiais, bem menos volume) continuam passando por next/image
+    // normalmente, onde a otimização ainda compensa.
   },
 };
 

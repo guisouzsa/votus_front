@@ -107,6 +107,7 @@ export default function CandidatoDetailClient({
                   fallbackSrc={config.fallbackPhoto}
                   sizes="170px"
                   className="object-cover"
+                  optimize={false}
                 />
               </div>
               <div>
@@ -221,6 +222,7 @@ export default function CandidatoDetailClient({
                         fallbackSrc={config.fallbackPhoto}
                         sizes="80px"
                         className="object-cover"
+                        optimize={false}
                       />
                     </div>
                     <div className="text-xs font-black uppercase text-[#1b623a]">{mate.ballot_name}</div>
