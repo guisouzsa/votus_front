@@ -14,6 +14,7 @@ export default function ParrotBannerSection() {
               alt="Papagaio Votus"
               fill
               priority
+              sizes="(min-width: 768px) 144px, 112px"
               className="object-contain"
             />
           </div>

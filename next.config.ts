@@ -25,6 +25,13 @@ const nextConfig: NextConfig = {
       { source: "/Painelnoticias", destination: "/PainelNoticiasPage", permanent: false },
     ];
   },
+  // Fotos de candidatos armazenadas no Supabase Storage utilizam
+  // optimize={false} em LegislatorPhoto intencionalmente, pra evitar
+  // transformações desnecessárias do Next/Vercel — já chegam pequenas
+  // (~5KB) e são um volume muito maior que as de parlamentares (20 mil+
+  // candidatos vs. ~600 parlamentares em exercício). Imagens externas de
+  // parlamentares (remotePatterns abaixo) continuam usando next/image
+  // normalmente, onde a otimização ainda compensa.
   images: {
     // Next.js blocks SVG optimization by default ("image type is not
     // allowed"), which silently broke every next/image usage of a local
