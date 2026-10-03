@@ -32,15 +32,21 @@ export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCa
           Eleitoral
         </h1>
 
-        <div className="mt-[5.5cqw] flex flex-1 flex-col justify-between gap-[2cqw]">
+        {/* Hierarquia de leitura: NÚMERO (maior destaque, primeiro) → NOME
+            (respiro maior antes dele) → CARGO + PARTIDO (agrupados, respiro
+            pequeno entre si). gap-[3cqw] entre cada candidato dá o respiro
+            "entre grupos" pedido — maior que qualquer espaçamento interno de
+            um candidato, pra nunca confundir onde um termina e o outro começa. */}
+        <div className="mt-[5cqw] flex flex-1 flex-col justify-between gap-[3cqw]">
           {candidatos.map((candidato) => (
-            <div key={candidato.id} className="flex items-center gap-[2.2cqw]">
+            <div key={candidato.id} className="flex items-start gap-[2.4cqw]">
               {candidato.fotoUrl && (
                 // Anel branco fino entre a foto e a borda laranja: acabamento
                 // mais limpo, evita a cor da própria foto encostar direto na
                 // borda. object-top: as fotos oficiais do TSE são verticais
                 // (retrato, ~161x225) — ancorar no topo mantém o rosto
-                // inteiro visível ao recortar num círculo.
+                // inteiro visível ao recortar num círculo. items-start no pai
+                // alinha a foto com a linha do número, não com o bloco todo.
                 <div className="relative aspect-square w-[10.5cqw] shrink-0 rounded-full border-[0.35cqw] border-brasil-orange bg-white p-[0.5cqw]">
                   <div className="relative h-full w-full overflow-hidden rounded-full">
                     <Image
@@ -53,31 +59,42 @@ export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCa
                   </div>
                 </div>
               )}
-              <div className="flex min-w-0 flex-col gap-[0.9cqw]">
-              {/* Hierarquia: número (maior) > nome > cargo > demais — nome
-                  fica um pouco maior que o cargo, invertendo a ênfase de
-                  antes (cargo era o maior texto do bloco de identificação). */}
-              {candidato.nome && (
-                <p className="truncate text-[2.6cqw] font-black uppercase leading-tight text-ink">
-                  {candidato.nome}
-                </p>
-              )}
-              <p className="text-[2.2cqw] font-bold uppercase leading-tight text-brasil-orange">
-                {candidato.cargo}
-              </p>
-              <div className="mt-[1cqw] flex flex-wrap gap-[1.2cqw]">
-                {Array.from({ length: candidato.digitos }).map((_, digitIndex) => {
-                  const digit = candidato.numero[digitIndex];
-                  return (
-                    <div
-                      key={digitIndex}
-                      className="flex aspect-square w-[7.6cqw] shrink-0 items-center justify-center rounded-[0.8cqw] border-[0.35cqw] border-brasil-orange text-[2.9cqw] font-bold text-brasil-orange"
-                    >
-                      {digit && digit !== ' ' ? digit : ''}
-                    </div>
-                  );
-                })}
-              </div>
+              <div className="flex min-w-0 flex-1 flex-col">
+                {/* 1. NÚMERO — o elemento de maior destaque, sempre primeiro. */}
+                <div className="flex flex-wrap gap-[1cqw]">
+                  {Array.from({ length: candidato.digitos }).map((_, digitIndex) => {
+                    const digit = candidato.numero[digitIndex];
+                    return (
+                      <div
+                        key={digitIndex}
+                        className="flex aspect-square w-[8.6cqw] shrink-0 items-center justify-center rounded-[0.9cqw] border-[0.45cqw] border-brasil-orange text-[3.4cqw] font-black text-brasil-orange"
+                      >
+                        {digit && digit !== ' ' ? digit : ''}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* 2. NOME — respiro maior em relação ao número, pra marcar a
+                    troca de nível hierárquico. */}
+                {candidato.nome && (
+                  <p className="mt-[1.9cqw] truncate text-[2.8cqw] font-black uppercase leading-tight text-ink">
+                    {candidato.nome}
+                  </p>
+                )}
+
+                {/* 3-4. CARGO + PARTIDO — informação complementar, por isso
+                    menores e mais próximas entre si do que do nome acima. */}
+                <div className="mt-[1.1cqw] flex flex-col gap-[0.3cqw]">
+                  <p className="text-[1.9cqw] font-bold uppercase leading-tight text-brasil-orange">
+                    {candidato.cargo}
+                  </p>
+                  {candidato.partido && (
+                    <p className="text-[1.5cqw] font-semibold uppercase leading-tight text-ink-soft">
+                      {candidato.partido}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           ))}
