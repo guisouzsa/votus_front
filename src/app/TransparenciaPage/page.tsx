@@ -94,10 +94,14 @@ export default function TransparenciaPage() {
       <MobileBottomNav />
 
       <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
-        {/* pr-16 no mobile/tablet: o botão flutuante "Pergunte à IA" fica fixo
+        {/* max-w + mx-auto: centraliza a composição dentro da área principal
+            (à direita da sidebar) em telas largas, em vez de esticar o
+            conteúdo até a borda — todas as seções abaixo usam essa mesma
+            largura, formando uma grade visual consistente.
+            pr-16 no mobile/tablet: o botão flutuante "Pergunte à IA" fica fixo
             no canto inferior direito (bottom-24 right-4, só sai dessa posição
             em md:) e cobria pedaços de título/texto que chegavam até ali. */}
-        <div className="w-full py-8 pl-6 pr-16 sm:pl-10 md:pr-10">
+        <div className="mx-auto w-full max-w-[1100px] py-8 pl-6 pr-16 sm:pl-10 md:pr-10">
           <DashboardHeader
             titleText="Transparência dos dados"
             titleColor="text-brasil-green"
@@ -184,14 +188,17 @@ export default function TransparenciaPage() {
             </div>
           </section>
 
-          <section className="mt-14 max-w-2xl sm:mt-20">
+          <section className="mt-14 sm:mt-20">
             <h2 className="font-heading text-xl font-black uppercase tracking-tight text-ink sm:text-2xl">
               Como evitamos erros
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-ink-soft sm:text-base">
+            {/* max-w-2xl só no texto (não na seção inteira): mantém a mesma
+                largura de container das outras seções acima, mas preserva
+                uma linha de leitura confortável pro parágrafo/lista. */}
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-soft sm:text-base">
               Não prometemos zero erros, mas o processo é desenhado para reduzir erros de associação:
             </p>
-            <ul className="mt-4 flex flex-col gap-2.5">
+            <ul className="mt-4 flex max-w-2xl flex-col gap-2.5">
               {COMO_EVITAMOS_ERROS.map((item) => (
                 <li key={item} className="flex gap-2.5 text-sm leading-relaxed text-ink-soft sm:text-base">
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brasil-green" />
@@ -199,7 +206,7 @@ export default function TransparenciaPage() {
                 </li>
               ))}
             </ul>
-            <p className="mt-4 text-xs italic text-ink-soft">
+            <p className="mt-4 max-w-2xl text-xs italic text-ink-soft">
               Dados de candidatos e parlamentares são atualizados pela equipe conforme as fontes oficiais publicam
               novas versões — não em tempo real.
             </p>
