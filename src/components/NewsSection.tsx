@@ -1,12 +1,15 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 import NewsCard, { NewsItem } from "@/components/NewsCard";
 
 // Quantos itens (além do destaque no topo) aparecem na grade do mobile antes
 // do "Ver mais" — mantém a seção compacta sem esconder que há mais notícias.
 const MOBILE_GRID_INICIAL = 4;
+
+// Quantas notícias aparecem na grade do desktop antes do "Ver mais" — mesma
+// lógica do mobile, só que sem destaque separado (grade única, mais colunas).
+const DESKTOP_GRID_INICIAL = 4;
 
 export default function NewsSection({
   title,
@@ -15,51 +18,18 @@ export default function NewsSection({
   title: string;
   items: NewsItem[];
 }) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const isDown = useRef(false);
-  const startX = useRef(0);
-  const scrollLeft = useRef(0);
   const [mobileExpandido, setMobileExpandido] = useState(false);
-
-  function onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
-    if (!scrollRef.current) return;
-
-    isDown.current = true;
-    startX.current = e.pageX - scrollRef.current.offsetLeft;
-    scrollLeft.current = scrollRef.current.scrollLeft;
-  }
-
-  function stopDrag() {
-    isDown.current = false;
-  }
-
-  function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    if (!isDown.current || !scrollRef.current) return;
-
-    e.preventDefault();
-
-    const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX.current) * 1.2;
-
-    scrollRef.current.scrollLeft = scrollLeft.current - walk;
-  }
-
-  function scrollByAmount(direction: "left" | "right") {
-    if (!scrollRef.current) return;
-
-    const amount = scrollRef.current.clientWidth * 0.7;
-
-    scrollRef.current.scrollBy({
-      left: direction === "left" ? -amount : amount,
-      behavior: "smooth",
-    });
-  }
+  const [desktopExpandido, setDesktopExpandido] = useState(false);
 
   const [itemDestaque, ...itensRestantes] = items;
   const itensGradeVisiveis = mobileExpandido
     ? itensRestantes
     : itensRestantes.slice(0, MOBILE_GRID_INICIAL);
   const temMaisItens = itensRestantes.length > MOBILE_GRID_INICIAL;
+
+  const itensDesktopBase = items.slice(0, DESKTOP_GRID_INICIAL);
+  const itensDesktopExtra = items.slice(DESKTOP_GRID_INICIAL);
+  const temMaisItensDesktop = itensDesktopExtra.length > 0;
 
   return (
     <section className="mt-10">
@@ -96,46 +66,40 @@ export default function NewsSection({
         </div>
       )}
 
-      {/* Desktop: carrossel horizontal original, inalterado */}
-      <div className="relative hidden items-center gap-2 rounded-xl border border-black/10 bg-cream-panel p-3 shadow-[0_1px_3px_rgba(0,0,0,0.06)] sm:flex sm:p-4">
-        {/* Seta esquerda: só no desktop, no mobile o gesto de arrastar já é natural */}
-        <button
-          type="button"
-          onClick={() => scrollByAmount("left")}
-          aria-label="Rolar para a esquerda"
-          className="z-10 hidden h-8 w-8 shrink-0 cursor-pointer items-center justify-center text-[#103D23] transition-transform hover:scale-110 sm:flex"
-        >
-          <ChevronLeft size={26} strokeWidth={2.5} />
-        </button>
-
-        {/* Carrossel */}
-        <div
-          ref={scrollRef}
-          onMouseDown={onMouseDown}
-          onMouseLeave={stopDrag}
-          onMouseUp={stopDrag}
-          onMouseMove={onMouseMove}
-          className="flex flex-1 snap-x snap-mandatory gap-4 overflow-x-auto pb-2 cursor-grab select-none active:cursor-grabbing [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-        >
-          {items.map((item) => (
-            <div
-              key={item.id}
-              className="w-[80vw] shrink-0 snap-start sm:w-[21rem]"
-            >
-              <NewsCard {...item} />
-            </div>
+      {/* Desktop: grade responsiva (2/3/4 colunas conforme a largura), com
+          "Ver mais"/"Ver menos" — mesma lógica de expansão do mobile, só que
+          numa grade única (sem destaque separado) para aproveitar a largura. */}
+      <div className="hidden rounded-xl border border-black/10 bg-cream-panel p-3 shadow-[0_1px_3px_rgba(0,0,0,0.06)] sm:block sm:p-4">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {itensDesktopBase.map((item) => (
+            <NewsCard key={item.id} {...item} />
           ))}
         </div>
 
-        {/* Seta direita: só no desktop, no mobile o gesto de arrastar já é natural */}
-        <button
-          type="button"
-          onClick={() => scrollByAmount("right")}
-          aria-label="Rolar para a direita"
-          className="z-10 hidden h-8 w-8 shrink-0 cursor-pointer items-center justify-center text-[#103D23] transition-transform hover:scale-110 sm:flex"
-        >
-          <ChevronRight size={26} strokeWidth={2.5} />
-        </button>
+        {itensDesktopExtra.length > 0 && (
+          <div
+            className="grid overflow-hidden transition-[grid-template-rows] duration-300 ease-in-out"
+            style={{ gridTemplateRows: desktopExpandido ? "1fr" : "0fr" }}
+          >
+            <div className="min-h-0 overflow-hidden">
+              <div className="grid grid-cols-2 gap-4 pt-4 md:grid-cols-3 lg:grid-cols-4">
+                {itensDesktopExtra.map((item) => (
+                  <NewsCard key={item.id} {...item} />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {temMaisItensDesktop && (
+          <button
+            type="button"
+            onClick={() => setDesktopExpandido((valor) => !valor)}
+            className="mt-4 w-full rounded-lg border border-black/10 bg-cream-panel py-2 text-sm font-semibold text-[#103D23] transition-colors hover:bg-black/5"
+          >
+            {desktopExpandido ? "Ver menos" : "Ver mais"}
+          </button>
+        )}
       </div>
     </section>
   );
