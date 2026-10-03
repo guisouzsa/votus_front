@@ -158,6 +158,7 @@ export default function ShowSenadoresPageClient({
                   fallbackSrc="/senadores.png"
                   sizes="170px"
                   className="object-cover"
+                  optimize={false}
                 />
               </div>
               <div>

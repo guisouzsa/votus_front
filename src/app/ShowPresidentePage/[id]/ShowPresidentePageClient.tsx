@@ -98,6 +98,7 @@ export default function ShowPresidentePageClient({
                   fallbackSrc="/deputados.png"
                   sizes="170px"
                   className="object-cover"
+                  optimize={false}
                 />
               </div>
               <div>

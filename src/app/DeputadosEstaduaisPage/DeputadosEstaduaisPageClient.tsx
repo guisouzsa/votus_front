@@ -202,6 +202,7 @@ export default function DeputadosEstaduaisPageClient({
                               fallbackSrc="/deputados.png"
                               sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
                               className="object-contain"
+                              optimize={false}
                             />
                           </div>
                         </div>
