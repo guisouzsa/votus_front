@@ -168,7 +168,13 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
             ? // Tela inteira, sem margens nem cantos arredondados, em
               // qualquer breakpoint.
               "inset-0 h-dvh max-h-none rounded-none"
-            : `md:inset-x-auto md:right-6 md:bottom-24 md:rounded-[1.25rem] inset-x-4 bottom-40 max-h-[min(26rem,calc(100dvh-11rem))] rounded-[1.25rem] md:max-h-[min(46rem,calc(100dvh-7rem))] md:w-[22rem]`
+            : // No mobile, cabeçalho + aviso + campo de pergunta + rodapé são
+              // todos shrink-0 (nunca encolhem) — só a área de mensagens é
+              // flexível. Com pouca altura disponível, esses blocos fixos
+              // sozinhos quase enchiam o painel e sobrava quase nada pras
+              // sugestões/mensagens (ficavam "tapadas"). Mais altura aqui +
+              // cortes abaixo (ver disclaimer e rodapé) resolvem isso.
+              `md:inset-x-auto md:right-6 md:bottom-24 md:rounded-[1.25rem] inset-x-4 bottom-40 max-h-[min(30rem,calc(100dvh-8rem))] rounded-[1.25rem] md:max-h-[min(46rem,calc(100dvh-7rem))] md:w-[22rem]`
         } ${
           open
             ? "translate-y-0 scale-100 opacity-100"
@@ -217,7 +223,7 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
         </div>
 
         <div
-          className={`mx-5 flex shrink-0 items-center gap-2 rounded-lg border border-[#8D0801] bg-[#F2E4CA] px-2.5 py-2.5 text-xs leading-snug text-[#8D0801] ${
+          className={`mx-5 flex shrink-0 items-center gap-2 rounded-lg border border-[#8D0801] bg-[#F2E4CA] px-2.5 py-1.5 text-[11px] leading-snug text-[#8D0801] md:py-2.5 md:text-xs ${
             open ? `${CHAT_REVEAL} [animation-delay:70ms]` : "opacity-0"
           }`}
         >
@@ -229,7 +235,7 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
 
         <div
           ref={logRef}
-          className={`min-h-0 flex-1 overflow-y-auto px-5 pb-4 pt-4 ${
+          className={`min-h-[110px] flex-1 overflow-y-auto px-5 pb-4 pt-4 ${
             open ? `${CHAT_REVEAL} [animation-delay:140ms]` : "opacity-0"
           }`}
         >
@@ -314,8 +320,12 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
           </p>
         </div>
 
+        {/* Some no mobile: com pouca altura disponível, esse rodapé (só
+            reforço do aviso que já aparece lá em cima) tirava espaço da área
+            de mensagens, que é a que importa. Continua no desktop, onde sobra
+            espaço de sobra. */}
         <div
-          className={`mx-5 mb-5 mt-1 flex shrink-0 items-center gap-1.5 rounded-md border border-[#1B623A] bg-[#F2E4CA] px-3 py-3 text-xs font-medium text-[#1B623A] ${
+          className={`mx-5 mb-5 mt-1 hidden shrink-0 items-center gap-1.5 rounded-md border border-[#1B623A] bg-[#F2E4CA] px-3 py-3 text-xs font-medium text-[#1B623A] md:flex ${
             open ? `${CHAT_REVEAL} [animation-delay:260ms]` : "opacity-0"
           }`}
         >
