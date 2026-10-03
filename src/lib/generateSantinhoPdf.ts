@@ -1,34 +1,28 @@
 import jsPDF from 'jspdf';
 import type { SantinhoCandidate } from '@/components/SantinhoPreview';
 
-// Quantas "colas" (conjuntos completos dos 6 cargos) cabem lado a lado numa
-// página — igual ao preview em tela (GRID_CLASS_BY_COUNT em
-// SantinhoExportModal), que já mostra 2 colunas a partir de 2 por página.
 const GRID_BY_COUNT: Record<number, { cols: number; rows: number }> = {
   1: { cols: 1, rows: 1 },
+  // Lado a lado (não empilhado) — igual ao preview em tela, que já mostra 2
+  // colunas a partir desse tamanho (ver GRID_CLASS_BY_COUNT em SantinhoExportModal).
   2: { cols: 2, rows: 1 },
   4: { cols: 2, rows: 2 },
   6: { cols: 2, rows: 3 },
 };
 
+const LOGO_ASPECT = 32 / 133; // altura / largura, conforme o viewBox de LogoVotus.svg
 const ORANGE: [number, number, number] = [255, 119, 0];
 const BORDER: [number, number, number] = [224, 214, 196];
 const INK: [number, number, number] = [34, 32, 27]; // mesmo tom de --color-ink usado no nome, no preview em tela
 const INK_SOFT: [number, number, number] = [107, 98, 85]; // --color-ink-soft, usado no endereço do Votus
-const LOGO_ASPECT = 32 / 133; // altura / largura, conforme o viewBox de LogoVotus.svg
+const CARD_ASPECT = 5 / 3; // altura / largura do cartão, igual ao preview na tela
+const LATERAL_WIDTH_RATIO = 0.26; // fração da largura do cartão ocupada pela arte lateral
 const MM_TO_PT = 72 / 25.4;
-
-// A Cola Eleitoral impressa NÃO é o santinho completo (sem foto, sem arte
-// decorativa, sem moldura) — é um bloco compacto com os 6 cargos numa grade
-// 2 colunas, pra caber várias "colas" numa folha A4 normal em vez de uma por
-// página. A proporção (altura/largura) é derivada do próprio desenho abaixo
-// (cabeçalho + grade de cargos + rodapé) a uma largura de referência — ver
-// medirColaAspect().
-const COLA_WIDTH_REF_MM = 95;
-// Largura máxima de uma cola quando sobra espaço na folha (ex: só 1 por
-// página) — sem isso a cola esticaria pra ocupar a página inteira, do jeito
-// que o santinho antigo fazia.
-const COLA_MAX_WIDTH_MM = 95;
+// Largura máxima do cartão quando sobra espaço na folha (ex: só 1 por
+// página) — sem isso o cartão esticava pra ocupar a página inteira, do jeito
+// que acontecia antes. Com várias colas por página a célula disponível já é
+// menor que isso, então esse teto não muda nada.
+const CARD_WIDTH_MM = 95;
 
 // pdf.setFontSize() sempre espera pontos, mesmo com o documento configurado
 // em mm (unit: 'mm') — sem essa conversão o texto fica desproporcional ao
@@ -38,7 +32,9 @@ function setFontSizeMm(pdf: jsPDF, sizeMm: number) {
 }
 
 // Carrega uma imagem (SVG ou não) e devolve um PNG em data URL, sem recortar.
-// jsPDF não sabe embutir SVG diretamente, mas desenha PNG sem problema.
+// jsPDF não sabe embutir SVG diretamente, mas desenha PNG sem problema — e
+// isso evita totalmente o html2canvas, que não entende cores oklch()/
+// aspect-ratio do Tailwind v4 e distorcia o resultado inteiro.
 function loadImageAsPngDataUrl(src: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -59,8 +55,80 @@ function loadImageAsPngDataUrl(src: string): Promise<string> {
   });
 }
 
+// Igual acima, mas recorta a imagem pra cobrir exatamente a proporção alvo
+// (como object-fit: cover em CSS) antes de exportar — assim o addImage do
+// jsPDF nunca precisa esticar a imagem pra bater com a caixa de destino.
+function loadImageCoveringAspect(src: string, targetAspect: number): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const naturalWidth = img.naturalWidth || 1;
+      const naturalHeight = img.naturalHeight || 1;
+      const naturalAspect = naturalWidth / naturalHeight;
+
+      let sx = 0;
+      let sy = 0;
+      let sw = naturalWidth;
+      let sh = naturalHeight;
+
+      if (naturalAspect > targetAspect) {
+        sw = naturalHeight * targetAspect;
+        sx = (naturalWidth - sw) / 2;
+      } else {
+        sh = naturalWidth / targetAspect;
+        sy = (naturalHeight - sh) / 2;
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(sw));
+      canvas.height = Math.max(1, Math.round(sh));
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        reject(new Error('Canvas indisponível.'));
+        return;
+      }
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+      resolve(canvas.toDataURL('image/png'));
+    };
+    img.onerror = () => reject(new Error(`Não foi possível carregar ${src}.`));
+    img.src = src;
+  });
+}
+
+// Foto do candidato recortada em círculo (object-fit: cover, alinhada ao
+// topo como no preview), com fundo transparente. jsPDF não sabe recortar
+// imagem em círculo, então o recorte é feito aqui no canvas. crossOrigin é
+// necessário pro canvas poder exportar a imagem do Supabase (o bucket
+// responde Access-Control-Allow-Origin: *).
+function loadCircularPhoto(src: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const size = 240;
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return reject(new Error('Canvas indisponível.'));
+
+      const lado = Math.min(img.naturalWidth || 1, img.naturalHeight || 1);
+      const sx = ((img.naturalWidth || 1) - lado) / 2;
+
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(img, sx, 0, lado, lado, 0, 0, size, size);
+      resolve(canvas.toDataURL('image/png'));
+    };
+    img.onerror = () => reject(new Error(`Não foi possível carregar ${src}.`));
+    img.src = src;
+  });
+}
+
 // Mede o texto de um nome e corta com reticências se não couber na largura
-// disponível — nunca deixa o texto invadir a célula vizinha.
+// disponível — nunca deixa o texto invadir a arte lateral.
 function truncarTexto(pdf: jsPDF, texto: string, larguraMaxima: number): string {
   if (pdf.getTextWidth(texto) <= larguraMaxima) return texto;
 
@@ -71,130 +139,155 @@ function truncarTexto(pdf: jsPDF, texto: string, larguraMaxima: number): string 
   return `${cortado.trimEnd()}...`;
 }
 
-// Desenha uma "cola" compacta: cabeçalho + grade 2 colunas com um bloco por
-// cargo (cargo → número em destaque → nome → partido) + rodapé com a marca
-// Votus. Sem foto, sem moldura, sem arte decorativa — é a versão pra
-// impressão, propositalmente diferente do santinho completo da tela.
-function drawColaCompacta(
+function drawSantinho(
   pdf: jsPDF,
   {
     x,
     y,
     width,
+    height,
     candidatos,
+    lateralImg,
     logoImg,
+    fotos,
   }: {
     x: number;
     y: number;
     width: number;
+    height: number;
     candidatos: SantinhoCandidate[];
+    lateralImg: string;
     logoImg: string;
+    fotos: Map<string, string>;
   }
 ) {
-  const pad = width * 0.045;
-  const innerLeft = x + pad;
-  const innerRight = x + width - pad;
-  const innerWidth = innerRight - innerLeft;
-
-  // Cabeçalho
-  pdf.setFont('helvetica', 'bold');
-  const titleSize = width * 0.058;
-  setFontSizeMm(pdf, titleSize);
-  pdf.setTextColor(...ORANGE);
-  const titleY = y + pad + titleSize * 0.8;
-  pdf.text('COLA ELEITORAL', innerLeft, titleY);
-
+  // Cartão branco com cantos arredondados
+  pdf.setFillColor(255, 255, 255);
   pdf.setDrawColor(...BORDER);
-  pdf.setLineWidth(width * 0.003);
-  const headerLineY = titleY + width * 0.025;
-  pdf.line(innerLeft, headerLineY, innerRight, headerLineY);
+  pdf.setLineWidth(width * 0.004);
+  pdf.roundedRect(x, y, width, height, width * 0.035, width * 0.035, 'FD');
 
-  // Grade de cargos — 2 colunas, uma célula por cargo.
-  const cols = 2;
-  const rows = Math.ceil(candidatos.length / cols);
-  const colGap = width * 0.05;
+  const padding = width * 0.07;
+  const lateralWidth = width * LATERAL_WIDTH_RATIO;
+
+  // A imagem ja foi pre-recortada (loadImageCoveringAspect) pra ter
+  // exatamente essa proporcao, entao desenhar nesse tamanho nunca distorce.
+  pdf.addImage(lateralImg, 'PNG', x + width - lateralWidth, y, lateralWidth, height);
+
+  const contentRight = x + width - lateralWidth - padding * 0.4;
+  const contentLeft = x + padding;
+
+  // Título — duas linhas sempre, igual ao preview em tela ("Cola<br/>Eleitoral"
+  // — ver SantinhoPreview.tsx), em vez de uma linha grande que só quebrava
+  // (e colidia com a primeira linha de candidato) quando o cartão era menor.
+  pdf.setFont('helvetica', 'bold');
+  const titleFontSize = width * 0.055;
+  setFontSizeMm(pdf, titleFontSize);
+  pdf.setTextColor(...ORANGE);
+
+  const titleY = y + padding + width * 0.05;
+  pdf.text('COLA', contentLeft, titleY);
+  pdf.text('ELEITORAL', contentLeft, titleY + titleFontSize * 1.25);
+
+  const logoWidth = width * 0.26;
+  const logoHeight = logoWidth * LOGO_ASPECT;
+
+  // listTop/listBottom enxutos o bastante pra sobrar o mesmo respiro entre
+  // candidatos que o preview em tela usa (ver rowGap abaixo).
+  const listTop = y + padding + width * 0.16;
+  const listBottom = y + height - padding - logoHeight - width * 0.02;
+
+  // Mesmas proporções do preview em tela (SantinhoPreview.tsx): respiro
+  // entre cada candidato = gap-[3cqw], ou seja 3% da largura do cartão.
   const rowGap = width * 0.03;
-  const cellWidth = (innerWidth - colGap * (cols - 1)) / cols;
-  // Altura de cada linha de célula: cargo + respiro + número + respiro + nome
-  // + partido — soma fixa em função de "width", igual ao resto do desenho.
-  const cellHeight = width * 0.2;
-  const gridTop = headerLineY + width * 0.04;
+  const rowHeight = (listBottom - listTop - rowGap * (candidatos.length - 1)) / candidatos.length;
 
   candidatos.forEach((candidato, index) => {
-    const col = index % cols;
-    const row = Math.floor(index / cols);
-    const cellX = innerLeft + col * (cellWidth + colGap);
-    const cellTop = gridTop + row * (cellHeight + rowGap);
+    const rowTop = listTop + (rowHeight + rowGap) * index;
 
-    // 1. Cargo — rótulo pequeno, contextual.
-    pdf.setFont('helvetica', 'bold');
-    setFontSizeMm(pdf, width * 0.021);
-    pdf.setTextColor(...ORANGE);
-    pdf.text(candidato.cargo.toUpperCase(), cellX, cellTop + width * 0.02);
+    // Foto alinhada com a linha do número (não mais com o nome) — pareia
+    // "quem é" com "qual número", igual ao preview em tela.
+    const foto = candidato.fotoUrl ? fotos.get(candidato.fotoUrl) : undefined;
+    const fotoSize = width * 0.13;
+    const rowLeft = foto ? contentLeft + fotoSize + width * 0.026 : contentLeft;
 
-    // 2. Número — o elemento de maior destaque do bloco, com espaço próprio.
-    const numeroY = cellTop + width * 0.075;
-    pdf.setFont('helvetica', 'bold');
-    let numeroSize = width * 0.05;
-    setFontSizeMm(pdf, numeroSize);
-    pdf.setTextColor(...INK);
-    // Espaço fino entre dígitos (letter-spacing manual) pra dar presença sem
-    // precisar de caixinhas — menos "card dentro de card".
-    const numeroTexto = candidato.numero.replace(/\s/g, '').split('').join(' ');
-    while (numeroSize > width * 0.03 && pdf.getTextWidth(numeroTexto) > cellWidth) {
-      numeroSize -= width * 0.003;
-      setFontSizeMm(pdf, numeroSize);
+    // 1. NÚMERO — primeiro e com mais destaque (hierarquia: número > nome >
+    // cargo > partido), em vez de pequeno e por último como antes. Tamanho
+    // igual ao preview em tela (w-[8.6cqw]).
+    const boxGap = width * 0.013;
+    const boxAvailable = contentRight - rowLeft - boxGap * (candidato.digitos - 1);
+    const boxSize = Math.min(width * 0.086, boxAvailable / candidato.digitos);
+    const boxY = rowTop;
+
+    pdf.setDrawColor(...ORANGE);
+    pdf.setLineWidth(width * 0.003);
+
+    for (let digitIndex = 0; digitIndex < candidato.digitos; digitIndex += 1) {
+      const boxX = rowLeft + digitIndex * (boxSize + boxGap);
+      pdf.roundedRect(boxX, boxY, boxSize, boxSize, width * 0.007, width * 0.007, 'D');
+
+      const digit = candidato.numero[digitIndex];
+      if (digit && digit !== ' ') {
+        pdf.setFont('helvetica', 'bold');
+        setFontSizeMm(pdf, boxSize * 0.56);
+        pdf.setTextColor(...ORANGE);
+        pdf.text(digit, boxX + boxSize / 2, boxY + boxSize / 2 + width * 0.016, { align: 'center' });
+      }
     }
-    pdf.text(numeroTexto, cellX, numeroY);
 
-    // 3. Nome — destaque próprio, logo abaixo do número com respiro maior.
-    let proximaY = numeroY + width * 0.034;
+    if (foto) {
+      const centroX = contentLeft + fotoSize / 2;
+      const centroY = boxY + boxSize / 2;
+
+      // Foto ligeiramente menor que o círculo laranja, com o fundo branco da
+      // página aparecendo no vão — mesmo anel fino do preview em tela, em
+      // vez da foto encostar direto na borda.
+      const fotoInterna = fotoSize * 0.88;
+      pdf.addImage(foto, 'PNG', centroX - fotoInterna / 2, centroY - fotoInterna / 2, fotoInterna, fotoInterna);
+      pdf.setLineWidth(width * 0.0035);
+      pdf.circle(centroX, centroY, fotoSize / 2, 'S');
+    }
+
+    // 2. NOME — respiro maior em relação ao número (mt-[1.9cqw] no preview),
+    // pra marcar a troca de nível hierárquico.
+    let proximaY = boxY + boxSize + width * 0.019 + width * 0.027;
     if (candidato.nome) {
+      const nomeFontSize = width * 0.028;
       pdf.setFont('helvetica', 'bold');
-      setFontSizeMm(pdf, width * 0.028);
+      setFontSizeMm(pdf, nomeFontSize);
       pdf.setTextColor(...INK);
-      pdf.text(truncarTexto(pdf, candidato.nome, cellWidth), cellX, proximaY);
-      proximaY += width * 0.026;
+      pdf.text(truncarTexto(pdf, candidato.nome, contentRight - rowLeft), rowLeft, proximaY);
     }
 
-    // 4. Partido — subordinado ao cargo, próximo dele, sem disputar atenção.
+    // 3-4. CARGO + PARTIDO — informação complementar, menores e mais
+    // próximas entre si do que do nome acima (mesmo mt-[1.1cqw] e
+    // gap-[0.3cqw] do preview).
+    proximaY += width * 0.011 + width * 0.019;
+    pdf.setFont('helvetica', 'bold');
+    setFontSizeMm(pdf, width * 0.019);
+    pdf.setTextColor(...ORANGE);
+    pdf.text(candidato.cargo, rowLeft, proximaY);
+
     if (candidato.partido) {
+      proximaY += width * 0.003 + width * 0.015;
       pdf.setFont('helvetica', 'normal');
-      setFontSizeMm(pdf, width * 0.02);
+      setFontSizeMm(pdf, width * 0.015);
       pdf.setTextColor(...INK_SOFT);
-      pdf.text(candidato.partido, cellX, proximaY);
+      pdf.text(candidato.partido, rowLeft, proximaY);
     }
   });
 
-  // Rodapé: logo Votus + domínio, discreto.
-  const gridBottom = gridTop + rows * cellHeight + (rows - 1) * rowGap;
-  const logoWidth = width * 0.24;
-  const logoHeight = logoWidth * LOGO_ASPECT;
-  const footerY = gridBottom + width * 0.045;
-  pdf.addImage(logoImg, 'PNG', innerLeft, footerY, logoWidth, logoHeight);
-  pdf.setFont('helvetica', 'normal');
-  setFontSizeMm(pdf, width * 0.022);
-  pdf.setTextColor(...INK_SOFT);
-  pdf.text('www.votus.site', innerRight, footerY + logoHeight * 0.75, { align: 'right' });
-}
+  // Logo Votus, canto inferior esquerdo — nunca recortada (object-contain),
+  // senao a palavra "VOTUS" ficaria cortada.
+  const logoY = y + height - padding - logoHeight;
+  pdf.addImage(logoImg, 'PNG', contentLeft, logoY, logoWidth, logoHeight);
 
-// Altura natural (em mm) que drawColaCompacta ocupa pra uma largura de
-// referência — usado pra saber a proporção da cola antes de desenhar de
-// verdade, e então encaixar na página/grade mantendo essa proporção.
-function medirColaAltura(width: number, quantidadeCargos: number): number {
-  const pad = width * 0.045;
-  const titleSize = width * 0.058;
-  const titleY = pad + titleSize * 0.8;
-  const headerLineY = titleY + width * 0.025;
-  const gridTop = headerLineY + width * 0.04;
-  const rows = Math.ceil(quantidadeCargos / 2);
-  const cellHeight = width * 0.2;
-  const rowGap = width * 0.03;
-  const gridBottom = gridTop + rows * cellHeight + (rows - 1) * rowGap;
-  const logoWidth = width * 0.24;
-  const logoHeight = logoWidth * LOGO_ASPECT;
-  const footerY = gridBottom + width * 0.045;
-  return footerY + logoHeight + pad;
+  // Endereço do Votus, discreto, logo abaixo da logo — mesmo texto do
+  // preview em tela.
+  pdf.setFont('helvetica', 'normal');
+  setFontSizeMm(pdf, width * 0.024);
+  pdf.setTextColor(...INK_SOFT);
+  pdf.text('www.votus.site', contentLeft, logoY + logoHeight + width * 0.028);
 }
 
 export async function generateSantinhoPdf({
@@ -208,14 +301,28 @@ export async function generateSantinhoPdf({
   santinhosPorPagina: number;
   fileName?: string;
 }): Promise<void> {
-  const logoImg = await loadImageAsPngDataUrl('/SantinhoElementos/LogoVotus.svg');
+  // A caixa da arte lateral tem largura = LATERAL_WIDTH_RATIO do cartao e
+  // altura = altura total do cartao (CARD_ASPECT vezes a largura).
+  const lateralBoxAspect = LATERAL_WIDTH_RATIO / CARD_ASPECT;
+
+  const urlsFotos = [...new Set(candidatos.map((c) => c.fotoUrl).filter((u): u is string => Boolean(u)))];
+
+  const [lateralImg, logoImg, fotosCarregadas] = await Promise.all([
+    loadImageCoveringAspect('/SantinhoElementos/lateral.svg', lateralBoxAspect),
+    loadImageAsPngDataUrl('/SantinhoElementos/LogoVotus.svg'),
+    // Foto que falhar ao carregar só fica de fora (linha sem foto) — nunca
+    // impede a geração do PDF.
+    Promise.all(urlsFotos.map((url) => loadCircularPhoto(url).then((png) => [url, png] as const).catch(() => null))),
+  ]);
+
+  const fotos = new Map(fotosCarregadas.filter((f): f is readonly [string, string] => f !== null));
 
   const grid = GRID_BY_COUNT[santinhosPorPagina] ?? GRID_BY_COUNT[1];
-  const colaAspect = medirColaAltura(COLA_WIDTH_REF_MM, candidatos.length) / COLA_WIDTH_REF_MM;
 
-  // Sempre papel A4 normal — a cola é compacta por desenho (sem foto, sem
-  // decoração), então mesmo "1 por página" já sai pequena numa folha de
-  // verdade, em vez de precisar encolher a página inteira pra do tamanho dela.
+  // Sempre folha A4 normal — o cartão tem largura máxima própria
+  // (CARD_WIDTH_MM) e só encolhe além disso quando a grade pede mais colunas
+  // ou linhas do que cabe. Com 1 por página isso já evita esticar o cartão
+  // pra ocupar a página inteira (era o que acontecia antes).
   const margin = 10;
   const gap = 8;
   const pageWidth = 210;
@@ -224,15 +331,14 @@ export async function generateSantinhoPdf({
   const cellWidth = (pageWidth - margin * 2 - gap * (grid.cols - 1)) / grid.cols;
   const cellHeight = (pageHeight - margin * 2 - gap * (grid.rows - 1)) / grid.rows;
 
-  // Largura da cola: a menor entre "largura máxima de referência" (pra não
-  // esticar quando sobra espaço, ex: só 1 por página) e a célula disponível
-  // (pra encolher quando são várias, ex: 6 por página) — sempre respeitando
-  // a proporção natural do desenho.
-  let colaWidth = Math.min(COLA_MAX_WIDTH_MM, cellWidth);
-  let colaHeight = colaWidth * colaAspect;
-  if (colaHeight > cellHeight) {
-    colaHeight = cellHeight;
-    colaWidth = colaHeight / colaAspect;
+  // O cartão é sempre desenhado na proporção 3:5 (largura:altura), igual ao
+  // preview na tela — nunca deforma, só encolhe pra caber no teto de largura
+  // ou na célula, o que for menor.
+  let cardWidth = Math.min(CARD_WIDTH_MM, cellWidth);
+  let cardHeight = cardWidth * CARD_ASPECT;
+  if (cardHeight > cellHeight) {
+    cardHeight = cellHeight;
+    cardWidth = cardHeight / CARD_ASPECT;
   }
 
   const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
@@ -247,10 +353,10 @@ export async function generateSantinhoPdf({
       const cellX = margin + col * (cellWidth + gap);
       const cellY = margin + row * (cellHeight + gap);
 
-      const x = cellX + (cellWidth - colaWidth) / 2;
-      const y = cellY + (cellHeight - colaHeight) / 2;
+      const x = cellX + (cellWidth - cardWidth) / 2;
+      const y = cellY + (cellHeight - cardHeight) / 2;
 
-      drawColaCompacta(pdf, { x, y, width: colaWidth, candidatos, logoImg });
+      drawSantinho(pdf, { x, y, width: cardWidth, height: cardHeight, candidatos, lateralImg, logoImg, fotos });
     }
   }
 
