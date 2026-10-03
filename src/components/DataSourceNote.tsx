@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { X, Database } from 'lucide-react';
 
 export default function DataSourceNote({
@@ -133,6 +134,14 @@ export default function DataSourceNote({
             <p className="mt-4 text-xs italic text-ink-soft">
               Os dados podem ser atualizados ou alterados conforme as fontes oficiais.
             </p>
+
+            <Link
+              href="/TransparenciaPage"
+              onClick={() => setOpen(false)}
+              className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-[#1b623a] underline"
+            >
+              Como o Votus trata e confirma esses dados →
+            </Link>
           </div>
         </div>
       )}
