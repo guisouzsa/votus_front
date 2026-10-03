@@ -213,20 +213,14 @@ export default function UrnaSimulador() {
   const mostrandoCandidato = status === "aguardando-confirmacao" || status === "confirmado";
 
   return (
-    // pr-16 no mobile: o botão flutuante "Pergunte à IA" fica fixo no canto
-    // inferior direito (bottom-24 right-4, só sai dessa posição em md:) e
-    // sobreporia o CONFIRMA/a moldura da foto sem esse respiro.
-    <div className="w-full max-w-4xl pr-16 md:pr-0">
+    <div className="w-full max-w-4xl">
       <audio ref={somClique} preload="auto" src="/SimuladorUrnaElementos/som-clique.mp3" />
       <audio ref={somConfirmacao} preload="auto" src="/SimuladorUrnaElementos/som-confirmacao.mp3" />
 
-      {/* Tela + teclado lado a lado, como uma urna real, em qualquer tamanho
-          de tela — no mobile os dois só encolhem proporcionalmente (menos
-          padding, textos e caixas menores), nunca empilham um embaixo do
-          outro. md: continua com mais respiro porque sobra espaço de verdade. */}
-      <div className="flex flex-row items-start gap-2 sm:gap-3 md:flex-col md:gap-0">
+      {/* Estrutura: Tela em cima + Teclado embaixo */}
+      <div className="flex flex-col items-stretch gap-4 md:gap-6">
         {/* ===================== VISOR ===================== */}
-        <div className="relative min-w-0 flex-1 rounded-lg bg-[#f7f2df] p-2 shadow-[0_25px_60px_-20px_rgba(0,0,0,0.35)] sm:rounded-xl sm:p-3.5 md:w-full md:rounded-2xl md:p-10">
+        <div className="relative min-w-0 w-full rounded-lg bg-[#f7f2df] p-3 shadow-[0_25px_60px_-20px_rgba(0,0,0,0.35)] sm:rounded-xl sm:p-6 md:rounded-2xl md:p-10">
           {finalizada && (
             <div className="absolute inset-0 z-[100] flex items-center justify-center rounded-lg bg-[#f7f2df] p-4 sm:rounded-xl sm:p-6 md:rounded-2xl md:p-10">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -236,31 +230,31 @@ export default function UrnaSimulador() {
 
           <div className="relative z-10 flex items-start justify-between gap-1 sm:gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="w-7 shrink-0 sm:w-14 md:w-24" src="/IconeVotus.svg" alt="Votus" />
-            <div className="text-right text-[5px] font-black uppercase leading-tight tracking-[0.1em] text-[#e3a99a] sm:text-[10px] sm:tracking-[0.2em] md:text-sm md:tracking-[0.3em]">
+            <img className="w-10 shrink-0 sm:w-16 md:w-24" src="/IconeVotus.svg" alt="Votus" />
+            <div className="text-right text-[8px] font-black uppercase leading-tight tracking-[0.1em] text-[#e3a99a] sm:text-xs sm:tracking-[0.2em] md:text-sm md:tracking-[0.3em]">
               Ilustrativo
             </div>
           </div>
 
-          <div className="relative z-10 mt-1.5 grid grid-cols-1 gap-2 sm:mt-4 sm:gap-4 md:mt-10 md:grid-cols-[1fr_260px] md:gap-10">
+          <div className="relative z-10 mt-2 grid grid-cols-[1fr_80px] items-start gap-3 sm:mt-4 sm:grid-cols-[1fr_140px] sm:gap-6 md:mt-8 md:grid-cols-[1fr_260px] md:gap-10">
             <div className="min-w-0">
-              <div className="break-words text-[11px] font-black uppercase leading-none text-[#1b623a] sm:text-lg md:text-5xl">
+              <div className="break-words text-xs font-black uppercase leading-tight text-[#1b623a] sm:text-2xl md:text-5xl">
                 {finalizada ? "Votação encerrada" : cargo.titulo}
               </div>
 
-              <div className="mt-1 text-[6px] font-bold uppercase leading-tight tracking-wider text-[#d9660d] sm:mt-2 sm:text-[10px] md:mt-3 md:text-sm">
+              <div className="mt-1 text-[8px] font-bold uppercase leading-tight tracking-wider text-[#d9660d] sm:mt-2 sm:text-xs md:mt-3 md:text-sm">
                 {finalizada ? "Obrigado por votar" : "Digite o número do candidato"}
               </div>
 
               <div
-                className="mt-1.5 flex min-h-[24px] flex-wrap items-center gap-[3px] sm:mt-4 sm:min-h-[46px] sm:gap-1.5 md:mt-6 md:min-h-[80px] md:gap-3"
+                className="mt-2 flex min-h-[30px] flex-wrap items-center gap-1 sm:mt-4 sm:min-h-[46px] sm:gap-2 md:mt-6 md:min-h-[80px] md:gap-3"
                 aria-label="Número digitado"
               >
                 {Array.from({ length: cargo.digitos }, (_, index) => numero[index] ?? "").map((digito, index) => (
                   <div
                     key={index}
                     aria-label={`Dígito ${index + 1}`}
-                    className={`flex h-[22px] w-[17px] items-center justify-center rounded border text-[11px] font-bold transition-colors duration-150 sm:h-[42px] sm:w-[32px] sm:rounded-md sm:border-2 sm:text-xl md:h-20 md:w-16 md:text-4xl ${
+                    className={`flex h-[30px] w-[22px] items-center justify-center rounded border text-sm font-bold transition-colors duration-150 sm:h-[48px] sm:w-[36px] sm:rounded-md sm:border-2 sm:text-2xl md:h-20 md:w-16 md:text-4xl ${
                       digito ? "border-[#1b623a] bg-[#eaf6ee] text-[#1b623a]" : "border-[#1b623a] text-[#1b623a]"
                     }`}
                   >
@@ -269,14 +263,14 @@ export default function UrnaSimulador() {
                 ))}
               </div>
 
-              <div className="mt-1.5 space-y-0.5 border-t border-dashed border-[#1b623a]/30 pt-1.5 sm:mt-5 sm:space-y-1 sm:border-t-2 sm:pt-3 md:mt-8 md:space-y-2 md:pt-6">
-                <div className="text-[6px] leading-tight sm:text-[11px] md:text-base">
+              <div className="mt-2 space-y-0.5 border-t border-dashed border-[#1b623a]/30 pt-1.5 sm:mt-5 sm:space-y-1 sm:border-t-2 sm:pt-3 md:mt-8 md:space-y-2 md:pt-6">
+                <div className="text-[10px] leading-tight sm:text-sm md:text-base">
                   <span className="font-bold text-[#1b623a]">Nome:</span>
                   <span className="ml-1 text-[#1b623a]">
                     {mostrandoCandidato && candidato ? candidato.ballot_name : status === "branco" ? "VOTO EM BRANCO" : "—"}
                   </span>
                 </div>
-                <div className="text-[6px] leading-tight sm:text-[11px] md:text-base">
+                <div className="text-[10px] leading-tight sm:text-sm md:text-base">
                   <span className="font-bold text-[#1b623a]">Partido:</span>
                   <span className="ml-1 text-[#1b623a]">
                     {mostrandoCandidato && candidato ? candidato.party.acronym ?? candidato.party.name ?? "—" : "—"}
@@ -285,7 +279,7 @@ export default function UrnaSimulador() {
               </div>
             </div>
 
-            <div className="relative mx-auto aspect-square w-full max-w-[64px] shrink-0 sm:max-w-[120px] md:mx-0 md:max-w-none">
+            <div className="relative aspect-square w-full shrink-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/SimuladorUrnaElementos/textura1.png"
@@ -330,22 +324,22 @@ export default function UrnaSimulador() {
           <div
             role="status"
             aria-live="polite"
-            className={`relative z-10 mt-1.5 break-words border-t border-[#7a0e0e]/30 pt-1.5 text-center text-[6px] font-extrabold uppercase leading-tight tracking-wide transition-colors duration-300 sm:mt-5 sm:border-t-2 sm:pt-3 sm:text-[11px] md:mt-10 md:pt-5 md:text-xl ${mensagem.classe}`}
+            className={`relative z-10 mt-2 break-words border-t border-[#7a0e0e]/30 pt-2 text-center text-[9px] font-extrabold uppercase leading-tight tracking-wide transition-colors duration-300 sm:mt-5 sm:border-t-2 sm:pt-3 sm:text-xs md:mt-10 md:pt-5 md:text-xl ${mensagem.classe}`}
           >
             {finalizada ? "" : mensagem.texto}
           </div>
 
-          <div className="relative z-10 mt-1.5 flex items-center justify-between gap-1 sm:mt-4 sm:gap-3 md:mt-6">
-            <div className="text-[5px] font-black uppercase leading-tight tracking-[0.1em] text-[#e3a99a] sm:text-[10px] sm:tracking-[0.2em] md:text-sm md:tracking-[0.3em]">
+          <div className="relative z-10 mt-2 flex items-center justify-between gap-1 sm:mt-4 sm:gap-3 md:mt-6">
+            <div className="text-[8px] font-black uppercase leading-tight tracking-[0.1em] text-[#e3a99a] sm:text-xs sm:tracking-[0.2em] md:text-sm md:tracking-[0.3em]">
               Ilustrativo
             </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="w-7 shrink-0 sm:w-14 md:w-24" src="/IconeVotus.svg" alt="Votus" />
+            <img className="w-10 shrink-0 sm:w-16 md:w-24" src="/IconeVotus.svg" alt="Votus" />
           </div>
         </div>
 
         {/* ===================== TECLADO ===================== */}
-        <div className="grid w-[150px] shrink-0 grid-cols-[repeat(3,1fr)_0.9fr] grid-rows-[repeat(4,36px)] gap-1 sm:w-[210px] sm:grid-rows-[repeat(4,46px)] sm:gap-2 md:mx-auto md:mt-5 md:w-full md:max-w-[380px] md:grid-cols-[repeat(3,1fr)_0.95fr] md:grid-rows-[repeat(4,58px)] md:gap-2.5">
+        <div className="mx-auto mt-2 grid w-full max-w-[280px] grid-cols-[repeat(3,1fr)_0.9fr] grid-rows-[repeat(4,42px)] gap-1.5 sm:mt-4 sm:max-w-[340px] sm:grid-rows-[repeat(4,48px)] sm:gap-2 md:mt-5 md:max-w-[380px] md:grid-cols-[repeat(3,1fr)_0.95fr] md:grid-rows-[repeat(4,58px)] md:gap-2.5">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((digito, index) => (
             <button
               key={digito}
@@ -354,7 +348,7 @@ export default function UrnaSimulador() {
               disabled={bloqueado || finalizada}
               onClick={() => digitar(String(digito))}
               style={{ gridColumn: (index % 3) + 1, gridRow: Math.floor(index / 3) + 1 }}
-              className="rounded-[3px] bg-brasil-orange text-[11px] font-bold text-white transition-transform duration-75 ease-out active:scale-95 active:brightness-90 disabled:opacity-40 sm:rounded-[7px] sm:text-lg"
+              className="rounded-[4px] bg-brasil-orange text-sm font-bold text-white transition-transform duration-75 ease-out active:scale-95 active:brightness-90 disabled:opacity-40 sm:rounded-[7px] sm:text-lg"
             >
               {digito}
             </button>
@@ -366,7 +360,7 @@ export default function UrnaSimulador() {
             disabled={bloqueado || finalizada}
             onClick={votarBranco}
             style={{ gridColumn: 4, gridRow: 1 }}
-            className="rounded-[3px] bg-brasil-gold text-[6.5px] font-bold leading-[1.05] text-white transition-transform duration-75 ease-out active:scale-95 active:brightness-90 disabled:opacity-40 sm:rounded-[7px] sm:text-[9px] sm:leading-tight"
+            className="rounded-[4px] bg-brasil-gold text-[7.5px] font-bold leading-[1.05] text-white transition-transform duration-75 ease-out active:scale-95 active:brightness-90 disabled:opacity-40 sm:rounded-[7px] sm:text-[9px] sm:leading-tight"
           >
             BRANCO
           </button>
@@ -377,7 +371,7 @@ export default function UrnaSimulador() {
             disabled={bloqueado || finalizada}
             onClick={corrigir}
             style={{ gridColumn: 4, gridRow: 2 }}
-            className="rounded-[3px] bg-brasil-red text-[6.5px] font-bold leading-[1.05] text-white transition-transform duration-75 ease-out active:scale-95 active:brightness-90 disabled:opacity-40 sm:rounded-[7px] sm:text-[9px] sm:leading-tight"
+            className="rounded-[4px] bg-brasil-red text-[7.5px] font-bold leading-[1.05] text-white transition-transform duration-75 ease-out active:scale-95 active:brightness-90 disabled:opacity-40 sm:rounded-[7px] sm:text-[9px] sm:leading-tight"
           >
             CORRIGE
           </button>
@@ -388,7 +382,7 @@ export default function UrnaSimulador() {
             disabled={bloqueado || finalizada}
             onClick={confirmar}
             style={{ gridColumn: 4, gridRow: "3 / span 2" }}
-            className="rounded-[3px] bg-brasil-green text-[7px] font-bold leading-[1.05] text-white transition-transform duration-75 ease-out active:scale-95 active:brightness-90 disabled:opacity-40 sm:rounded-[7px] sm:text-[10px] sm:leading-tight"
+            className="rounded-[4px] bg-brasil-green text-[8.5px] font-bold leading-[1.05] text-white transition-transform duration-75 ease-out active:scale-95 active:brightness-90 disabled:opacity-40 sm:rounded-[7px] sm:text-[10px] sm:leading-tight"
           >
             CONFIRMA
           </button>
@@ -399,7 +393,7 @@ export default function UrnaSimulador() {
             disabled={bloqueado || finalizada}
             onClick={() => digitar("0")}
             style={{ gridColumn: 2, gridRow: 4 }}
-            className="rounded-[3px] bg-brasil-orange text-[11px] font-bold text-white transition-transform duration-75 ease-out active:scale-95 active:brightness-90 disabled:opacity-40 sm:rounded-[7px] sm:text-lg"
+            className="rounded-[4px] bg-brasil-orange text-sm font-bold text-white transition-transform duration-75 ease-out active:scale-95 active:brightness-90 disabled:opacity-40 sm:rounded-[7px] sm:text-lg"
           >
             0
           </button>
