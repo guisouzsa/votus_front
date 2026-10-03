@@ -1,5 +1,5 @@
 import { apiGet } from "./apiClient";
-import type { Candidate, PaginatedResponse } from "./types";
+import type { Candidate, CandidateExpense, CandidateExpenseFilters, PaginatedResponse } from "./types";
 
 export type CandidateOfficeSlug = "presidente" | "governador" | "senado" | "deputado-federal" | "deputado-estadual";
 
@@ -89,6 +89,22 @@ export async function getCandidate(office: CandidateOfficeSlug, id: number | str
   const response = await apiGet<{ data: Candidate }>(`/api/${CANDIDATE_OFFICES[office].endpoint}/${id}`);
 
   return normalizeCandidate(response.data);
+}
+
+export async function getCandidateExpenses(
+  office: CandidateOfficeSlug,
+  id: number | string,
+  page = 1,
+  filters: CandidateExpenseFilters = {}
+) {
+  return apiGet<PaginatedResponse<CandidateExpense>>(`/api/${CANDIDATE_OFFICES[office].endpoint}/${id}/expenses`, {
+    page,
+    search: filters.search?.trim(),
+    supplierType: filters.supplierType,
+    dateFrom: filters.dateFrom,
+    dateTo: filters.dateTo,
+    sort: filters.sort,
+  });
 }
 
 /**

@@ -540,11 +540,16 @@ export interface CandidateParty {
 // só os campos de identificação, sem as métricas de efetividade/produtividade.
 export interface CandidatePreviousMandate {
   id: number;
-  chamber: "lower_house" | "senate";
+  // "previousMandates" liga por CPF, sem filtro de câmara — então também
+  // pode vir "state_house" (deputado estadual, ALECE), não só Câmara/Senado.
+  chamber: "lower_house" | "senate" | "state_house";
   parliamentary_name: string;
   party: string | null;
   state: string | null;
   status: string | null;
+  // Só vem quando a API carrega a relação (perfil do candidato) — proposições
+  // desse mandato atual, já com os campos reais (PL, PEC etc.).
+  bills?: Bill[];
 }
 
 // Candidatura anterior (qualquer cargo, qualquer eleição), direto do TSE — ao
@@ -587,4 +592,35 @@ export interface Candidate {
   running_mates?: Candidate[];
   previous_mandates?: CandidatePreviousMandate[];
   candidacy_history?: CandidacyHistoryEntry[];
+  // Ausente quando o candidato não declarou nenhuma despesa (hoje só existe
+  // dado real pros candidatos do Ceará — ver auditoria de veracidade).
+  // "total" é CALCULADO pelo Votus a partir dos registros do TSE, não vem
+  // pronto da fonte — deixar isso claro na UI quando exibido.
+  expenses_summary?: {
+    count: number;
+    total: number;
+    last_synced_at: string | null;
+    by_supplier_type: { pessoa_fisica: number; pessoa_juridica: number };
+    top_expenses: { description: string | null; supplier_name: string | null; amount: number }[];
+  } | null;
+}
+
+export type CandidateExpenseSort = 'date_desc' | 'date_asc' | 'amount_desc' | 'amount_asc';
+
+export interface CandidateExpenseFilters {
+  search?: string;
+  supplierType?: string;
+  dateFrom?: string;
+  dateTo?: string;
+  sort?: CandidateExpenseSort;
+}
+
+// Item de despesa de campanha de um candidato (candidate_expenses no TSE).
+export interface CandidateExpense {
+  id: number;
+  expense_date: string;
+  description: string | null;
+  amount: number;
+  supplier_name: string | null;
+  supplier_type: string | null;
 }
