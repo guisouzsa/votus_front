@@ -125,10 +125,10 @@ export default function SantinhoPageClient() {
       <main className="overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24">
         <div className="w-full px-6 py-8 sm:px-10">
           <DashboardHeader
-            titleText="Gerador de Santinho"
+            titleText="Gerador de Cola Eleitoral"
             titleColor="text-[#8C0801]"
             titleClassName="font-heading"
-            subtitle="Crie seu santinho digital para você decorar o número dos seus candidatos e baixe também o modelo para imprimi-lo."
+            subtitle="Crie sua cola eleitoral digital para você decorar o número dos seus candidatos e baixe também o modelo para imprimi-la."
           />
 
           <div className="mt-6 flex flex-col gap-10 lg:flex-row lg:items-start">
@@ -158,7 +158,7 @@ export default function SantinhoPageClient() {
                 options={PAGINAS_OPCOES}
               />
               <SantinhoSelect
-                label="Santinhos por página"
+                label="Colas por página"
                 value={santinhosPorPagina}
                 onChange={setSantinhosPorPagina}
                 options={SANTINHOS_POR_PAGINA_OPCOES}

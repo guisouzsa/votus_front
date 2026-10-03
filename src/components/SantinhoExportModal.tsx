@@ -58,7 +58,7 @@ export default function SantinhoExportModal({
                 </h2>
                 <p className="mt-0.5 text-xs font-medium text-[#1b623a] sm:text-sm">
                   {quantidadePaginas} {quantidadePaginas === 1 ? 'página' : 'páginas'} · {santinhosPorPagina}{' '}
-                  {santinhosPorPagina === 1 ? 'santinho' : 'santinhos'} por página
+                  {santinhosPorPagina === 1 ? 'cola' : 'colas'} por página
                 </p>
               </div>
             </div>

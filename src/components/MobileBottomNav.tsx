@@ -187,7 +187,7 @@ export default function MobileBottomNav() {
           );
         })}
 
-        {/* Botão 'Mais' agrupando Propostas, Santinho, Explicações, Simulador de Urna */}
+        {/* Botão 'Mais' agrupando Propostas, Cola Eleitoral, Explicações, Simulador de Urna */}
         <div
           ref={(el) => {
             slotRefs.current[4] = el;

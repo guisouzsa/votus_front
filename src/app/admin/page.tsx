@@ -155,7 +155,7 @@ export default function AdminDashboardPage() {
       <section className="flex flex-col gap-4">
         <SectionTitle>Participação</SectionTitle>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <AdminStatCard label="Santinhos gerados" value={data.participacao.santinhos_gerados} icon={Ticket} accent="gold" />
+          <AdminStatCard label="Colas eleitorais geradas" value={data.participacao.santinhos_gerados} icon={Ticket} accent="gold" />
           <AdminStatCard
             label="Acessos registrados"
             value={data.participacao.acessos_registrados}

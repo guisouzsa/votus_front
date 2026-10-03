@@ -27,7 +27,7 @@ export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCa
 
       <div className="relative flex flex-1 flex-col overflow-hidden pb-[6cqw] pl-[6cqw] pr-[34%] pt-[6cqw]">
         <h1 className="text-[2.6cqw] font-black uppercase leading-[1.15] text-brasil-orange">
-          Santinho
+          Cola
           <br />
           Eleitoral
         </h1>
@@ -91,7 +91,7 @@ export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCa
             height={32}
             className="h-[4.5cqw] w-auto"
           />
-          <p className="mt-[0.8cqw] text-[1.3cqw] font-medium leading-none text-ink-soft">votusproj.vercel.app</p>
+          <p className="mt-[0.8cqw] text-[1.3cqw] font-medium leading-none text-ink-soft">www.votus.site</p>
         </div>
       </div>
     </div>

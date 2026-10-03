@@ -3,7 +3,9 @@ import type { SantinhoCandidate } from '@/components/SantinhoPreview';
 
 const GRID_BY_COUNT: Record<number, { cols: number; rows: number }> = {
   1: { cols: 1, rows: 1 },
-  2: { cols: 1, rows: 2 },
+  // Lado a lado (não empilhado) — igual ao preview em tela, que já mostra 2
+  // colunas a partir desse tamanho (ver GRID_CLASS_BY_COUNT em SantinhoExportModal).
+  2: { cols: 2, rows: 1 },
   4: { cols: 2, rows: 2 },
   6: { cols: 2, rows: 3 },
 };
@@ -13,9 +15,13 @@ const ORANGE: [number, number, number] = [255, 119, 0];
 const BORDER: [number, number, number] = [224, 214, 196];
 const INK: [number, number, number] = [34, 32, 27]; // mesmo tom de --color-ink usado no nome, no preview em tela
 const INK_SOFT: [number, number, number] = [107, 98, 85]; // --color-ink-soft, usado no endereço do Votus
-const CARD_ASPECT = 5 / 3; // altura / largura do santinho, igual ao preview na tela
+const CARD_ASPECT = 5 / 3; // altura / largura do cartão, igual ao preview na tela
 const LATERAL_WIDTH_RATIO = 0.26; // fração da largura do cartão ocupada pela arte lateral
 const MM_TO_PT = 72 / 25.4;
+// Largura real de um cartão quando são só 1 ou 2 por página — tamanho normal
+// de impressão (próximo de A6), em vez de esticado pra ocupar uma folha A4
+// inteira. Com 4 ou 6 por página a folha continua A4 (cartela pra recortar).
+const CARD_WIDTH_MM = 90;
 
 // pdf.setFontSize() sempre espera pontos, mesmo com o documento configurado
 // em mm (unit: 'mm') — sem essa conversão o texto fica desproporcional ao
@@ -169,10 +175,10 @@ function drawSantinho(
   pdf.setTextColor(...ORANGE);
 
   const titleY = y + padding + width * 0.05;
-  if (pdf.getTextWidth('SANTINHO ELEITORAL') <= availableWidth) {
-    pdf.text('SANTINHO ELEITORAL', contentLeft, titleY);
+  if (pdf.getTextWidth('COLA ELEITORAL') <= availableWidth) {
+    pdf.text('COLA ELEITORAL', contentLeft, titleY);
   } else {
-    pdf.text('SANTINHO', contentLeft, titleY);
+    pdf.text('COLA', contentLeft, titleY);
     pdf.text('ELEITORAL', contentLeft, titleY + titleFontSize * 1.25);
   }
 
@@ -270,14 +276,14 @@ function drawSantinho(
   pdf.setFont('helvetica', 'normal');
   setFontSizeMm(pdf, width * 0.024);
   pdf.setTextColor(...INK_SOFT);
-  pdf.text('votusproj.vercel.app', contentLeft, logoY + logoHeight + width * 0.028);
+  pdf.text('www.votus.site', contentLeft, logoY + logoHeight + width * 0.028);
 }
 
 export async function generateSantinhoPdf({
   candidatos,
   quantidadePaginas,
   santinhosPorPagina,
-  fileName = 'santinho-eleitoral.pdf',
+  fileName = 'cola-eleitoral.pdf',
 }: {
   candidatos: SantinhoCandidate[];
   quantidadePaginas: number;
@@ -302,27 +308,56 @@ export async function generateSantinhoPdf({
 
   const grid = GRID_BY_COUNT[santinhosPorPagina] ?? GRID_BY_COUNT[1];
 
-  const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  const pageWidth = pdf.internal.pageSize.getWidth();
-  const pageHeight = pdf.internal.pageSize.getHeight();
-
-  const margin = 10;
+  // Com 1 ou 2 por página, a página tem o tamanho do(s) próprio(s) cartão(ões)
+  // — o cartão sai no tamanho normal de um santinho impresso (~9x15cm, perto
+  // de A6), em vez de esticado pra ocupar uma folha A4 inteira. Com 4 ou 6
+  // continua A4, como uma cartela pra recortar (mais itens cabem melhor numa
+  // folha normal do que numa página minúscula).
+  const paginaCompacta = santinhosPorPagina <= 2;
+  const margin = paginaCompacta ? 8 : 10;
   const gap = 8;
 
+  let pageWidth: number;
+  let pageHeight: number;
+  let cardWidth: number;
+  let cardHeight: number;
+
+  if (paginaCompacta) {
+    cardWidth = CARD_WIDTH_MM;
+    cardHeight = CARD_WIDTH_MM * CARD_ASPECT;
+    pageWidth = margin * 2 + grid.cols * cardWidth + gap * (grid.cols - 1);
+    pageHeight = margin * 2 + grid.rows * cardHeight + gap * (grid.rows - 1);
+  } else {
+    pageWidth = 210; // A4
+    pageHeight = 297;
+
+    const cellWidthA4 = (pageWidth - margin * 2 - gap * (grid.cols - 1)) / grid.cols;
+    const cellHeightA4 = (pageHeight - margin * 2 - gap * (grid.rows - 1)) / grid.rows;
+
+    // O cartão é sempre desenhado na proporção 3:5 (largura:altura), igual
+    // ao preview na tela — nunca deforma, só encolhe pra caber na célula.
+    cardWidth = cellWidthA4;
+    cardHeight = cardWidth * CARD_ASPECT;
+    if (cardHeight > cellHeightA4) {
+      cardHeight = cellHeightA4;
+      cardWidth = cardHeight / CARD_ASPECT;
+    }
+  }
+
+  // Centraliza o(s) cartão(ões) dentro da célula — em página compacta a
+  // célula é do mesmo tamanho do cartão (sem sobra); em A4 pode sobrar
+  // espaço quando o cartão encolheu pra caber na altura da célula.
   const cellWidth = (pageWidth - margin * 2 - gap * (grid.cols - 1)) / grid.cols;
   const cellHeight = (pageHeight - margin * 2 - gap * (grid.rows - 1)) / grid.rows;
 
-  // O santinho é sempre desenhado na proporção 3:5 (largura:altura), igual
-  // ao preview na tela — nunca deforma, só encolhe pra caber na célula.
-  let cardWidth = cellWidth;
-  let cardHeight = cardWidth * CARD_ASPECT;
-  if (cardHeight > cellHeight) {
-    cardHeight = cellHeight;
-    cardWidth = cardHeight / CARD_ASPECT;
-  }
+  const pdf = new jsPDF({
+    orientation: pageWidth > pageHeight ? 'landscape' : 'portrait',
+    unit: 'mm',
+    format: [pageWidth, pageHeight],
+  });
 
   for (let page = 0; page < quantidadePaginas; page += 1) {
-    if (page > 0) pdf.addPage();
+    if (page > 0) pdf.addPage([pageWidth, pageHeight], pageWidth > pageHeight ? 'landscape' : 'portrait');
 
     for (let slot = 0; slot < santinhosPorPagina; slot += 1) {
       const col = slot % grid.cols;
