@@ -22,7 +22,7 @@ const MM_TO_PT = 72 / 25.4;
 // página) — sem isso o cartão esticava pra ocupar a página inteira, do jeito
 // que acontecia antes. Com várias colas por página a célula disponível já é
 // menor que isso, então esse teto não muda nada.
-const CARD_WIDTH_MM = 95;
+const CARD_WIDTH_MM = 72;
 
 // pdf.setFontSize() sempre espera pontos, mesmo com o documento configurado
 // em mm (unit: 'mm') — sem essa conversão o texto fica desproporcional ao
