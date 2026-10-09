@@ -25,15 +25,15 @@ export default function HowItWorksSection() {
   ];
 
   return (
-    <section id="how-it-works" className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+    <section id="how-it-works" className="bg-white px-4 py-0 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-10">
+        <div className="mb-6 text-center min-[641px]:mb-8 min-[1025px]:mb-10">
           <h2 className="text-4xl md:text-5xl font-black uppercase text-brick tracking-tight">
             COMO FUNCIONA
           </h2>
         </div>
 
-        <div className="relative pb-10">
+        <div className="relative">
           <div className="absolute left-[8%] right-[8%] top-[58px] h-[3px] bg-brasil-gold" />
 
           <div className="relative grid md:grid-cols-4 gap-6">
@@ -43,7 +43,7 @@ export default function HowItWorksSection() {
                   {step.number}
                 </div>
 
-                <div className="mt-4 w-full max-w-[220px] rounded-md border border-transparent bg-transparent px-3 py-2 text-center text-lg font-black uppercase leading-tight text-brasil-gold shadow-none transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100 opacity-100">
+                <div className="mt-4 w-full max-w-[220px] rounded-md border border-transparent bg-transparent px-3 py-2 text-center text-sm font-semibold uppercase leading-tight text-brick shadow-none transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100 opacity-100 sm:text-base">
                   {step.title}
                 </div>
 

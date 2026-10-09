@@ -18,7 +18,7 @@ import { categoryGradient, mapApiNewsToArticle } from "@/lib/news";
 import { ApiError } from "@/services/apiClient";
 import type { NewsArticleApi } from "@/services/types";
 
-export default function PainelNoticiasClient() {
+export default function PainelNoticiasClient({ embedded = false }: { embedded?: boolean }) {
   const [search, setSearch] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [relevanceTab, setRelevanceTab] = useState<RelevanceTab>("Mais relevantes");
@@ -114,18 +114,20 @@ export default function PainelNoticiasClient() {
   }
 
   return (
-    <div className="min-h-dvh">
-      <WovenRibbon className="h-14 sm:h-20" />
-      <Sidebar />
-      <MobileBottomNav />
+    <div className={embedded ? 'min-h-dvh bg-[#FDFDFD]' : 'min-h-dvh'}>
+      {!embedded && <WovenRibbon className="h-14 sm:h-20" />}
+      {!embedded && <Sidebar />}
+      {!embedded && <MobileBottomNav />}
 
-      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24">
+      <main className={embedded ? 'min-h-dvh overflow-x-hidden' : 'overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24'}>
         <div className="w-full px-6 py-8 sm:px-10">
-          <DashboardHeader
-            titleText="Painel Notícias"
-            titleColor="text-[#8C0801]"
-            titleClassName="font-heading"
-          />
+          {!embedded && (
+            <DashboardHeader
+              titleText="Painel Notícias"
+              titleColor="text-[#8C0801]"
+              titleClassName="font-heading"
+            />
+          )}
           <SearchBar
             searchValue={search}
             onSearchChange={setSearch}
@@ -167,10 +169,10 @@ export default function PainelNoticiasClient() {
             ))}
         </div>
 
-        <Footer />
+        {!embedded && <Footer />}
       </main>
 
-      <FloatingAIButton />
+      {!embedded && <FloatingAIButton />}
     </div>
   );
 }

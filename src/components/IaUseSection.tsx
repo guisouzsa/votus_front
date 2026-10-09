@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function IaUseSection() {
   return (
-    <section className="bg-white px-4 py-2 sm:px-6 lg:px-8">
+    <section className="bg-white px-4 py-0 sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-7xl items-center gap-2 md:grid-cols-2 md:gap-4">
         <div className="flex flex-col justify-center">
           <h2 className="text-3xl font-black uppercase leading-tight tracking-tight text-brasil-gold md:text-5xl">

@@ -17,19 +17,15 @@ export default function LandingPage() {
       
       <HeroSection />
       
-      <NewsPreviewSection />
-
-      <AudienceCategoriesSection />
-
-      <IaUseSection />
-      
-      <FeaturesSection />
-      
-      <HowItWorksSection />
-
-      <ParrotBannerSection />
-      
-      <DevelopersSection />
+      <div className="landing-section-stack">
+        <NewsPreviewSection />
+        <AudienceCategoriesSection />
+        <IaUseSection />
+        <FeaturesSection />
+        <HowItWorksSection />
+        <ParrotBannerSection />
+        <DevelopersSection />
+      </div>
       
       <Footer />
     </main>

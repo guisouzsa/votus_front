@@ -2,6 +2,20 @@
 
 :root {
   color-scheme: light only;
+  --landing-hero-gap: 3rem;
+  --landing-section-gap: 3rem;
+}
+
+@media (min-width: 641px) {
+  :root {
+    --landing-section-gap: 4rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  :root {
+    --landing-section-gap: 5rem;
+  }
 }
 
 @theme inline {
@@ -64,4 +78,30 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.landing-container {
+  width: 100%;
+  min-width: 0;
+  max-width: 80rem;
+  margin-inline: auto;
+}
+
+.landing-section-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--landing-section-gap);
+  width: 100%;
+  min-width: 0;
+}
+
+.embed-root {
+  min-width: 1280px;
+  min-height: 800px;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+.embed-root::-webkit-scrollbar {
+  display: none;
 }

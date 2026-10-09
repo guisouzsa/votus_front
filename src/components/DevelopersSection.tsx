@@ -135,7 +135,7 @@ function TeamCarousel({ members }: { members: TeamMember[] }) {
 
 export default function DevelopersSection() {
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+    <section className="bg-white px-4 py-0 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-brick mb-4 uppercase">
