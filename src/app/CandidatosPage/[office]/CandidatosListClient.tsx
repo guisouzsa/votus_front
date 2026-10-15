@@ -69,9 +69,11 @@ function gravarNaUrl(filtros: Filtros, page: number) {
 export default function CandidatosListClient({
   office,
   initialData,
+  embedded = false,
 }: {
   office: CandidateOfficeSlug;
   initialData?: CandidatesResponse;
+  embedded?: boolean;
 }) {
   const config = CANDIDATE_OFFICES[office];
   // Presidente é eleição nacional (UF "BR"); os demais cargos ficam
@@ -183,11 +185,11 @@ export default function CandidatosListClient({
   }, [response, page, lastPage]);
 
   return (
-    <div className="min-h-dvh">
-      <WovenRibbon className="h-14 sm:h-20" />
-      <Sidebar />
-      <MobileBottomNav />
-      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
+    <div className={embedded ? 'min-h-dvh bg-[#FDFDFD]' : 'min-h-dvh'}>
+      {!embedded && <WovenRibbon className="h-14 sm:h-20" />}
+      {!embedded && <Sidebar />}
+      {!embedded && <MobileBottomNav />}
+      <main className={embedded ? 'min-h-dvh bg-[#FDFDFD]' : 'min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24'}>
         <div className="min-h-dvh">
           <div className="w-full px-6 py-8 sm:px-10">
             <section className="rounded-lg bg-[#1B623A] px-4 py-3 text-white sm:px-6 sm:py-4">
@@ -377,9 +379,9 @@ export default function CandidatosListClient({
             </div>
           </div>
         </div>
-        <Footer />
+        {!embedded && <Footer />}
       </main>
-      <FloatingAIButton />
+      {!embedded && <FloatingAIButton />}
     </div>
   );
 }

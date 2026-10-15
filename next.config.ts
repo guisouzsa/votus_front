@@ -8,10 +8,22 @@ const nextConfig: NextConfig = {
   // aqui (não em admin/layout.tsx) porque esse layout é Client Component e
   // não pode exportar `metadata`.
   async headers() {
+    const landingOrigin = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
     return [
       {
         source: "/admin/:path*",
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/embed/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+          {
+            key: "Content-Security-Policy",
+            value: `frame-ancestors 'self' ${landingOrigin}`,
+          },
+        ],
       },
     ];
   },

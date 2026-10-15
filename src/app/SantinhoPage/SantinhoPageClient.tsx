@@ -61,7 +61,7 @@ function SantinhoSelect({
   );
 }
 
-export default function SantinhoPageClient() {
+export default function SantinhoPageClient({ embedded = false }: { embedded?: boolean }) {
   const [candidatos, setCandidatos] = useState<SantinhoCandidate[]>(CANDIDATOS_INICIAIS);
   const [quantidadePaginas, setQuantidadePaginas] = useState('');
   const [santinhosPorPagina, setSantinhosPorPagina] = useState('');
@@ -118,18 +118,20 @@ export default function SantinhoPageClient() {
   }
 
   return (
-    <div className="min-h-dvh">
-      <WovenRibbon className="h-14 sm:h-20" />
-      <Sidebar />
-      <MobileBottomNav />
-      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24">
+    <div className={embedded ? 'min-h-dvh bg-[#FDFDFD]' : 'min-h-dvh'}>
+      {!embedded && <WovenRibbon className="h-14 sm:h-20" />}
+      {!embedded && <Sidebar />}
+      {!embedded && <MobileBottomNav />}
+      <main className={embedded ? 'min-h-dvh overflow-x-hidden' : 'overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24'}>
         <div className="w-full px-6 py-8 sm:px-10">
-          <DashboardHeader
-            titleText="Gerador de Cola Eleitoral"
-            titleColor="text-[#8C0801]"
-            titleClassName="font-heading"
-            subtitle="Crie sua cola eleitoral digital para você decorar o número dos seus candidatos e baixe também o modelo para imprimi-la."
-          />
+          {!embedded && (
+            <DashboardHeader
+              titleText="Gerador de Cola Eleitoral"
+              titleColor="text-[#8C0801]"
+              titleClassName="font-heading"
+              subtitle="Crie sua cola eleitoral digital para você decorar o número dos seus candidatos e baixe também o modelo para imprimi-la."
+            />
+          )}
 
           <div className="mt-6 flex flex-col gap-10 lg:flex-row lg:items-start">
             <div className="order-2 mx-auto w-full max-w-[260px] lg:order-1 lg:mx-0 lg:shrink-0">
@@ -177,7 +179,7 @@ export default function SantinhoPageClient() {
           </div>
         </div>
       </main>
-      <FloatingAIButton />
+      {!embedded && <FloatingAIButton />}
 
       {showPreview && (
         <SantinhoExportModal
