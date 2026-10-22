@@ -41,6 +41,9 @@ export const NAV_ITEMS: NavItem[] = [
       { id: "candidatos-deputado-estadual", label: "Deputado Estadual", path: "/CandidatosPage/deputado-estadual" },
     ],
   },
+  // Radar depois dos 4 primeiros itens, pra não mudar os atalhos fixos da
+  // barra inferior do mobile.
+  { id: "radar", label: "Radar do Brasil", icon: "/IconeRadar.svg", path: "/RadarPage" },
   {
     id: "juventude",
     label: "Juventude",
