@@ -14,6 +14,7 @@ const PAGINAS_ESTATICAS = [
   { path: "/PainelNoticiasPage", priority: 0.9 },
   { path: "/PropostasPage", priority: 0.8 },
   { path: "/RadarPage", priority: 0.7 },
+  { path: "/ComparadorPropostasPage", priority: 0.7 },
   { path: "/ExplicacoesPage", priority: 0.7 },
   { path: "/explicacao", priority: 0.7 },
   { path: "/JuventudePage", priority: 0.6 },

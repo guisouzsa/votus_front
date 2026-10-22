@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen, GraduationCap, Landmark, Newspaper, Vote, type LucideIcon } from "lucide-react";
+import { ArrowRight, BookOpen, Columns2, GraduationCap, Landmark, Newspaper, Radar, Vote, type LucideIcon } from "lucide-react";
 import { getNewsList, hasImage } from "@/services/newsService";
 import type { NewsArticleApi } from "@/services/types";
 
@@ -88,6 +88,28 @@ const MODULES: Module[] = [
       { label: "Propostas", href: "/PropostasPage" },
     ],
     className: "lg:col-span-2",
+  },
+  // Dois módulos de largura 3: fecham uma terceira linha completa no
+  // desktop, e com 7 módulos o último continua ocupando a linha inteira
+  // no tablet (ver sm:col-span-2 no HighlightGrid).
+  {
+    title: "Radar do Brasil",
+    description: "Mapa dos 27 estados com indicadores do IBGE e os temas mais frequentes nas proposições dos seus deputados e senadores.",
+    href: "/RadarPage",
+    cta: "Abrir o Radar",
+    icon: Radar,
+    cor: { texto: "text-brasil-green", fundoIcone: "bg-brasil-green/10" },
+    className: "lg:col-span-3",
+  },
+  {
+    title: "Compare as propostas",
+    description: "Escolha um tema e veja lado a lado o que os planos de governo dos candidatos à Presidência propõem, com a fonte oficial.",
+    href: "/ComparadorPropostasPage",
+    cta: "Comparar propostas",
+    icon: Columns2,
+    cor: { texto: "text-brasil-orange", fundoIcone: "bg-brasil-orange/10" },
+    shortcuts: [{ label: "Candidatos a Presidente", href: "/CandidatosPage/presidente" }],
+    className: "lg:col-span-3",
   },
 ];
 

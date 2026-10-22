@@ -35,6 +35,7 @@ export const NAV_ITEMS: NavItem[] = [
     icon: "/IconeCandidatos.svg",
     children: [
       { id: "candidatos-presidente", label: "Presidente", path: "/CandidatosPage/presidente" },
+      { id: "comparar-propostas", label: "Comparar propostas", path: "/ComparadorPropostasPage" },
       { id: "candidatos-governador", label: "Governador", path: "/CandidatosPage/governador" },
       { id: "candidatos-senado", label: "Senador", path: "/CandidatosPage/senado" },
       { id: "candidatos-deputado-federal", label: "Deputado Federal", path: "/CandidatosPage/deputado-federal" },

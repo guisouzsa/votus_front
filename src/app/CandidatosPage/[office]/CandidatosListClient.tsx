@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { ArrowRight, Columns2 } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
@@ -249,6 +250,24 @@ export default function CandidatosListClient({
                 <StatCard key={item.label} {...item} />
               ))}
             </div>
+
+            {isPresidente && !embedded && (
+              <Link
+                href="/ComparadorPropostasPage"
+                className="group mt-3 flex items-center gap-3 rounded-2xl border border-[#1B623A]/30 bg-white px-4 py-3 transition-colors hover:bg-[#EDDBBA]/30"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#1B623A]/10 text-[#1B623A]">
+                  <Columns2 size={18} aria-hidden="true" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-black text-[#1B623A]">Compare as propostas por tema</span>
+                  <span className="block text-xs text-ink-soft">
+                    Veja lado a lado o que cada plano de governo propõe, com a fonte oficial.
+                  </span>
+                </span>
+                <ArrowRight size={18} className="shrink-0 text-[#1B623A] transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+              </Link>
+            )}
 
             <LegislatorFilterFrame
               searchValue={filtros.search}
