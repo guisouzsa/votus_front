@@ -1,190 +1,134 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen, GraduationCap, Landmark, Newspaper, Vote, type LucideIcon } from "lucide-react";
-import { getNewsList, hasImage } from "@/services/newsService";
-import type { NewsArticleApi } from "@/services/types";
 
-type Shortcut = { label: string; href: string };
-
-type Module = {
+type StepCard = {
+  step: number;
   title: string;
-  // Responde "o que eu encontro aqui?" em uma frase.
   description: string;
   href: string;
   cta: string;
-  icon: LucideIcon;
-  // Cor de destaque da identidade Votus (mesmas do padrão da faixa).
-  cor: { texto: string; fundoIcone: string };
-  shortcuts?: Shortcut[];
-  className?: string;
-  headlines?: NewsArticleApi[];
 };
 
-// Antes eram 4 blocos verdes só com o título, e 3 deles apontavam pra "#"
-// (Explicações, Senadores e deputados, Juventude) — clicar não levava a lugar
-// nenhum. Agora cada módulo diz o que tem dentro e aponta pra rota real.
-// Todos os links abaixo existem em src/app (conferido rota a rota).
-const MODULES: Module[] = [
+type ExploreItem = {
+  title: string;
+  description: string;
+  href: string;
+  cta: string;
+  background: "bg-brasil-orange" | "bg-brasil-gold";
+};
+
+const STEP_CARDS: StepCard[] = [
   {
-    title: "Notícias em alta",
-    description: "Acompanhe notícias relevantes sobre política e assuntos públicos, com resumo e link para a fonte original.",
-    href: "/PainelNoticiasPage",
-    cta: "Ver notícias",
-    icon: Newspaper,
-    cor: { texto: "text-brasil-red", fundoIcone: "bg-brasil-red/10" },
-    className: "lg:col-span-3",
-  },
-  {
-    title: "Candidatos 2026",
-    description: "Quem concorre em 2026 à Presidência e aos cargos do Ceará: partido, número na urna, chapa e plano de governo.",
+    step: 1,
+    title: "Descubra quem concorre",
+    description: "Partido, número, chapa e plano de governo dos candidatos.",
     href: "/CandidatosPage/presidente",
     cta: "Ver candidatos",
-    icon: Vote,
-    cor: { texto: "text-brasil-orange", fundoIcone: "bg-brasil-orange/10" },
-    shortcuts: [
-      { label: "Presidente", href: "/CandidatosPage/presidente" },
-      { label: "Governador", href: "/CandidatosPage/governador" },
-      { label: "Senador", href: "/CandidatosPage/senado" },
-      { label: "Dep. Federal", href: "/CandidatosPage/deputado-federal" },
-      { label: "Dep. Estadual", href: "/CandidatosPage/deputado-estadual" },
-    ],
-    className: "lg:col-span-3",
   },
   {
-    title: "Explicações",
-    description: "Entenda cargos, instituições e processos políticos de forma simples, e teste o que aprendeu.",
+    step: 2,
+    title: "Entenda cada cargo",
+    description: "O que faz um deputado, um senador e um governador, de forma simples e com quiz.",
     href: "/ExplicacoesPage",
     cta: "Entender os cargos",
-    icon: BookOpen,
-    cor: { texto: "text-brasil-green", fundoIcone: "bg-brasil-green/10" },
-    shortcuts: [
-      { label: "Quem faz o quê", href: "/ExplicacoesPage" },
-      { label: "Você Sabia?", href: "/explicacao" },
-    ],
-    className: "lg:col-span-2",
   },
   {
-    title: "Senadores e deputados",
-    description: "Quem exerce mandato hoje: representantes do Ceará no Congresso, com comissões, proposições e linha do tempo.",
-    href: "/DeputadosPage",
-    cta: "Ver parlamentares",
-    icon: Landmark,
-    cor: { texto: "text-brasil-green", fundoIcone: "bg-brasil-gold/20" },
-    shortcuts: [
-      { label: "Deputados", href: "/DeputadosPage" },
-      { label: "Senadores", href: "/SenadoresPage" },
-    ],
-    className: "lg:col-span-2",
-  },
-  {
-    title: "Juventude em Pauta",
-    description: "Vagas, concursos e cursos para quem está começando, e um espaço para propor e debater ideias.",
-    href: "/JuventudePage",
-    cta: "Ver oportunidades",
-    icon: GraduationCap,
-    cor: { texto: "text-brasil-red", fundoIcone: "bg-brasil-orange/10" },
-    shortcuts: [
-      { label: "Vagas e concursos", href: "/JuventudePage" },
-      { label: "Universidades", href: "/UniversidadesPage" },
-      { label: "Propostas", href: "/PropostasPage" },
-    ],
-    className: "lg:col-span-2",
+    step: 3,
+    title: "Acompanhe as notícias",
+    description: "Resumo dos assuntos do momento, com link para a fonte original.",
+    href: "/PainelNoticiasPage",
+    cta: "Ver notícias",
   },
 ];
 
-function ModuleCard({ title, description, href, cta, icon: Icon, cor, shortcuts, headlines, className = "" }: Module) {
+const EXPLORE_ITEMS: ExploreItem[] = [
+  {
+    title: "Senadores e deputados",
+    description: "Quem exerce mandato hoje pelo Ceará, com comissões, proposições e linha do tempo.",
+    href: "/DeputadosPage",
+    cta: "Ver parlamentares",
+    background: "bg-brasil-orange",
+  },
+  {
+    title: "Juventude em Pauta",
+    description: "Vagas, concursos e cursos, e um espaço para propor e debater ideias.",
+    href: "/JuventudePage",
+    cta: "Ver oportunidades",
+    background: "bg-brasil-gold",
+  },
+];
+
+function SectionIntro({ id, title, subtitle }: { id: string; title: string; subtitle: string }) {
   return (
-    <section
-      aria-labelledby={`modulo-${href}`}
-      className={`flex flex-col overflow-hidden rounded-xl border border-line bg-cream shadow-[0_1px_2px_rgba(0,0,0,0.04)] ${className}`}
-    >
-      {/* Faixa com o padrão da identidade Votus — o mesmo da barra do topo. */}
-      <div className="h-2.5 w-full shrink-0 bg-[url('/sidebar.svg')] bg-[length:auto_100%] bg-repeat-x" aria-hidden="true" />
-
-      <div className="flex flex-1 flex-col p-5 sm:p-6">
-        <div className="flex items-start gap-3">
-          <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${cor.fundoIcone} ${cor.texto}`}>
-            <Icon size={20} strokeWidth={2.25} aria-hidden="true" />
-          </span>
-          <div className="min-w-0">
-            <h2 id={`modulo-${href}`} className="font-heading text-lg font-bold leading-tight text-ink">
-              {title}
-            </h2>
-            <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{description}</p>
-          </div>
-        </div>
-
-        {headlines && headlines.length > 0 && (
-          <ul className="mt-4 flex flex-col divide-y divide-line border-y border-line">
-            {headlines.map((newsItem) => (
-              <li key={newsItem.id}>
-                <Link
-                  href={`/noticias/${newsItem.id}`}
-                  className="flex items-baseline gap-2 py-2.5 text-sm font-semibold leading-snug text-ink transition-colors hover:text-brasil-red"
-                >
-                  <span className="line-clamp-2 flex-1">{newsItem.title}</span>
-                  {newsItem.source && (
-                    <span className="shrink-0 text-[11px] font-medium text-ink-soft">{newsItem.source}</span>
-                  )}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        {shortcuts && (
-          <ul className="mt-4 flex flex-wrap gap-2">
-            {shortcuts.map((shortcut) => (
-              <li key={shortcut.label}>
-                <Link
-                  href={shortcut.href}
-                  className="inline-flex rounded-full border border-line bg-white px-3 py-1.5 text-xs font-bold text-ink transition-colors hover:border-brasil-green/40 hover:text-brasil-green"
-                >
-                  {shortcut.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        <Link
-          href={href}
-          className={`group mt-auto inline-flex w-fit items-center gap-1.5 pt-5 text-sm font-bold ${cor.texto}`}
-        >
-          {cta}
-          <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-        </Link>
-      </div>
-    </section>
+    <div className="mb-5">
+      <h2 id={id} className="font-heading text-2xl font-bold leading-tight text-brasil-green sm:text-[28px]">
+        {title}
+      </h2>
+      <p className="mt-1.5 text-sm text-ink-soft sm:text-base">{subtitle}</p>
+    </div>
   );
 }
 
-// Manchetes reais mais recentes no card de Notícias. Roda no servidor e a
-// página fica em cache (ISR, ver Inicial/page.tsx) — então não atrasa a home.
-// Se a API falhar, o card só aparece sem a lista, como antes.
-async function loadHeadlines(): Promise<NewsArticleApi[]> {
-  try {
-    const resposta = await getNewsList(1);
-    return resposta.data.filter((noticia) => noticia.published && hasImage(noticia)).slice(0, 3);
-  } catch {
-    return [];
-  }
+function StepCardLink({ step, title, description, href, cta }: StepCard) {
+  return (
+    <Link
+      href={href}
+      className="group flex min-h-[260px] flex-col rounded-[22px] border border-line bg-[#f7f3eb] p-[26px] transition-[border-color,box-shadow] hover:border-brasil-red hover:shadow-[0_8px_24px_rgba(141,8,1,0.1)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brasil-red"
+    >
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brasil-red font-heading text-lg font-bold text-white">
+        {step}
+      </span>
+      <h3 className="mt-5 text-left font-heading text-[23px] font-bold leading-tight text-brasil-red">{title}</h3>
+      <p className="mt-2 text-left text-sm leading-relaxed text-ink-soft">{description}</p>
+      <span className="mt-auto flex min-h-11 items-end justify-start gap-1.5 pt-6 text-sm font-bold text-brasil-red">
+        {cta} <span aria-hidden="true">→</span>
+      </span>
+    </Link>
+  );
 }
 
-export default async function HighlightGrid() {
-  const headlines = await loadHeadlines();
-
+function ExploreRow({ title, description, href, cta, background }: ExploreItem) {
   return (
-    <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
-      {MODULES.map((module, index) => (
-        // No tablet (2 colunas) o último módulo ocupa a linha inteira em vez
-        // de sobrar sozinho pela metade.
-        <ModuleCard
-          key={module.href}
-          {...module}
-          headlines={module.href === "/PainelNoticiasPage" ? headlines : undefined}
-          className={`${module.className ?? ""} ${index === MODULES.length - 1 ? "sm:col-span-2" : ""}`}
+    <Link
+      href={href}
+      className={`group flex min-h-[190px] flex-col rounded-[22px] border border-transparent p-[26px] text-white transition-[border-color,box-shadow] hover:border-white hover:shadow-[0_8px_24px_rgba(34,32,27,0.16)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brasil-red ${background}`}
+    >
+      <h3 className="font-heading text-[22px] font-bold leading-tight text-white">{title}</h3>
+      <p className="mt-2 text-sm leading-relaxed text-white/90">{description}</p>
+      <span className="mt-auto flex min-h-11 items-end justify-start gap-1.5 pt-6 text-sm font-bold text-white">
+        {cta} <span aria-hidden="true">→</span>
+      </span>
+    </Link>
+  );
+}
+
+export default function HighlightGrid() {
+  return (
+    <div className="mt-10 w-full">
+      <section aria-labelledby="comece-por-aqui">
+        <SectionIntro
+          id="comece-por-aqui"
+          title="Comece por aqui"
+          subtitle="Três passos para chegar à urna sabendo em quem votar."
         />
-      ))}
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+          {STEP_CARDS.map((card) => (
+            <StepCardLink key={card.href} {...card} />
+          ))}
+        </div>
+      </section>
+
+      <section aria-labelledby="mais-para-explorar" className="mt-[52px]">
+        <SectionIntro
+          id="mais-para-explorar"
+          title="Mais para explorar"
+          subtitle="Depois da eleição, o trabalho continua."
+        />
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          {EXPLORE_ITEMS.map((item) => (
+            <ExploreRow key={item.href} {...item} />
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
