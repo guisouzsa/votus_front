@@ -113,13 +113,13 @@ export default function SubjectCoverage({
   if (subjects.length === 0) return null;
 
   return (
-    <section aria-labelledby="assuntos-titulo" className="mt-8">
+    <section id="assuntos-mencionados" aria-labelledby="assuntos-titulo" className="mt-8">
       <h2 id="assuntos-titulo" className="text-sm font-black uppercase tracking-wide text-[#1B623A]">
-        Assuntos nos planos oficiais
+        Assuntos mencionados nos planos oficiais
       </h2>
       <p className="mt-1 max-w-3xl text-[13px] leading-relaxed text-ink-soft">
         Busca de termos no texto integral dos planos registrados no TSE, sem contar sumário e índice. “Mencionado” quer
-        dizer que o assunto aparece no documento, inclusive em diagnósticos — não que haja uma proposta sobre ele.
+        dizer apenas que o assunto aparece no documento, inclusive em diagnósticos; isso não significa que exista uma proposta sobre ele.
         Abra um assunto para ver os trechos e as páginas.
       </p>
       {!q && (

@@ -203,8 +203,39 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
     .map((c) => `${filtradas.filter((p) => p.candidate_id === c.id).length} de ${c.name}`)
     .join(' e ');
 
+  const methodology = (
+    <div className="space-y-2 text-sm leading-relaxed text-ink-soft">
+      <p>
+        <strong className="text-ink">Uso de IA.</strong> As propostas foram extraídas das fontes oficiais de cada
+        candidato e organizadas por tema com auxílio de inteligência artificial. Os resumos são descritivos e não indicam
+        qual proposta é melhor. A extração e a classificação podem conter erros: consulte sempre o trecho original e a
+        fonte.
+      </p>
+      <p>
+        <strong className="text-ink">Propostas.</strong> Uma IA lê a página de origem de cada candidato, separa as
+        propostas, escreve um resumo de até duas frases e indica um trecho literal. Se o trecho não existe no texto de
+        origem, ele é descartado e a proposta fica como “Fonte pendente de validação”.
+      </p>
+      <p>
+        <strong className="text-ink">Conferência.</strong> Cada trecho foi procurado no plano registrado no TSE.
+        “Trecho conferido no plano do TSE” traz a página; “Trecho conferido só na página de origem” indica que ele não
+        está no plano do TSE.
+      </p>
+      <p>
+        <strong className="text-ink">Contagens.</strong> Os números são de propostas extraídas pelo Votus, não de
+        páginas nem de ocorrências de palavras. Não medem prioridade, compromisso ou qualidade — e dependem do tamanho
+        de cada fonte.
+      </p>
+      <p>
+        <strong className="text-ink">Assuntos nos planos oficiais.</strong> {coverage.method.unit}; {coverage.method.search}.
+        Análise feita em {new Date(coverage.generated_at).toLocaleDateString('pt-BR')}. Páginas sem texto extraível
+        (imagens) não puderam ser analisadas.
+      </p>
+    </div>
+  );
+
   return (
-    <div className="min-h-dvh">
+    <div className="fixed inset-0 overflow-x-hidden overflow-y-auto">
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
       <MobileBottomNav />
@@ -221,38 +252,14 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
           <PageHeader
             eyebrow="Eleições 2026"
             title="Compare as propostas para Presidente"
-            description="Escolha um tema e veja, lado a lado, o que cada plano de governo propõe, com o trecho original e o link da fonte oficial."
+            description="Compare propostas, trechos originais e fontes oficiais, tema a tema."
+            compact
             note={
               <>
-                As propostas foram extraídas das fontes oficiais de cada candidato e organizadas por tema com auxílio de
-                inteligência artificial. Os resumos são descritivos e não indicam qual proposta é melhor. A extração e a
-                classificação podem conter erros: consulte sempre o trecho original e a fonte. As fontes usadas não são do
-                mesmo tipo para os dois candidatos — veja “Fontes analisadas”.
-              </>
-            }
-            noteDetailsLabel="Como esta comparação foi feita"
-            noteDetails={
-              <>
-                <p>
-                  <strong className="text-ink">Propostas.</strong> Uma IA lê a página de origem de cada candidato, separa as
-                  propostas, escreve um resumo de até duas frases e indica um trecho literal. Se o trecho não existe no texto
-                  de origem, ele é descartado e a proposta fica como “Fonte pendente de validação”.
-                </p>
-                <p>
-                  <strong className="text-ink">Conferência.</strong> Cada trecho foi procurado no plano registrado no TSE.
-                  “Trecho conferido no plano do TSE” traz a página; “Trecho conferido só na página de origem” indica que ele
-                  não está no plano do TSE.
-                </p>
-                <p>
-                  <strong className="text-ink">Contagens.</strong> Os números são de propostas extraídas pelo Votus, não de
-                  páginas nem de ocorrências de palavras. Não medem prioridade, compromisso ou qualidade — e dependem do
-                  tamanho de cada fonte.
-                </p>
-                <p>
-                  <strong className="text-ink">Assuntos nos planos oficiais.</strong> {coverage.method.unit}; {coverage.method.search}.
-                  Análise feita em {new Date(coverage.generated_at).toLocaleDateString('pt-BR')}. Páginas sem texto
-                  extraível (imagens) não puderam ser analisadas.
-                </p>
+                A IA pode errar; confira os trechos. Fontes variam: veja{' '}
+                <a href="#fontes-analisadas" className="font-bold text-[#1B623A] underline underline-offset-2">
+                  Fontes analisadas
+                </a>
               </>
             }
           />
@@ -278,17 +285,8 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
             </p>
           ) : (
             <>
-              {candidatoDeOrigem && (
-                <p className="mt-4 text-sm text-ink-soft">
-                  Você veio do perfil de <strong className="text-ink">{candidatoDeOrigem.name}</strong>: a coluna dele está
-                  destacada.
-                </p>
-              )}
-
-              <SourcesPanel candidates={candidatos} proposals={index?.proposals ?? []} />
-
               {/* Busca e filtros */}
-              <section aria-labelledby="filtros-titulo" className="mt-6 rounded-2xl border border-[#e0d6c4] bg-white p-3 sm:p-4">
+              <section aria-labelledby="filtros-titulo" className="sticky top-0 z-30 mt-3 rounded-2xl border border-[#e0d6c4] bg-white p-3 shadow-sm sm:p-4">
                 <h2 id="filtros-titulo" className="sr-only">Buscar e filtrar propostas</h2>
                 <div className="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">
                   <label className="block text-xs font-bold uppercase text-ink-soft">
@@ -300,7 +298,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                         value={filtros.busca}
                         onChange={(e) => atualizar('busca', e.target.value)}
                         placeholder="Ex.: SUS, escola, livros"
-                        className="w-full rounded-xl border border-[#e0d6c4] py-2 pl-9 pr-3 text-sm font-normal normal-case text-ink"
+                        className="w-full rounded-xl border border-[#e0d6c4] py-2 pl-9 pr-3 text-sm font-normal normal-case text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                       />
                     </span>
                   </label>
@@ -309,7 +307,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                     <select
                       value={filtros.tema}
                       onChange={(e) => atualizar('tema', e.target.value)}
-                      className="mt-1 w-full rounded-xl border border-[#e0d6c4] bg-white px-3 py-2 text-sm font-normal normal-case text-ink"
+                      className="mt-1 w-full rounded-xl border border-[#e0d6c4] bg-white px-3 py-2 text-sm font-normal normal-case text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                     >
                       <option value="">Todas as áreas</option>
                       {porGrupo.map(({ group, temas }) => (
@@ -327,7 +325,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                     <select
                       value={filtros.candidato}
                       onChange={(e) => atualizar('candidato', e.target.value)}
-                      className="mt-1 w-full rounded-xl border border-[#e0d6c4] bg-white px-3 py-2 text-sm font-normal normal-case text-ink"
+                      className="mt-1 w-full rounded-xl border border-[#e0d6c4] bg-white px-3 py-2 text-sm font-normal normal-case text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                     >
                       <option value="">Todos</option>
                       {candidatos.map((c) => (
@@ -340,7 +338,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                     <select
                       value={filtros.situacao}
                       onChange={(e) => atualizar('situacao', e.target.value)}
-                      className="mt-1 w-full rounded-xl border border-[#e0d6c4] bg-white px-3 py-2 text-sm font-normal normal-case text-ink"
+                      className="mt-1 w-full rounded-xl border border-[#e0d6c4] bg-white px-3 py-2 text-sm font-normal normal-case text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                     >
                       <option value="">Todas</option>
                       <option value="plano">Conferido no plano do TSE</option>
@@ -349,23 +347,137 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                   </label>
                 </div>
                 <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-                  <p aria-live="polite" className="text-sm text-ink-soft">
+                  <p aria-live="polite" className="min-w-0 text-sm text-ink-soft">
                     {temFiltro ? `Mostrando ${resumoResultados}.` : `${index?.proposals.length ?? 0} propostas em ${index?.themes.length ?? 0} temas.`}
                     {isValidating && ' Atualizando…'}
                   </p>
-                  {temFiltro && (
+                  <div className="ml-auto flex shrink-0 items-center gap-3">
                     <button
                       type="button"
                       onClick={limpar}
-                      className="inline-flex items-center gap-1 text-sm font-bold text-[#1B623A] underline underline-offset-2"
+                      disabled={!temFiltro}
+                      className="inline-flex items-center gap-1 text-sm font-bold text-[#1B623A] underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A] disabled:cursor-not-allowed disabled:text-ink-soft disabled:no-underline"
                     >
                       <RotateCcw size={14} aria-hidden="true" /> Limpar filtros
                     </button>
-                  )}
+                    <FloatingAIButton placement="inline" />
+                  </div>
                 </div>
               </section>
 
-              {temFiltro ? (
+              <section aria-labelledby="visao-geral-titulo" className="mt-6">
+                <h2 id="visao-geral-titulo" className="text-sm font-black uppercase tracking-wide text-[#1B623A]">
+                  Visão geral por área
+                </h2>
+                <p className="mt-1 text-[13px] text-ink-soft">
+                  Número de propostas extraídas pelo Votus em cada área. Abra uma área para ver os temas, ou escolha
+                  “Comparar” para ver as propostas lado a lado.
+                </p>
+                <p className="mt-1 text-[13px] text-ink-soft">
+                  “0 propostas extraídas” não significa que o plano ignore o tema. Consulte{' '}
+                  <a href="#assuntos-mencionados" className="font-semibold text-[#1B623A] underline underline-offset-2">
+                    Assuntos mencionados nos planos oficiais
+                  </a>.
+                </p>
+                <div className="mt-3 overflow-x-auto rounded-xl border border-[#e0d6c4] bg-white">
+                  <table className="w-full text-left text-sm">
+                    <caption className="sr-only">Propostas extraídas por área e candidato</caption>
+                    <thead className="bg-[#f7f5f2] text-xs uppercase text-ink-soft">
+                      <tr>
+                        <th scope="col" className="px-3 py-2 font-bold">Área</th>
+                        {candidatos.map((c) => (
+                          <th key={c.id} scope="col" className="px-3 py-2 text-center font-bold">{c.name}</th>
+                        ))}
+                        <th scope="col" className="hidden px-3 py-2 sm:table-cell"><span className="sr-only">Ações</span></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {porGrupo.map(({ group, temas, contagem }) => {
+                        const aberto = gruposAbertos.includes(group.key);
+                        const maiorContagem = Math.max(0, ...candidatos.map((c) => contagem(c.id)));
+
+                        return [
+                          <tr key={group.key} className="border-t border-[#efe8da]">
+                            <th scope="row" className="px-3 py-2 font-semibold">
+                              <button
+                                type="button"
+                                aria-expanded={aberto}
+                                onClick={() => setGruposAbertos(aberto ? gruposAbertos.filter((k) => k !== group.key) : [...gruposAbertos, group.key])}
+                                className="inline-flex items-center gap-1 text-left text-ink hover:text-[#1B623A]"
+                              >
+                                <ChevronDown size={16} aria-hidden="true" className={`shrink-0 transition-transform ${aberto ? 'rotate-180' : ''}`} />
+                                {group.label}
+                                <span className="ml-1 hidden text-xs font-normal text-ink-soft sm:inline">
+                                  ({temas.length} {temas.length === 1 ? 'tema' : 'temas'})
+                                </span>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => atualizar('tema', `grupo:${group.key}`)}
+                                className="ml-5 block text-xs font-bold text-[#1B623A] underline underline-offset-2 sm:hidden"
+                              >
+                                Comparar
+                              </button>
+                            </th>
+                            {candidatos.map((c) => {
+                              const quantidade = contagem(c.id);
+                              const largura = maiorContagem > 0 ? (quantidade / maiorContagem) * 100 : 0;
+
+                              return (
+                                <td key={c.id} className="px-3 py-2 text-center tabular-nums">
+                                  <span>{quantidade}</span>
+                                  <span aria-hidden="true" className="mx-auto mt-1 block h-1.5 w-12 overflow-hidden rounded-full bg-line">
+                                    <span className="block h-full rounded-full bg-ink-soft" style={{ width: `${largura}%` }} />
+                                  </span>
+                                </td>
+                              );
+                            })}
+                            <td className="hidden px-3 py-2 text-right sm:table-cell">
+                              <button
+                                type="button"
+                                onClick={() => atualizar('tema', `grupo:${group.key}`)}
+                                className="text-xs font-bold text-[#1B623A] underline underline-offset-2"
+                              >
+                                Comparar
+                              </button>
+                            </td>
+                          </tr>,
+                          aberto
+                            ? temas.map((t) => (
+                                <tr key={t.slug} className="border-t border-[#f3eee4] bg-[#fbfaf7]">
+                                  <th scope="row" className="py-1.5 pl-9 pr-3 text-[13px] font-normal text-ink">
+                                    {/* No celular a coluna "Comparar" some: o próprio nome do tema abre a comparação. */}
+                                    <button
+                                      type="button"
+                                      onClick={() => atualizar('tema', t.slug)}
+                                      className="text-left hover:text-[#1B623A] hover:underline"
+                                    >
+                                      {t.name}
+                                    </button>
+                                  </th>
+                                  {candidatos.map((c) => (
+                                    <td key={c.id} className="px-3 py-1.5 text-center text-[13px] tabular-nums text-ink-soft">{contagem(c.id, t.slug)}</td>
+                                  ))}
+                                  <td className="hidden px-3 py-1.5 text-right sm:table-cell">
+                                    <button
+                                      type="button"
+                                      onClick={() => atualizar('tema', t.slug)}
+                                      className="text-xs font-bold text-[#1B623A] underline underline-offset-2"
+                                    >
+                                      Comparar
+                                    </button>
+                                  </td>
+                                </tr>
+                              ))
+                            : null,
+                        ];
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+
+              {temFiltro && (
                 <section aria-labelledby="resultado-titulo" className="mt-6 space-y-4">
                   <h2 id="resultado-titulo" className="text-xl font-black text-[#1B623A]">
                     {temaSelecionado
@@ -385,114 +497,19 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                     candidates={candidatosVisiveis}
                     proposals={filtradas}
                     themeNames={themeNames}
-                    highlightExternalId={de || null}
+                    highlightExternalId={null}
                     showTheme={!temaSelecionado}
                     emptyHint="Nenhuma proposta extraída deste candidato com esses filtros. Isso não quer dizer que o plano não trate do assunto — veja “Assuntos nos planos oficiais”."
                   />
                 </section>
-              ) : (
-                <section aria-labelledby="visao-geral-titulo" className="mt-6">
-                  <h2 id="visao-geral-titulo" className="text-sm font-black uppercase tracking-wide text-[#1B623A]">
-                    Visão geral por área
-                  </h2>
-                  <p className="mt-1 text-[13px] text-ink-soft">
-                    Número de propostas extraídas pelo Votus em cada área. Abra uma área para ver os temas, ou escolha
-                    “Comparar” para ver as propostas lado a lado.
-                  </p>
-                  <div className="mt-3 overflow-x-auto rounded-xl border border-[#e0d6c4] bg-white">
-                    <table className="w-full text-left text-sm">
-                      <caption className="sr-only">Propostas extraídas por área e candidato</caption>
-                      <thead className="bg-[#f7f5f2] text-xs uppercase text-ink-soft">
-                        <tr>
-                          <th scope="col" className="px-3 py-2 font-bold">Área</th>
-                          {candidatos.map((c) => (
-                            <th key={c.id} scope="col" className="px-3 py-2 text-center font-bold">{c.name}</th>
-                          ))}
-                          <th scope="col" className="hidden px-3 py-2 sm:table-cell"><span className="sr-only">Ações</span></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {porGrupo.map(({ group, temas, contagem }) => {
-                          const aberto = gruposAbertos.includes(group.key);
-
-                          return [
-                            <tr key={group.key} className="border-t border-[#efe8da]">
-                              <th scope="row" className="px-3 py-2 font-semibold">
-                                <button
-                                  type="button"
-                                  aria-expanded={aberto}
-                                  onClick={() => setGruposAbertos(aberto ? gruposAbertos.filter((k) => k !== group.key) : [...gruposAbertos, group.key])}
-                                  className="inline-flex items-center gap-1 text-left text-ink hover:text-[#1B623A]"
-                                >
-                                  <ChevronDown size={16} aria-hidden="true" className={`shrink-0 transition-transform ${aberto ? 'rotate-180' : ''}`} />
-                                  {group.label}
-                                  <span className="ml-1 hidden text-xs font-normal text-ink-soft sm:inline">
-                                    ({temas.length} {temas.length === 1 ? 'tema' : 'temas'})
-                                  </span>
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => atualizar('tema', `grupo:${group.key}`)}
-                                  className="ml-5 block text-xs font-bold text-[#1B623A] underline underline-offset-2 sm:hidden"
-                                >
-                                  Comparar
-                                </button>
-                              </th>
-                              {candidatos.map((c) => (
-                                <td key={c.id} className="px-3 py-2 text-center tabular-nums">{contagem(c.id)}</td>
-                              ))}
-                              <td className="hidden px-3 py-2 text-right sm:table-cell">
-                                <button
-                                  type="button"
-                                  onClick={() => atualizar('tema', `grupo:${group.key}`)}
-                                  className="text-xs font-bold text-[#1B623A] underline underline-offset-2"
-                                >
-                                  Comparar
-                                </button>
-                              </td>
-                            </tr>,
-                            aberto
-                              ? temas.map((t) => (
-                                  <tr key={t.slug} className="border-t border-[#f3eee4] bg-[#fbfaf7]">
-                                    <th scope="row" className="py-1.5 pl-9 pr-3 text-[13px] font-normal text-ink">
-                                      {/* No celular a coluna "Comparar" some: o próprio nome do tema abre a comparação. */}
-                                      <button
-                                        type="button"
-                                        onClick={() => atualizar('tema', t.slug)}
-                                        className="text-left hover:text-[#1B623A] hover:underline"
-                                      >
-                                        {t.name}
-                                      </button>
-                                    </th>
-                                    {candidatos.map((c) => (
-                                      <td key={c.id} className="px-3 py-1.5 text-center text-[13px] tabular-nums text-ink-soft">{contagem(c.id, t.slug)}</td>
-                                    ))}
-                                    <td className="hidden px-3 py-1.5 text-right sm:table-cell">
-                                      <button
-                                        type="button"
-                                        onClick={() => atualizar('tema', t.slug)}
-                                        className="text-xs font-bold text-[#1B623A] underline underline-offset-2"
-                                      >
-                                        Comparar
-                                      </button>
-                                    </td>
-                                  </tr>
-                                ))
-                              : null,
-                          ];
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </section>
               )}
 
               <SubjectCoverage candidates={candidatosVisiveis} query={filtros.busca} />
+              <SourcesPanel candidates={candidatos} proposals={index?.proposals ?? []} methodology={methodology} />
             </>
           )}
         </div>
       </main>
-      <FloatingAIButton />
     </div>
   );
 }

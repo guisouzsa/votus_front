@@ -1,4 +1,5 @@
-import { ExternalLink } from 'lucide-react';
+import type { ReactNode } from 'react';
+import { ChevronDown, ExternalLink } from 'lucide-react';
 import type { IndexProposal } from '@/services/proposalComparisonService';
 import Tag from './Tag';
 import { coverage, excerptCheck } from './coverage';
@@ -23,26 +24,34 @@ function hostAndPath(url: string): string {
 /**
  * Qual documento foi usado para cada candidato. A diferença de fonte muda a
  * leitura de todo o resto (quantidade de propostas, temas cobertos), por isso
- * fica visível no topo e não numa nota de rodapé.
+ * os documentos e critérios ficam acessíveis no fim da comparação.
  */
 export default function SourcesPanel({
   candidates,
   proposals,
+  methodology,
 }: {
   candidates: ComparisonCandidate[];
   proposals: IndexProposal[];
+  methodology: ReactNode;
 }) {
   return (
-    <section aria-labelledby="fontes-titulo" className="mt-5">
-      <h2 id="fontes-titulo" className="text-sm font-black uppercase tracking-wide text-[#1B623A]">
-        Fontes analisadas
+    <section id="fontes-e-metodologia" aria-labelledby="fontes-metodologia-titulo" className="mt-10 space-y-3">
+      <h2 id="fontes-metodologia-titulo" className="text-sm font-black uppercase tracking-wide text-[#1B623A]">
+        Fontes e metodologia
       </h2>
-      <p className="mt-1 text-[13px] text-ink-soft">
-        A comparação inclui {candidates.length} {candidates.length === 1 ? 'candidato' : 'candidatos'}: os que tiveram
-        o plano processado até agora. Os planos dos demais candidatos a Presidente estão no perfil de cada um, mas ainda
-        não entram na comparação.
-      </p>
-      <ul className="mt-2 grid grid-cols-1 gap-3 lg:grid-cols-2">
+      <details id="fontes-analisadas" className="rounded-2xl border border-[#e0d6c4] bg-white">
+        <summary className="group flex cursor-pointer list-none items-center justify-between gap-3 rounded-2xl px-4 py-3 font-bold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]">
+          Fontes analisadas
+          <ChevronDown size={18} aria-hidden="true" className="shrink-0 text-[#1B623A] transition-transform group-open:rotate-180" />
+        </summary>
+        <div className="border-t border-[#e0d6c4] p-3 sm:p-4">
+          <p className="text-[13px] text-ink-soft">
+            A comparação inclui {candidates.length} {candidates.length === 1 ? 'candidato' : 'candidatos'}: os que tiveram
+            o plano processado até agora. Os planos dos demais candidatos a Presidente estão no perfil de cada um, mas ainda
+            não entram na comparação.
+          </p>
+          <ul className="mt-3 grid grid-cols-1 gap-3 lg:grid-cols-2">
         {candidates.map((candidate) => {
           const document = coverage.documents[String(candidate.external_id)];
           const own = proposals.filter((p) => p.candidate_id === candidate.id);
@@ -124,7 +133,16 @@ export default function SourcesPanel({
             </li>
           );
         })}
-      </ul>
+          </ul>
+        </div>
+      </details>
+      <details className="rounded-2xl border border-[#e0d6c4] bg-white">
+        <summary className="group flex cursor-pointer list-none items-center justify-between gap-3 rounded-2xl px-4 py-3 font-bold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]">
+          Como esta comparação foi feita
+          <ChevronDown size={18} aria-hidden="true" className="shrink-0 text-[#1B623A] transition-transform group-open:rotate-180" />
+        </summary>
+        <div className="border-t border-[#e0d6c4] p-3 sm:p-4">{methodology}</div>
+      </details>
     </section>
   );
 }

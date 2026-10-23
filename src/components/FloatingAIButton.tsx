@@ -39,7 +39,13 @@ const CHAT_REVEAL = "animate-[votus-chat-in_0.55s_ease-out_both]";
 // aqui não muda quantas perguntas são realmente permitidas.
 const LIMITE_PERGUNTAS_POR_HORA = 5;
 
-export default function FloatingAIButton({ onClick }: { onClick?: () => void }) {
+export default function FloatingAIButton({
+  onClick,
+  placement = "fixed",
+}: {
+  onClick?: () => void;
+  placement?: "fixed" | "inline";
+}) {
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [message, setMessage] = useState("");
@@ -53,6 +59,9 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
   const [perguntasRestantes, setPerguntasRestantes] = useState<number | null>(null);
   const limiteAtingido = perguntasRestantes === 0;
   const logRef = useRef<HTMLDivElement>(null);
+  const containerClass = placement === "inline"
+    ? "relative flex justify-end"
+    : "fixed bottom-24 right-4 z-50 flex items-end justify-end md:bottom-6 md:right-6";
 
   const suggestions = [
     { label: "O que faz um senador?", icon: Landmark },
@@ -160,9 +169,11 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
   }
 
   return (
-    <div className="fixed bottom-24 right-4 z-50 flex items-end justify-end md:bottom-6 md:right-6">
+    <div className={containerClass}>
       <section
         aria-label="Chat Votus IA"
+        aria-hidden={!open}
+        inert={!open}
         className={`fixed z-50 flex w-auto origin-bottom-right flex-col overflow-hidden border border-[#EDDBBA] bg-[#FDF8EE] shadow-[0_16px_40px_rgba(27,98,58,0.2)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           expanded
             ? // Tela inteira, sem margens nem cantos arredondados, em
@@ -350,14 +361,18 @@ export default function FloatingAIButton({ onClick }: { onClick?: () => void }) 
         // Some (sem desmontar) quando expandido: o painel fica em tela
         // cheia sobre esse botão, que tem o mesmo z-50 e vem depois no DOM
         // — sem isso ele ficaria flutuando por cima do chat fullscreen.
-        className={`flex h-16 w-16 items-center justify-center gap-3 overflow-hidden rounded-full bg-[#134A2A] bg-cover bg-center px-0 text-sm font-semibold text-[#EDDBBA] shadow-[0_6px_18px_-2px_rgba(19,74,42,0.35)] transition-all duration-300 hover:brightness-110 hover:scale-105 active:scale-90 cursor-pointer md:h-14 md:w-44 md:justify-start md:bg-[url('/FundoFlooatingbutton.svg')] md:px-2 ${
+        className={`flex items-center overflow-hidden transition-all duration-300 hover:brightness-110 hover:scale-105 active:scale-90 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A] ${
+          placement === "inline"
+            ? "h-10 w-auto justify-start gap-2 rounded-full bg-[#1B623A] px-3 text-sm font-semibold text-white shadow-sm"
+            : "h-16 w-16 justify-center gap-3 rounded-full bg-[#134A2A] bg-cover bg-center px-0 text-sm font-semibold text-[#EDDBBA] shadow-[0_6px_18px_-2px_rgba(19,74,42,0.35)] md:h-14 md:w-44 md:justify-start md:bg-[url('/FundoFlooatingbutton.svg')] md:px-2"
+        } ${
           open && expanded ? "pointer-events-none opacity-0" : ""
         }`}
       >
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#EDDBBA] md:h-9 md:w-9">
-          <MessageCircleQuestion size={25} className="text-[#246840]" strokeWidth={1.8} />
+        <span className={`flex shrink-0 items-center justify-center rounded-full bg-[#EDDBBA] ${placement === "inline" ? "h-8 w-8" : "h-10 w-10 md:h-9 md:w-9"}`}>
+          <MessageCircleQuestion size={placement === "inline" ? 19 : 25} className="text-[#246840]" strokeWidth={1.8} />
         </span>
-        <span className="hidden whitespace-nowrap md:inline">Pergunte à IA</span>
+        <span className={placement === "inline" ? "whitespace-nowrap" : "hidden whitespace-nowrap md:inline"}>Pergunte à IA</span>
       </button>
     </div>
   );

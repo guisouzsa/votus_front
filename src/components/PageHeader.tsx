@@ -15,6 +15,7 @@ export default function PageHeader({
   note,
   noteDetails,
   noteDetailsLabel = 'Como isso foi feito',
+  compact = false,
 }: {
   eyebrow: string;
   title: string;
@@ -22,10 +23,11 @@ export default function PageHeader({
   note?: ReactNode;
   noteDetails?: ReactNode;
   noteDetailsLabel?: string;
+  compact?: boolean;
 }) {
   return (
     <header>
-      <section className="rounded-lg bg-[#1B623A] px-4 py-3 text-white sm:px-6 sm:py-4">
+      <section className={`rounded-lg bg-[#1B623A] px-4 text-white ${compact ? 'py-2 sm:px-6 sm:py-3' : 'py-3 sm:px-6 sm:py-4'}`}>
         <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-white/80 sm:text-xs">{eyebrow}</p>
         <h1 className="mt-0.5 text-xl font-black leading-tight tracking-tight sm:text-2xl md:text-3xl">{title}</h1>
         <p className="mt-1 max-w-3xl text-xs leading-snug text-white/90 sm:text-sm">{description}</p>

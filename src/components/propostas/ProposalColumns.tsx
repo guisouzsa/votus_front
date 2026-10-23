@@ -56,11 +56,16 @@ function ProposalItem({
         )}
         {check.kind === 'source' && (
           <Tag tone="neutral" title="O trecho existe na página de origem, mas não foi encontrado no plano registrado no TSE">
-            Trecho conferido só na página de origem
+            {document && document.extraction_source_text_found_in_plan_pct < 80
+              ? 'Página de campanha: trecho não encontrado no plano do TSE'
+              : 'Trecho conferido só na página de origem'}
           </Tag>
         )}
         {check.kind === 'pending' && (
           <Tag tone="pending" title="Sem trecho literal que sustente o resumo">Fonte pendente de validação</Tag>
+        )}
+        {check.kind === 'unknown' && (
+          <Tag tone="neutral" title="Não há registro de conferência para este trecho">Situação da fonte não verificada</Tag>
         )}
         {isPossibleDuplicate(proposal) && <Tag tone="pending">Possível duplicata</Tag>}
         <a
