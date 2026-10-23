@@ -13,6 +13,7 @@ import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
 import Pagination from '@/components/Pagination';
 import PageTransitionOverlay from '@/components/PageTransitionOverlay';
 import PageHeader from '@/components/PageHeader';
+import ElectionResultBadge from '@/components/ElectionResultBadge';
 import StatCard from '@/components/StatCard';
 import DataSourceNote from '@/components/DataSourceNote';
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
@@ -366,6 +367,14 @@ export default function CandidatosListClient({
                           <div className="mt-2 text-xs font-medium text-[#4d4d4d] sm:text-sm">
                             Nº {candidato.ballot_number ?? '—'}
                           </div>
+                          {/* Resultado da eleição (TSE) e situação do registro
+                              da candidatura são coisas diferentes: os dois
+                              selos ficam. */}
+                          {candidato.election_result && (
+                            <div className="mt-2 self-center">
+                              <ElectionResultBadge result={candidato.election_result} />
+                            </div>
+                          )}
                           {candidato.judgment_status && (
                             <div className="mt-2 inline-block self-center rounded-full border border-[#e0d6c4] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#1b623a]">
                               {candidato.judgment_status}

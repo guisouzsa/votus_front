@@ -568,6 +568,19 @@ export interface CandidacyHistoryEntry {
   result_status: string | null;
 }
 
+export type ElectionResultStatus = "elected" | "not_elected" | "runoff" | "awaiting" | "unverified";
+
+export interface ElectionResult {
+  status: ElectionResultStatus;
+  label: string;
+  detail: string;
+  // Texto exato do TSE (ex.: "Eleito por QP", "2º turno"); null sem resultado.
+  official_text: string | null;
+  election_year: number | null;
+  round: number | null;
+  source: "TSE" | null;
+}
+
 export interface Candidate {
   id: number;
   ballot_number: string | null;
@@ -587,6 +600,9 @@ export interface Candidate {
   // "DEFERIDO EM PRAZO RECURSAL OU COM RECURSO") — a listagem já só traz
   // candidatos deferidos, mas o campo continua útil no perfil individual.
   judgment_status: string | null;
+  // Situação eleitoral classificada pelo backend a partir do resultado
+  // oficial do TSE (ElectionResultStatus). Ausente em vice/suplentes.
+  election_result?: ElectionResult;
   // Só vêm preenchidos no perfil (/candidates/{id}) — a listagem não carrega
   // essas relações de propósito, pra não misturar vice/suplente com titular.
   running_mates?: Candidate[];

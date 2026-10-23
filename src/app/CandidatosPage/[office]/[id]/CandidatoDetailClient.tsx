@@ -3,6 +3,7 @@
 import { useSsrDetail } from '@/hooks/useSsrDetail';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import ElectionResultBadge from '@/components/ElectionResultBadge';
 import { ArrowLeft, Columns2, FileText } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
 import MobileBottomNav from '@/components/MobileBottomNav';
@@ -183,6 +184,26 @@ export default function CandidatoDetailClient({
                   <dt className="text-[#4d4d4d]">Situação da candidatura (TSE)</dt>
                   <dd className="text-right font-semibold">{tituloCaso(candidato.judgment_status)}</dd>
                 </div>
+                {candidato.election_result && (
+                  <div className="border-t border-[#efe8da] pt-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <dt className="text-[#4d4d4d]">Resultado da eleição de {candidato.election_year}</dt>
+                      <dd>
+                        <ElectionResultBadge result={candidato.election_result} size="md" />
+                      </dd>
+                    </div>
+                    <dd className="mt-1 text-xs leading-relaxed text-[#4d4d4d]">
+                      {candidato.election_result.detail}
+                      {candidato.election_result.official_text && (
+                        <>
+                          {' '}
+                          Fonte: TSE{candidato.election_result.round ? `, ${candidato.election_result.round}º turno` : ''} — texto
+                          oficial “{candidato.election_result.official_text}”.
+                        </>
+                      )}
+                    </dd>
+                  </div>
+                )}
               </dl>
 
               <div className="mt-4 flex flex-wrap gap-2">
