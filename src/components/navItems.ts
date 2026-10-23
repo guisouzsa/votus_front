@@ -35,12 +35,16 @@ export const NAV_ITEMS: NavItem[] = [
     icon: "/IconeCandidatos.svg",
     children: [
       { id: "candidatos-presidente", label: "Presidente", path: "/CandidatosPage/presidente" },
+      { id: "comparar-propostas", label: "Comparar propostas", path: "/ComparadorPropostasPage" },
       { id: "candidatos-governador", label: "Governador", path: "/CandidatosPage/governador" },
       { id: "candidatos-senado", label: "Senador", path: "/CandidatosPage/senado" },
       { id: "candidatos-deputado-federal", label: "Deputado Federal", path: "/CandidatosPage/deputado-federal" },
       { id: "candidatos-deputado-estadual", label: "Deputado Estadual", path: "/CandidatosPage/deputado-estadual" },
     ],
   },
+  // Radar depois dos 4 primeiros itens, pra não mudar os atalhos fixos da
+  // barra inferior do mobile.
+  { id: "radar", label: "Radar do Brasil", icon: "/IconeRadar.svg", path: "/RadarPage" },
   {
     id: "juventude",
     label: "Juventude",
