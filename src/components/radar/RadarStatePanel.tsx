@@ -2,12 +2,28 @@
 
 import type { ReactNode } from 'react';
 import { AlertTriangle, Clock, ExternalLink } from 'lucide-react';
-import LoadingState from '@/components/LoadingState';
 import type { RadarIndicatorKey, RadarStateDetail } from '@/services/radarService';
 
 const INDICATOR_ORDER: RadarIndicatorKey[] = ['population', 'area', 'gdp'];
 
-const TOP_TOPICS = 8;
+// Temas visíveis de saída; o restante fica em "Ver todos".
+const TOP_TOPICS = 6;
+
+function TopicList({ items }: { items: ReactNode[] }) {
+  return (
+    <>
+      <ul className="mt-3 space-y-2.5">{items.slice(0, TOP_TOPICS)}</ul>
+      {items.length > TOP_TOPICS && (
+        <details className="mt-2">
+          <summary className="cursor-pointer text-xs font-bold text-[#1B623A] underline-offset-2 hover:underline">
+            Ver todos os {items.length} temas
+          </summary>
+          <ul className="mt-2.5 space-y-2.5">{items.slice(TOP_TOPICS)}</ul>
+        </details>
+      )}
+    </>
+  );
+}
 
 export function formatDateTime(iso: string | null): string | null {
   if (!iso) return null;
@@ -65,8 +81,9 @@ function UpdatedAt({ generatedAt, lastFailedAt }: { generatedAt: string | null; 
       {lastFailedAt && (
         <p className="flex items-start gap-1 text-[#8d0801]">
           <AlertTriangle size={12} className="mt-0.5 shrink-0" />
-          A última tentativa de atualização ({formatDateTime(lastFailedAt)}) falhou na fonte oficial; os dados
-          exibidos são os últimos validados.
+          {generatedAt
+            ? `A última tentativa de atualização (${formatDateTime(lastFailedAt)}) falhou na fonte oficial; os dados exibidos são os últimos validados.`
+            : `A última tentativa de buscar os dados (${formatDateTime(lastFailedAt)}) falhou na fonte oficial. Uma nova tentativa é feita automaticamente.`}
         </p>
       )}
     </div>
@@ -88,25 +105,62 @@ function TopicBar({ name, value, width, detail }: { name: string; value: string;
   );
 }
 
+// Esqueleto no formato do painel (cabeçalho, indicadores e dois blocos de
+// temas), no padrão dos skeletons do Votus.
+function PanelSkeleton() {
+  return (
+    <div role="status" className="animate-pulse space-y-4">
+      <span className="sr-only">Carregando dados do estado...</span>
+      <div className="space-y-2">
+        <div className="h-3 w-24 rounded bg-[#eee6d8]" />
+        <div className="h-7 w-56 rounded bg-[#eee6d8]" />
+      </div>
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+        {[0, 1, 2].map((i) => (
+          <div key={i} className="h-20 rounded-xl bg-[#eee6d8]" />
+        ))}
+      </div>
+      {[0, 1].map((i) => (
+        <div key={i} className="space-y-3 rounded-2xl border border-[#e0d6c4] bg-white p-4">
+          <div className="h-4 w-40 rounded bg-[#eee6d8]" />
+          {[0, 1, 2, 3].map((j) => (
+            <div key={j} className="h-3 rounded bg-[#eee6d8]" style={{ width: `${90 - j * 15}%` }} />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function RadarStatePanel({
   detail,
   loading,
+  updating = false,
   error,
+  onRetry,
 }: {
   detail: RadarStateDetail | undefined;
   loading: boolean;
+  updating?: boolean;
   error: string | null;
+  onRetry?: () => void;
 }) {
   if (error) {
     return (
-      <p role="alert" className="rounded-2xl border border-[#e0d6c4] bg-white p-5 text-sm text-[#8d0801]">
-        {error}
-      </p>
+      <div role="alert" className="rounded-2xl border border-[#e0d6c4] bg-white p-5 text-sm">
+        <p className="font-semibold text-[#8d0801]">{error}</p>
+        <p className="mt-1 text-ink-soft">Pode ser uma instabilidade momentânea do servidor.</p>
+        {onRetry && (
+          <button type="button" onClick={onRetry} className="mt-2 font-bold text-[#1B623A] underline underline-offset-2">
+            Tentar novamente
+          </button>
+        )}
+      </div>
     );
   }
 
   if (loading || !detail) {
-    return <LoadingState message="Carregando dados do estado..." />;
+    return <PanelSkeleton />;
   }
 
   const { state, ibge, camara, senado, period } = detail;
@@ -121,7 +175,10 @@ export default function RadarStatePanel({
         <h2 className="text-2xl font-black text-[#1B623A]">
           {state.name} <span className="text-ink-soft">({state.uf})</span>
         </h2>
-        <p className="text-sm text-ink-soft">{period.label}</p>
+        <p className="text-sm text-ink-soft" aria-live="polite">
+          {period.label}
+          {updating && <span className="ml-2 text-xs font-semibold text-[#1B623A]">Atualizando…</span>}
+        </p>
       </header>
 
       <Block title="Indicadores" source="IBGE">
@@ -160,8 +217,8 @@ export default function RadarStatePanel({
         ) : (
           <>
             <p className="text-sm text-ink">
-              <strong>{camaraData.propositions.toLocaleString('pt-BR')}</strong> PL/PEC com tema oficial apresentados por
-              deputados de {state.uf}
+              <strong>{camaraData.propositions.toLocaleString('pt-BR')}</strong> projetos de lei (PL) e propostas de emenda à
+              Constituição (PEC) com tema oficial, apresentados por deputados de {state.uf}
               {camaraData.deputies !== null && (
                 <>
                   {' '}
@@ -170,8 +227,8 @@ export default function RadarStatePanel({
               )}
               .
             </p>
-            <ul className="mt-3 space-y-2.5">
-              {camaraData.topics.slice(0, TOP_TOPICS).map((topic) => (
+            <TopicList
+              items={camaraData.topics.map((topic) => (
                 <TopicBar
                   key={topic.code}
                   name={topic.name}
@@ -180,7 +237,7 @@ export default function RadarStatePanel({
                   detail={`${topic.count.toLocaleString('pt-BR')} de ${camaraData.propositions.toLocaleString('pt-BR')} proposições`}
                 />
               ))}
-            </ul>
+            />
             <p className="mt-3 text-[11px] text-ink-soft">
               {camaraData.multi_theme_propositions.toLocaleString('pt-BR')} proposições têm mais de um tema e contam em
               cada um — por isso os percentuais somam mais de 100%.
@@ -196,7 +253,7 @@ export default function RadarStatePanel({
         ) : (
           <>
             <p className="text-sm text-ink">
-              <strong>{senadoData.propositions}</strong> PL/PEC dos senadores em exercício de {state.uf}
+              <strong>{senadoData.propositions}</strong> PL e PEC dos senadores em exercício de {state.uf}
               {senadoData.senators.length > 0 && (
                 <> ({senadoData.senators.map((s) => s.name).filter(Boolean).join(', ')})</>
               )}
@@ -208,8 +265,8 @@ export default function RadarStatePanel({
               </p>
             )}
             {senadoData.topics.length > 0 ? (
-              <ul className="mt-3 space-y-2.5">
-                {senadoData.topics.slice(0, TOP_TOPICS).map((topic) => (
+              <TopicList
+                items={senadoData.topics.map((topic) => (
                   <TopicBar
                     key={topic.name}
                     name={topic.name}
@@ -217,7 +274,7 @@ export default function RadarStatePanel({
                     width={(topic.count / senadoMax) * 100}
                   />
                 ))}
-              </ul>
+              />
             ) : (
               <p className="mt-2 text-sm text-ink-soft">Nenhuma proposição classificada neste período.</p>
             )}

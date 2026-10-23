@@ -35,7 +35,6 @@ export const NAV_ITEMS: NavItem[] = [
     icon: "/IconeCandidatos.svg",
     children: [
       { id: "candidatos-presidente", label: "Presidente", path: "/CandidatosPage/presidente" },
-      { id: "comparar-propostas", label: "Comparar propostas", path: "/ComparadorPropostasPage" },
       { id: "candidatos-governador", label: "Governador", path: "/CandidatosPage/governador" },
       { id: "candidatos-senado", label: "Senador", path: "/CandidatosPage/senado" },
       { id: "candidatos-deputado-federal", label: "Deputado Federal", path: "/CandidatosPage/deputado-federal" },
@@ -72,6 +71,9 @@ export const DETAIL_ROUTE_PREFIXES: { prefix: string; id: string }[] = [
   // "Você Sabia?" (/explicacao e /explicacao/[id]) fica dentro de Explicações.
   { prefix: "/explicacao", id: "explicacoes" },
   { prefix: "/CandidatosPage/presidente/", id: "candidatos-presidente" },
+  // A comparação faz parte da área de candidatos a Presidente (sem item
+  // próprio no menu).
+  { prefix: "/ComparadorPropostasPage", id: "candidatos-presidente" },
   { prefix: "/CandidatosPage/governador/", id: "candidatos-governador" },
   { prefix: "/CandidatosPage/senado/", id: "candidatos-senado" },
   { prefix: "/CandidatosPage/deputado-federal/", id: "candidatos-deputado-federal" },

@@ -1,4 +1,4 @@
-import { apiGet } from "./apiClient";
+import { ApiError, apiGet } from "./apiClient";
 
 // Contrato de GET /api/presidential-proposal-comparison/themes e
 // /themes/{slug} (ver PresidentialProposalComparisonController no backend).
@@ -40,6 +40,66 @@ export interface ThemeDetail {
   theme: { slug: string; name: string };
   candidates: ThemeCandidate[];
   comparison: ThemeComparison | null;
+}
+
+export interface IndexCandidate {
+  id: number;
+  external_id: number | string;
+  name: string;
+  party: string | null;
+  plan_document_url: string | null;
+}
+
+export interface IndexProposal extends CandidateProposal {
+  id: number | null;
+  candidate_id: number;
+  theme_slug: string;
+}
+
+export interface ProposalIndex {
+  candidates: IndexCandidate[];
+  themes: { slug: string; name: string }[];
+  proposals: IndexProposal[];
+}
+
+/**
+ * Candidatos, temas e todas as propostas de uma vez (GET .../proposals).
+ * Enquanto esse endpoint não estiver publicado (404), monta o mesmo índice a
+ * partir de /themes e /themes/{slug}: mais requisições, mesmo conteúdo — mas
+ * sem os candidatos sem proposta e sem o id das propostas.
+ */
+export async function getProposalIndex(): Promise<ProposalIndex> {
+  try {
+    return (await apiGet<{ data: ProposalIndex }>("/api/presidential-proposal-comparison/proposals")).data;
+  } catch (error) {
+    if (!(error instanceof ApiError) || error.status !== 404) throw error;
+  }
+
+  const themes = (await getProposalThemes()).data;
+  const details = await Promise.all(themes.map((theme) => getProposalTheme(theme.slug).then((r) => r.data)));
+  const candidates = new Map<number, IndexCandidate>();
+  const proposals: IndexProposal[] = [];
+
+  for (const detail of details) {
+    for (const candidate of detail.candidates) {
+      candidates.set(candidate.id, {
+        id: candidate.id,
+        external_id: candidate.external_id,
+        name: candidate.name,
+        party: candidate.party,
+        plan_document_url: null,
+      });
+      for (const proposal of candidate.proposals) {
+        proposals.push({ ...proposal, id: null, candidate_id: candidate.id, theme_slug: detail.theme.slug });
+      }
+    }
+  }
+
+  return {
+    candidates: [...candidates.values()].sort((a, b) => a.name.localeCompare(b.name, "pt-BR")),
+    themes: themes.map(({ slug, name }) => ({ slug, name })),
+    proposals,
+  };
 }
 
 export function getProposalThemes() {

@@ -2,12 +2,11 @@
 
 import { useMemo, useState } from 'react';
 import useSWR from 'swr';
-import { Info } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
-import LoadingState from '@/components/LoadingState';
+import PageHeader from '@/components/PageHeader';
 import BrazilStateMap from '@/components/radar/BrazilStateMap';
 import RadarStatePanel from '@/components/radar/RadarStatePanel';
 import { useSsrDetail } from '@/hooks/useSsrDetail';
@@ -52,53 +51,79 @@ export default function RadarPageClient({ initialData }: { initialData?: RadarOv
       <MobileBottomNav />
       <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
         <div className="w-full px-4 py-8 sm:px-10">
-          <section className="rounded-lg bg-[#1B623A] px-4 py-3 text-white sm:px-6 sm:py-4">
-            <h1 className="text-lg font-black uppercase leading-tight tracking-tight sm:text-xl md:text-2xl">
-              RADAR DO BRASIL
-            </h1>
-            <p className="mt-1 max-w-3xl text-xs leading-snug text-white/90 sm:text-sm">
-              Escolha um estado para ver indicadores do IBGE e os temas mais frequentes nas proposições apresentadas
-              pelos seus deputados federais e senadores.
-            </p>
-          </section>
+          <PageHeader
+            eyebrow="Dados públicos"
+            title="Radar do Brasil"
+            description="Escolha um estado para ver indicadores do IBGE e os temas mais frequentes nas proposições apresentadas pelos seus deputados federais e senadores."
+            note={
+              methodology?.what_it_measures ??
+              'Temas mais frequentes nas proposições dos parlamentares de cada estado. Mostra a atividade legislativa, não as prioridades da população.'
+            }
+            noteDetailsLabel="Como os números são calculados"
+            noteDetails={
+              methodology && (
+                <dl className="space-y-2">
+                  <div>
+                    <dt className="font-bold text-ink">Siglas</dt>
+                    <dd>
+                      PL = projeto de lei; PEC = proposta de emenda à Constituição; UF = unidade federativa (estado ou
+                      Distrito Federal); IBGE = Instituto Brasileiro de Geografia e Estatística.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="font-bold text-ink">Câmara dos Deputados</dt>
+                    <dd>{methodology.camara}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-bold text-ink">Senado Federal</dt>
+                    <dd>{methodology.senado}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-bold text-ink">Vários temas</dt>
+                    <dd>{methodology.multiple_topics}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-bold text-ink">Períodos</dt>
+                    <dd>{methodology.periods}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-bold text-ink">IBGE</dt>
+                    <dd>{methodology.ibge}</dd>
+                  </div>
+                </dl>
+              )
+            }
+          />
 
-          {methodology && (
-            <p className="mt-3 flex items-start gap-2 rounded-xl border border-[#e0d6c4] bg-[#f7f5f2] p-3 text-xs leading-relaxed text-ink-soft sm:text-sm">
-              <Info size={16} className="mt-0.5 shrink-0 text-[#1B623A]" />
-              <span>{methodology.what_it_measures}</span>
-            </p>
-          )}
-
-          <div className="mt-4 flex flex-wrap items-center gap-2" role="radiogroup" aria-label="Período">
-            {periodOptions.map((option) => (
-              <button
-                key={option}
-                type="button"
-                role="radio"
-                aria-checked={option === period}
-                onClick={() => setPeriod(option)}
-                className={`rounded-full border px-4 py-1.5 text-sm font-bold transition-colors ${
-                  option === period
-                    ? 'border-[#1B623A] bg-[#1B623A] text-white'
-                    : 'border-[#e0d6c4] bg-white text-[#1B623A] hover:bg-[#EDDBBA]/40'
-                }`}
-              >
-                {periodLabel(option)}
-              </button>
-            ))}
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <span id="radar-periodo" className="mr-1 text-xs font-bold uppercase text-ink-soft">
+              Período
+            </span>
+            <div className="flex flex-wrap gap-2" role="radiogroup" aria-labelledby="radar-periodo">
+              {periodOptions.map((option) => (
+                <button
+                  key={option}
+                  type="button"
+                  role="radio"
+                  aria-checked={option === period}
+                  onClick={() => setPeriod(option)}
+                  className={`rounded-full border px-3.5 py-1.5 text-sm font-bold transition-colors ${
+                    option === period
+                      ? 'border-[#1B623A] bg-[#1B623A] text-white'
+                      : 'border-[#e0d6c4] bg-white text-[#1B623A] hover:bg-[#EDDBBA]/40'
+                  }`}
+                >
+                  {periodLabel(option)}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="mt-4 grid grid-cols-1 gap-6 lg:grid-cols-5">
-            <div className="lg:col-span-2">
-              <div className="rounded-2xl border border-[#e0d6c4] bg-white p-3 sm:p-4">
-                {overview.isLoading && !states ? (
-                  <LoadingState message="Carregando o mapa..." />
-                ) : (
-                  <BrazilStateMap selected={selectedUf} names={names} onSelect={setSelectedUf} />
-                )}
-
-                <label className="mt-3 block text-xs font-bold uppercase text-ink-soft" htmlFor="radar-uf">
-                  Ou escolha na lista
+          <div className="mt-4 grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+            <div>
+              <div className="rounded-2xl border border-[#e0d6c4] bg-white p-3 sm:p-4 lg:sticky lg:top-4">
+                <label className="block text-xs font-bold uppercase text-ink-soft" htmlFor="radar-uf">
+                  Estado
                 </label>
                 <select
                   id="radar-uf"
@@ -112,52 +137,49 @@ export default function RadarPageClient({ initialData }: { initialData?: RadarOv
                     </option>
                   ))}
                 </select>
+
+                <div className="mt-3">
+                  {overview.isLoading && !states ? (
+                    <div className="aspect-[1090/1027] w-full animate-pulse rounded-xl bg-[#eee6d8]" role="status">
+                      <span className="sr-only">Carregando o mapa...</span>
+                    </div>
+                  ) : (
+                    <BrazilStateMap selected={selectedUf} names={names} onSelect={setSelectedUf} />
+                  )}
+                </div>
+
+                <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-soft" aria-label="Legenda do mapa">
+                  <li className="inline-flex items-center gap-1.5">
+                    <span className="h-3 w-3 rounded-sm bg-[#1B623A]" aria-hidden="true" /> Estado selecionado
+                  </li>
+                  <li className="inline-flex items-center gap-1.5">
+                    <span className="h-3 w-3 rounded-sm bg-[#d9cdb5]" aria-hidden="true" /> Demais estados
+                  </li>
+                  <li>O mapa serve para escolher o estado: as cores não representam números.</li>
+                </ul>
               </div>
 
-              {overview.error && (
-                <p role="alert" className="mt-3 text-sm text-[#8d0801]">
-                  Não foi possível carregar o Radar agora. Tente novamente em instantes.
-                </p>
-              )}
-
-              {methodology && (
-                <details className="mt-4 rounded-2xl border border-[#e0d6c4] bg-white p-4 text-sm">
-                  <summary className="cursor-pointer font-bold text-[#1B623A]">Como os números são calculados</summary>
-                  <dl className="mt-3 space-y-3 text-[13px] leading-relaxed text-ink-soft">
-                    <div>
-                      <dt className="font-bold text-ink">Câmara dos Deputados</dt>
-                      <dd>{methodology.camara}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-bold text-ink">Senado Federal</dt>
-                      <dd>{methodology.senado}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-bold text-ink">Vários temas</dt>
-                      <dd>{methodology.multiple_topics}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-bold text-ink">Períodos</dt>
-                      <dd>{methodology.periods}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-bold text-ink">IBGE</dt>
-                      <dd>{methodology.ibge}</dd>
-                    </div>
-                  </dl>
-                </details>
+              {overview.error && !states && (
+                <div role="alert" className="mt-3 text-sm">
+                  <p className="text-[#8d0801]">Não foi possível carregar o mapa agora.</p>
+                  <button type="button" onClick={() => overview.mutate()} className="mt-1 font-bold text-[#1B623A] underline">
+                    Tentar novamente
+                  </button>
+                </div>
               )}
             </div>
 
-            <div className="lg:col-span-3">
+            <div>
               <RadarStatePanel
                 detail={detail.data}
                 loading={detail.isLoading && !detail.data}
+                updating={detail.isValidating && Boolean(detail.data)}
                 error={
                   detail.error && !detail.data
-                    ? 'Não foi possível carregar os dados deste estado agora. Tente novamente em instantes.'
+                    ? 'Não foi possível carregar os dados deste estado agora.'
                     : null
                 }
+                onRetry={() => detail.mutate()}
               />
             </div>
           </div>

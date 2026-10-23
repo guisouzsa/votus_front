@@ -1,0 +1,3597 @@
+{
+ "generated_at": "2026-10-23T17:37:40.675Z",
+ "method": {
+  "unit": "páginas do plano oficial com ao menos um dos termos buscados (sem contar sumário e índice)",
+  "search": "texto extraído do PDF (pdftotext), comparado sem acentos e sem diferenciar maiúsculas; termo casado no início de palavra",
+  "stored_proposals": "propostas extraídas e armazenadas no Votus cujo título, resumo ou trecho contém algum dos termos"
+ },
+ "documents": {
+  "280002542548": {
+   "name": "LULA",
+   "plan_pdf_url": "https://bibpgfltcdrgbxvvnixn.supabase.co/storage/v1/object/public/votus-documents/candidates/proposals/280002542548.pdf",
+   "plan_pdf_last_modified": "Thu, 24 Sep 2026 13:49:55 GMT",
+   "plan_pages": 84,
+   "index_pages": [
+    3
+   ],
+   "extraction_source_url": "https://lula.com.br/propostas/",
+   "extraction_source_text_found_in_plan_pct": 0
+  },
+  "280002551544": {
+   "name": "FLAVIO BOLSONARO",
+   "plan_pdf_url": "https://bibpgfltcdrgbxvvnixn.supabase.co/storage/v1/object/public/votus-documents/candidates/proposals/280002551544.pdf",
+   "plan_pdf_last_modified": "Thu, 24 Sep 2026 13:50:03 GMT",
+   "plan_pages": 73,
+   "index_pages": [
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "extraction_source_url": "https://www.flaviobolsonaro.com.br/plano-de-governo/leitura",
+   "extraction_source_text_found_in_plan_pct": 91.1
+  }
+ },
+ "subjects": [
+  {
+   "slug": "educacao-basica",
+   "label": "Educação básica",
+   "group": "Educação",
+   "terms": [
+    "educacao basica",
+    "ensino fundamental",
+    "ensino medio",
+    "alfabetiza",
+    "creche",
+    "escola"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      9,
+      13,
+      20,
+      23,
+      24,
+      25,
+      30,
+      31,
+      32,
+      33,
+      34,
+      36,
+      43,
+      58,
+      59
+     ],
+     "excerpts": [
+      {
+       "page": 9,
+       "text": "…ção infantil. Na educação, a ausência de uma coordenação federativa integrada, a redução dos recursos e a paralisia de milhares de obras de creches e escolas que abandonaram os municípios à própria sorte, deprimindo a qualidade pedagógica e estimulando o aumento da evasão escolar. No mercado de trabalho e n…"
+      },
+      {
+       "page": 13,
+       "text": "…setor. Os investimentos em todos os níveis educacionais voltaram. E o governo desenhou uma inovadora e premiada política contra a evasão no Ensino Médio: o programa Pé-de-Meia. Na cultura, a recriação do Ministério da Cultura (MinC) e a retomada dos mecanismos de financiamento permitiram voltar a valorizar a ide…"
+      },
+      {
+       "page": 20,
+       "text": "…tes de graduação que declaram cor ou raça, 45,5% identificam-se como pretos, pardos ou indígenas, e três em cada quatro ingressantes vêm da escola pública. Neste mandato, a política de cotas foi aperfeiçoada, com a inclusão de reserva para quilombolas. Vamos acelerar a implementação da Política Nacional de…"
+      }
+     ],
+     "stored_proposal_ids": [
+      4,
+      7
+     ]
+    },
+    "280002551544": {
+     "plan_pages": [
+      10,
+      13,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      33,
+      34,
+      35,
+      36,
+      38,
+      40,
+      47,
+      69,
+      74
+     ],
+     "excerpts": [
+      {
+       "page": 10,
+       "text": "…, patrimônio e um envelhecimento digno. A maior parte dos capítulos deste Plano acompanha essa trajetória. A segurança protege a criança na escola e o comerciante no balcão. A simplificação do Estado poupa tempo de quem busca o primeiro emprego e de quem já se aposentou. O crédito serve a quem quer estudar…"
+      },
+      {
+       "page": 13,
+       "text": "…uma família vive, trabalha ou prospera sob o domínio do medo. Antes de qualquer outra coisa, o brasileiro precisa poder deixar o filho ir à escola, abrir a porta do comércio de manhã e voltar para casa à noite sem rezar para chegar inteiro. Segurança não é um tema entre outros: é a condição para todos os d…"
+      },
+      {
+       "page": 18,
+       "text": "…de estudar, se capacitar, buscar emprego, empreender ou pedir ajuda por falta de conexão. É o que dará acesso ao aplicativo, aos cursos da Escola Brasil por Elas, à ClarIA, à busca por vagas de emprego, à marcação de exames e aos demais serviços da plataforma. ClarIA a amiga virtual que acompanha cada eta…"
+      }
+     ],
+     "stored_proposal_ids": [
+      49,
+      52,
+      53,
+      71,
+      72,
+      73,
+      75,
+      76,
+      77,
+      78,
+      79,
+      92,
+      97
+     ]
+    }
+   }
+  },
+  {
+   "slug": "ensino-tecnico",
+   "label": "Ensino técnico e profissionalizante",
+   "group": "Educação",
+   "terms": [
+    "ensino tecnico",
+    "educacao profissional",
+    "profissionalizante",
+    "institutos federais",
+    "qualificacao profissional",
+    "curso tecnico"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      20,
+      31,
+      33,
+      34,
+      42,
+      60,
+      74
+     ],
+     "excerpts": [
+      {
+       "page": 20,
+       "text": "…al de Equidade, Educação para as Relações Étnico-Raciais e Educação Escolar Quilombola (PNEERQ). Implantamos o primeiro campus quilombo dos Institutos Federais, em Minas Nova, e teremos outros mais. Temos orgulho da retomada do processo de titulação de territórios quilombolas, que permitiu, desde 2023, a expedição de 6…"
+      },
+      {
+       "page": 31,
+       "text": "…alos e insuficiências ainda existentes neste nível de escolaridade. Mesmo priorizando a educação básica, voltamos a investir na expansão do ensino técnico e tecnológico, e retomamos o fomento ao ensino superior, em especial à rede federal. No novo mandato, a conciliação destes objetivos continuará orientando a açã…"
+      },
+      {
+       "page": 33,
+       "text": "…A educação e formação profissional é uma prioridade para os jovens e toda a sociedade brasileira. Por isto, retomamos a expansão da rede de institutos federais de educação técnica e tecnológica, os IFs. Serão mais 111 IFs, com novos campus em 106 municípios de todos os estados. Também criamos o Partiu IF, que oferece c…"
+      }
+     ],
+     "stored_proposal_ids": [
+      5
+     ]
+    },
+    "280002551544": {
+     "plan_pages": [
+      36,
+      43
+     ],
+     "excerpts": [
+      {
+       "page": 36,
+       "text": "…ram trabalho, e custa ao país o crescimento que ele deixa de ter por falta de gente qualificada. Há anos, setores organizados resistem a um ensino técnico voltado às necessidades reais do mercado, como se preparar o jovem para trabalhar fosse algo menor. Vamos ampliar a oferta de educação técnica para os alunos do…"
+      },
+      {
+       "page": 43,
+       "text": "…rograma social terá prioridade em todas as ações do Estado voltadas ao trabalho: prioridade nos programas de primeiro emprego, nas ações de qualificação profissional e na intermediação de mão de obra. Criaremos uma trilha de qualificação e intermediação desenhada especialmente para quem recebe o benefício, para que a saída n…"
+      }
+     ],
+     "stored_proposal_ids": []
+    }
+   }
+  },
+  {
+   "slug": "ensino-superior",
+   "label": "Ensino superior e pesquisa",
+   "group": "Educação",
+   "terms": [
+    "universidade",
+    "ensino superior",
+    "pos-graduacao",
+    "pos graduacao",
+    "capes",
+    "cnpq"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      19,
+      20,
+      24,
+      31,
+      33,
+      39,
+      43,
+      54,
+      55,
+      71
+     ],
+     "excerpts": [
+      {
+       "page": 19,
+       "text": "…namental, terão continuidade, alinhadas à política de cotas no serviço público que aprimoramos no atual mandato. Com a política de cotas, a universidade brasileira mudou de rosto: entre os 19"
+      },
+      {
+       "page": 20,
+       "text": "…ígenas, na interculturalidade, no multilinguismo e nas formas próprias de produção e difusão de conhecimentos. Vamos implantar plenamente a Universidade Indígena, criada em 2026. Manteremos nossos esforços para a elevação da qualidade de vida e da preservação dos direitos de todos os povos, com atenção especial…"
+      },
+      {
+       "page": 24,
+       "text": "…cesso educacional. Manteremos os investimentos na rede nacional de cursinhos populares (CPop), de modo a facilitar o acesso da juventude ao ensino superior. Fortaleceremos ainda mais a assistência estudantil, ampliando o acesso à alimentação e à moradia estudantil para os jovens que estão no ensino superior. A polí…"
+      }
+     ],
+     "stored_proposal_ids": [
+      6
+     ]
+    },
+    "280002551544": {
+     "plan_pages": [
+      36,
+      37,
+      40,
+      57
+     ],
+     "excerpts": [
+      {
+       "page": 36,
+       "text": "…o teto. A CAPES e o CNPq passarão a priorizar o impacto produtivo, a inovação e a transferência de tecnologia, para que a pesquisa feita na universidade chegue à indústria e vire produto, emprego e renda, em vez de ficar na estante. E os cursos de pós-graduação voltados ao mercado, o lato 36"
+      },
+      {
+       "page": 37,
+       "text": "sensu, vão aproximar empresas e universidades: as instituições de ensino poderão receber recursos em troca da formação dos profissionais de que o país precisa, premiando quem forma para o emprego que existe…"
+      },
+      {
+       "page": 40,
+       "text": "…o, vamos aperfeiçoar as bolsas esportivas e, sobretudo, trazer a iniciativa privada para o patrocínio, em parceria com clubes, faculdades e universidades. Vamos incentivar o uso de tecnologia e ciência de dados por meio de editais para confederações e clubes, e fortalecer a preparação para os Jogos Olímpicos e Pa…"
+      }
+     ],
+     "stored_proposal_ids": [
+      81,
+      132
+     ]
+    }
+   }
+  },
+  {
+   "slug": "livros-leitura",
+   "label": "Livros, leitura e bibliotecas",
+   "group": "Educação",
+   "terms": [
+    "livro",
+    "leitura",
+    "biblioteca",
+    "leitor"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      22,
+      32,
+      41
+     ],
+     "excerpts": [
+      {
+       "page": 22,
+       "text": "…dimento dos Centros-Dia e outros equipamentos para promoção do envelhecimento saudável e ativo, como academias públicas, praças, espaços de leitura, entre outros. Seguiremos apoiando a ampliação das vagas públicas em Instituições de Longa Permanência - ILPIS e aperfeiçoando os mecanismos de fiscalização des…"
+      },
+      {
+       "page": 32,
+       "text": "…Pé-de-Meia. Nenhum jovem em situação de pobreza ou vulnerabilidade social no Brasil deve deixar a escola por falta de renda. Lançamos o MEC Livros e o MEC Idiomas, iniciativas que, ao permitir o acesso via celular, democratizam o acesso a leitura e aprendizagem de inglês e espanhol. No próximo mandato segu…"
+      },
+      {
+       "page": 41,
+       "text": "…r o acesso a bens culturais. Investimos em equipamentos culturais como CEUs da Cultura, MovCEUs, sobre rodas e flutuantes. Fomentamos 6 mil bibliotecas públicas e estamos apoiando a implantação de 1.500 bibliotecas em unidades do Minha Casa Minha Vida. Asseguramos recursos para 144 obras de restauração do patri…"
+      }
+     ],
+     "stored_proposal_ids": []
+    },
+    "280002551544": {
+     "plan_pages": [],
+     "excerpts": [],
+     "stored_proposal_ids": []
+    }
+   }
+  },
+  {
+   "slug": "saude-sus",
+   "label": "Saúde pública e SUS",
+   "group": "Saúde",
+   "terms": [
+    "sus",
+    "saude publica",
+    "atencao primaria",
+    "atencao basica",
+    "hospita",
+    "medicamento",
+    "vacina"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      6,
+      7,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      17,
+      22,
+      24,
+      25,
+      26,
+      30,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      44,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      59,
+      60,
+      61,
+      62,
+      63,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      73,
+      74,
+      81
+     ],
+     "excerpts": [
+      {
+       "page": 6,
+       "text": "PROGRAMA DE GOVERNO DIRETRIZES PARA O PROGRAMA DE TRANSFORMAÇÃO DO BRASIL: UM PAÍS SOBERANO, DEMOCRÁTICO, DESENVOLVIDO, SUSTENTÁVEL E CRIATIVO COMPROMISSO COM O PROJETO DE NAÇÃO O povo brasileiro sonha e almeja um futuro melhor. A esperança é o que nos move. Sem sonhos, criatividade, desejo…"
+      },
+      {
+       "page": 7,
+       "text": "…reúne liderança política, capacidade institucional e energia social. Foi assim na construção do maior sistema universal público de saúde, o SUS, no combate à fome e à pobreza, na liderança em energias renováveis e na produção de alimentos. Este programa aposta nessa força. Aposta que uma criança nascida…"
+      },
+      {
+       "page": 9,
+       "text": "…igência do Governo Federal no enfretamento à Covid 19 resultou na perda de 700 mil vidas e a falta de coordenação de campanhas nacionais de vacinação teve como consequência a queda dramática das taxas de imunização infantil. Na educação, a ausência de uma coordenação federativa integrada, a redução dos recurs…"
+      }
+     ],
+     "stored_proposal_ids": [
+      12,
+      13,
+      16,
+      26,
+      29
+     ]
+    },
+    "280002551544": {
+     "plan_pages": [
+      8,
+      9,
+      13,
+      19,
+      26,
+      37,
+      38,
+      49,
+      50,
+      53,
+      55,
+      58,
+      59,
+      60,
+      61,
+      63,
+      68,
+      74
+     ],
+     "excerpts": [
+      {
+       "page": 8,
+       "text": "…sta do governo também precisa ser integrada. Governar é olhar para a vida das pessoas como ela realmente é. Quem trabalha de sol a sol para sustentar a família não formula suas dúvidas em termos de ministérios. As perguntas são outras: como pago as contas este mês? Como consigo um emprego melhor? Como cuido d…"
+      },
+      {
+       "page": 9,
+       "text": "…iste: para que o Brasil volte a vencer. Nossos valores Nossa forma de governar permanece fiel a valores que consideramos inegociáveis e que sustentam a sociedade brasileira: o respeito à liberdade, à família, à vida desde a concepção, à propriedade privada, à democracia, à liberdade de expressão e à liberdade…"
+      },
+      {
+       "page": 13,
+       "text": "…os e seus negócios ilícitos, asfixiados. Vamos seguir o dinheiro do crime: bloquearemos ativos e desarticularemos a lavagem de dinheiro que sustenta as facções. Bandido armado com fuzil na mão vai ser abatido pelas forças de segurança. Vamos fazer consórcios e convênios com estados e municípios para investir…"
+      }
+     ],
+     "stored_proposal_ids": [
+      33,
+      57,
+      58,
+      83,
+      86,
+      88,
+      90,
+      125,
+      128,
+      141,
+      146
+     ]
+    }
+   }
+  },
+  {
+   "slug": "seguranca",
+   "label": "Segurança pública",
+   "group": "Segurança",
+   "terms": [
+    "seguranca publica",
+    "policia",
+    "crime organizado",
+    "faccao",
+    "faccoes",
+    "homicidio",
+    "violencia"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      8,
+      9,
+      13,
+      19,
+      21,
+      26,
+      27,
+      28,
+      29,
+      30,
+      39,
+      61,
+      79,
+      80
+     ],
+     "excerpts": [
+      {
+       "page": 8,
+       "text": "…combalida, políticas públicas destruídas, revogação de direitos, aumento das desigualdades, precarização do trabalho, fortes expressões de violência social e política e aviltamento da soberania nacional. A deterioração das condições de vida da população brasileira entre 2016 e 2022 não foi fruto do acaso, ma…"
+      },
+      {
+       "page": 9,
+       "text": "…o federal passada opôs-se de forma veemente ao suporte emergencial destinado aos fazedores de cultura duramente impactados pela pandemia. A segurança pública, sob o pretexto da desregulamentação, facilitou a proliferação descontrolada de armas de fogo, o que fortaleceu estruturas de milícias e facções criminosas nos…"
+      },
+      {
+       "page": 13,
+       "text": "…estauração florestal. Retomamos o compromisso do Brasil com o Acordo de Paris, atualizando nossas metas de redução de emissões. A agenda de segurança pública, por sua vez, foi reorganizada visando o enfrentamento ao crime organizado, com cooperação federativa por meio do fortalecimento do Sistema Único de Segurança P…"
+      }
+     ],
+     "stored_proposal_ids": [
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+     ]
+    },
+    "280002551544": {
+     "plan_pages": [
+      13,
+      14,
+      15,
+      18,
+      20,
+      47,
+      59,
+      63,
+      74
+     ],
+     "excerpts": [
+      {
+       "page": 13,
+       "text": "…nteligência, retomada de territórios alinhada a políticas públicas estruturantes, tecnologia, armamentos de última geração e valorização do policial. Quem vai voltar a mandar no Brasil será a lei. O crime do menor não é menor O novo governo do Brasil vai apoiar e sancionar a redução da maioridade penal de 18…"
+      },
+      {
+       "page": 14,
+       "text": "…nteira. Fuzis e drogas que abastecem 100% das facções serão interceptados por terra, pelos portos e pelo espaço aéreo. Vamos desorganizar o crime organizado e asfixiar o crime física e financeiramente. Mais presídios, menos bandidos soltos O Brasil terá 5 novos presídios de segurança máxima no modelo adotado por El…"
+      },
+      {
+       "page": 15,
+       "text": "…e enfrentar o Estado vai ser preso ou vai virar pó. Menos verbo mais verba O novo governo do Brasil vai dobrar os investimentos federais em segurança pública ao longo do mandato. O blá-blá-blá ideológico da esquerda não traz resultados práticos. Dados do Ministério da Fazenda apontam que o Governo Federal destina som…"
+      }
+     ],
+     "stored_proposal_ids": [
+      32,
+      33,
+      35,
+      41,
+      46,
+      51,
+      139,
+      142
+     ]
+    }
+   }
+  },
+  {
+   "slug": "trabalho-renda",
+   "label": "Trabalho, emprego e renda",
+   "group": "Economia",
+   "terms": [
+    "emprego",
+    "salario minimo",
+    "trabalhador",
+    "desemprego",
+    "renda"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      8,
+      9,
+      10,
+      11,
+      12,
+      17,
+      18,
+      19,
+      24,
+      25,
+      26,
+      32,
+      42,
+      44,
+      45,
+      47,
+      49,
+      50,
+      52,
+      53,
+      54,
+      56,
+      58,
+      64,
+      66,
+      73,
+      74,
+      76,
+      77,
+      78
+     ],
+     "excerpts": [
+      {
+       "page": 8,
+       "text": "…nto, com uma taxa média de 1,5% ao ano. Nesse período, a indústria de transformação, setor essencial para a agregação de valor e geração de empregos de qualidade, teve desempenho ainda pior, crescendo em média apenas 0,47% ao ano. O governo Bolsonaro deixou, ainda, um legado de passivos expressivos, muito lo…"
+      },
+      {
+       "page": 9,
+       "text": "…lar. No mercado de trabalho e na previdência, observamos a precarização das relações laborais, a expansão da informalidade e o desamparo de trabalhadores de plataforma, reduzindo o rendimento médio real das famílias. A agenda de Ciência, Tecnologia e Inovação esteve no centro dos ataques negacionistas e dos corte…"
+      },
+      {
+       "page": 10,
+       "text": "…ais cresceu no mundo entre as economias do G20, com 3,2% acumulados. Sob a diretriz de “colocar o pobre no orçamento e o rico no Imposto de Renda”, a gestão realizou uma profunda reorganização fiscal que elevou a proteção social sem renunciar ao reequilíbrio das contas públicas. Fizemos a gestão fiscal ma…"
+      }
+     ],
+     "stored_proposal_ids": [
+      1,
+      23,
+      24,
+      28
+     ]
+    },
+    "280002551544": {
+     "plan_pages": [
+      8,
+      10,
+      13,
+      17,
+      18,
+      19,
+      20,
+      23,
+      24,
+      27,
+      28,
+      33,
+      34,
+      35,
+      36,
+      37,
+      39,
+      43,
+      44,
+      45,
+      46,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      70
+     ],
+     "excerpts": [
+      {
+       "page": 8,
+       "text": "…stentar a família não formula suas dúvidas em termos de ministérios. As perguntas são outras: como pago as contas este mês? Como consigo um emprego melhor? Como cuido dos meus filhos? Como tenho certeza de que todos voltam para casa em segurança? Como saio do auxílio pelas minhas próprias pernas? Como compr…"
+      },
+      {
+       "page": 10,
+       "text": "…ajetória. A segurança protege a criança na escola e o comerciante no balcão. A simplificação do Estado poupa tempo de quem busca o primeiro emprego e de quem já se aposentou. O crédito serve a quem quer estudar, a quem quer empreender e a quem quer comprar a casa própria. E a tecnologia e a inteligência art…"
+      },
+      {
+       "page": 13,
+       "text": "…r para casa à noite sem rezar para chegar inteiro. Segurança não é um tema entre outros: é a condição para todos os demais. Sem ela, não há emprego que vingue, negócio que abra, criança brincando na rua nem futuro que se construa. Por isso a jornada deste Plano começa aqui, devolvendo o Brasil às mãos de qu…"
+      }
+     ],
+     "stored_proposal_ids": [
+      48,
+      49,
+      53,
+      82,
+      93,
+      102,
+      103,
+      104,
+      105,
+      108,
+      121,
+      122,
+      141,
+      143,
+      144,
+      146
+     ]
+    }
+   }
+  },
+  {
+   "slug": "economia-impostos",
+   "label": "Economia, impostos e contas públicas",
+   "group": "Economia",
+   "terms": [
+    "imposto",
+    "tributa",
+    "tributo",
+    "inflacao",
+    "juros",
+    "divida publica",
+    "fiscal"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      8,
+      10,
+      11,
+      12,
+      18,
+      19,
+      22,
+      23,
+      26,
+      28,
+      45,
+      47,
+      48,
+      49,
+      56,
+      57,
+      58,
+      59,
+      61,
+      72,
+      74,
+      76
+     ],
+     "excerpts": [
+      {
+       "page": 8,
+       "text": "…começou com a tentativa golpista de 8 de janeiro de 2023, mobilizações violentas contra a democracia e um Estado profundamente desmontado e fiscalmente desequilibrado. Essa destruição começou com o golpe contra a presidenta Dilma Rousseff e se aprofundou com os governos Temer e Bolsonaro. O resultado foi uma ve…"
+      },
+      {
+       "page": 10,
+       "text": "…a 6ª que mais cresceu no mundo entre as economias do G20, com 3,2% acumulados. Sob a diretriz de “colocar o pobre no orçamento e o rico no Imposto de Renda”, a gestão realizou uma profunda reorganização fiscal que elevou a proteção social sem renunciar ao reequilíbrio das contas públicas. Fizemos a gestão…"
+      },
+      {
+       "page": 11,
+       "text": "…sas brechas que só geravam distorções na economia, como a tributação de offshores e fundos exclusivos. Ao mesmo tempo, reduzimos o peso dos impostos sobre os mais pobres, com medidas de isenção total ou parcial do Imposto de Renda. Na prática, cerca de 140 mil contribuintes do topo da pirâmide social passara…"
+      }
+     ],
+     "stored_proposal_ids": [
+      1,
+      2,
+      3
+     ]
+    },
+    "280002551544": {
+     "plan_pages": [
+      8,
+      9,
+      11,
+      12,
+      19,
+      29,
+      30,
+      31,
+      32,
+      33,
+      44,
+      45,
+      46,
+      47,
+      51,
+      53,
+      58,
+      59,
+      64,
+      68,
+      69,
+      70,
+      71,
+      72,
+      74
+     ],
+     "excerpts": [
+      {
+       "page": 8,
+       "text": "…ome: o gasto público sem controle. Quando o Estado gasta mais do que arrecada, a conta não desaparece, ela volta para a família em forma de imposto no preço, de juro no cartão e de dinheiro que compra menos no fim do mês. O Brasil já viveu esse filme. No segundo trimestre de 2014, o país entrou na maior rec…"
+      },
+      {
+       "page": 9,
+       "text": "…que o governo do Presidente Jair Bolsonaro enfrentou um dos períodos mais desafiadores da história recente, preservando a responsabilidade fiscal, fortalecendo a proteção às famílias mais vulneráveis, realizando reformas estruturantes e modernizando o Estado, mesmo diante da pandemia e dos impactos da gue…"
+      },
+      {
+       "page": 11,
+       "text": "…tendimento em um só lugar e acabar com o que trava o cidadão e o empreendedor. Brasil Mais Barato, para sobrar dinheiro no fim do mês Menos imposto no que a família consome, conta de luz mais simples e mais barata, custo de transporte menor na prateleira do supermercado e crédito que não afunda o orçamento.…"
+      }
+     ],
+     "stored_proposal_ids": [
+      45,
+      47,
+      62,
+      63,
+      68,
+      108,
+      109,
+      113,
+      138,
+      139,
+      140,
+      158,
+      159
+     ]
+    }
+   }
+  },
+  {
+   "slug": "habitacao",
+   "label": "Habitação",
+   "group": "Cidades",
+   "terms": [
+    "moradia",
+    "habitacao",
+    "habitacional",
+    "casa propria",
+    "minha casa"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      11,
+      17,
+      24,
+      41,
+      44,
+      45,
+      46
+     ],
+     "excerpts": [
+      {
+       "page": 11,
+       "text": "…tatais, do setor privado e de financiamentos. São investimentos em rodovias, ferrovias, portos, aeroportos, energia, infraestrutura urbana, habitação, saneamento básico, saúde, educação, inclusão digital e 11"
+      },
+      {
+       "page": 17,
+       "text": "…e plataformas como o Contrata+ Brasil. Em nosso governo, o patrimônio imobiliário da União foi colocado a serviço das políticas públicas de habitação, com destinação de 1,8 mil imóveis e terrenos. O Imóvel da Gente terá continuidade para que terrenos e imóveis da União 17"
+      },
+      {
+       "page": 24,
+       "text": "…acilitar o acesso da juventude ao ensino superior. Fortaleceremos ainda mais a assistência estudantil, ampliando o acesso à alimentação e à moradia estudantil para os jovens que estão no ensino superior. A política de aprendizagem para o trabalho, aprimorada no atual mandato, receberá atenção adicional, com…"
+      }
+     ],
+     "stored_proposal_ids": []
+    },
+    "280002551544": {
+     "plan_pages": [
+      10,
+      11,
+      17,
+      20,
+      33,
+      42,
+      46,
+      47,
+      49,
+      51
+     ],
+     "excerpts": [
+      {
+       "page": 10,
+       "text": "…uem busca o primeiro emprego e de quem já se aposentou. O crédito serve a quem quer estudar, a quem quer empreender e a quem quer comprar a casa própria. E a tecnologia e a inteligência artificial estarão a serviço de toda a jornada, integrando informações, eliminando burocracias e aproximando o Estado de quem e…"
+      },
+      {
+       "page": 11,
+       "text": "…Proteção social como ponto de partida, trabalho que compensa, negócio próprio, a CAIXA como ferramenta de crédito e mobilidade social, e a casa própria. A jornada em que o cidadão conquista o que é seu pelo próprio esforço. Brasil que Cresce, o país que dá condições a quem quer trabalhar e produzir Segurança ju…"
+      },
+      {
+       "page": 17,
+       "text": "…os os outros eixos: a segurança do Brasil sem Medo, a desburocratização do Brasil sem Fila, a educação do Brasil que Prepara, o crédito e a casa própria do Brasil que Prospera. O que se faz por elas aqui reaparece, com o nome delas, ao longo de todo o plano. São doze compromissos com elas, e com o Brasil. Centra…"
+      }
+     ],
+     "stored_proposal_ids": [
+      51,
+      107,
+      109
+     ]
+    }
+   }
+  },
+  {
+   "slug": "saneamento",
+   "label": "Saneamento",
+   "group": "Cidades",
+   "terms": [
+    "saneamento",
+    "esgoto",
+    "agua potavel"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      11,
+      44,
+      46,
+      47,
+      53,
+      60
+     ],
+     "excerpts": [
+      {
+       "page": 11,
+       "text": "…setor privado e de financiamentos. São investimentos em rodovias, ferrovias, portos, aeroportos, energia, infraestrutura urbana, habitação, saneamento básico, saúde, educação, inclusão digital e 11"
+      },
+      {
+       "page": 44,
+       "text": "…riram centralidade no planejamento e execução de investimentos federais. O direito à cidade exige uma reforma urbana que integre habitação, saneamento, mobilidade, uso do solo, gestão de riscos, adaptação às mudanças climáticas, meio ambiente urbano, cultura, comunicação e desenvolvimento econômico local. Cida…"
+      },
+      {
+       "page": 46,
+       "text": "…antir que as periferias sejam parte do nosso projeto de desenvolvimento urbano sustentável. O governo Lula investiu de forma consistente em saneamento. A partir de 2023, foram R$ 23,3 bilhões para novas obras de abastecimento de água, esgotamento sanitário e gestão de resíduos sólidos, além de R$ 3,5 bilhões p…"
+      }
+     ],
+     "stored_proposal_ids": []
+    },
+    "280002551544": {
+     "plan_pages": [
+      47,
+      57
+     ],
+     "excerpts": [
+      {
+       "page": 47,
+       "text": "…, vira patrimônio de verdade. Moradia digna tem água e esgoto. O maior avanço do país nessa área tem nome e sobrenome: foi o Marco Legal do Saneamento, sancionado pelo governo Bolsonaro em 2020, que abriu o setor ao investimento privado e fixou a meta de levar água e esgoto a praticamente toda a população até…"
+      },
+      {
+       "page": 57,
+       "text": "…a renda ao fazê-lo. E rio limpo também depende de esgoto tratado: uma das maiores agendas ambientais da nossa história foi o Marco Legal do Saneamento, aprovado no governo Bolsonaro, cuja universalização vamos levar adiante, como já detalhado no Brasil que Prospera. E vamos consolidar o mercado regulado de car…"
+      }
+     ],
+     "stored_proposal_ids": [
+      111,
+      134
+     ]
+    }
+   }
+  },
+  {
+   "slug": "infraestrutura",
+   "label": "Infraestrutura e mobilidade",
+   "group": "Cidades",
+   "terms": [
+    "rodovia",
+    "ferrovia",
+    "porto",
+    "aeroporto",
+    "mobilidade",
+    "transporte publico"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      11,
+      30,
+      41,
+      44,
+      46,
+      53,
+      54,
+      64
+     ],
+     "excerpts": [
+      {
+       "page": 11,
+       "text": "…final de 2026, articulando recursos do orçamento federal, das empresas estatais, do setor privado e de financiamentos. São investimentos em rodovias, ferrovias, portos, aeroportos, energia, infraestrutura urbana, habitação, saneamento básico, saúde, educação, inclusão digital e 11"
+      },
+      {
+       "page": 30,
+       "text": "…nal. 4. Garantir o Direito à Educação para Transformar Vidas e o País A educação constitui o principal instrumento de transformação social, mobilidade social intergeracional e de construção de um projeto nacional de desenvolvimento democrático, soberano, sustentável e inclusivo. É por meio dela que um país amp…"
+      },
+      {
+       "page": 41,
+       "text": "…idade aos investimentos para consolidar e manter a rede de equipamentos culturais nos territórios e para fomentar programas de circulação e mobilidade artística e iniciativas de democratização da cultura. 41"
+      }
+     ],
+     "stored_proposal_ids": []
+    },
+    "280002551544": {
+     "plan_pages": [
+      11,
+      14,
+      15,
+      51,
+      59,
+      61
+     ],
+     "excerpts": [
+      {
+       "page": 11,
+       "text": "…conquistar o que é seu Proteção social como ponto de partida, trabalho que compensa, negócio próprio, a CAIXA como ferramenta de crédito e mobilidade social, e a casa própria. A jornada em que o cidadão conquista o que é seu pelo próprio esforço. Brasil que Cresce, o país que dá condições a quem quer trabalha…"
+      },
+      {
+       "page": 14,
+       "text": "…cnologia, responsável por criar um paredão na fronteira. Fuzis e drogas que abastecem 100% das facções serão interceptados por terra, pelos portos e pelo espaço aéreo. Vamos desorganizar o crime organizado e asfixiar o crime física e financeiramente. Mais presídios, menos bandidos soltos O Brasil terá 5 no…"
+      },
+      {
+       "page": 15,
+       "text": "Acabar com a cocaína “made in Brazil” Não plantamos coca nem produzimos cocaína. Mas, sob Lula e o PT, o Porto de Santos se tornou um dos maiores exportadores de cocaína do mundo. Nós vamos usar tropas especiais da Marinha e da Aeronáutica para ocupar e monitorar, de for…"
+      }
+     ],
+     "stored_proposal_ids": [
+      40,
+      116,
+      143
+     ]
+    }
+   }
+  },
+  {
+   "slug": "meio-ambiente",
+   "label": "Meio ambiente e clima",
+   "group": "Meio ambiente",
+   "terms": [
+    "meio ambiente",
+    "climatic",
+    "mudanca do clima",
+    "mudancas do clima",
+    "desmatamento",
+    "amazonia",
+    "emissoes",
+    "biodiversidade"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      9,
+      11,
+      13,
+      15,
+      25,
+      29,
+      39,
+      44,
+      47,
+      51,
+      52,
+      56,
+      59,
+      60,
+      61,
+      62,
+      63,
+      65,
+      67,
+      69,
+      70,
+      71,
+      72,
+      73,
+      79,
+      80,
+      81
+     ],
+     "excerpts": [
+      {
+       "page": 9,
+       "text": "…lescentes. A demolição planejada das estruturas ambientais legitimou o garimpo ilegal, a grilagem de terras públicas e o aumento recorde do desmatamento ilegal. Esse desmonte institucional promoveu o aumento expressivo de conflitos no campo e o assassinato de defensores ambientais e lideranças tradicionais pela…"
+      },
+      {
+       "page": 11,
+       "text": "…os públicos e privados. Com o Plano de Transformação Ecológica (PTE) criamos os instrumentos econômicos para implementação dos compromissos climáticos do Brasil, colocando a sustentabilidade no centro das políticas industriais, energéticas e de infraestrutura. O Novo PAC levou à mobilização de um volume histór…"
+      },
+      {
+       "page": 13,
+       "text": "…O governo estancou a destruição acelerada dos biomas nacionais por meio do restabelecimento das ações ambientais, com expressiva redução do desmatamento. Em três anos e meio, alcançamos a menor taxa de desmatamento da história da Amazônia. Além disso, promovemos a recuperação e a restauração florestal. Retomamos…"
+      }
+     ],
+     "stored_proposal_ids": [
+      31
+     ]
+    },
+    "280002551544": {
+     "plan_pages": [
+      11,
+      20,
+      52,
+      57,
+      58,
+      59,
+      61
+     ],
+     "excerpts": [
+      {
+       "page": 11,
+       "text": "…que dá condições a quem quer trabalhar e produzir Segurança jurídica, infraestrutura, energia, agronegócio, tecnologia, minerais críticos, meio ambiente, turismo e inserção no mundo. O país que funciona por baixo da vida de cada família e faz cada conquista ir mais longe. 11"
+      },
+      {
+       "page": 20,
+       "text": "…otalmente voluntária e as regras, transparentes: ninguém perde direitos ou benefícios por não aderir. A CAIXA Econômica Federal, o Banco da Amazônia e o Banco do Nordeste serão motores dessa prosperidade, ampliando o programa CAIXA Pra Elas e ajudando milhões de mulheres a construir reputação financeira e fo…"
+      },
+      {
+       "page": 52,
+       "text": "…do Eixão das Águas do Ceará, sem o abandono de obras que marcou gestões anteriores. E vamos ampliar a infraestrutura de prevenção a eventos climáticos extremos, com barragens de usos múltiplos, reservatórios de controle de cheias, diques, canais e obras de drenagem e macrodrenagem, além do fortalecimento do mo…"
+      }
+     ],
+     "stored_proposal_ids": [
+      118,
+      136,
+      138,
+      140,
+      141,
+      146
+     ]
+    }
+   }
+  },
+  {
+   "slug": "agricultura",
+   "label": "Agricultura e desenvolvimento rural",
+   "group": "Meio ambiente",
+   "terms": [
+    "agricultura",
+    "agricultor",
+    "agropecuari",
+    "agronegocio",
+    "reforma agraria",
+    "produtor rural"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      12,
+      21,
+      50,
+      51,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      76
+     ],
+     "excerpts": [
+      {
+       "page": 12,
+       "text": "…promovemos duas edições do programa Desenrola Brasil. Em 2026, o Novo Desenrola Brasil apoiou famílias de menor renda, pequenos negócios e agricultores familiares, oferecendo descontos elevados, juros menores e prazos mais longos. Alcançamos esses resultados tão positivos a despeito de um cenário internacional…"
+      },
+      {
+       "page": 21,
+       "text": "…remos buscando assegurar políticas que apoiem as mulheres em sua inserção no mundo do trabalho, com linhas de crédito mais favorecidas para agricultoras e extrativistas no âmbito do Pronaf; com programas de qualificação específicos, como o Mulheres Mil, que foi retomado no atual mandato: com programas de fomento…"
+      },
+      {
+       "page": 50,
+       "text": "…inovação e a modernização produtiva; que sustentam o fomento direto à pesquisa e ao desenvolvimento tecnológico; que conectam a ciência ao agronegócio e à indústria, inovando a ampliando a produtividade; e que apoiam a capacitação e a competitividade de micro, pequenas e médias empresas; e que formam talentos…"
+      }
+     ],
+     "stored_proposal_ids": []
+    },
+    "280002551544": {
+     "plan_pages": [
+      10,
+      11,
+      53,
+      55,
+      56,
+      58
+     ],
+     "excerpts": [
+      {
+       "page": 10,
+       "text": "…ado dos capítulos que acompanham a vida do cidadão, este Plano dedica um eixo ao Brasil que precisa crescer: a infraestrutura, a energia, o agronegócio, a tecnologia e a inserção no mundo. Quando o país cresce, cada conquista individual vale mais, dura mais e alcança mais gente. 10"
+      },
+      {
+       "page": 11,
+       "text": "…o próprio esforço. Brasil que Cresce, o país que dá condições a quem quer trabalhar e produzir Segurança jurídica, infraestrutura, energia, agronegócio, tecnologia, minerais críticos, meio ambiente, turismo e inserção no mundo. O país que funciona por baixo da vida de cada família e faz cada conquista ir mais l…"
+      },
+      {
+       "page": 53,
+       "text": "…aratos que o caminhão, e favorecer a produção nacional de fertilizantes a partir do gás, para reduzir a dependência externa que fragiliza o agronegócio e a nossa segurança alimentar. Na energia elétrica, vamos simplificar a conta de luz, racionalizando encargos e subsídios cruzados, e promover a redução gradual…"
+      }
+     ],
+     "stored_proposal_ids": [
+      120,
+      125,
+      131
+     ]
+    }
+   }
+  },
+  {
+   "slug": "energia",
+   "label": "Energia",
+   "group": "Economia",
+   "terms": [
+    "energia",
+    "petroleo",
+    "combustive",
+    "renovave",
+    "eletrica"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      7,
+      8,
+      11,
+      12,
+      53,
+      55,
+      56,
+      60,
+      61,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      71,
+      80
+     ],
+     "excerpts": [
+      {
+       "page": 7,
+       "text": "…ios momentos de sua história, que é capaz de realizar transformações essenciais quando reúne liderança política, capacidade institucional e energia social. Foi assim na construção do maior sistema universal público de saúde, o SUS, no combate à fome e à pobreza, na liderança em energias renováveis e na prod…"
+      },
+      {
+       "page": 8,
+       "text": "…dilapidou os cofres públicos, deu calote em precatórios e armou uma bomba fiscal para estados e municípios com a desoneração artificial de combustíveis. Além disso, delegou parte expressiva do orçamento discricionário da União ao chamado orçamento secreto. De forma ainda mais irresponsável, a gestão anterior pr…"
+      },
+      {
+       "page": 11,
+       "text": "…çamento federal, das empresas estatais, do setor privado e de financiamentos. São investimentos em rodovias, ferrovias, portos, aeroportos, energia, infraestrutura urbana, habitação, saneamento básico, saúde, educação, inclusão digital e 11"
+      }
+     ],
+     "stored_proposal_ids": []
+    },
+    "280002551544": {
+     "plan_pages": [
+      10,
+      11,
+      24,
+      29,
+      30,
+      31,
+      42,
+      49,
+      50,
+      52,
+      53,
+      55,
+      56,
+      57,
+      60,
+      63,
+      74
+     ],
+     "excerpts": [
+      {
+       "page": 10,
+       "text": "…isso, ao lado dos capítulos que acompanham a vida do cidadão, este Plano dedica um eixo ao Brasil que precisa crescer: a infraestrutura, a energia, o agronegócio, a tecnologia e a inserção no mundo. Quando o país cresce, cada conquista individual vale mais, dura mais e alcança mais gente. 10"
+      },
+      {
+       "page": 11,
+       "text": "…é seu pelo próprio esforço. Brasil que Cresce, o país que dá condições a quem quer trabalhar e produzir Segurança jurídica, infraestrutura, energia, agronegócio, tecnologia, minerais críticos, meio ambiente, turismo e inserção no mundo. O país que funciona por baixo da vida de cada família e faz cada conqui…"
+      },
+      {
+       "page": 24,
+       "text": "…isso, por mais serviços que o governo digitalize. Tratar a internet como infraestrutura é tratá-la como se trata uma estrada ou uma rede de energia: não é luxo, é o que permite que todo o resto funcione. Vamos garantir pacotes de conexão para que nenhum brasileiro deixe de estudar, se capacitar, buscar empr…"
+      }
+     ],
+     "stored_proposal_ids": [
+      63,
+      119,
+      125,
+      126,
+      129,
+      145
+     ]
+    }
+   }
+  },
+  {
+   "slug": "ciencia-tecnologia",
+   "label": "Ciência, tecnologia e inovação",
+   "group": "Ciência",
+   "terms": [
+    "ciencia",
+    "tecnologia",
+    "inovacao",
+    "inteligencia artificial",
+    "pesquisa cientifica"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      7,
+      9,
+      17,
+      18,
+      22,
+      23,
+      24,
+      29,
+      34,
+      35,
+      36,
+      38,
+      39,
+      42,
+      43,
+      44,
+      48,
+      50,
+      51,
+      52,
+      54,
+      55,
+      56,
+      57,
+      59,
+      61,
+      62,
+      67,
+      68,
+      70,
+      72,
+      73,
+      74,
+      75,
+      76,
+      78,
+      79,
+      80,
+      81,
+      82
+     ],
+     "excerpts": [
+      {
+       "page": 7,
+       "text": "…erania em áreas estratégicas, capacidade industrial, domínio tecnológico e projeto nacional. Por isso, a disputa por recursos estratégicos, tecnologias, conhecimento e fontes de energia impõe novos desafios ao desenvolvimento do nosso país, e temos todas as condições de enfrentá-los. 7"
+      },
+      {
+       "page": 9,
+       "text": "…rais, a expansão da informalidade e o desamparo de trabalhadores de plataforma, reduzindo o rendimento médio real das famílias. A agenda de Ciência, Tecnologia e Inovação esteve no centro dos ataques negacionistas e dos cortes orçamentários arbitrários que comprometeram a pesquisa científica e o futuro do P…"
+      },
+      {
+       "page": 17,
+       "text": "…do Brasil – vem avançando na estruturação de ecossistemas de dados para tornar as políticas públicas mais eficazes e criar oportunidades de inovação e maior eficiência. Vamos continuar investindo na universalização dos serviços públicos digitais de qualidade, e na construção de infraestruturas públicas digit…"
+      }
+     ],
+     "stored_proposal_ids": [
+      8,
+      13,
+      23,
+      27,
+      30
+     ]
+    },
+    "280002551544": {
+     "plan_pages": [
+      10,
+      11,
+      13,
+      14,
+      18,
+      20,
+      25,
+      26,
+      35,
+      36,
+      38,
+      39,
+      40,
+      46,
+      53,
+      55,
+      56,
+      57,
+      58,
+      61,
+      62,
+      63,
+      69,
+      74
+     ],
+     "excerpts": [
+      {
+       "page": 10,
+       "text": "…ro emprego e de quem já se aposentou. O crédito serve a quem quer estudar, a quem quer empreender e a quem quer comprar a casa própria. E a tecnologia e a inteligência artificial estarão a serviço de toda a jornada, integrando informações, eliminando burocracias e aproximando o Estado de quem ele deve servir.…"
+      },
+      {
+       "page": 11,
+       "text": "…orço. Brasil que Cresce, o país que dá condições a quem quer trabalhar e produzir Segurança jurídica, infraestrutura, energia, agronegócio, tecnologia, minerais críticos, meio ambiente, turismo e inserção no mundo. O país que funciona por baixo da vida de cada família e faz cada conquista ir mais longe. 11"
+      },
+      {
+       "page": 13,
+       "text": "…os e convênios com estados e municípios para investir em inteligência, retomada de territórios alinhada a políticas públicas estruturantes, tecnologia, armamentos de última geração e valorização do policial. Quem vai voltar a mandar no Brasil será a lei. O crime do menor não é menor O novo governo do Brasil va…"
+      }
+     ],
+     "stored_proposal_ids": [
+      36,
+      49,
+      56,
+      59,
+      71,
+      76,
+      79,
+      81,
+      91,
+      99,
+      131,
+      145,
+      148
+     ]
+    }
+   }
+  },
+  {
+   "slug": "assistencia-pobreza",
+   "label": "Assistência social e combate à pobreza",
+   "group": "Direitos sociais",
+   "terms": [
+    "bolsa familia",
+    "pobreza",
+    "fome",
+    "assistencia social",
+    "cadunico",
+    "cadastro unico"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      7,
+      8,
+      12,
+      18,
+      19,
+      21,
+      22,
+      24,
+      25,
+      26,
+      31,
+      32,
+      33,
+      39,
+      40,
+      41,
+      42,
+      45,
+      47,
+      50,
+      54,
+      56,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      69,
+      74,
+      75,
+      76,
+      79,
+      81
+     ],
+     "excerpts": [
+      {
+       "page": 7,
+       "text": "…apacidade institucional e energia social. Foi assim na construção do maior sistema universal público de saúde, o SUS, no combate à fome e à pobreza, na liderança em energias renováveis e na produção de alimentos. Este programa aposta nessa força. Aposta que uma criança nascida em qualquer região, de qualque…"
+      },
+      {
+       "page": 8,
+       "text": "…ticas sociais, com prejuízos ao desenho e à efetividade dos programas. O retrocesso mais visível expressou-se na volta do Brasil ao Mapa da Fome da ONU e na fila do osso. 8"
+      },
+      {
+       "page": 12,
+       "text": "…levaram a uma expansão da massa salarial e do consumo. Alcançamos a maior renda real do trabalho e o menor desemprego da série histórica. O Bolsa Família foi recriado e expandido com benefícios especiais para crianças e adolescentes. A desigualdade, medida pelo coeficiente de Gini, atingiu o menor patamar históri…"
+      }
+     ],
+     "stored_proposal_ids": []
+    },
+    "280002551544": {
+     "plan_pages": [
+      40,
+      42,
+      43,
+      53
+     ],
+     "excerpts": [
+      {
+       "page": 40,
+       "text": "…na, que joga pelo time da escola e que sonha com a próxima competição é o aluno que continua estudando. A quadra puxa a sala de aula. Vamos fomentar a inclusão de pessoas com deficiência pelo esporte, com detecção de talentos paralímpicos desde a base e mais autonomia para as entidades paralímpicas, tratando…"
+      },
+      {
+       "page": 42,
+       "text": "…te há vinte anos: a de que só ela cuida dos pobres. Os números dizem o contrário. Em 2020, no auge da maior pandemia em cem anos, a extrema pobreza no Brasil caiu para a menor marca da história — apenas 1,95% da população, graças ao Auxílio Emergencial. Não foi discurso: foi a proteção chegando a quem mais…"
+      },
+      {
+       "page": 43,
+       "text": "…ibilidade, para que ninguém tenha medo de tentar um emprego e acabar desamparado se não der certo. Nosso foco é a superação da armadilha da pobreza, não a sua administração. Toda política deste governo será desenhada com uma pergunta em mente: isso ajuda a pessoa a depender menos do Estado amanhã do que ela…"
+      }
+     ],
+     "stored_proposal_ids": []
+    }
+   }
+  },
+  {
+   "slug": "previdencia",
+   "label": "Previdência",
+   "group": "Direitos sociais",
+   "terms": [
+    "previdencia",
+    "aposentad",
+    "inss"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      9,
+      19,
+      25,
+      74,
+      75,
+      76,
+      77
+     ],
+     "excerpts": [
+      {
+       "page": 9,
+       "text": "…ram os municípios à própria sorte, deprimindo a qualidade pedagógica e estimulando o aumento da evasão escolar. No mercado de trabalho e na previdência, observamos a precarização das relações laborais, a expansão da informalidade e o desamparo de trabalhadores de plataforma, reduzindo o rendimento médio real da…"
+      },
+      {
+       "page": 19,
+       "text": "…mos e expandimos o Bolsa Família. Reinstituímos a política de valorização do salário-mínimo, que assegurou ganhos reais para trabalhadores, aposentados e beneficiários do BPC. Reorganizamos o Estado para que segmentos historicamente excluídos voltassem a ter canais de interlocução. Voltamos a assegurar aos povo…"
+      },
+      {
+       "page": 25,
+       "text": "ocupacionais de maior qualidade para nossos jovens. Emprego com proteção previdenciária, direitos trabalhistas, remuneração justa e jornada de trabalho não exaustiva pode ser um sonho de nossa juventude. Persistiremos também criando políticas de fo…"
+      }
+     ],
+     "stored_proposal_ids": []
+    },
+    "280002551544": {
+     "plan_pages": [
+      23,
+      26,
+      33,
+      45,
+      69,
+      70,
+      72,
+      73
+     ],
+     "excerpts": [
+      {
+       "page": 23,
+       "text": "BRASIL SEM FILA seu tempo é seu Poucas coisas revelam tanto o descaso de um governo quanto a fila. A fila do INSS, que chegou a 3 milhões de requerimentos no início de 2026, é um recorde absoluto. A fila do posto de saúde, onde o paciente refaz um exame que já fez porque ni…"
+      },
+      {
+       "page": 26,
+       "text": "…oderia ser resolvida em muito menos tempo. INSS sem fila o aposentado não espera pelo que já é dele A atual gestão trouxe o caos ao sistema previdenciário. A fila de espera chegou a 3 milhões de requerimentos no início de 2026, um recorde absoluto, e cada número desses é um aposentado esperando pelo dinheiro que j…"
+      },
+      {
+       "page": 33,
+       "text": "…imposto no preço, conta de luz mais simples, comida mais estável e juros menores somam uma coisa só: o mesmo salário comprando mais. Para o aposentado, que vive de renda fixa e é o primeiro a sentir a alta de preços, isso é a diferença entre chegar ao fim do mês com o remédio comprado ou ter de escolher entre…"
+      }
+     ],
+     "stored_proposal_ids": [
+      59,
+      160
+     ]
+    }
+   }
+  },
+  {
+   "slug": "criancas-jovens",
+   "label": "Crianças, adolescentes e juventude",
+   "group": "Direitos sociais",
+   "terms": [
+    "crianca",
+    "adolescente",
+    "infancia",
+    "juventude",
+    "jovens"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      7,
+      9,
+      12,
+      15,
+      23,
+      24,
+      25,
+      26,
+      27,
+      29,
+      31,
+      32,
+      33,
+      34,
+      37,
+      39,
+      42,
+      43,
+      59
+     ],
+     "excerpts": [
+      {
+       "page": 7,
+       "text": "…ombate à fome e à pobreza, na liderança em energias renováveis e na produção de alimentos. Este programa aposta nessa força. Aposta que uma criança nascida em qualquer região, de qualquer origem, terá mais oportunidades do que as gerações anteriores. Não porque o futuro esteja garantido, mas porque política…"
+      },
+      {
+       "page": 9,
+       "text": "…de milícias e facções criminosas nos territórios vulneráveis e ampliou a letalidade das violências domésticas, em especial contra mulheres, crianças e adolescentes. A demolição planejada das estruturas ambientais legitimou o garimpo ilegal, a grilagem de terras públicas e o aumento recorde do desmatamento il…"
+      },
+      {
+       "page": 12,
+       "text": "…aior renda real do trabalho e o menor desemprego da série histórica. O Bolsa Família foi recriado e expandido com benefícios especiais para crianças e adolescentes. A desigualdade, medida pelo coeficiente de Gini, atingiu o menor patamar histórico de 0,504, enquanto a pobreza extrema recuou para o menor níve…"
+      }
+     ],
+     "stored_proposal_ids": []
+    },
+    "280002551544": {
+     "plan_pages": [
+      8,
+      10,
+      11,
+      13,
+      14,
+      21,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      44,
+      45,
+      47,
+      48
+     ],
+     "excerpts": [
+      {
+       "page": 8,
+       "text": "…estimula o empreendedorismo e transforma a rotina das famílias. Uma doença compromete o orçamento familiar; a falta de apoio no cuidado com crianças e idosos dificulta a permanência de pais e mães no mercado de trabalho; uma educação de baixa qualidade reduz oportunidades e compromete o futuro de toda uma ge…"
+      },
+      {
+       "page": 10,
+       "text": "…va, crédito, patrimônio e um envelhecimento digno. A maior parte dos capítulos deste Plano acompanha essa trajetória. A segurança protege a criança na escola e o comerciante no balcão. A simplificação do Estado poupa tempo de quem busca o primeiro emprego e de quem já se aposentou. O crédito serve a quem qu…"
+      },
+      {
+       "page": 11,
+       "text": "…a voltar para casa em paz Nossa jornada começa pelo direito de viver sem medo. Sem segurança não há trabalho, não há negócio aberto, não há criança brincando na rua de casa, não há futuro. É por isso que a primeira obrigação do nosso governo será devolver o Brasil às famílias brasileiras e tirá-lo das mãos…"
+      }
+     ],
+     "stored_proposal_ids": [
+      38,
+      71,
+      77,
+      92,
+      95,
+      96,
+      102,
+      103
+     ]
+    }
+   }
+  },
+  {
+   "slug": "mulheres",
+   "label": "Mulheres",
+   "group": "Direitos sociais",
+   "terms": [
+    "mulher",
+    "feminicidio",
+    "violencia domestica",
+    "igualdade de genero"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      9,
+      15,
+      19,
+      21,
+      22,
+      26,
+      29,
+      37,
+      38,
+      39,
+      59,
+      75,
+      82
+     ],
+     "excerpts": [
+      {
+       "page": 9,
+       "text": "…struturas de milícias e facções criminosas nos territórios vulneráveis e ampliou a letalidade das violências domésticas, em especial contra mulheres, crianças e adolescentes. A demolição planejada das estruturas ambientais legitimou o garimpo ilegal, a grilagem de terras públicas e o aumento recorde do desma…"
+      },
+      {
+       "page": 15,
+       "text": "…s a utilização no orçamento de marcadores que permitem acompanhar gastos relacionados a cada uma das agendas transversais do PPA 2024-2027 (mulheres; meio ambiente; igualdade racial; povos indígenas; crianças e adolescentes). Queremos que o PPA 20282031 seja ainda mais participativo e que o ciclo orçamentári…"
+      },
+      {
+       "page": 19,
+       "text": "…beirinhos – seus direitos, inclusive em relação a seus territórios. Reorganizamos as redes de proteção para enfrentar a violência contra as mulheres e de fomento à autonomia das mulheres. Aprovamos a reforma tributária do consumo e isentamos de imposto de renda todos os que ganham até R$ 5.000, compromisso a…"
+      }
+     ],
+     "stored_proposal_ids": [
+      20
+     ]
+    },
+    "280002551544": {
+     "plan_pages": [
+      11,
+      14,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      24,
+      38,
+      39,
+      40,
+      41,
+      47,
+      74
+     ],
+     "excerpts": [
+      {
+       "page": 11,
+       "text": "…meira obrigação do nosso governo será devolver o Brasil às famílias brasileiras e tirá-lo das mãos do crime. Brasil por Elas, fortalecer as mulheres é fortalecer a família Quando protegemos uma mulher, protegemos uma família. Este programa não é um capítulo à parte: ele percorre todos os eixos deste Plano, d…"
+      },
+      {
+       "page": 14,
+       "text": "…ça da Presidência da República e a nossa experiência legislativa para aprovar e implementar a castração química de criminosos que abusam de mulheres e crianças. A medida deverá ser aplicada a estupradores e abusadores de crianças condenados pela Justiça. Criminoso que destrói a vida de mulheres e crianças nã…"
+      },
+      {
+       "page": 17,
+       "text": "BRASIL POR ELAS fortalecer as mulheres é fortalecer a família Mais da metade das famílias brasileiras é chefiada por uma mulher. Quando ela é protegida, capacitada e tem renda própria, não é só a vid…"
+      }
+     ],
+     "stored_proposal_ids": [
+      38,
+      39,
+      47,
+      48,
+      50,
+      51,
+      52,
+      53
+     ]
+    }
+   }
+  },
+  {
+   "slug": "igualdade-racial",
+   "label": "Igualdade racial",
+   "group": "Direitos sociais",
+   "terms": [
+    "racismo",
+    "igualdade racial",
+    "populacao negra",
+    "quilombola"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      15,
+      19,
+      20,
+      26,
+      29,
+      60,
+      70,
+      79
+     ],
+     "excerpts": [
+      {
+       "page": 15,
+       "text": "…to de marcadores que permitem acompanhar gastos relacionados a cada uma das agendas transversais do PPA 2024-2027 (mulheres; meio ambiente; igualdade racial; povos indígenas; crianças e adolescentes). Queremos que o PPA 20282031 seja ainda mais participativo e que o ciclo orçamentário federal brasileiro também seja…"
+      },
+      {
+       "page": 19,
+       "text": "…Mapa da Fome, segundo a FAO. Fizemos muito, mas há muito ainda a fazer para alcançarmos um Brasil mais igualitário. Manteremos o combate ao racismo no centro de nossa estratégia de desenvolvimento, pois não é possível compreender nem superar as desigualdades brasileiras sem enfrentar a questão racial como d…"
+      },
+      {
+       "page": 20,
+       "text": "…três em cada quatro ingressantes vêm da escola pública. Neste mandato, a política de cotas foi aperfeiçoada, com a inclusão de reserva para quilombolas. Vamos acelerar a implementação da Política Nacional de Equidade, Educação para as Relações Étnico-Raciais e Educação Escolar Quilombola (PNEERQ). Implantamos o…"
+      }
+     ],
+     "stored_proposal_ids": []
+    },
+    "280002551544": {
+     "plan_pages": [
+      50,
+      61
+     ],
+     "excerpts": [
+      {
+       "page": 50,
+       "text": "…mineração ao agro. Essa mesma clareza de regras vale para quem vive nas terras tradicionais. Será conferida autonomia aos povos indígenas e quilombolas para decidir sobre atividades produtivas em suas terras, com respeito ao desenvolvimento sustentável e às regras ambientais, e com indenização de eventuais rest…"
+      },
+      {
+       "page": 61,
+       "text": "…alor ao que a Amazônia produz, em vez de derrubá-la. Esse desenvolvimento respeita quem vive na região: os povos indígenas e as comunidades quilombolas terão autonomia para decidir sobre as atividades produtivas em suas terras, e o morador da floresta, o ribeirinho e o extrativista serão tratados como parceiros…"
+      }
+     ],
+     "stored_proposal_ids": [
+      115,
+      146
+     ]
+    }
+   }
+  },
+  {
+   "slug": "povos-indigenas",
+   "label": "Povos indígenas",
+   "group": "Direitos sociais",
+   "terms": [
+    "indigena",
+    "povos originarios"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      15,
+      19,
+      20,
+      21,
+      26,
+      33,
+      70
+     ],
+     "excerpts": [
+      {
+       "page": 15,
+       "text": "…mitem acompanhar gastos relacionados a cada uma das agendas transversais do PPA 2024-2027 (mulheres; meio ambiente; igualdade racial; povos indígenas; crianças e adolescentes). Queremos que o PPA 20282031 seja ainda mais participativo e que o ciclo orçamentário federal brasileiro também seja objeto de partici…"
+      },
+      {
+       "page": 19,
+       "text": "…que segmentos historicamente excluídos voltassem a ter canais de interlocução. Voltamos a assegurar aos povos e comunidades tradicionais – indígenas, quilombolas e ribeirinhos – seus direitos, inclusive em relação a seus territórios. Reorganizamos as redes de proteção para enfrentar a violência contra as mul…"
+      },
+      {
+       "page": 20,
+       "text": "PROGRAMA DE GOVERNO estudantes de graduação que declaram cor ou raça, 45,5% identificam-se como pretos, pardos ou indígenas, e três em cada quatro ingressantes vêm da escola pública. Neste mandato, a política de cotas foi aperfeiçoada, com a inclusão de reserva para quilombolas. Vamo…"
+      }
+     ],
+     "stored_proposal_ids": []
+    },
+    "280002551544": {
+     "plan_pages": [
+      50,
+      61
+     ],
+     "excerpts": [
+      {
+       "page": 50,
+       "text": "…energia, da mineração ao agro. Essa mesma clareza de regras vale para quem vive nas terras tradicionais. Será conferida autonomia aos povos indígenas e quilombolas para decidir sobre atividades produtivas em suas terras, com respeito ao desenvolvimento sustentável e às regras ambientais, e com indenização de…"
+      },
+      {
+       "page": 61,
+       "text": "…tentável e a agregação de valor ao que a Amazônia produz, em vez de derrubá-la. Esse desenvolvimento respeita quem vive na região: os povos indígenas e as comunidades quilombolas terão autonomia para decidir sobre as atividades produtivas em suas terras, e o morador da floresta, o ribeirinho e o extrativista…"
+      }
+     ],
+     "stored_proposal_ids": [
+      115,
+      146
+     ]
+    }
+   }
+  },
+  {
+   "slug": "pessoa-deficiencia",
+   "label": "Pessoas com deficiência",
+   "group": "Direitos sociais",
+   "terms": [
+    "pessoa com deficiencia",
+    "pessoas com deficiencia",
+    "acessibilidade",
+    "pcd"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      23,
+      26,
+      75,
+      84
+     ],
+     "excerpts": [
+      {
+       "page": 23,
+       "text": "…da língua em todo o País. Retomamos e ampliamos o Viver sem Limites que reúne medidas e políticas para assegurar e promover os direitos das pessoas com deficiência. O Novo PAC apoiou 52 Centros Especializados em Reabilitação e 17 Oficinas Ortopédicas. Manteremos a implementação do Viver sem Limites. Continuaremos promovend…"
+      },
+      {
+       "page": 26,
+       "text": "…as de discriminação e assegure os direitos das mulheres, da população negra, dos povos indígenas e quilombolas, da população LGBTQIAP+, das pessoas com deficiência, dos povos do campo, das águas e das florestas, com amplo respeito às liberdades e aos direitos humanos. 3. Proteger a vida com uma segurança pública mais efici…"
+      },
+      {
+       "page": 75,
+       "text": "…retomando assistência sindical nas homologações de rescisão do contrato de trabalho. Seguiremos com as políticas de inclusão produtiva das pessoas com deficiência, privadas das oportunidades de trabalho em decorrência do capacitismo, e fortalecer as políticas de erradicação do trabalho análogo ao escravo e do trabalho inf…"
+      }
+     ],
+     "stored_proposal_ids": []
+    },
+    "280002551544": {
+     "plan_pages": [
+      21,
+      38,
+      39,
+      40
+     ],
+     "excerpts": [
+      {
+       "page": 21,
+       "text": "…e de trabalhar, estudar ou empreender por falta de creche. Também estruturaremos uma Rede Nacional de Cuidado, ampliando o apoio a idosos e pessoas com deficiência, com centros-dia e atendimento domiciliar em parcerias público privado com estados, municípios e organizações sociais. Nosso compromisso é devolver às mulheres…"
+      },
+      {
+       "page": 38,
+       "text": "…, aproximando o cuidado de quem vive longe de um grande centro. E um sistema de entrega de remédio em domicílio vai garantir que o idoso, a pessoa com deficiência e o doente crônico não precisem escolher entre buscar o tratamento e pagar o transporte. A tecnologia também ajuda a cuidar antes de a doença se agravar. Com in…"
+      },
+      {
+       "page": 39,
+       "text": "…arantir que quem precisa de ajuda encontre diagnóstico, tratamento e amparo perto de casa. Cuidar bem de uma criança, de um idoso ou de uma pessoa com deficiência não é favor: é o que permite que o resto da família trabalhe, estude e viva. Uma sociedade que divide o cuidado é uma sociedade em que ninguém precisa escolher…"
+      }
+     ],
+     "stored_proposal_ids": [
+      90,
+      92,
+      93,
+      98
+     ]
+    }
+   }
+  },
+  {
+   "slug": "transparencia-corrupcao",
+   "label": "Transparência e combate à corrupção",
+   "group": "Instituições",
+   "terms": [
+    "corrupcao",
+    "transparencia",
+    "integridade"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      7,
+      11,
+      18,
+      27,
+      38,
+      55,
+      70,
+      75
+     ],
+     "excerpts": [
+      {
+       "page": 7,
+       "text": "…enfrentar as forças políticas do passado, que atuam para conservar privilégios e não democratizar o uso adequado dos recursos públicos, com transparência e foco nas grandes questões nacionais. Nossa tarefa é derrotar o projeto liberal-conservador para seguir construindo um Brasil popular, democrático, soberano e…"
+      },
+      {
+       "page": 11,
+       "text": "…o consumo. O número de impostos cairá de cinco (PIS, Cofins, IPI, ICMS e ISS) para dois (CBS federal e IBS subnacional). A reforma amplia a transparência, acaba com a cumulatividade e elimina a guerra fiscal entre os entes subnacionais. A cesta básica ficará isenta desses impostos e os mais pobres terão direito a…"
+      },
+      {
+       "page": 18,
+       "text": "…irá, orientada pelo princípio republicano. Vamos dar sequência às medidas de controle e integridade da administração pública e ao combate à corrupção. O Plano de Integridade e Combate à Corrupção 2025–2027 representa um avanço institucional que será aprofundado, fortalecendo a prevenção, a investigação e a re…"
+      }
+     ],
+     "stored_proposal_ids": []
+    },
+    "280002551544": {
+     "plan_pages": [
+      12,
+      41,
+      55,
+      59,
+      63,
+      68,
+      69,
+      70,
+      71,
+      72,
+      74
+     ],
+     "excerpts": [
+      {
+       "page": 12,
+       "text": "…o. Brasil que Não Volta Atrás, para que isso seja permanente Tesouraço nos gastos públicas: equilíbrio fiscal, reforma do Estado, combate à corrupção e menos impostos. A garantia que tudo o que foi prometido tem lastro. Um novo caminho O Brasil precisa de uma alternativa liberal, conservadora, reformista e co…"
+      },
+      {
+       "page": 41,
+       "text": "…quecidos pelo modelo atual. Levaremos a arte para perto do público em todo o país, sem subordiná-la a agendas políticas, nos norteando pela transparência, pela liberdade de expressão e pela distinção entre cultura e entretenimento comercial. 41"
+      },
+      {
+       "page": 55,
+       "text": "…ório claro e estável, licenciamento ágil e técnico, atração de capital e tecnologia, verticalização com incentivos de mercado, governança e transparência. Vamos trabalhar para atrair o capital estrangeiro e a tecnologia que já existem no mundo, aplicando aqui o que outros países já dominam e transferindo esse con…"
+      }
+     ],
+     "stored_proposal_ids": [
+      161
+     ]
+    }
+   }
+  },
+  {
+   "slug": "instituicoes-democracia",
+   "label": "Democracia e instituições",
+   "group": "Instituições",
+   "terms": [
+    "democracia",
+    "democratic",
+    "constituicao",
+    "liberdade de expressao",
+    "supremo"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      6,
+      7,
+      8,
+      10,
+      14,
+      15,
+      16,
+      18,
+      26,
+      27,
+      28,
+      30,
+      33,
+      40,
+      41,
+      54,
+      55,
+      76,
+      79,
+      81,
+      82
+     ],
+     "excerpts": [
+      {
+       "page": 6,
+       "text": "…il como potência criativa, sustentável, democrática e soberana, com menos desigualdades. Queremos continuar trabalhando para fortalecer uma democracia real e efetiva, capaz de assegurar que todos os brasileiros participem dos benefícios do crescimento econômico e dos frutos do progresso social. Isso exige polí…"
+      },
+      {
+       "page": 7,
+       "text": "…te importa: o bem-estar dos brasileiros e brasileiras, a centralidade do interesse público e a construção de um modelo eficaz de governança democrática. O Brasil já demonstrou, em vários momentos de sua história, que é capaz de realizar transformações essenciais quando reúne liderança política, capacidade insti…"
+      },
+      {
+       "page": 8,
+       "text": "…nteresses de outras potências. O governo Lula III começou com a tentativa golpista de 8 de janeiro de 2023, mobilizações violentas contra a democracia e um Estado profundamente desmontado e fiscalmente desequilibrado. Essa destruição começou com o golpe contra a presidenta Dilma Rousseff e se aprofundou com os…"
+      }
+     ],
+     "stored_proposal_ids": []
+    },
+    "280002551544": {
+     "plan_pages": [
+      9,
+      12,
+      41,
+      62,
+      65,
+      66,
+      67,
+      70,
+      71,
+      74,
+      75
+     ],
+     "excerpts": [
+      {
+       "page": 9,
+       "text": "…inegociáveis e que sustentam a sociedade brasileira: o respeito à liberdade, à família, à vida desde a concepção, à propriedade privada, à democracia, à liberdade de expressão e à liberdade religiosa. O papel do Estado não é tornar as pessoas dependentes do governo, mas criar as condições para que as famílias…"
+      },
+      {
+       "page": 12,
+       "text": "Brasil que Cumpre a Constituição, regras que valem para todos e não mudam no meio do jogo Instituições fortes, cada Poder dentro de seus limites e um Tesouraço na Censura para garantir a liberd…"
+      },
+      {
+       "page": 41,
+       "text": "…atual. Levaremos a arte para perto do público em todo o país, sem subordiná-la a agendas políticas, nos norteando pela transparência, pela liberdade de expressão e pela distinção entre cultura e entretenimento comercial. 41"
+      }
+     ],
+     "stored_proposal_ids": []
+    }
+   }
+  },
+  {
+   "slug": "defesa-soberania",
+   "label": "Defesa e soberania",
+   "group": "Instituições",
+   "terms": [
+    "soberania",
+    "forcas armadas",
+    "defesa nacional"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      6,
+      7,
+      8,
+      12,
+      14,
+      17,
+      29,
+      30,
+      33,
+      34,
+      39,
+      40,
+      47,
+      50,
+      54,
+      69,
+      71,
+      77,
+      78,
+      79,
+      82,
+      83
+     ],
+     "excerpts": [
+      {
+       "page": 6,
+       "text": "…e o trabalho seja valorizado, os serviços públicos sejam continuamente aprimorados, a democracia seja praticada e não apenas declarada, e a soberania nacional seja efetivamente exercida. 6"
+      },
+      {
+       "page": 7,
+       "text": "…a capacidade de planejamento do Estado brasileiro, fortalecer a base produtiva e tecnológica, democratizar o orçamento público, reafirmar a soberania nacional e enfrentar as ameaças externas que desconsideram os interesses do povo brasileiro. Não há desenvolvimento sem soberania em áreas estratégicas, capacid…"
+      },
+      {
+       "page": 8,
+       "text": "…vogação de direitos, aumento das desigualdades, precarização do trabalho, fortes expressões de violência social e política e aviltamento da soberania nacional. A deterioração das condições de vida da população brasileira entre 2016 e 2022 não foi fruto do acaso, mas o resultado de uma política econômica equiv…"
+      }
+     ],
+     "stored_proposal_ids": [
+      25
+     ]
+    },
+    "280002551544": {
+     "plan_pages": [
+      13,
+      58,
+      61,
+      62,
+      63
+     ],
+     "excerpts": [
+      {
+       "page": 13,
+       "text": "BRASIL SEM MEDO A soberania começa na porta da sua casa Nenhuma família vive, trabalha ou prospera sob o domínio do medo. Antes de qualquer outra coisa, o brasileiro precisa poder deixar o…"
+      },
+      {
+       "page": 58,
+       "text": "…tal é separar com clareza quem produz legalmente de quem se apropria do patrimônio público e destrói o meio ambiente para lucrar. Amazônia: soberania e oportunidade. A Amazônia ocupa posição estratégica para o Brasil e para o mundo, mas pertence, antes de tudo, aos brasileiros. Sua proteção será conduzida com…"
+      },
+      {
+       "page": 61,
+       "text": "…erana do Estado, são detalhados no bloco sobre meio ambiente. Desenvolver o Norte é provar que preservar e prosperar podem caminhar juntos. Soberania com profissionalismo, não com ideologia soberania se exerce na prática, não no discurso Soberania é a capacidade de uma nação governar a si própria, fazer suas…"
+      }
+     ],
+     "stored_proposal_ids": [
+      142
+     ]
+    }
+   }
+  },
+  {
+   "slug": "cultura",
+   "label": "Cultura",
+   "group": "Cultura e esporte",
+   "terms": [
+    "cultura",
+    "cultural",
+    "artista",
+    "patrimonio historico"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      9,
+      13,
+      14,
+      18,
+      20,
+      21,
+      24,
+      25,
+      40,
+      41,
+      42,
+      43,
+      44,
+      57,
+      62,
+      74,
+      76,
+      80,
+      81,
+      82
+     ],
+     "excerpts": [
+      {
+       "page": 9,
+       "text": "…entro dos ataques negacionistas e dos cortes orçamentários arbitrários que comprometeram a pesquisa científica e o futuro do País. No campo cultural, o desmonte institucional culminou na extinção do próprio Ministério da Cultura (MinC), rebaixado a órgão subalterno e alvo de ataques ideológicos sistemáticos.…"
+      },
+      {
+       "page": 13,
+       "text": "…is educacionais voltaram. E o governo desenhou uma inovadora e premiada política contra a evasão no Ensino Médio: o programa Pé-de-Meia. Na cultura, a recriação do Ministério da Cultura (MinC) e a retomada dos mecanismos de financiamento permitiram voltar a valorizar a identidade nacional e a diversidade cu…"
+      },
+      {
+       "page": 14,
+       "text": "…suas dimensões: democrática, institucional, defesa nacional, geopolítica, científica, tecnológica, digital, energética, mineral, ambiental, cultural, econômica, financeira, trabalho decente, alimentar, educação e saúde. Poucos países têm a riqueza cultural, a diversidade étnica, racial, as reservas hídricas,…"
+      }
+     ],
+     "stored_proposal_ids": []
+    },
+    "280002551544": {
+     "plan_pages": [
+      41,
+      59,
+      60
+     ],
+     "excerpts": [
+      {
+       "page": 41,
+       "text": "…base ao alto rendimento, seja disputada por atletas do sexo feminino, protegendo a mulher e a lisura da competição de agendas ideológicas. Cultura que valoriza nossas raízes menos concentração, mais Brasil na cultura O Brasil tem uma formação única. A miscigenação e a construção de um país de imigrantes e…"
+      },
+      {
+       "page": 59,
+       "text": "…e aproveita de menos O Brasil tem no turismo uma vocação natural e uma de suas maiores riquezas: praias, florestas, patrimônio histórico e cultural, festas e belezas que o mundo inteiro quer conhecer. Mesmo assim, aproveitamos apenas uma fração desse potencial. Toda a infraestrutura que este plano já prevê,…"
+      },
+      {
+       "page": 60,
+       "text": "…interligando Salvador, Aracaju, Maceió, Recife, João Pessoa, Natal e Fortaleza, abrindo um roteiro entre praias, cidades históricas e polos culturais para movimentar o turismo, a produção e a vida de quem vive ali. E porque não basta produzir, é preciso escoar, concluir a Transnordestina e ampliar o seu escop…"
+      }
+     ],
+     "stored_proposal_ids": []
+    }
+   }
+  },
+  {
+   "slug": "esporte",
+   "label": "Esporte e lazer",
+   "group": "Cultura e esporte",
+   "terms": [
+    "esporte",
+    "esportiv",
+    "lazer"
+   ],
+   "candidates": {
+    "280002542548": {
+     "plan_pages": [
+      22,
+      24,
+      32,
+      33,
+      40,
+      43,
+      44,
+      74
+     ],
+     "excerpts": [
+      {
+       "page": 22,
+       "text": "…endimento serão organizadas a partir de dois eixos. Um centrado no fomento a serviços de atendimento com foco em saúde, lazer, convivência, esporte, assistência social e proteção contra violações de direitos humanos e maus tratos. O outro para atendimento domiciliar, de ‘porta em porta’, em que o Estado vai…"
+      },
+      {
+       "page": 24,
+       "text": "…ivas e direitos. Estamos comprometidos em ampliar, para os jovens, além de mais oportunidades na educação, o acesso ao lazer, à cultura, ao esporte, ao descanso e às oportunidades de desenvolvimento pessoal e profissional. Aprimoraremos o Programa Pé-de-Meia, para continuar apoiando a juventude em seu proce…"
+      },
+      {
+       "page": 32,
+       "text": "…governo Lula também retomou obras que estavam paralisadas em governos anteriores – no caso da educação, são 5.967 creches, escolas, quadras esportivas e outros equipamentos que tiveram seus contratos repactuados e voltaram a receber recursos para conclusão. Também com recursos do Novo PAC, estamos levando inte…"
+      }
+     ],
+     "stored_proposal_ids": []
+    },
+    "280002551544": {
+     "plan_pages": [
+      11,
+      34,
+      36,
+      40
+     ],
+     "excerpts": [
+      {
+       "page": 11,
+       "text": "…édito que não afunda o orçamento. Brasil que Prepara, para sua família ter as ferramentas para vencer Educação de verdade, saúde acessível, esporte que forma e apoio no cuidado com crianças e idosos. Ninguém constrói futuro sem preparo e sem tempo. Brasil que Prospera, para você conquistar o que é seu Prote…"
+      },
+      {
+       "page": 34,
+       "text": "…carreira se tiver com quem deixar o pai idoso. Envolve a saúde, porque criança doente não aprende e adulto doente não trabalha. E envolve o esporte, que tira o jovem da rua e ensina o que a sala de aula sozinha não ensina. Tudo isso faz parte do que é necessário para uma família subir na vida pelo próprio e…"
+      },
+      {
+       "page": 36,
+       "text": "nas Férias, oferecendo esporte, arte, música e literatura em vez de deixar a criança ociosa. E onde faltar vaga na rede pública, a família receberá um voucher educacional para matricular o fi…"
+      }
+     ],
+     "stored_proposal_ids": [
+      77,
+      97,
+      98,
+      99,
+      100
+     ]
+    }
+   }
+  }
+ ],
+ "proposal_checks": {
+  "1": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "2": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "3": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "4": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "5": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "6": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "7": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "8": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "9": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "10": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "11": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "12": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "13": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "14": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "15": {
+   "excerpt_in_plan_page": 30,
+   "excerpt_in_extraction_source": true
+  },
+  "16": {
+   "excerpt_in_plan_page": 13,
+   "excerpt_in_extraction_source": true
+  },
+  "17": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "18": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "19": {
+   "excerpt_in_plan_page": 27,
+   "excerpt_in_extraction_source": true
+  },
+  "20": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "21": {
+   "excerpt_in_plan_page": 75,
+   "excerpt_in_extraction_source": true
+  },
+  "22": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "23": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "24": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "25": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "26": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "27": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "28": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "29": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "30": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "31": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "32": {
+   "excerpt_in_plan_page": 13,
+   "excerpt_in_extraction_source": true
+  },
+  "33": {
+   "excerpt_in_plan_page": 13,
+   "excerpt_in_extraction_source": true
+  },
+  "34": {
+   "excerpt_in_plan_page": 13,
+   "excerpt_in_extraction_source": true
+  },
+  "35": {
+   "excerpt_in_plan_page": 3,
+   "excerpt_in_extraction_source": true
+  },
+  "36": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "37": {
+   "excerpt_in_plan_page": 14,
+   "excerpt_in_extraction_source": true
+  },
+  "38": {
+   "excerpt_in_plan_page": 14,
+   "excerpt_in_extraction_source": true
+  },
+  "39": {
+   "excerpt_in_plan_page": 14,
+   "excerpt_in_extraction_source": true
+  },
+  "40": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "41": {
+   "excerpt_in_plan_page": 15,
+   "excerpt_in_extraction_source": true
+  },
+  "42": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "43": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "44": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "45": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "46": {
+   "excerpt_in_plan_page": 19,
+   "excerpt_in_extraction_source": true
+  },
+  "47": {
+   "excerpt_in_plan_page": 19,
+   "excerpt_in_extraction_source": true
+  },
+  "48": {
+   "excerpt_in_plan_page": 20,
+   "excerpt_in_extraction_source": true
+  },
+  "49": {
+   "excerpt_in_plan_page": 20,
+   "excerpt_in_extraction_source": true
+  },
+  "50": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "51": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "52": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "53": {
+   "excerpt_in_plan_page": 24,
+   "excerpt_in_extraction_source": true
+  },
+  "54": {
+   "excerpt_in_plan_page": 25,
+   "excerpt_in_extraction_source": true
+  },
+  "55": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "56": {
+   "excerpt_in_plan_page": 25,
+   "excerpt_in_extraction_source": true
+  },
+  "57": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "58": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "59": {
+   "excerpt_in_plan_page": 26,
+   "excerpt_in_extraction_source": true
+  },
+  "60": {
+   "excerpt_in_plan_page": 27,
+   "excerpt_in_extraction_source": true
+  },
+  "61": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "62": {
+   "excerpt_in_plan_page": 30,
+   "excerpt_in_extraction_source": true
+  },
+  "63": {
+   "excerpt_in_plan_page": 31,
+   "excerpt_in_extraction_source": true
+  },
+  "64": {
+   "excerpt_in_plan_page": 31,
+   "excerpt_in_extraction_source": true
+  },
+  "65": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "66": {
+   "excerpt_in_plan_page": 31,
+   "excerpt_in_extraction_source": true
+  },
+  "67": {
+   "excerpt_in_plan_page": 32,
+   "excerpt_in_extraction_source": true
+  },
+  "68": {
+   "excerpt_in_plan_page": 33,
+   "excerpt_in_extraction_source": true
+  },
+  "69": {
+   "excerpt_in_plan_page": 33,
+   "excerpt_in_extraction_source": true
+  },
+  "70": {
+   "excerpt_in_plan_page": 33,
+   "excerpt_in_extraction_source": true
+  },
+  "71": {
+   "excerpt_in_plan_page": 35,
+   "excerpt_in_extraction_source": true
+  },
+  "72": {
+   "excerpt_in_plan_page": 35,
+   "excerpt_in_extraction_source": true
+  },
+  "73": {
+   "excerpt_in_plan_page": 35,
+   "excerpt_in_extraction_source": true
+  },
+  "74": {
+   "excerpt_in_plan_page": 35,
+   "excerpt_in_extraction_source": true
+  },
+  "75": {
+   "excerpt_in_plan_page": 35,
+   "excerpt_in_extraction_source": true
+  },
+  "76": {
+   "excerpt_in_plan_page": 35,
+   "excerpt_in_extraction_source": true
+  },
+  "77": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "78": {
+   "excerpt_in_plan_page": 36,
+   "excerpt_in_extraction_source": true
+  },
+  "79": {
+   "excerpt_in_plan_page": 36,
+   "excerpt_in_extraction_source": true
+  },
+  "80": {
+   "excerpt_in_plan_page": 36,
+   "excerpt_in_extraction_source": true
+  },
+  "81": {
+   "excerpt_in_plan_page": 36,
+   "excerpt_in_extraction_source": true
+  },
+  "82": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "83": {
+   "excerpt_in_plan_page": 37,
+   "excerpt_in_extraction_source": true
+  },
+  "84": {
+   "excerpt_in_plan_page": 37,
+   "excerpt_in_extraction_source": true
+  },
+  "85": {
+   "excerpt_in_plan_page": 37,
+   "excerpt_in_extraction_source": true
+  },
+  "86": {
+   "excerpt_in_plan_page": 37,
+   "excerpt_in_extraction_source": true
+  },
+  "87": {
+   "excerpt_in_plan_page": 37,
+   "excerpt_in_extraction_source": true
+  },
+  "88": {
+   "excerpt_in_plan_page": 38,
+   "excerpt_in_extraction_source": true
+  },
+  "89": {
+   "excerpt_in_plan_page": 38,
+   "excerpt_in_extraction_source": true
+  },
+  "90": {
+   "excerpt_in_plan_page": 38,
+   "excerpt_in_extraction_source": true
+  },
+  "91": {
+   "excerpt_in_plan_page": 38,
+   "excerpt_in_extraction_source": true
+  },
+  "92": {
+   "excerpt_in_plan_page": 38,
+   "excerpt_in_extraction_source": true
+  },
+  "93": {
+   "excerpt_in_plan_page": 39,
+   "excerpt_in_extraction_source": true
+  },
+  "94": {
+   "excerpt_in_plan_page": 39,
+   "excerpt_in_extraction_source": true
+  },
+  "95": {
+   "excerpt_in_plan_page": 39,
+   "excerpt_in_extraction_source": true
+  },
+  "96": {
+   "excerpt_in_plan_page": 39,
+   "excerpt_in_extraction_source": true
+  },
+  "97": {
+   "excerpt_in_plan_page": 40,
+   "excerpt_in_extraction_source": true
+  },
+  "98": {
+   "excerpt_in_plan_page": 40,
+   "excerpt_in_extraction_source": true
+  },
+  "99": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "100": {
+   "excerpt_in_plan_page": 41,
+   "excerpt_in_extraction_source": true
+  },
+  "101": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "102": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "103": {
+   "excerpt_in_plan_page": 44,
+   "excerpt_in_extraction_source": true
+  },
+  "104": {
+   "excerpt_in_plan_page": 44,
+   "excerpt_in_extraction_source": true
+  },
+  "105": {
+   "excerpt_in_plan_page": 44,
+   "excerpt_in_extraction_source": true
+  },
+  "106": {
+   "excerpt_in_plan_page": 45,
+   "excerpt_in_extraction_source": true
+  },
+  "107": {
+   "excerpt_in_plan_page": 46,
+   "excerpt_in_extraction_source": true
+  },
+  "108": {
+   "excerpt_in_plan_page": 46,
+   "excerpt_in_extraction_source": true
+  },
+  "109": {
+   "excerpt_in_plan_page": 47,
+   "excerpt_in_extraction_source": true
+  },
+  "110": {
+   "excerpt_in_plan_page": 47,
+   "excerpt_in_extraction_source": true
+  },
+  "111": {
+   "excerpt_in_plan_page": 47,
+   "excerpt_in_extraction_source": true
+  },
+  "112": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "113": {
+   "excerpt_in_plan_page": 46,
+   "excerpt_in_extraction_source": true
+  },
+  "114": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "115": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "116": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "117": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "118": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "119": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "120": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "121": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "122": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "123": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "124": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "125": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "126": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "127": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "128": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "129": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "130": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "131": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "132": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "133": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "134": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "135": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "136": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "137": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "138": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "139": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "140": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "141": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "142": {
+   "excerpt_in_plan_page": 63,
+   "excerpt_in_extraction_source": true
+  },
+  "143": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "144": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "145": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "146": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "147": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "148": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "149": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "150": {
+   "excerpt_in_plan_page": 65,
+   "excerpt_in_extraction_source": true
+  },
+  "151": {
+   "excerpt_in_plan_page": 65,
+   "excerpt_in_extraction_source": true
+  },
+  "152": {
+   "excerpt_in_plan_page": 66,
+   "excerpt_in_extraction_source": true
+  },
+  "153": {
+   "excerpt_in_plan_page": 66,
+   "excerpt_in_extraction_source": true
+  },
+  "154": {
+   "excerpt_in_plan_page": 69,
+   "excerpt_in_extraction_source": true
+  },
+  "155": {
+   "excerpt_in_plan_page": 69,
+   "excerpt_in_extraction_source": true
+  },
+  "156": {
+   "excerpt_in_plan_page": 69,
+   "excerpt_in_extraction_source": true
+  },
+  "157": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "158": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "159": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "160": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "161": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  }
+ },
+ "proposal_checks_by_key": {
+  "280002542548|aumento do salario minimo acima da inflacao": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|cesta basica com imposto zerado": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|cashback de impostos para quem precisa": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|escola em tempo integral em toda a rede publica": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|novos institutos federais com cursos transformadores": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|universidades transformadoras": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|pe-de-meia para todos": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|novo ciencia sem fronteiras": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|valorizacao dos professores": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|rede brasil contra o cancer": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|farmacia popular com consultas e exames": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|agora tem especialistas ampliado": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|rede de hospitais inteligentes ampliada": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|valorizacao dos profissionais de saude": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|ministerio da seguranca publica": {
+   "excerpt_in_plan_page": 30,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|sistema unico de seguranca publica (susp)": {
+   "excerpt_in_plan_page": 13,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|policia federal fortalecida": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|mais presidios de seguranca maxima": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|retomada de territorios": {
+   "excerpt_in_plan_page": 27,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|pacto contra o feminicidio fortalecido": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|fim da escala 6x1": {
+   "excerpt_in_plan_page": 75,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|super-mei": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|emprego bom e bem pago": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|brasil das terras raras": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|base industrial de defesa": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|complexo industrial da saude": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|plano inova brasil": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002542548|defender o que e nosso": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|declaracao de guerra ao crime organizado": {
+   "excerpt_in_plan_page": 13,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|bloqueio de ativos e combate a lavagem de dinheiro": {
+   "excerpt_in_plan_page": 13,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|reducao da maioridade penal": {
+   "excerpt_in_plan_page": 13,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|fortalecimento das fronteiras": {
+   "excerpt_in_plan_page": 3,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|sistema nacional de fronteira": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|complexo federal de seguranca maxima": {
+   "excerpt_in_plan_page": 14,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|castracao quimica de criminosos": {
+   "excerpt_in_plan_page": 14,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|monitoramento de agressores com tornozeleiras eletronicas": {
+   "excerpt_in_plan_page": 14,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|ocupacao e monitoramento de portos e aeroportos": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|dobro de investimentos federais em seguranca publica": {
+   "excerpt_in_plan_page": 15,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|muralha brasileira de reconhecimento facial": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|redirecionamento de recursos para familias das vitimas": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|fim da progressao de regime para crimes hediondos": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|reforco na combate ao crime de roubo de celulares": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|sistema nacional de avaliacao de risco e monitoramento por tornozeleira eletronica": {
+   "excerpt_in_plan_page": 19,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|ganha, ganha – programa de pontuacao positiva para mulheres empreendedoras": {
+   "excerpt_in_plan_page": 19,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|sistema integrado de emprego e apoio ao pequeno negocio": {
+   "excerpt_in_plan_page": 20,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|escola brasil por elas – capacitacao feminina em tecnologia e negocios": {
+   "excerpt_in_plan_page": 20,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|saude para elas – atencao preventiva e telemedicina": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|casa segura – acesso a escritura da casa propria para mulheres": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|creche garantida – ampliacao de creches e voucher-creche": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|conexao digital para todos": {
+   "excerpt_in_plan_page": 24,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|estado digital 100%": {
+   "excerpt_in_plan_page": 25,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|identidade digital unica": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|inteligencia artificial no estado": {
+   "excerpt_in_plan_page": 25,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|prontuario eletronico unico": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|digitalizacao completa do sus": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|desburocratizacao do inss": {
+   "excerpt_in_plan_page": 26,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|facilitar empreendedorismo": {
+   "excerpt_in_plan_page": 27,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|simplificar licencas e titulacao rural": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|revisao e redimensionamento da reforma tributaria": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|reducao de impostos sobre energia eletrica e combustiveis": {
+   "excerpt_in_plan_page": 31,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|simplificacao da conta de luz": {
+   "excerpt_in_plan_page": 31,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|criacao dos corredores logisticos inteligentes": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|ampliacao da capacidade de armazenamento das safras": {
+   "excerpt_in_plan_page": 31,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|apoio a producao nacional de fertilizantes": {
+   "excerpt_in_plan_page": 32,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|reducao da divida publica e juros basicos": {
+   "excerpt_in_plan_page": 33,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|combate ao endividamento por apostas online": {
+   "excerpt_in_plan_page": 33,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|ampliacao da orientacao financeira pela caixa": {
+   "excerpt_in_plan_page": 33,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|priorizar o metodo fonico na alfabetizacao": {
+   "excerpt_in_plan_page": 35,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|programa acolher": {
+   "excerpt_in_plan_page": 35,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|gestao baseada em indicadores de resultado e financiamento por resultados": {
+   "excerpt_in_plan_page": 35,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|qualificacao continua de professores baseada em evidencias cientificas": {
+   "excerpt_in_plan_page": 35,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|ampliacao das escolas civico-militares": {
+   "excerpt_in_plan_page": 35,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|inclusao de robotica, computadores, tablets e internet nas escolas": {
+   "excerpt_in_plan_page": 35,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|escola em tempo integral e escola nas ferias": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|voucher educacional para matricula em escola privada": {
+   "excerpt_in_plan_page": 36,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|ampliacao da oferta de educacao tecnica no ensino medio": {
+   "excerpt_in_plan_page": 36,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|politica nacional de formacao de talentos": {
+   "excerpt_in_plan_page": 36,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|transferencia de governanca do ensino superior para ministerio da ciencia, tecnologia e inovacoes": {
+   "excerpt_in_plan_page": 36,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|financiamento estudantil com emprestimo contingente a renda": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|correcao da tabela sus e remuneracao justa": {
+   "excerpt_in_plan_page": 37,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|ampliacao da estrategia saude da familia": {
+   "excerpt_in_plan_page": 37,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|programa de atendimento aos idosos": {
+   "excerpt_in_plan_page": 37,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|ampliacao do acesso a exames preventivos e imunizacao": {
+   "excerpt_in_plan_page": 37,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|contratacao de servicos e exames na rede privada em horarios ociosos": {
+   "excerpt_in_plan_page": 37,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|fortalecimento da rede nacional de hospitais inteligentes (ebserh)": {
+   "excerpt_in_plan_page": 38,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|telessaude e teleatendimento por aplicativo": {
+   "excerpt_in_plan_page": 38,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|entrega de remedio em domicilio": {
+   "excerpt_in_plan_page": 38,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|inteligencia artificial de apoio a prevencao": {
+   "excerpt_in_plan_page": 38,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|ampliacao de creches, voucher-creche e rede nacional de cuidado": {
+   "excerpt_in_plan_page": 38,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|programa casa segura para envelhecer": {
+   "excerpt_in_plan_page": 39,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|ampliacao das instituicoes de longa permanencia para idosos": {
+   "excerpt_in_plan_page": 39,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|implantacao de centros de referencia em transtorno do espectro autista": {
+   "excerpt_in_plan_page": 39,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|fortalecimento da atencao a saude mental": {
+   "excerpt_in_plan_page": 39,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|programa escola de campeoes": {
+   "excerpt_in_plan_page": 40,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|inclusao de pessoas com deficiencia pelo esporte": {
+   "excerpt_in_plan_page": 40,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|aperfeicoamento de bolsas esportivas e patrocinio privado": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|protecao do esporte feminino": {
+   "excerpt_in_plan_page": 41,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|valorizacao das tradicoes brasileiras e aperfeicoamento das leis de incentivo": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|reducao gradual do custo do trabalho formal": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|jornada flexivel para trabalhadores": {
+   "excerpt_in_plan_page": 44,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|negociado sobre o legislado": {
+   "excerpt_in_plan_page": 44,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|banco nacional de vagas": {
+   "excerpt_in_plan_page": 44,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|minha primeira empresa": {
+   "excerpt_in_plan_page": 45,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|caixa como banco da prosperidade": {
+   "excerpt_in_plan_page": 46,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|ganha-ganha": {
+   "excerpt_in_plan_page": 46,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|retomar casa verde e amarela": {
+   "excerpt_in_plan_page": 47,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|regularizacao fundiaria e urbanizacao de areas degradadas": {
+   "excerpt_in_plan_page": 47,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|universalizacao do acesso a agua e esgoto": {
+   "excerpt_in_plan_page": 47,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|programa lixao zero": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|reducao de tributos sobre a producao": {
+   "excerpt_in_plan_page": 46,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|licenciamento ambiental agil e seguro": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|autonomia para povos indigenas e quilombolas": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|investimento em infraestrutura logistica": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|reducao do tempo de deslocamento urbano": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|seguranca hidrica e prevencao de enchentes": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|seguranca energetica e reducao de custos": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|fortalecimento do agronegocio e seguranca alimentar": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|intermediacao de trabalho no campo": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|seguranca para trabalhadores rurais": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|ampliacao da area irrigada": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|expansao da agua de reuso": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|combustivel sustentavel de aviacao": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|incentivos a producao de biomassa": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|cadastro ambiental rural consolidado": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|pagamento por servicos ambientais": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|valor agregado na mineracao": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|licenciamento agil e garantias de credito": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|estrategia nacional de inteligencia artificial": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|parques tecnologicos e incubadoras": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|defesa cibernetica e privacidade de dados": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|universalizacao do saneamento": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|mercado regulado de carbono": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|impulsionar bioeconomia": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|incentivos economicos a preservacao ambiental": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|combate ao crime ambiental": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|fiscalizacao direcionada ao crime organizado": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|protecao dos biomas": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|alternativas de renda na amazonia": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|brasil sem medo": {
+   "excerpt_in_plan_page": 63,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|promocao do destino brasil e infraestrutura turistica": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|prioridade ao norte e nordeste": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|capital da energia limpa no nordeste": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|desenvolvimento sustentavel na amazonia": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|diplomacia profissionalista": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|abertura comercial e adesao a ocde": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|integracao as cadeias de valor": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|fim das competencias criminais originarias do stf": {
+   "excerpt_in_plan_page": 65,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|limitacao das decisoes monocraticas do stf": {
+   "excerpt_in_plan_page": 65,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|fim da reeleicao para o cargo de presidente da republica": {
+   "excerpt_in_plan_page": 66,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|abolicao do ministerio da verdade": {
+   "excerpt_in_plan_page": 66,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|corte de ministerios e reducao de cargos comissionados": {
+   "excerpt_in_plan_page": 69,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|digitalizacao dos servicos publicos": {
+   "excerpt_in_plan_page": 69,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|mais brasil, menos brasilia": {
+   "excerpt_in_plan_page": 69,
+   "excerpt_in_extraction_source": true
+  },
+  "280002551544|fortalecimento da lei das estatais e blindagem dos fundos de pensao": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|reformulacao das regras fiscais e controle de gastos discricionarios": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|combate as fraudes na previdencia e reedicao do pacote antifraude": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  },
+  "280002551544|agenda permanente de transparencia e avaliacao de politicas publicas": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null
+  }
+ },
+ "duplicates": [
+  [
+   25,
+   28
+  ]
+ ]
+}

@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import ComparadorPropostasClient from './ComparadorPropostasClient';
-import { getProposalThemes } from '@/services/proposalComparisonService';
+import { getProposalIndex } from '@/services/proposalComparisonService';
 
 export const metadata: Metadata = {
-  title: 'Comparar propostas para Presidente',
+  title: 'Compare as propostas para Presidente',
   description:
-    'Compare, tema a tema, as propostas dos planos de governo dos candidatos à Presidência em 2026, com o trecho e o link da fonte oficial.',
+    'Compare, tema a tema, as propostas dos planos de governo dos candidatos à Presidência em 2026, com o trecho original e o link da fonte oficial.',
   alternates: { canonical: '/ComparadorPropostasPage' },
 };
 
@@ -13,9 +13,9 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function ComparadorPropostasPage() {
-  const initialThemes = await getProposalThemes()
-    .then((response) => response.data)
-    .catch(() => undefined);
+  // Busca o índice já no servidor: a página chega com as propostas em vez de
+  // só o esqueleto de carregamento.
+  const initialIndex = await getProposalIndex().catch(() => undefined);
 
-  return <ComparadorPropostasClient initialThemes={initialThemes} />;
+  return <ComparadorPropostasClient initialIndex={initialIndex} />;
 }

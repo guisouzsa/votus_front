@@ -12,6 +12,7 @@ import LegislatorPhoto from '@/components/LegislatorPhoto';
 import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
 import Pagination from '@/components/Pagination';
 import PageTransitionOverlay from '@/components/PageTransitionOverlay';
+import PageHeader from '@/components/PageHeader';
 import StatCard from '@/components/StatCard';
 import DataSourceNote from '@/components/DataSourceNote';
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
@@ -193,18 +194,11 @@ export default function CandidatosListClient({
       <main className={embedded ? 'min-h-dvh bg-[#FDFDFD]' : 'min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24'}>
         <div className="min-h-dvh">
           <div className="w-full px-6 py-8 sm:px-10">
-            <section className="rounded-lg bg-[#1B623A] px-4 py-3 text-white sm:px-6 sm:py-4">
-              <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-white/80 sm:text-xs">
-                Eleições 2026
-              </p>
-              <h1 className="mt-0.5 text-lg font-black uppercase leading-tight tracking-tight sm:text-xl md:text-2xl">
-                Candidatos 2026 a {config.label} {config.regiao}
-              </h1>
-              <p className="mt-1 max-w-2xl text-xs leading-snug text-white/90 sm:text-sm">
-                Quem está concorrendo nas eleições de 2026, segundo o registro de candidaturas do TSE. Cada perfil
-                traz partido, número na urna e, quando houver, a chapa completa (vice ou suplentes).
-              </p>
-            </section>
+            <PageHeader
+              eyebrow="Eleições 2026"
+              title={`Candidatos a ${config.label} ${config.regiao}`}
+              description="Quem concorre, segundo o registro de candidaturas do TSE (Tribunal Superior Eleitoral). Cada perfil traz partido, número na urna e, quando houver, a chapa completa (vice ou suplentes)."
+            />
 
             {/* Abas por cargo: trocar de cargo sem voltar pra sidebar. */}
             <nav aria-label="Cargos em disputa em 2026" className="mt-4 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
@@ -260,9 +254,9 @@ export default function CandidatosListClient({
                   <Columns2 size={18} aria-hidden="true" />
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block text-sm font-black text-[#1B623A]">Compare as propostas por tema</span>
+                  <span className="block text-sm font-black text-[#1B623A]">Comparar propostas</span>
                   <span className="block text-xs text-ink-soft">
-                    Veja lado a lado o que cada plano de governo propõe, com a fonte oficial.
+                    Veja, tema a tema e lado a lado, o que os planos de governo propõem, com o trecho original.
                   </span>
                 </span>
                 <ArrowRight size={18} className="shrink-0 text-[#1B623A] transition-transform group-hover:translate-x-0.5" aria-hidden="true" />

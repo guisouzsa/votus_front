@@ -3,7 +3,7 @@
 import { useSsrDetail } from '@/hooks/useSsrDetail';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, FileText } from 'lucide-react';
+import { ArrowLeft, Columns2, FileText } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
@@ -185,17 +185,30 @@ export default function CandidatoDetailClient({
                 </div>
               </dl>
 
-              {candidato.proposal_document_url && (
-                <a
-                  href={candidato.proposal_document_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#8d0801] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#6d0601]"
-                >
-                  <FileText size={14} />
-                  Ver plano de governo
-                </a>
-              )}
+              <div className="mt-4 flex flex-wrap gap-2">
+                {candidato.proposal_document_url && (
+                  <a
+                    href={candidato.proposal_document_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full bg-[#8d0801] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#6d0601]"
+                  >
+                    <FileText size={14} />
+                    Ver plano de governo
+                  </a>
+                )}
+                {/* A comparação abre com a coluna deste candidato destacada e
+                    um "Voltar ao perfil" (?de=). */}
+                {office === 'presidente' && (
+                  <Link
+                    href={`/ComparadorPropostasPage?de=${candidato.id}`}
+                    className="inline-flex items-center gap-2 rounded-full border border-[#1b623a] px-4 py-2 text-xs font-semibold text-[#1b623a] transition-colors hover:bg-[#1b623a]/10"
+                  >
+                    <Columns2 size={14} />
+                    Comparar propostas
+                  </Link>
+                )}
+              </div>
             </div>
 
             <div className="rounded-[10px] border border-[#e0d6c4] bg-white p-4 text-sm sm:p-6">
