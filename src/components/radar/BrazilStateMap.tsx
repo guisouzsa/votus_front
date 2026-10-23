@@ -1,10 +1,26 @@
 'use client';
 
-import { BRAZIL_MAP_VIEWBOX, UF_SHAPES } from '@/data/brazilUfShapes';
+import { UF_SHAPES } from '@/data/brazilUfShapes';
 
-// UFs pequenas demais para caber a sigla dentro do contorno sem cobrir as
-// vizinhas. Continuam clicáveis e aparecem na lista de UFs da página.
-const HIDDEN_LABELS = new Set(['DF', 'SE', 'AL', 'RN', 'PB', 'ES', 'RJ']);
+// A malha ocupa 0..1000 na horizontal; a faixa extra à direita é oceano,
+// onde ficam as siglas externas do litoral do Nordeste.
+const VIEWBOX = '0 0 1090 1027';
+
+// UFs estreitas demais para a sigla caber dentro do contorno: no litoral do
+// Nordeste a sigla de uma invadia as vizinhas. A sigla vai para fora (no
+// oceano, ou num ponto livre no caso do DF), ligada à UF por uma linha, como
+// em mapa impresso. `from` = ponto dentro da UF onde a linha começa; `x/y` =
+// posição da sigla. A sigla externa também é clicável.
+const CALLOUTS: Record<string, { from: [number, number]; x: number; y: number }> = {
+  RN: { from: [980, 292], x: 1030, y: 262 },
+  PB: { from: [985, 326], x: 1030, y: 300 },
+  PE: { from: [975, 358], x: 1030, y: 338 },
+  AL: { from: [970, 392], x: 1030, y: 376 },
+  SE: { from: [948, 418], x: 1030, y: 414 },
+  ES: { from: [862, 654], x: 925, y: 650 },
+  RJ: { from: [812, 722], x: 890, y: 768 },
+  DF: { from: [668, 554], x: 700, y: 508 },
+};
 
 /**
  * Mapa das 27 UFs a partir da malha oficial do IBGE (src/data/brazilUfShapes.ts).
@@ -22,7 +38,7 @@ export default function BrazilStateMap({
   onSelect: (uf: string) => void;
 }) {
   return (
-    <svg viewBox={BRAZIL_MAP_VIEWBOX} role="group" aria-label="Mapa do Brasil por unidade federativa" className="h-auto w-full">
+    <svg viewBox={VIEWBOX} role="group" aria-label="Mapa do Brasil por unidade federativa" className="h-auto w-full">
       {Object.entries(UF_SHAPES).map(([uf, shape]) => {
         const isSelected = uf === selected;
 
@@ -53,7 +69,7 @@ export default function BrazilStateMap({
       })}
 
       {Object.entries(UF_SHAPES).map(([uf, shape]) =>
-        HIDDEN_LABELS.has(uf) ? null : (
+        CALLOUTS[uf] ? null : (
           <text
             key={`label-${uf}`}
             x={shape.labelX}
@@ -69,6 +85,34 @@ export default function BrazilStateMap({
           </text>
         )
       )}
+
+      {Object.entries(CALLOUTS).map(([uf, { from, x, y }]) => {
+        const isSelected = uf === selected;
+
+        return (
+          <g key={`callout-${uf}`} aria-hidden="true" onClick={() => onSelect(uf)} className="cursor-pointer">
+            <line
+              x1={from[0]}
+              y1={from[1]}
+              x2={x - 4}
+              y2={y}
+              className={isSelected ? 'stroke-[#1B623A]' : 'stroke-[#8a7d66]'}
+              strokeWidth={1.5}
+            />
+            <circle cx={from[0]} cy={from[1]} r={3} className={isSelected ? 'fill-white' : 'fill-[#5b513f]'} />
+            <text
+              x={x}
+              y={y}
+              dominantBaseline="central"
+              className={`select-none text-[20px] font-bold ${
+                isSelected ? 'fill-[#1B623A] underline' : 'fill-[#5b513f] hover:fill-[#1B623A]'
+              }`}
+            >
+              {uf}
+            </text>
+          </g>
+        );
+      })}
     </svg>
   );
 }
