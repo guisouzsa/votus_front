@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { ChevronDown, ExternalLink } from 'lucide-react';
+import InfoTooltip from '@/components/InfoTooltip';
 import { THEME_GROUPS } from '@/data/proposalThemeGroups';
 import Tag from './Tag';
 import { coverage, coverageStatus, normalize, pdfPageUrl, type CoverageSubject } from './coverage';
@@ -114,14 +115,17 @@ export default function SubjectCoverage({
 
   return (
     <section id="assuntos-mencionados" aria-labelledby="assuntos-titulo" className="mt-8">
-      <h2 id="assuntos-titulo" className="text-sm font-black uppercase tracking-wide text-[#1B623A]">
-        Assuntos mencionados nos planos oficiais
-      </h2>
-      <p className="mt-1 max-w-3xl text-[13px] leading-relaxed text-ink-soft">
-        Busca de termos no texto integral dos planos registrados no TSE, sem contar sumário e índice. “Mencionado” quer
-        dizer apenas que o assunto aparece no documento, inclusive em diagnósticos; isso não significa que exista uma proposta sobre ele.
-        Abra um assunto para ver os trechos e as páginas.
-      </p>
+      <div className="flex items-center gap-1.5">
+        <h2 id="assuntos-titulo" className="text-sm font-black uppercase tracking-wide text-[#1B623A]">
+          Assuntos mencionados nos planos oficiais
+        </h2>
+        <InfoTooltip label="Sobre assuntos mencionados nos planos oficiais" iconClassName="text-[#8D0801]">
+          “0 propostas extraídas” não significa que o plano ignore o assunto. Esta seção busca termos no texto integral
+          dos planos registrados no TSE, sem contar sumário e índice. “Mencionado” significa apenas que o assunto aparece
+          no documento, inclusive em diagnósticos; não significa que exista uma proposta sobre ele. Abra um assunto
+          abaixo para ver os trechos e as páginas.
+        </InfoTooltip>
+      </div>
       {!q && (
         <button
           type="button"

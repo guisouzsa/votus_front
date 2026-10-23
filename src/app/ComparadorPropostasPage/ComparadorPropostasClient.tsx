@@ -8,6 +8,7 @@ import Sidebar from '@/components/Sidebar';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
+import InfoTooltip from '@/components/InfoTooltip';
 import PageHeader from '@/components/PageHeader';
 import ComparadorSkeleton from '@/components/propostas/ComparadorSkeleton';
 import ProposalColumns from '@/components/propostas/ProposalColumns';
@@ -261,14 +262,6 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
             title="Compare as propostas para Presidente"
             description="Compare propostas, trechos originais e fontes oficiais, tema a tema."
             compact
-            note={
-              <>
-                A IA pode errar; confira os trechos. Fontes variam: veja{' '}
-                <a href="#fontes-analisadas" className="font-bold text-[#1B623A] underline underline-offset-2">
-                  Fontes analisadas
-                </a>
-              </>
-            }
           />
 
           {isLoading && !index ? (
@@ -296,25 +289,25 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
               <section aria-labelledby="filtros-titulo" className="sticky top-0 z-30 mt-3 rounded-2xl border border-[#e0d6c4] bg-white p-3 shadow-sm sm:p-4">
                 <h2 id="filtros-titulo" className="sr-only">Buscar e filtrar propostas</h2>
                 <div className="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">
-                  <label className="block text-xs font-bold uppercase text-ink-soft">
+                  <label className="block text-xs font-bold uppercase text-brasil-red">
                     Buscar nas propostas
                     <span className="relative mt-1 block">
-                      <Search size={16} aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 text-[#1B623A]" />
+                      <Search size={16} aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 text-brasil-red" />
                       <input
                         type="search"
                         value={filtros.busca}
                         onChange={(e) => atualizar('busca', e.target.value)}
                         placeholder="Ex.: SUS, escola, livros"
-                        className="h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] py-2 pl-9 pr-4 text-sm font-normal normal-case text-[#1B623A] placeholder:text-ink-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
+                        className="h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] py-2 pl-9 pr-4 text-sm font-normal normal-case text-brasil-red placeholder:text-brasil-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                       />
                     </span>
                   </label>
-                  <label className="block text-xs font-bold uppercase text-ink-soft">
+                  <label className="block text-xs font-bold uppercase text-brasil-red">
                     Área ou tema
                     <select
                       value={filtros.tema}
                       onChange={(e) => atualizar('tema', e.target.value)}
-                      className="mt-1 h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] px-4 py-2 text-sm font-normal normal-case text-[#1B623A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
+                      className="mt-1 h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] px-4 py-2 text-sm font-normal normal-case text-brasil-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                     >
                       <option value="">Todas as áreas</option>
                       {porGrupo.map(({ group, temas }) => (
@@ -327,12 +320,12 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                       ))}
                     </select>
                   </label>
-                  <label className="block text-xs font-bold uppercase text-ink-soft">
+                  <label className="block text-xs font-bold uppercase text-brasil-red">
                     Candidato
                     <select
                       value={filtros.candidato}
                       onChange={(e) => atualizar('candidato', e.target.value)}
-                      className="mt-1 h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] px-4 py-2 text-sm font-normal normal-case text-[#1B623A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
+                      className="mt-1 h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] px-4 py-2 text-sm font-normal normal-case text-brasil-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                     >
                       <option value="">Todos</option>
                       {candidatos.map((c) => (
@@ -340,12 +333,12 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                       ))}
                     </select>
                   </label>
-                  <label className="block text-xs font-bold uppercase text-ink-soft">
+                  <label className="block text-xs font-bold uppercase text-brasil-red">
                     Situação do trecho
                     <select
                       value={filtros.situacao}
                       onChange={(e) => atualizar('situacao', e.target.value)}
-                      className="mt-1 h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] px-4 py-2 text-sm font-normal normal-case text-[#1B623A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
+                      className="mt-1 h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] px-4 py-2 text-sm font-normal normal-case text-brasil-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                     >
                       <option value="">Todas</option>
                       <option value="plano">Conferido no plano do TSE</option>
@@ -354,7 +347,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                   </label>
                 </div>
                 <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-                  <p aria-live="polite" className="min-w-0 text-sm text-ink-soft">
+                  <p aria-live="polite" className="min-w-0 text-sm text-brasil-red">
                     {temFiltro ? `Mostrando ${resumoResultados}.` : `${index?.proposals.length ?? 0} propostas em ${index?.themes.length ?? 0} temas.`}
                     {isValidating && ' Atualizando…'}
                   </p>
@@ -363,29 +356,28 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                       type="button"
                       onClick={limpar}
                       disabled={!temFiltro}
-                      className="inline-flex items-center gap-1 text-sm font-bold text-[#1B623A] underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A] disabled:cursor-not-allowed disabled:text-ink-soft disabled:no-underline"
+                      className="inline-flex items-center gap-1 text-sm font-bold text-brasil-red underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A] disabled:cursor-not-allowed disabled:text-brasil-red disabled:no-underline"
                     >
                       <RotateCcw size={14} aria-hidden="true" /> Limpar filtros
                     </button>
-                    <FloatingAIButton placement="inline" />
                   </div>
                 </div>
               </section>
 
               <section aria-labelledby="visao-geral-titulo" className="mt-6">
-                <h2 id="visao-geral-titulo" className="text-sm font-black uppercase tracking-wide text-[#1B623A]">
-                  Visão geral por área
-                </h2>
-                <p className="mt-1 text-[13px] text-ink-soft">
-                  Número de propostas extraídas pelo Votus em cada área. Abra uma área para ver os temas, ou escolha
-                  “Comparar” para ver as propostas lado a lado.
-                </p>
-                <p className="mt-1 text-[13px] text-ink-soft">
-                  “0 propostas extraídas” não significa que o plano ignore o tema. Consulte{' '}
-                  <a href="#assuntos-mencionados" className="font-semibold text-[#1B623A] underline underline-offset-2">
-                    Assuntos mencionados nos planos oficiais
-                  </a>.
-                </p>
+                <div className="flex items-center gap-1.5">
+                  <h2 id="visao-geral-titulo" className="text-sm font-black uppercase tracking-wide text-[#1B623A]">
+                    Visão geral por área
+                  </h2>
+                  <InfoTooltip label="Sobre a visão geral por área" iconClassName="text-[#8D0801]">
+                    Mostra quantas propostas o Votus extraiu em cada área. Abra uma área para ver seus temas ou escolha
+                    “Comparar” para ver as propostas lado a lado. “0 propostas extraídas” não significa que o plano
+                    ignore o assunto. Consulte{' '}
+                    <a href="#assuntos-mencionados" className="font-semibold text-[#1B623A] underline underline-offset-2">
+                      Assuntos mencionados nos planos oficiais
+                    </a>.
+                  </InfoTooltip>
+                </div>
                 <div className="mt-3 overflow-x-auto rounded-xl border border-[#e0d6c4] bg-white">
                   <table className="w-full text-left text-sm">
                     <caption className="sr-only">Propostas extraídas por área e candidato</caption>
@@ -519,9 +511,16 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
 
               <SubjectCoverage candidates={candidatosVisiveis} query={filtros.busca} />
               <SourcesPanel candidates={candidatos} proposals={index?.proposals ?? []} methodology={methodology} />
+              <p className="mt-4 mb-28 rounded-xl border border-[#e0d6c4] bg-[#FDF8EE] p-3 text-sm leading-relaxed text-ink-soft">
+                A IA pode errar; confira os trechos. As fontes variam entre candidatos. Veja{' '}
+                <a href="#fontes-analisadas" className="font-bold text-[#1B623A] underline underline-offset-2">
+                  Fontes analisadas
+                </a>.
+              </p>
             </>
           )}
         </div>
+        <FloatingAIButton />
       </main>
     </div>
   );
