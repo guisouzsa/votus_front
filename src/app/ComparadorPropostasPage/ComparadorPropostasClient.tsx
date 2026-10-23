@@ -58,6 +58,13 @@ function lerFiltros(query: string): Filtros & { de: string } {
   };
 }
 
+function coresDoCandidato(name: string) {
+  const nome = normalize(name);
+  if (nome.includes('bolsonaro')) return { texto: 'text-brasil-green', barra: 'bg-brasil-green' };
+  if (nome.includes('lula')) return { texto: 'text-brasil-red', barra: 'bg-brasil-red' };
+  return { texto: 'text-ink-soft', barra: 'bg-ink-soft' };
+}
+
 function gravarFiltros(filtros: Filtros, de: string) {
   const params = new URLSearchParams();
   for (const campo of CAMPOS) if (filtros[campo]) params.set(campo, filtros[campo]);
@@ -292,13 +299,13 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                   <label className="block text-xs font-bold uppercase text-ink-soft">
                     Buscar nas propostas
                     <span className="relative mt-1 block">
-                      <Search size={16} aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-soft" />
+                      <Search size={16} aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 text-[#1B623A]" />
                       <input
                         type="search"
                         value={filtros.busca}
                         onChange={(e) => atualizar('busca', e.target.value)}
                         placeholder="Ex.: SUS, escola, livros"
-                        className="w-full rounded-xl border border-[#e0d6c4] py-2 pl-9 pr-3 text-sm font-normal normal-case text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
+                        className="h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] py-2 pl-9 pr-4 text-sm font-normal normal-case text-[#1B623A] placeholder:text-ink-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                       />
                     </span>
                   </label>
@@ -307,7 +314,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                     <select
                       value={filtros.tema}
                       onChange={(e) => atualizar('tema', e.target.value)}
-                      className="mt-1 w-full rounded-xl border border-[#e0d6c4] bg-white px-3 py-2 text-sm font-normal normal-case text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
+                      className="mt-1 h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] px-4 py-2 text-sm font-normal normal-case text-[#1B623A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                     >
                       <option value="">Todas as áreas</option>
                       {porGrupo.map(({ group, temas }) => (
@@ -325,7 +332,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                     <select
                       value={filtros.candidato}
                       onChange={(e) => atualizar('candidato', e.target.value)}
-                      className="mt-1 w-full rounded-xl border border-[#e0d6c4] bg-white px-3 py-2 text-sm font-normal normal-case text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
+                      className="mt-1 h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] px-4 py-2 text-sm font-normal normal-case text-[#1B623A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                     >
                       <option value="">Todos</option>
                       {candidatos.map((c) => (
@@ -338,7 +345,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                     <select
                       value={filtros.situacao}
                       onChange={(e) => atualizar('situacao', e.target.value)}
-                      className="mt-1 w-full rounded-xl border border-[#e0d6c4] bg-white px-3 py-2 text-sm font-normal normal-case text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
+                      className="mt-1 h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] px-4 py-2 text-sm font-normal normal-case text-[#1B623A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                     >
                       <option value="">Todas</option>
                       <option value="plano">Conferido no plano do TSE</option>
@@ -385,9 +392,14 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                     <thead className="bg-[#f7f5f2] text-xs uppercase text-ink-soft">
                       <tr>
                         <th scope="col" className="px-3 py-2 font-bold">Área</th>
-                        {candidatos.map((c) => (
-                          <th key={c.id} scope="col" className="px-3 py-2 text-center font-bold">{c.name}</th>
-                        ))}
+                        {candidatos.map((c) => {
+                          const cores = coresDoCandidato(c.name);
+                          return (
+                            <th key={c.id} scope="col" className={`px-3 py-2 text-center font-bold ${cores.texto}`}>
+                              {c.name}
+                            </th>
+                          );
+                        })}
                         <th scope="col" className="hidden px-3 py-2 sm:table-cell"><span className="sr-only">Ações</span></th>
                       </tr>
                     </thead>
@@ -414,7 +426,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                               <button
                                 type="button"
                                 onClick={() => atualizar('tema', `grupo:${group.key}`)}
-                                className="ml-5 block text-xs font-bold text-[#1B623A] underline underline-offset-2 sm:hidden"
+                                className="ml-5 mt-1 inline-flex min-h-9 items-center justify-center rounded-lg bg-[#1B623A] px-3 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-[#134A2A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A] sm:hidden"
                               >
                                 Comparar
                               </button>
@@ -422,12 +434,13 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                             {candidatos.map((c) => {
                               const quantidade = contagem(c.id);
                               const largura = maiorContagem > 0 ? (quantidade / maiorContagem) * 100 : 0;
+                              const cores = coresDoCandidato(c.name);
 
                               return (
                                 <td key={c.id} className="px-3 py-2 text-center tabular-nums">
                                   <span>{quantidade}</span>
                                   <span aria-hidden="true" className="mx-auto mt-1 block h-1.5 w-12 overflow-hidden rounded-full bg-line">
-                                    <span className="block h-full rounded-full bg-ink-soft" style={{ width: `${largura}%` }} />
+                                    <span className={`block h-full rounded-full ${cores.barra}`} style={{ width: `${largura}%` }} />
                                   </span>
                                 </td>
                               );
@@ -436,7 +449,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                               <button
                                 type="button"
                                 onClick={() => atualizar('tema', `grupo:${group.key}`)}
-                                className="text-xs font-bold text-[#1B623A] underline underline-offset-2"
+                                className="inline-flex min-h-9 items-center justify-center rounded-lg bg-[#1B623A] px-3 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-[#134A2A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                               >
                                 Comparar
                               </button>
@@ -462,7 +475,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                                     <button
                                       type="button"
                                       onClick={() => atualizar('tema', t.slug)}
-                                      className="text-xs font-bold text-[#1B623A] underline underline-offset-2"
+                                      className="inline-flex min-h-9 items-center justify-center rounded-lg bg-[#1B623A] px-3 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-[#134A2A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                                     >
                                       Comparar
                                     </button>
