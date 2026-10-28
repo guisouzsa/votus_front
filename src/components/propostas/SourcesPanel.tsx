@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { ChevronDown, ExternalLink } from 'lucide-react';
 import type { IndexProposal } from '@/services/proposalComparisonService';
 import Tag from './Tag';
-import { coverage, excerptCheck } from './coverage';
+import { DOCUMENT_STATUS_LABELS, coverage, documentStatus, type DocumentStatusKind } from './coverage';
 import type { ComparisonCandidate } from './types';
 
 function formatDate(httpDate: string | null): string | null {
@@ -55,9 +55,8 @@ export default function SourcesPanel({
         {candidates.map((candidate) => {
           const document = coverage.documents[String(candidate.external_id)];
           const own = proposals.filter((p) => p.candidate_id === candidate.id);
-          const checks = own.map((p) => excerptCheck(p, String(candidate.external_id)));
-          const inPlan = checks.filter((c) => c.kind === 'plan').length;
-          const pending = checks.filter((c) => c.kind === 'pending').length;
+          const kinds = own.map((p) => documentStatus(p, String(candidate.external_id)).kind);
+          const count = (kind: DocumentStatusKind) => kinds.filter((k) => k === kind).length;
           const sourceMatchesPlan = document ? document.extraction_source_text_found_in_plan_pct >= 80 : null;
 
           return (
@@ -125,8 +124,11 @@ export default function SourcesPanel({
                 <div>
                   <dt className="font-bold text-ink-soft">Propostas extraídas pelo Votus</dt>
                   <dd className="text-ink">
-                    {own.length} no total · {inPlan} com trecho conferido no plano do TSE · {pending} com fonte pendente de
-                    validação
+                    {own.length} no total
+                    {(['located', 'related', 'not_found', 'unverified', 'no_document'] as const)
+                      .filter((kind) => count(kind) > 0)
+                      .map((kind) => ` · ${count(kind)} ${DOCUMENT_STATUS_LABELS[kind].toLowerCase()}`)
+                      .join('')}
                   </dd>
                 </div>
               </dl>

@@ -1,0 +1,382 @@
+{
+  "reviewed_at": "2026-10-28",
+  "method": "Para cada proposta copiada do site de campanha sem texto igual no plano registrado no TSE, o plano (PDF) foi consultado com busca pelos nomes de programa, números e palavras específicas da proposta e pela frase com mais palavras em comum. O trecho citado foi conferido literalmente na página indicada. Não houve leitura integral de todas as páginas para cada proposta.",
+  "states": {
+    "found": "Trecho correspondente localizado no plano",
+    "related": "O plano trata do assunto, mas sem os detalhes citados no site (nome do programa, números ou metas)",
+    "not_found": "Não localizado na busca no plano: a busca pelos termos não achou trecho correspondente — isso não prova que o plano ignora o assunto"
+  },
+  "candidates": {
+    "280002542548": {
+      "534": {
+        "status": "related",
+        "page": 73,
+        "quote": "Com a retomada da política de valorização do salário-mínimo, asseguramos aumento real",
+        "searched_terms": [
+          "salário-mínimo",
+          "aumento real"
+        ]
+      },
+      "535": {
+        "status": "found",
+        "page": 11,
+        "quote": "A cesta básica ficará isenta desses impostos",
+        "searched_terms": [
+          "cesta básica"
+        ]
+      },
+      "536": {
+        "status": "found",
+        "page": 11,
+        "quote": "os mais pobres terão direito a um mecanismo de cashback",
+        "searched_terms": [
+          "cashback"
+        ]
+      },
+      "537": {
+        "status": "related",
+        "page": 49,
+        "quote": "mantendo os mecanismos de controle de gastos excessivos em apostas on-line",
+        "searched_terms": [
+          "apostas",
+          "bets"
+        ]
+      },
+      "538": {
+        "status": "related",
+        "page": 31,
+        "quote": "O fomento à expansão da educação em tempo integral terá absoluta prioridade no novo mandato.",
+        "searched_terms": [
+          "tempo integral"
+        ]
+      },
+      "539": {
+        "status": "related",
+        "page": 33,
+        "quote": "continuaremos a expansão da nossa rede de institutos federais",
+        "searched_terms": [
+          "institutos federais"
+        ]
+      },
+      "540": {
+        "status": "not_found",
+        "page": null,
+        "quote": null,
+        "searched_terms": [
+          "Universidades Transformadoras",
+          "120 mil",
+          "vagas"
+        ]
+      },
+      "541": {
+        "status": "related",
+        "page": 24,
+        "quote": "Aprimoraremos o Programa Pé-de-Meia",
+        "searched_terms": [
+          "Pé-de-Meia"
+        ]
+      },
+      "542": {
+        "status": "not_found",
+        "page": null,
+        "quote": null,
+        "searched_terms": [
+          "Ciência sem Fronteiras",
+          "intercâmbio",
+          "bolsas no exterior"
+        ]
+      },
+      "543": {
+        "status": "found",
+        "page": 33,
+        "quote": "O Piso Nacional do Magistério será mantido",
+        "searched_terms": [
+          "Piso Nacional do Magistério",
+          "Mais Professores"
+        ]
+      },
+      "544": {
+        "status": "found",
+        "page": 38,
+        "quote": "Vamos consolidar, em todo o Brasil, a maior rede pública de cuidado ao câncer do mundo",
+        "searched_terms": [
+          "câncer",
+          "150 mil"
+        ]
+      },
+      "545": {
+        "status": "related",
+        "page": 36,
+        "quote": "Retomamos o Farmácia Popular",
+        "searched_terms": [
+          "Farmácia Popular",
+          "exames"
+        ]
+      },
+      "546": {
+        "status": "found",
+        "page": 37,
+        "quote": "o reforço das Carretas da Saúde e dos mutirões de atendimento seguirão como estratégias centrais",
+        "searched_terms": [
+          "Carretas da Saúde",
+          "Agora tem Especialistas"
+        ]
+      },
+      "547": {
+        "status": "found",
+        "page": 38,
+        "quote": "serviços e hospitais inteligentes",
+        "searched_terms": [
+          "hospitais inteligentes"
+        ]
+      },
+      "548": {
+        "status": "related",
+        "page": 35,
+        "quote": "O Programa Mais Médicos, que dobrou de tamanho em nossa gestão, seguirá",
+        "searched_terms": [
+          "enfermagem",
+          "piso",
+          "Mais Médicos"
+        ]
+      },
+      "549": {
+        "status": "related",
+        "page": 35,
+        "quote": "disponibilizar diretamente no celular a marcação de consultas nas UBS e os resultados de exames",
+        "searched_terms": [
+          "Meu SUS Digital",
+          "prontuário"
+        ]
+      },
+      "552": {
+        "status": "related",
+        "page": 28,
+        "quote": "reforçaremos a capacidade de fiscalização da Polícia Federal",
+        "searched_terms": [
+          "Polícia Federal"
+        ]
+      },
+      "553": {
+        "status": "related",
+        "page": 28,
+        "quote": "ampliando sua capacidade operacional e de isolamento de lideranças criminosas",
+        "searched_terms": [
+          "presídios",
+          "segurança máxima",
+          "lideranças criminosas"
+        ]
+      },
+      "555": {
+        "status": "found",
+        "page": 21,
+        "quote": "O Pacto de Enfrentamento ao Feminicídio permanecerá como guia central",
+        "searched_terms": [
+          "Feminicídio"
+        ]
+      },
+      "556": {
+        "status": "found",
+        "page": 21,
+        "quote": "O Pacto de Enfrentamento ao Feminicídio permanecerá como guia central",
+        "searched_terms": [
+          "Feminicídio"
+        ]
+      },
+      "557": {
+        "status": "related",
+        "page": 21,
+        "quote": "vamos adquirir e distribuir aos Estados kits para aprimorar o monitoramento de agressores",
+        "searched_terms": [
+          "tornozeleira",
+          "monitoramento"
+        ]
+      },
+      "558": {
+        "status": "found",
+        "page": 21,
+        "quote": "concluiremos as 30 Casas da Mulher Brasileira",
+        "searched_terms": [
+          "Casas da Mulher Brasileira"
+        ]
+      },
+      "559": {
+        "status": "found",
+        "page": 38,
+        "quote": "Permaneceremos comprometidos com a saúde integral das mulheres em todas as fases da vida.",
+        "searched_terms": [
+          "saúde integral das mulheres",
+          "Mulher Saudável"
+        ]
+      },
+      "561": {
+        "status": "found",
+        "page": 23,
+        "quote": "Seguiremos fortalecendo iniciativas de letramento digital buscando ampliar o acesso dos idosos",
+        "searched_terms": [
+          "letramento digital"
+        ]
+      },
+      "562": {
+        "status": "not_found",
+        "page": null,
+        "quote": null,
+        "searched_terms": [
+          "Acolhe",
+          "atípicas"
+        ]
+      },
+      "563": {
+        "status": "found",
+        "page": 26,
+        "quote": "Apoiaremos as Cuidotecas",
+        "searched_terms": [
+          "Cuidotecas"
+        ]
+      },
+      "565": {
+        "status": "related",
+        "page": 76,
+        "quote": "Vamos ampliar e aprimorar políticas para os trabalhadores autônomos e pequenos empreendedores",
+        "searched_terms": [
+          "MEI",
+          "Super MEI"
+        ]
+      },
+      "566": {
+        "status": "related",
+        "page": 76,
+        "quote": "Criou o Contrata+ Brasil, plataforma que permite a estes trabalhadores participarem do mercado de compras públicas.",
+        "searched_terms": [
+          "Contrata+ Brasil"
+        ]
+      },
+      "567": {
+        "status": "related",
+        "page": 53,
+        "quote": "o Novo PAC estimulou a geração de empregos de qualidade, como na indústria naval",
+        "searched_terms": [
+          "indústria naval",
+          "estaleiros"
+        ]
+      },
+      "568": {
+        "status": "found",
+        "page": 42,
+        "quote": "ampliando o acesso a crédito para iniciativas de economia criativa",
+        "searched_terms": [
+          "Brasil Criativo",
+          "crédito",
+          "economia criativa"
+        ]
+      },
+      "569": {
+        "status": "found",
+        "page": 42,
+        "quote": "Fomentaremos a oferta de vagas em cursos técnicos e profissionalizantes",
+        "searched_terms": [
+          "cursos técnicos",
+          "formação técnica"
+        ]
+      },
+      "570": {
+        "status": "related",
+        "page": 42,
+        "quote": "Lançamos o Tela Brasil",
+        "searched_terms": [
+          "Tela Brasil",
+          "cineclubes"
+        ]
+      },
+      "571": {
+        "status": "related",
+        "page": 41,
+        "quote": "estamos apoiando a implantação de 1.500 bibliotecas em unidades do Minha Casa Minha Vida",
+        "searched_terms": [
+          "bibliotecas"
+        ]
+      },
+      "572": {
+        "status": "not_found",
+        "page": null,
+        "quote": null,
+        "searched_terms": [
+          "CRIA",
+          "CRIAs"
+        ]
+      },
+      "573": {
+        "status": "found",
+        "page": 52,
+        "quote": "Desenvolveremos uma política específica para minerais críticos e terras raras",
+        "searched_terms": [
+          "terras raras"
+        ]
+      },
+      "574": {
+        "status": "found",
+        "page": 78,
+        "quote": "fortaleceremos a Base Industrial e Tecnológica de Defesa",
+        "searched_terms": [
+          "Base Industrial"
+        ]
+      },
+      "575": {
+        "status": "related",
+        "page": 39,
+        "quote": "por meio do fomento ao Complexo Econômico e Industrial da Saúde (CEIS)",
+        "searched_terms": [
+          "Complexo Econômico e Industrial da Saúde"
+        ]
+      },
+      "576": {
+        "status": "found",
+        "page": 54,
+        "quote": "Vamos avançar numa infraestrutura computacional soberana",
+        "searched_terms": [
+          "data centers",
+          "nuvem",
+          "inteligência artificial"
+        ]
+      },
+      "577": {
+        "status": "not_found",
+        "page": null,
+        "quote": null,
+        "searched_terms": [
+          "Pix",
+          "Amazônia",
+          "soberania"
+        ]
+      },
+      "578": {
+        "status": "not_found",
+        "page": null,
+        "quote": null,
+        "searched_terms": [
+          "robótica nas escolas",
+          "programação"
+        ]
+      },
+      "579": {
+        "status": "not_found",
+        "page": null,
+        "quote": null,
+        "searched_terms": [
+          "caneta",
+          "obesidade",
+          "emagrecedora"
+        ]
+      },
+      "580": {
+        "status": "related",
+        "page": 50,
+        "quote": "nosso objetivo central será aprimorar e fortalecer a neoindustrialização",
+        "searched_terms": [
+          "neoindustrialização",
+          "emprego"
+        ]
+      }
+    }
+  }
+}

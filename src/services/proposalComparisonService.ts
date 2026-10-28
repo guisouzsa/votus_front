@@ -17,6 +17,9 @@ export interface CandidateProposal {
   source_excerpt: string | null;
   source_reference: string | null;
   source_url: string;
+  // 'literal' = título e texto copiados da fonte; 'ai' = resumo da IA.
+  // Ausente na API antiga (tudo era resumo da IA).
+  extraction?: "literal" | "ai";
 }
 
 export interface ThemeCandidate {

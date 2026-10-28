@@ -7,6 +7,7 @@
 //   1. Planos registrados no TSE (cópia do Votus no Supabase), um por candidato:
 //      curl -D <id>.headers -o <id>.pdf .../votus-documents/candidates/proposals/<id>.pdf
 //      pdftotext -enc UTF-8 <id>.pdf <id>.txt        (poppler; mantém \f entre páginas)
+//      ou, sem poppler: pypdf, juntando o texto de cada página com \f
 //   2. Páginas de onde a importação extraiu as propostas (CANDS[].siteUrl):
 //      curl -o site_lula.html https://lula.com.br/propostas/
 //      curl -o site_flavio.html https://www.flaviobolsonaro.com.br/plano-de-governo/leitura
@@ -130,7 +131,82 @@ for (const [slug, label, group, terms] of SUBJECTS) {
   coverage.push(entry);
 }
 
-fs.writeFileSync('audit_result.json', JSON.stringify({ generated_at: new Date().toISOString(), siteVsPlan, proposals: rows, duplicates: dups, coverage }, null, 2));
+// ---------- 3b. Cada proposta x plano TSE (para propostas sem trecho, ex.: texto literal do site) ----------
+// Palavras de ligação e de discurso ficam fora das contagens; a lista é pública
+// no JSON (method.ignored_words) para qualquer um conferir.
+const STOPWORDS = ('a o e de da do das dos em no na nos nas um uma uns umas para por com sem sob sobre que se ao aos as os ou mais menos como entre ate apos antes pelo pela pelos pelas seu sua seus suas este esta estes estas esse essa isso isto aquele aquela ja nao sim muito muita muitos muitas todo toda todos todas cada outro outra outros outras ser sao foi foram sera serao tem ter temos tera tambem quando onde qual quais quem mas porem pois assim bem ainda so apenas desde durante mesmo mesma nosso nossa nossos nossas forma meio partir sendo seja sejam modo vez vezes fazer feito faz pode podem deve devem havera houve hoje agora contra tanto tanta tantos tantas').split(' ');
+const DISCOURSE = ('vamos vamo continuar continuaremos seguiremos queremos estamos avancar avancaremos retomar retomamos alem disso proximo atual mandato mandatos presidente lula flavio bolsonaro governo programa plano capitulo aqui dentro primeiro lugar pontos percentuais brasil brasileiro brasileira brasileiros brasileiras pais').split(' ');
+const IGNORED = new Set([...STOPWORDS, ...DISCOURSE]);
+const contentWords = (s) => norm(s).replace(/[^a-z0-9 ]/g, ' ').split(' ').filter((w) => w.length > 3 && !IGNORED.has(w) && !/^\d+$/.test(w));
+
+for (const c of Object.values(CANDS)) c.pageWordSets = c.pages.map((p) => new Set(contentWords(p)));
+const planMatch = (p) => {
+  const c = CANDS[p.candidate];
+  const literalPage = (text) => { const n = norm(text); if (n.length < 12) return null; const i = c.pagesNorm.findIndex((pg, k) => !c.indexPages.includes(k + 1) && pg.includes(n)); return i < 0 ? null : i + 1; };
+  const words = [...new Set(contentWords(`${p.title} ${p.description}`))];
+  let best = null, share = 0;
+  c.pageWordSets.forEach((set, i) => {
+    if (c.indexPages.includes(i + 1)) return;
+    const s = words.filter((w) => set.has(w)).length / (words.length || 1);
+    if (s > share) { share = s; best = i + 1; }
+  });
+  return { title_in_plan_page: literalPage(p.title), text_in_plan_page: literalPage(p.description), closest_plan_page: best, shared_words_pct: Math.round(100 * share) };
+};
+const matches = Object.fromEntries(proposals.map((p) => [p.id, planMatch(p)]));
+
+// ---------- 3c. Palavras-chave de cada plano (expressões de duas palavras) ----------
+// Conta pares de palavras seguidas (sem as palavras ignoradas) em cada página
+// do plano, fora sumário/índice. Entram os pares que aparecem em ao menos 3
+// páginas; ordem = número de ocorrências.
+const keywords = {};
+const bigramsOf = (c) => {
+  const count = new Map(), pages = new Map();
+  c.pages.forEach((pg, i) => {
+    if (c.indexPages.includes(i + 1)) return;
+    const w = contentWords(pg);
+    for (let k = 0; k + 1 < w.length; k++) {
+      if (w[k] === w[k + 1]) continue;
+      const b = `${w[k]} ${w[k + 1]}`;
+      count.set(b, (count.get(b) || 0) + 1);
+      if (!pages.has(b)) pages.set(b, new Set());
+      pages.get(b).add(i + 1);
+    }
+  });
+  return { count, pages };
+};
+// Grafia com acento: a primeira ocorrência do par no texto original da página.
+const displayForm = (c, bigram, page) => {
+  const [a, b] = bigram.split(' ');
+  const raw = c.pages[page - 1];
+  const re = /[A-Za-zÀ-ÿ0-9]+/g; const toks = []; let m;
+  while ((m = re.exec(raw))) toks.push(m[0]);
+  const kept = toks.filter((t) => { const n = norm(t); return n.length > 3 && !IGNORED.has(n) && !/^\d+$/.test(n); });
+  for (let k = 0; k + 1 < kept.length; k++) if (norm(kept[k]) === a && norm(kept[k + 1]) === b) return `${kept[k].toLowerCase()} ${kept[k + 1].toLowerCase()}`;
+  return bigram;
+};
+const bigramIndex = {};
+for (const [name, c] of Object.entries(CANDS)) bigramIndex[name] = bigramsOf(c);
+for (const [name, c] of Object.entries(CANDS)) {
+  const { count, pages } = bigramIndex[name];
+  keywords[c.id] = [...count.entries()]
+    .filter(([b]) => pages.get(b).size >= 3)
+    .sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0]))
+    .slice(0, 20)
+    .map(([b, n]) => { const pg = [...pages.get(b)].sort((x, y) => x - y); return { term: displayForm(c, b, pg[0]), occurrences: n, pages: pg }; });
+}
+// Expressões presentes nos dois planos (ao menos 2 páginas em cada).
+const [nameA, nameB] = Object.keys(CANDS);
+const sharedKeywords = [...bigramIndex[nameA].count.keys()]
+  .filter((b) => bigramIndex[nameA].pages.get(b).size >= 2 && bigramIndex[nameB].pages.get(b)?.size >= 2)
+  .map((b) => ({ b, total: bigramIndex[nameA].count.get(b) + bigramIndex[nameB].count.get(b) }))
+  .sort((x, y) => y.total - x.total || x.b.localeCompare(y.b))
+  .slice(0, 15)
+  .map(({ b }) => ({
+    term: displayForm(CANDS[nameA], b, [...bigramIndex[nameA].pages.get(b)][0]),
+    candidates: Object.fromEntries([nameA, nameB].map((n) => [CANDS[n].id, { occurrences: bigramIndex[n].count.get(b), pages: [...bigramIndex[n].pages.get(b)].sort((x, y) => x - y) }])),
+  }));
+
+fs.writeFileSync('audit_result.json', JSON.stringify({ generated_at: new Date().toISOString(), siteVsPlan, proposals: rows, plan_matches: matches, duplicates: dups, coverage, keywords, sharedKeywords }, null, 2));
 
 // ---------- 4. Arquivo para o front (src/data/planCoverage.json) ----------
 const headersDate = (id) => { try { return (fs.readFileSync(id + '.headers', 'utf8').match(/last-modified:\s*(.+)/i) || [])[1]?.trim() ?? null; } catch { return null; } };
@@ -138,8 +214,11 @@ const front = {
   generated_at: new Date().toISOString(),
   method: {
     unit: 'páginas do plano oficial com ao menos um dos termos buscados (sem contar sumário e índice)',
-    search: 'texto extraído do PDF (pdftotext), comparado sem acentos e sem diferenciar maiúsculas; termo casado no início de palavra',
+    search: 'texto extraído do PDF, comparado sem acentos e sem diferenciar maiúsculas; termo casado no início de palavra',
     stored_proposals: 'propostas extraídas e armazenadas no Votus cujo título, resumo ou trecho contém algum dos termos',
+    plan_match: 'para cada proposta: página do plano TSE em que o título ou o texto aparecem iguais (sem acentos e maiúsculas) e, à parte, a página com mais palavras da proposta em comum (percentual das palavras da proposta presentes na página). Palavras em comum não provam que a proposta está no plano, nem a falta delas prova que não está',
+    keywords: 'pares de palavras seguidas mais repetidos em cada plano, fora sumário e índice, presentes em ao menos 3 páginas; palavras de ligação e de discurso ignoradas (lista em ignored_words)',
+    ignored_words: [...IGNORED].sort(),
   },
   documents: Object.fromEntries(Object.entries(CANDS).map(([name, c]) => [c.id, {
     name,
@@ -157,13 +236,15 @@ const front = {
     }])),
   })),
   proposal_checks: Object.fromEntries(rows.map((r) => [r.id, {
-    excerpt_in_plan_page: r.excerpt_in_tse_plan_page, excerpt_in_extraction_source: r.excerpt_in_source_page,
+    excerpt_in_plan_page: r.excerpt_in_tse_plan_page, excerpt_in_extraction_source: r.excerpt_in_source_page, ...matches[r.id],
   }])),
   // Mesma conferência por "<external_id>|<título normalizado>", para quando a
   // API não devolve o id da proposta (endpoints por tema).
   proposal_checks_by_key: Object.fromEntries(rows.map((r) => [`${CANDS[r.candidate].id}|${norm(r.title)}`, {
-    excerpt_in_plan_page: r.excerpt_in_tse_plan_page, excerpt_in_extraction_source: r.excerpt_in_source_page,
+    excerpt_in_plan_page: r.excerpt_in_tse_plan_page, excerpt_in_extraction_source: r.excerpt_in_source_page, ...matches[r.id],
   }])),
+  keywords,
+  shared_keywords: sharedKeywords,
   duplicates: dups.map(([a, b]) => [a, b]),
 };
 fs.writeFileSync('planCoverage.json', JSON.stringify(front, null, 1));
@@ -175,6 +256,15 @@ console.log('\n== Trechos (source_excerpt)'); console.log(by((r) => r.excerpt_pr
 console.log(by((r) => r.excerpt_present ? (r.excerpt_in_tse_plan_page ? 'trecho encontrado no plano TSE' : 'trecho NÃO está no plano TSE') : 'sem trecho'));
 console.log('fonte = página configurada:', by((r) => r.source_url_is_configured_source));
 console.log('\n== Possíveis duplicatas (similaridade >= 0.6):', dups.length); dups.slice(0, 8).forEach((d) => console.log('  ', d[0], d[1], '|', d[2], '||', d[3]));
+console.log('\n== Propostas x plano TSE (título/texto iguais | % palavras em comum na página mais próxima)');
+for (const [name] of Object.entries(CANDS)) {
+  const ms = proposals.filter((p) => p.candidate === name).map((p) => matches[p.id]);
+  const lit = ms.filter((m) => m.title_in_plan_page || m.text_in_plan_page).length;
+  const bands = [[50, 101], [30, 50], [0, 30]].map(([lo, hi]) => ms.filter((m) => m.shared_words_pct >= lo && m.shared_words_pct < hi).length);
+  console.log(name.padEnd(18), `${ms.length} propostas | ${lit} com título ou texto igual no plano | ≥50%: ${bands[0]}  30–49%: ${bands[1]}  <30%: ${bands[2]}`);
+}
+console.log('\n== Palavras-chave'); for (const [id, list] of Object.entries(keywords)) console.log(id, list.map((k) => `${k.term}(${k.occurrences})`).join(', '));
+console.log('em comum:', sharedKeywords.map((k) => k.term).join(', '));
 console.log('\n== Matriz de cobertura (páginas do plano TSE com menção | propostas armazenadas)');
 for (const e of coverage) {
   const L = e.candidates.LULA, F = e.candidates['FLAVIO BOLSONARO'];

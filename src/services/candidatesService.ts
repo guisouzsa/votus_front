@@ -1,5 +1,11 @@
 import { apiGet } from "./apiClient";
-import type { Candidate, CandidateExpense, CandidateExpenseFilters, PaginatedResponse } from "./types";
+import type {
+  Candidate,
+  CandidateExpense,
+  CandidateExpenseFilters,
+  ElectionResultStatus,
+  PaginatedResponse,
+} from "./types";
 
 export type CandidateOfficeSlug = "presidente" | "governador" | "senado" | "deputado-federal" | "deputado-estadual";
 
@@ -60,6 +66,7 @@ export interface CandidateFilters {
   state?: string;
   party?: string;
   search?: string;
+  electionResult?: ElectionResultStatus;
 }
 
 // A listagem ganha "filters.parties": todos os partidos com candidatos no
@@ -71,8 +78,22 @@ export type CandidatesResponse = PaginatedResponse<Candidate> & {
     with_higher_education: number;
     with_full_ticket: number;
     previously_elected: number;
+    // Candidatos por resultado oficial da eleição (TSE), no cargo inteiro.
+    election_results?: Partial<Record<ElectionResultStatus, number>>;
   };
 };
+
+export const ELECTION_RESULT_FILTER_LABELS: Record<ElectionResultStatus, string> = {
+  elected: "Eleitos",
+  runoff: "No 2º turno",
+  not_elected: "Não eleitos",
+  awaiting: "Aguardando resultado",
+  unverified: "Resultado não verificado",
+};
+
+export function isElectionResultStatus(value: string): value is ElectionResultStatus {
+  return value in ELECTION_RESULT_FILTER_LABELS;
+}
 
 export async function getCandidates(office: CandidateOfficeSlug, page = 1, filters: CandidateFilters = {}) {
   const response = await apiGet<CandidatesResponse>(`/api/${CANDIDATE_OFFICES[office].endpoint}`, {
@@ -80,6 +101,7 @@ export async function getCandidates(office: CandidateOfficeSlug, page = 1, filte
     state: filters.state,
     party: filters.party,
     search: filters.search?.trim(),
+    election_result: filters.electionResult,
   });
 
   return { ...response, data: response.data.map(normalizeCandidate) };
