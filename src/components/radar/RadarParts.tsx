@@ -138,7 +138,10 @@ export function TopicBars({ items, color, total }: { items: TopicBarItem[]; colo
   );
 }
 
-/** Cartão de seção do Radar: faixa colorida da fonte + título + fonte. */
+/**
+ * Seção do Radar: sem moldura — um separador fino no topo, título com o ícone
+ * na cor da fonte (Câmara, Senado, IBGE) e a fonte à direita.
+ */
 export function RadarCard({
   title,
   source,
@@ -155,16 +158,11 @@ export function RadarCard({
   id?: string;
 }) {
   return (
-    <section
-      id={id}
-      aria-labelledby={id ? `${id}-titulo` : undefined}
-      className="min-w-0 rounded-2xl border border-[#e0d6c4] border-t-4 bg-white p-4 sm:p-5"
-      style={{ borderTopColor: color }}
-    >
+    <section id={id} aria-labelledby={id ? `${id}-titulo` : undefined} className="min-w-0 border-t border-line pt-5">
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-        <h2 id={id ? `${id}-titulo` : undefined} className="flex items-center gap-2 text-base font-black text-ink">
+        <h2 id={id ? `${id}-titulo` : undefined} className="flex items-center gap-2 text-lg font-black text-ink">
           {icon && (
-            <span aria-hidden="true" className="flex h-7 w-7 items-center justify-center rounded-full text-white" style={{ backgroundColor: color }}>
+            <span aria-hidden="true" className="flex shrink-0" style={{ color }}>
               {icon}
             </span>
           )}

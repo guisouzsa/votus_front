@@ -27,7 +27,7 @@ export default function RadarIndicators({ detail }: { detail: RadarStateDetail }
       title={`Indicadores de ${state.name}`}
       source={<a href="https://servicodados.ibge.gov.br/api/docs/agregados" target="_blank" rel="noreferrer noopener" className="underline underline-offset-2">IBGE</a>}
       color={SOURCE_COLORS.ibge}
-      icon={<BarChart3 size={15} />}
+      icon={<BarChart3 size={20} />}
     >
       {!ready ? (
         <Pending>
@@ -37,13 +37,15 @@ export default function RadarIndicators({ detail }: { detail: RadarStateDetail }
         </Pending>
       ) : (
         <>
-          <dl className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          {/* Três colunas no tablet; empilhado no celular e na coluna mais
+              estreita ao lado da evolução anual (desktop). */}
+          <dl className="grid grid-cols-1 divide-y divide-line sm:grid-cols-3 sm:divide-x sm:divide-y-0 lg:grid-cols-1 lg:divide-x-0 lg:divide-y">
             {INDICATORS.map(({ key, icon: Icon, hint }) => {
               const meta = ibge.indicators![key];
               const value = ibge.values![key];
 
               return (
-                <div key={key} className="rounded-xl border border-[#f0e3cf] bg-[#fdf8f2] p-3.5">
+                <div key={key} className="py-3 first:pt-0 sm:px-4 sm:py-0 sm:first:pl-0 lg:px-0 lg:py-3 lg:first:pt-0">
                   <dt className="flex items-center gap-1.5 text-[11px] font-bold uppercase leading-tight text-[#8a4a0e]">
                     <Icon size={14} aria-hidden="true" className="shrink-0" />
                     {meta.label}

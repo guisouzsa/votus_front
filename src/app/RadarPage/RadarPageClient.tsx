@@ -2,12 +2,12 @@
 
 import { useMemo, useState } from 'react';
 import useSWR from 'swr';
-import { ChevronDown, RotateCcw } from 'lucide-react';
+import { ChevronDown, Info, RotateCcw } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
-import PageHeader from '@/components/PageHeader';
+import DashboardHeader from '@/components/DashboardHeader';
 import BrazilStateMap, { type MapStateInfo } from '@/components/radar/BrazilStateMap';
 import RadarIndicators from '@/components/radar/RadarIndicators';
 import RadarLegislative from '@/components/radar/RadarLegislative';
@@ -27,12 +27,15 @@ function periodLabel(option: string): string {
 }
 
 // Esqueleto do painel do estado, no padrão dos skeletons do Votus.
-function PanelSkeleton() {
+function PanelSkeleton({ label }: { label: string }) {
   return (
-    <div role="status" className="animate-pulse space-y-4">
-      <span className="sr-only">Carregando dados do estado...</span>
-      <div className="h-56 rounded-2xl bg-[#eee6d8]" />
-      <div className="h-72 rounded-2xl bg-[#eee6d8]" />
+    <div role="status" className="space-y-4">
+      <p className="text-sm font-semibold text-[#1B623A]">{label}</p>
+      <div className="animate-pulse space-y-4" aria-hidden="true">
+        <div className="h-8 w-2/3 rounded-lg bg-[#eee6d8]" />
+        <div className="h-36 rounded-2xl bg-[#eee6d8]" />
+        <div className="h-72 rounded-2xl bg-[#eee6d8]" />
+      </div>
     </div>
   );
 }
@@ -100,21 +103,30 @@ export default function RadarPageClient({ initialData }: { initialData?: RadarOv
       <MobileBottomNav />
       <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
         <div className="w-full px-4 py-8 sm:px-10">
-          <PageHeader
-            eyebrow="Dados públicos"
-            title="Radar do Brasil"
-            description="Explore seu estado, descubra o que seus representantes estão propondo e conheça indicadores da realidade local."
-            note={
-              methodology?.what_it_measures ??
-              'Temas mais frequentes nas proposições dos parlamentares de cada estado. Mostra a atividade legislativa, não as prioridades da população.'
-            }
-            compact
+          {/* Cabeçalho padrão das páginas do Votus (Inicial, Notícias, Transparência...). */}
+          <DashboardHeader
+            titleText="Radar do Brasil"
+            titleColor="text-brasil-green"
+            subtitle="Explore seu estado, descubra o que seus representantes estão propondo e conheça indicadores da realidade local."
           />
+          <p className="mt-3 flex max-w-3xl items-start gap-1.5 text-xs leading-relaxed text-ink-soft sm:text-sm">
+            <Info size={15} aria-hidden="true" className="mt-0.5 shrink-0 text-[#1B623A]" />
+            <span>
+              {methodology?.what_it_measures ??
+                'Temas mais frequentes nas proposições dos parlamentares de cada estado. Mostra a atividade legislativa, não as prioridades da população.'}{' '}
+              <a href="#radar-metodologia" className="font-semibold text-[#1B623A] underline underline-offset-2">
+                Como os números são calculados
+              </a>
+            </span>
+          </p>
 
-          <div className="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-start">
+          {/* Faixa 1: mapa e resumo do estado lado a lado, em metades — as duas
+              colunas têm altura parecida, então não sobra vazio sob o mapa. As
+              demais seções usam a largura toda logo abaixo. */}
+          <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start xl:gap-10">
             {/* Exploração: mapa (protagonista), seletor e período. */}
-            <section aria-labelledby="radar-explorar" className="lg:sticky lg:top-4">
-              <div className="rounded-3xl border border-[#e0d6c4] bg-[radial-gradient(circle_at_30%_20%,#ffffff_0%,#fbf6ec_60%,#f4ecdc_100%)] p-3 sm:p-5">
+            <section aria-labelledby="radar-explorar">
+              <div className="rounded-3xl bg-[radial-gradient(circle_at_30%_20%,#ffffff_0%,#fbf6ec_60%,#f4ecdc_100%)] p-3 sm:p-5">
                 <h2 id="radar-explorar" className="text-sm font-black uppercase tracking-wide text-[#1B623A]">
                   Escolha um estado
                 </h2>
@@ -197,8 +209,8 @@ export default function RadarPageClient({ initialData }: { initialData?: RadarOv
               </div>
             </section>
 
-            {/* Painel do estado selecionado. */}
-            <div className="min-w-0 space-y-5">
+            {/* Resumo do estado selecionado, com o tema principal em destaque. */}
+            <div className="min-w-0">
               {failed ? (
                 <div role="alert" className="rounded-2xl border border-[#e0d6c4] bg-white p-5 text-sm">
                   <p className="font-semibold text-[#8d0801]">Não foi possível carregar os dados de {selectedName} agora.</p>
@@ -211,43 +223,55 @@ export default function RadarPageClient({ initialData }: { initialData?: RadarOv
                     <RotateCcw size={14} aria-hidden="true" /> Tentar novamente
                   </button>
                 </div>
-              ) : !shownDetail ? (
-                <PanelSkeleton />
+              ) : !shownDetail || stale ? (
+                // Enquanto o estado/período novo carrega, nada do anterior
+                // fica na tela: nem o tema nem os números de outra seleção.
+                <PanelSkeleton label={`Carregando ${selectedName}${period === 'legislature' ? ' (legislatura toda)' : ` (${period})`}…`} />
               ) : (
-                <div aria-busy={stale} className={`space-y-5 motion-safe:transition-opacity ${stale ? 'opacity-50' : ''}`}>
-                  {stale && (
-                    <p role="status" className="text-sm font-semibold text-[#1B623A]">
-                      Carregando {selectedName}
-                      {period === 'legislature' ? ' (legislatura toda)' : ` (${period})`}…
-                    </p>
-                  )}
-                  <RadarStateSummary
-                    detail={shownDetail}
-                    states={states ?? []}
-                    updating={detail.isValidating && !stale}
-                    onSelect={setSelectedUf}
-                  />
-                  <RadarLegislative detail={shownDetail} />
-                  <RadarTimeline
-                    uf={shownDetail.state.uf}
-                    stateName={shownDetail.state.name}
-                    years={years}
-                    overviews={timeline.data}
-                    loading={timeline.isLoading}
-                    selectedPeriod={period}
-                    onPickYear={setPeriod}
-                  />
-                  <RadarIndicators detail={shownDetail} />
-                </div>
+                <RadarStateSummary
+                  detail={shownDetail}
+                  states={states ?? []}
+                  updating={detail.isValidating}
+                  onSelect={setSelectedUf}
+                />
               )}
+            </div>
+          </div>
 
+          {/* Só com o dado do estado/período atual na tela: durante a troca ou
+              num erro, o esqueleto e o aviso acima bastam. */}
+          {shownDetail && !stale && !failed && (
+            <>
+              {/* Faixa 2: Câmara e Senado lado a lado, na largura toda. */}
+              <div className="mt-10">
+                <RadarLegislative detail={shownDetail} />
+              </div>
+
+              {/* Faixa 3: evolução anual (mais larga) e indicadores do IBGE. */}
+              <div className="mt-10 grid grid-cols-1 gap-x-10 gap-y-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
+                <RadarTimeline
+                  uf={shownDetail.state.uf}
+                  stateName={shownDetail.state.name}
+                  years={years}
+                  overviews={timeline.data}
+                  loading={timeline.isLoading}
+                  selectedPeriod={period}
+                  onPickYear={setPeriod}
+                />
+                <RadarIndicators detail={shownDetail} />
+              </div>
+            </>
+          )}
+
+          {/* Faixa 4: metodologia, recolhida, sem moldura. */}
+          <div className="mt-10">
               {methodology && (
-                <details id="radar-metodologia" className="group rounded-2xl border border-[#e0d6c4] bg-white">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-2xl px-4 py-3 font-bold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]">
+                <details id="radar-metodologia" className="group border-y border-line">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-3 py-3 font-bold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]">
                     Como os números são calculados
                     <ChevronDown size={18} aria-hidden="true" className="shrink-0 text-[#1B623A] transition-transform group-open:rotate-180" />
                   </summary>
-                  <dl className="space-y-2 border-t border-[#e0d6c4] p-4 text-sm leading-relaxed text-ink-soft">
+                  <dl className="grid grid-cols-1 gap-x-10 gap-y-3 border-t border-line py-4 text-sm leading-relaxed text-ink-soft lg:grid-cols-2">
                     <div>
                       <dt className="font-bold text-ink">Siglas</dt>
                       <dd>
@@ -300,7 +324,6 @@ export default function RadarPageClient({ initialData }: { initialData?: RadarOv
                   </dl>
                 </details>
               )}
-            </div>
           </div>
         </div>
       </main>

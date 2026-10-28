@@ -16,13 +16,13 @@ export default function RadarLegislative({ detail }: { detail: RadarStateDetail 
   const senadoData = senado.data;
 
   return (
-    <div className="grid grid-cols-1 gap-4 2xl:grid-cols-2">
+    <div className="grid grid-cols-1 gap-x-10 gap-y-10 lg:grid-cols-2">
       <RadarCard
         id="radar-camara"
         title="Câmara dos Deputados"
         source={<a href="https://dadosabertos.camara.leg.br/" target="_blank" rel="noreferrer noopener" className="underline underline-offset-2">Dados Abertos da Câmara</a>}
         color={SOURCE_COLORS.camara}
-        icon={<Landmark size={15} />}
+        icon={<Landmark size={20} />}
       >
         {camara.status === 'pending' || !camaraData ? (
           <Pending>
@@ -36,9 +36,7 @@ export default function RadarLegislative({ detail }: { detail: RadarStateDetail 
         ) : (
           <>
             <p className="text-sm leading-relaxed text-ink">
-              <strong className="text-2xl font-black tabular-nums" style={{ color: SOURCE_COLORS.camara }}>
-                {camaraData.propositions.toLocaleString('pt-BR')}
-              </strong>{' '}
+              <strong className="font-black tabular-nums">{camaraData.propositions.toLocaleString('pt-BR')}</strong>{' '}
               projetos de lei e propostas de emenda à Constituição apresentados por deputados de {state.uf}{' '}
               {periodPhrase(period)}
               {camaraData.deputies !== null && (
@@ -84,16 +82,14 @@ export default function RadarLegislative({ detail }: { detail: RadarStateDetail 
         title="Senado Federal"
         source={<a href="https://www12.senado.leg.br/dados-abertos" target="_blank" rel="noreferrer noopener" className="underline underline-offset-2">Dados Abertos do Senado</a>}
         color={SOURCE_COLORS.senado}
-        icon={<Scale size={15} />}
+        icon={<Scale size={20} />}
       >
         {senado.status === 'pending' || !senadoData ? (
           <Pending>Os dados do Senado para {state.uf} estão sendo preparados. Volte em alguns minutos.</Pending>
         ) : (
           <>
             <p className="text-sm leading-relaxed text-ink">
-              <strong className="text-2xl font-black tabular-nums" style={{ color: SOURCE_COLORS.senado }}>
-                {senadoData.propositions.toLocaleString('pt-BR')}
-              </strong>{' '}
+              <strong className="font-black tabular-nums">{senadoData.propositions.toLocaleString('pt-BR')}</strong>{' '}
               projetos de lei e propostas de emenda à Constituição dos senadores em exercício por {state.uf}{' '}
               {periodPhrase(period)}.
             </p>
