@@ -93,7 +93,8 @@ export default function BrazilStateMap({
 
   const label = (uf: string) => {
     const info = states[uf];
-    return info ? [`${info.name} (${uf}), região ${info.region}`, ...(info.facts ?? [])].join('. ') : uf;
+    // Tira o ponto final de cada fato ("hab.") para não sair "hab.. 1.102".
+    return info ? [`${info.name} (${uf}), região ${info.region}`, ...(info.facts ?? []).map((f) => f.replace(/\.$/, ''))].join('. ') : uf;
   };
 
   const onKeyDown = (event: KeyboardEvent, uf: string) => {
