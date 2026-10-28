@@ -36,6 +36,9 @@ export interface RadarIbgeMeta {
   status: RadarStatus;
   generated_at: string | null;
   last_failed_at: string | null;
+  // true = valores oficiais guardados no repositório da API (IbgeSnapshot),
+  // usados enquanto a consulta ao IBGE falha. Ausente na API antiga.
+  from_snapshot?: boolean;
   indicators: Record<RadarIndicatorKey, RadarIndicatorMeta> | null;
 }
 
