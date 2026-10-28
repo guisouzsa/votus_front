@@ -3,21 +3,33 @@
 import { useMemo, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import useSWR from 'swr';
-import { ArrowLeft, ChevronDown, RotateCcw, Search, Sparkles } from 'lucide-react';
+import { ArrowLeft, ChevronDown, RotateCcw, SlidersHorizontal, Sparkles } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import InfoTooltip from '@/components/InfoTooltip';
 import PageHeader from '@/components/PageHeader';
+import SearchBar, { ClearFiltersButton, FilterSelect } from '@/components/SearchBar';
+import PlanKeywords from '@/components/propostas/PlanKeywords';
 import ComparadorSkeleton from '@/components/propostas/ComparadorSkeleton';
 import ProposalColumns from '@/components/propostas/ProposalColumns';
 import SourcesPanel from '@/components/propostas/SourcesPanel';
 import SubjectCoverage from '@/components/propostas/SubjectCoverage';
-import { coverage, excerptCheck, normalize } from '@/components/propostas/coverage';
+import { candidateColors } from '@/components/propostas/candidateColors';
+import {
+  DOCUMENT_STATUS_LABELS,
+  coverage,
+  documentStatus,
+  normalize,
+  planReview,
+  type DocumentStatusKind,
+} from '@/components/propostas/coverage';
 import type { ComparisonCandidate } from '@/components/propostas/types';
 import { OTHER_GROUP, THEME_GROUPS, groupOfTheme } from '@/data/proposalThemeGroups';
+import { getCandidates } from '@/services/candidatesService';
 import { getProposalIndex, getProposalTheme, type ProposalIndex } from '@/services/proposalComparisonService';
+import type { ElectionResult, ElectionResultStatus } from '@/services/types';
 
 // Filtros na URL (?busca=sus&tema=saude&candidato=...&situacao=...&de=...):
 // voltar de um perfil reabre a comparação como estava, e o link pode ser
@@ -37,34 +49,44 @@ function assinarUrl(callback: () => void) {
 const lerQueryAtual = () => window.location.search;
 const lerQueryServidor = () => '';
 
+// Situação do trecho na URL ↔ estado documental (coverage.documentStatus).
+const SITUACOES: Record<string, DocumentStatusKind> = {
+  localizado: 'located',
+  relacionado: 'related',
+  'nao-localizado': 'not_found',
+  'nao-verificado': 'unverified',
+  'sem-documento': 'no_document',
+};
+// Links antigos (?situacao=plano|pendente) continuam valendo.
+const SITUACOES_ANTIGAS: Record<string, string> = { plano: 'localizado', pendente: 'nao-verificado' };
+
 interface Filtros {
   busca: string;
   tema: string; // '' | 'grupo:<chave>' | '<slug do tema>'
   candidato: string; // external_id
-  situacao: '' | 'plano' | 'pendente';
+  situacao: string; // '' | chave de SITUACOES
 }
 
 const CAMPOS: (keyof Filtros)[] = ['busca', 'tema', 'candidato', 'situacao'];
+const SEM_FILTROS: Filtros = { busca: '', tema: '', candidato: '', situacao: '' };
 
 function lerFiltros(query: string): Filtros & { de: string } {
   const params = new URLSearchParams(query);
-  const situacao = params.get('situacao');
+  const bruta = params.get('situacao') ?? '';
+  const situacao = SITUACOES_ANTIGAS[bruta] ?? bruta;
 
   return {
     busca: params.get('busca') ?? '',
     tema: params.get('tema') ?? '',
     candidato: params.get('candidato') ?? '',
-    situacao: situacao === 'plano' || situacao === 'pendente' ? situacao : '',
+    situacao: situacao in SITUACOES ? situacao : '',
     de: params.get('de') ?? '',
   };
 }
 
-function coresDoCandidato(name: string) {
-  const nome = normalize(name);
-  if (nome.includes('bolsonaro')) return { texto: 'text-brasil-green', barra: 'bg-brasil-green' };
-  if (nome.includes('lula')) return { texto: 'text-brasil-red', barra: 'bg-brasil-red' };
-  return { texto: 'text-ink-soft', barra: 'bg-ink-soft' };
-}
+// Mesma ordem da lista de candidatos (CandidateService no backend):
+// resultado confirmado primeiro; sem resultado, no fim. Empate: nome.
+const ORDEM_RESULTADO: ElectionResultStatus[] = ['elected', 'runoff', 'not_elected', 'awaiting', 'unverified'];
 
 function gravarFiltros(filtros: Filtros, de: string) {
   const params = new URLSearchParams();
@@ -76,8 +98,12 @@ function gravarFiltros(filtros: Filtros, de: string) {
   window.dispatchEvent(new Event(EVENTO_URL));
 }
 
-function useCandidatos(index: ProposalIndex | undefined): ComparisonCandidate[] {
+function useCandidatos(index: ProposalIndex | undefined, resultados: Record<string, ElectionResult>): ComparisonCandidate[] {
   return useMemo(() => {
+    const posicao = (c: ComparisonCandidate) => {
+      const status = resultados[c.external_id]?.status;
+      return status ? ORDEM_RESULTADO.indexOf(status) : ORDEM_RESULTADO.length;
+    };
     const lista: ComparisonCandidate[] = (index?.candidates ?? []).map((c) => ({ ...c, external_id: String(c.external_id) }));
     // Plano analisado sem candidato no índice (sem proposta, ou endpoint
     // agregado ainda não publicado): a coluna aparece mesmo assim.
@@ -87,8 +113,22 @@ function useCandidatos(index: ProposalIndex | undefined): ComparisonCandidate[] 
       }
     });
 
-    return lista.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
-  }, [index]);
+    return lista.sort((a, b) => posicao(a) - posicao(b) || a.name.localeCompare(b.name, 'pt-BR'));
+  }, [index, resultados]);
+}
+
+// Resultado oficial (TSE) dos candidatos a Presidente, por external_id. Vem
+// da listagem de candidatos; se falhar, a comparação segue em ordem alfabética.
+function useResultados(): Record<string, ElectionResult> {
+  const { data } = useSWR('president-candidates-results', () => getCandidates('presidente', 1), { revalidateOnFocus: false });
+
+  return useMemo(
+    () =>
+      Object.fromEntries(
+        (data?.data ?? []).filter((c) => c.election_result).map((c) => [String(c.id), c.election_result as ElectionResult]),
+      ),
+    [data],
+  );
 }
 
 function AiComparison({ slug }: { slug: string }) {
@@ -156,8 +196,10 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
   const query = useSyncExternalStore(assinarUrl, lerQueryAtual, lerQueryServidor);
   const { de, ...filtros } = useMemo(() => lerFiltros(query), [query]);
   const [gruposAbertos, setGruposAbertos] = useState<string[]>([]);
+  const [filtrosAbertos, setFiltrosAbertos] = useState(false);
 
-  const candidatos = useCandidatos(index);
+  const resultados = useResultados();
+  const candidatos = useCandidatos(index, resultados);
   const themeNames = useMemo(() => Object.fromEntries((index?.themes ?? []).map((t) => [t.slug, t.name])), [index]);
   const candidatoDeOrigem = candidatos.find((c) => c.external_id === de);
   const externalIdPorId = useMemo(
@@ -166,8 +208,16 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
   );
 
   const atualizar = (campo: keyof Filtros, valor: string) => gravarFiltros({ ...filtros, [campo]: valor }, de);
-  const limpar = () => gravarFiltros({ busca: '', tema: '', candidato: '', situacao: '' }, de);
+  const limpar = () => gravarFiltros(SEM_FILTROS, de);
+  // "Comparar" (visão geral e atalhos de tema) abre a área do zero: sem isso
+  // uma busca antiga continuava valendo e a área aparecia vazia mesmo com
+  // propostas contadas na tabela.
+  const compararTema = (tema: string) => {
+    gravarFiltros({ ...SEM_FILTROS, tema }, de);
+    requestAnimationFrame(() => document.getElementById('resultado-titulo')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  };
   const temFiltro = CAMPOS.some((campo) => filtros[campo]);
+  const filtrosDoPainel = [filtros.tema, filtros.candidato, filtros.situacao].filter(Boolean).length;
 
   const temaSelecionado = filtros.tema && !filtros.tema.startsWith('grupo:') ? filtros.tema : null;
   const grupoSelecionado = filtros.tema.startsWith('grupo:') ? filtros.tema.slice(6) : null;
@@ -180,17 +230,16 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
     return (index?.proposals ?? []).filter((p) => {
       if (temaSelecionado && p.theme_slug !== temaSelecionado) return false;
       if (grupoSelecionado && groupOfTheme(p.theme_slug).key !== grupoSelecionado) return false;
-      if (filtros.situacao) {
-        const kind = excerptCheck(p, externalIdPorId[p.candidate_id] ?? '').kind;
-        if (filtros.situacao === 'plano' && kind !== 'plan') return false;
-        if (filtros.situacao === 'pendente' && kind !== 'pending') return false;
+      if (filtros.candidato && externalIdPorId[p.candidate_id] !== filtros.candidato) return false;
+      if (filtros.situacao && documentStatus(p, externalIdPorId[p.candidate_id] ?? '').kind !== SITUACOES[filtros.situacao]) {
+        return false;
       }
       if (termo && !normalize(`${p.title} ${p.description} ${p.source_excerpt ?? ''} ${themeNames[p.theme_slug] ?? ''}`).includes(termo)) {
         return false;
       }
       return true;
     });
-  }, [index, filtros.busca, filtros.situacao, temaSelecionado, grupoSelecionado, themeNames, externalIdPorId]);
+  }, [index, filtros.busca, filtros.candidato, filtros.situacao, temaSelecionado, grupoSelecionado, themeNames, externalIdPorId]);
 
   // Visão geral: propostas extraídas por área e candidato.
   const porGrupo = useMemo(() => {
@@ -207,9 +256,35 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
     return grupos.filter((g) => g.temas.length > 0);
   }, [index]);
 
-  const resumoResultados = candidatosVisiveis
-    .map((c) => `${filtradas.filter((p) => p.candidate_id === c.id).length} de ${c.name}`)
-    .join(' e ');
+  // Temas em que todos os candidatos têm proposta: os que rendem comparação
+  // lado a lado (e o resumo da IA, que só existe nesses casos).
+  const temasComparaveis = useMemo(() => {
+    const ids = candidatos.filter((c) => c.id > 0).map((c) => c.id);
+    if (ids.length < 2) return [];
+
+    return (index?.themes ?? []).filter((t) =>
+      ids.every((id) => (index?.proposals ?? []).some((p) => p.candidate_id === id && p.theme_slug === t.slug)),
+    );
+  }, [index, candidatos]);
+
+  // Palavra-chave clicada: vira a busca e a página sobe até o resultado.
+  const buscarTermo = (termo: string) => {
+    gravarFiltros({ ...filtros, busca: termo }, de);
+    requestAnimationFrame(() => document.getElementById('resultado-titulo')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  };
+
+  // Contagem sempre a partir da lista realmente exibida.
+  const porCandidato = candidatosVisiveis.map((c) => ({ candidato: c, total: filtradas.filter((p) => p.candidate_id === c.id).length }));
+  const nomeDoTema = (tema: string) =>
+    tema.startsWith('grupo:')
+      ? [...THEME_GROUPS, OTHER_GROUP].find((g) => g.key === tema.slice(6))?.label ?? tema.slice(6)
+      : themeNames[tema] ?? tema;
+  const filtrosAtivos = [
+    filtros.busca && `busca “${filtros.busca}”`,
+    filtros.tema && nomeDoTema(filtros.tema),
+    filtros.candidato && candidatos.find((c) => c.external_id === filtros.candidato)?.name,
+    filtros.situacao && DOCUMENT_STATUS_LABELS[SITUACOES[filtros.situacao]].toLowerCase(),
+  ].filter(Boolean) as string[];
 
   const methodology = (
     <div className="space-y-2 text-sm leading-relaxed text-ink-soft">
@@ -220,15 +295,27 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
         fonte.
       </p>
       <p>
-        <strong className="text-ink">Propostas.</strong> Uma IA lê a página de origem de cada candidato, separa as
-        propostas, escreve um resumo de até duas frases e indica um trecho literal. Se o trecho não existe no texto de
-        origem, ele é descartado e a proposta fica como “Fonte pendente de validação”.
+        <strong className="text-ink">Propostas.</strong> Quando o site do candidato lista as propostas em formato
+        estruturado, título e texto são copiados como estão, sem IA (“Texto do site (copiado)”). Nos demais casos, uma
+        IA lê a página de origem, separa as propostas, escreve um resumo de até duas frases e indica um trecho literal;
+        se o trecho não existe no texto de origem, ele é descartado e a proposta fica como “Fonte pendente de
+        validação”.
       </p>
       <p>
-        <strong className="text-ink">Conferência.</strong> Cada trecho foi procurado no plano registrado no TSE.
-        “Trecho conferido no plano do TSE” traz a página; “Trecho conferido só na página de origem” indica que ele não
-        está no plano do TSE.
+        <strong className="text-ink">Conferência no plano do TSE.</strong> Cada trecho (ou, no texto copiado, o título e
+        o texto) foi procurado automaticamente no PDF registrado no TSE. Nas propostas copiadas do site sem texto igual,
+        o Votus revisou o PDF buscando nomes de programas, números e palavras de cada proposta (revisão em{' '}
+        {new Date(`${planReview.reviewed_at}T12:00:00`).toLocaleDateString('pt-BR')}); o trecho citado foi conferido na
+        página indicada. As páginas são as do visualizador de PDF, que nesses dois planos coincidem com a numeração
+        impressa.
       </p>
+      <ul className="list-disc space-y-1 pl-5">
+        <li><strong className="text-ink">{DOCUMENT_STATUS_LABELS.located}:</strong> há texto igual ou trecho correspondente, com a página.</li>
+        <li><strong className="text-ink">{DOCUMENT_STATUS_LABELS.related}:</strong> o plano trata do tema, mas sem o nome do programa, números ou metas da proposta.</li>
+        <li><strong className="text-ink">{DOCUMENT_STATUS_LABELS.not_found}:</strong> a busca não achou trecho correspondente. Não prova que o plano ignora o assunto; quando possível, indicamos a página com mais palavras em comum.</li>
+        <li><strong className="text-ink">{DOCUMENT_STATUS_LABELS.unverified}:</strong> não há trecho literal nem conferência registrada.</li>
+        <li><strong className="text-ink">{DOCUMENT_STATUS_LABELS.no_document}:</strong> o plano do candidato não pôde ser analisado.</li>
+      </ul>
       <p>
         <strong className="text-ink">Contagens.</strong> Os números são de propostas extraídas pelo Votus, não de
         páginas nem de ocorrências de palavras. Não medem prioridade, compromisso ou qualidade — e dependem do tamanho
@@ -260,7 +347,8 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
           <PageHeader
             eyebrow="Eleições 2026"
             title="Compare as propostas para Presidente"
-            description="Compare propostas, trechos originais e fontes oficiais, tema a tema."
+            description="Explore os planos de governo, compare propostas por tema e consulte os trechos originais dos documentos oficiais, com indicação da página e da fonte utilizada."
+            note="Página de consulta a documentos: não recomenda voto nem avalia qual proposta é melhor."
             compact
           />
 
@@ -285,30 +373,38 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
             </p>
           ) : (
             <>
-              {/* Busca e filtros */}
-              <section aria-labelledby="filtros-titulo" className="sticky top-0 z-30 mt-3 rounded-2xl border border-[#e0d6c4] bg-white p-3 shadow-sm sm:p-4">
+              {/* Busca e filtros: barra padrão do Votus, fixa no topo ao rolar. */}
+              <section aria-labelledby="filtros-titulo" className="sticky top-0 z-30 -mx-4 mt-3 border-b border-[#efe8da] bg-[#FDFDFD] px-4 pb-2 pt-2 sm:-mx-10 sm:px-10">
                 <h2 id="filtros-titulo" className="sr-only">Buscar e filtrar propostas</h2>
-                <div className="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">
-                  <label className="block text-xs font-bold uppercase text-brasil-red">
-                    Buscar nas propostas
-                    <span className="relative mt-1 block">
-                      <Search size={16} aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 text-brasil-red" />
-                      <input
-                        type="search"
-                        value={filtros.busca}
-                        onChange={(e) => atualizar('busca', e.target.value)}
+                {/* Desktop: busca + 3 filtros na mesma linha. Celular: busca e
+                    botão "Filtros", que abre os campos empilhados. */}
+                <div className="grid grid-cols-1 gap-x-3 gap-y-2 lg:grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(0,1fr))] lg:items-end">
+                  <div className="flex min-w-0 items-end gap-2">
+                    <div className="min-w-0 flex-1">
+                      <span aria-hidden="true" className="block px-1 text-[11px] font-bold uppercase tracking-wide text-[#1B623A]">
+                        Buscar nas propostas
+                      </span>
+                      <SearchBar
+                        className="mt-1"
+                        searchValue={filtros.busca}
+                        onSearchChange={(valor) => atualizar('busca', valor)}
                         placeholder="Ex.: SUS, escola, livros"
-                        className="h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] py-2 pl-9 pr-4 text-sm font-normal normal-case text-brasil-red placeholder:text-brasil-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
+                        searchLabel="Buscar nas propostas"
                       />
-                    </span>
-                  </label>
-                  <label className="block text-xs font-bold uppercase text-brasil-red">
-                    Área ou tema
-                    <select
-                      value={filtros.tema}
-                      onChange={(e) => atualizar('tema', e.target.value)}
-                      className="mt-1 h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] px-4 py-2 text-sm font-normal normal-case text-brasil-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setFiltrosAbertos((v) => !v)}
+                      aria-expanded={filtrosAbertos}
+                      aria-controls="filtros-campos"
+                      className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full border border-[#EDDBBA] bg-[#FDF8EE] px-4 text-sm font-medium text-[#1B623A] lg:hidden"
                     >
+                      <SlidersHorizontal size={16} aria-hidden="true" />
+                      {filtrosDoPainel > 0 ? `Filtros (${filtrosDoPainel})` : 'Filtros'}
+                    </button>
+                  </div>
+                  <div id="filtros-campos" className={`${filtrosAbertos ? 'grid' : 'hidden'} grid-cols-1 gap-2 sm:grid-cols-3 lg:contents`}>
+                    <FilterSelect className="block" label="Área ou tema" value={filtros.tema} onChange={(v) => atualizar('tema', v)}>
                       <option value="">Todas as áreas</option>
                       {porGrupo.map(({ group, temas }) => (
                         <optgroup key={group.key} label={group.label}>
@@ -318,53 +414,112 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                           ))}
                         </optgroup>
                       ))}
-                    </select>
-                  </label>
-                  <label className="block text-xs font-bold uppercase text-brasil-red">
-                    Candidato
-                    <select
-                      value={filtros.candidato}
-                      onChange={(e) => atualizar('candidato', e.target.value)}
-                      className="mt-1 h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] px-4 py-2 text-sm font-normal normal-case text-brasil-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
-                    >
+                    </FilterSelect>
+                    <FilterSelect className="block" label="Candidato" value={filtros.candidato} onChange={(v) => atualizar('candidato', v)}>
                       <option value="">Todos</option>
                       {candidatos.map((c) => (
                         <option key={c.external_id} value={c.external_id}>{c.name}</option>
                       ))}
-                    </select>
-                  </label>
-                  <label className="block text-xs font-bold uppercase text-brasil-red">
-                    Situação do trecho
-                    <select
-                      value={filtros.situacao}
-                      onChange={(e) => atualizar('situacao', e.target.value)}
-                      className="mt-1 h-10 w-full rounded-full border border-[#EDDBBA] bg-[#FDF8EE] px-4 py-2 text-sm font-normal normal-case text-brasil-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
-                    >
+                    </FilterSelect>
+                    <FilterSelect className="block" label="Situação no plano do TSE" value={filtros.situacao} onChange={(v) => atualizar('situacao', v)}>
                       <option value="">Todas</option>
-                      <option value="plano">Conferido no plano do TSE</option>
-                      <option value="pendente">Fonte pendente de validação</option>
-                    </select>
-                  </label>
-                </div>
-                <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-                  <p aria-live="polite" className="min-w-0 text-sm text-brasil-red">
-                    {temFiltro ? `Mostrando ${resumoResultados}.` : `${index?.proposals.length ?? 0} propostas em ${index?.themes.length ?? 0} temas.`}
-                    {isValidating && ' Atualizando…'}
-                  </p>
-                  <div className="ml-auto flex shrink-0 items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={limpar}
-                      disabled={!temFiltro}
-                      className="inline-flex items-center gap-1 text-sm font-bold text-brasil-red underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A] disabled:cursor-not-allowed disabled:text-brasil-red disabled:no-underline"
-                    >
-                      <RotateCcw size={14} aria-hidden="true" /> Limpar filtros
-                    </button>
+                      {Object.entries(SITUACOES).map(([valor, kind]) => (
+                        <option key={valor} value={valor}>{DOCUMENT_STATUS_LABELS[kind]}</option>
+                      ))}
+                    </FilterSelect>
                   </div>
+                </div>
+                <div className="mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
+                  <p aria-live="polite" className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-soft sm:text-sm">
+                    {temFiltro ? (
+                      <>
+                        <span>
+                          <strong className="text-ink tabular-nums">{filtradas.length}</strong>{' '}
+                          {filtradas.length === 1 ? 'proposta encontrada' : 'propostas encontradas'}
+                        </span>
+                        {porCandidato.length > 1 &&
+                          porCandidato.map(({ candidato, total }) => (
+                            <span key={candidato.id} className="inline-flex items-center gap-1.5">
+                              <span aria-hidden="true" className={`h-2 w-2 rounded-full ${candidateColors(candidato.name).barra}`} />
+                              {candidato.name}: <span className="tabular-nums font-semibold text-ink">{total}</span>
+                            </span>
+                          ))}
+                      </>
+                    ) : (
+                      <span>
+                        {index?.proposals.length ?? 0} propostas em {index?.themes.length ?? 0} temas. Busque ou filtre para comparar.
+                      </span>
+                    )}
+                    {isValidating && <span>Atualizando…</span>}
+                  </p>
+                  {temFiltro && <ClearFiltersButton onClick={limpar} />}
                 </div>
               </section>
 
-              <section aria-labelledby="visao-geral-titulo" className="mt-6">
+              {temasComparaveis.length > 0 && (
+                <nav aria-label="Temas com propostas de todos os candidatos" className="mt-3">
+                  <p className="text-[11px] font-bold uppercase tracking-wide text-ink-soft">Lado a lado, com propostas de todos</p>
+                  <div className="mt-1.5 flex gap-2 overflow-x-auto pb-1 scrollbar-hide md:flex-wrap md:overflow-visible">
+                    {temasComparaveis.map((t) => {
+                      const ativo = temaSelecionado === t.slug;
+                      return (
+                        <button
+                          key={t.slug}
+                          type="button"
+                          aria-pressed={ativo}
+                          onClick={() => (ativo ? atualizar('tema', '') : compararTema(t.slug))}
+                          className={`shrink-0 rounded-full border px-3.5 py-2 text-xs font-bold transition-colors sm:text-sm ${
+                            ativo
+                              ? 'border-[#1B623A] bg-[#1B623A] text-white'
+                              : 'border-[#EDDBBA] bg-[#FDF8EE] text-[#1B623A] hover:border-[#1B623A]/40'
+                          }`}
+                        >
+                          {t.name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </nav>
+              )}
+
+              {temFiltro && (
+                <section aria-labelledby="resultado-titulo" className="mt-6 space-y-4">
+                  <h2 id="resultado-titulo" className="scroll-mt-40 break-words text-xl font-black text-[#1B623A]">
+                    {filtros.tema ? nomeDoTema(filtros.tema) : 'Resultado da busca'}
+                  </h2>
+                  <details className="rounded-xl border border-[#e0d6c4] bg-[#f7f5f2] px-3 py-2 text-[13px] leading-relaxed text-ink-soft">
+                    <summary className="cursor-pointer font-bold text-[#1B623A]">Como ler a comparação</summary>
+                    <ul className="mt-2 list-disc space-y-1 pl-5">
+                      <li><strong className="text-ink">Resumo (IA)</strong> facilita a leitura; quem confirma é o trecho original e o documento.</li>
+                      <li><strong className="text-ink">Texto do site</strong> foi copiado do site de campanha, sem IA.</li>
+                      <li><strong className="text-ink">Plano de governo registrado no TSE</strong> mostra se o conteúdo foi localizado no PDF oficial e em qual página; toque na etiqueta para abrir a página.</li>
+                      <li>Um tema pode ter propostas de um candidato e não do outro: cada plano organiza os assuntos à sua maneira. Estar no mesmo tema não torna duas propostas equivalentes.</li>
+                      <li>Os filtros se somam: busca, área, candidato e situação valem ao mesmo tempo.</li>
+                    </ul>
+                  </details>
+                  {temaSelecionado && <AiComparison slug={temaSelecionado} />}
+                  {filtradas.length === 0 && (
+                    <div role="status" className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[#e0d6c4] bg-white p-3 text-sm text-ink-soft">
+                      <p className="min-w-0">
+                        Nenhuma proposta extraída atende a todos os filtros ao mesmo tempo ({filtrosAtivos.join(' + ')}). Tente
+                        outra palavra, remova um filtro ou veja abaixo se o assunto aparece nos planos oficiais.
+                      </p>
+                      <ClearFiltersButton onClick={limpar} />
+                    </div>
+                  )}
+                  <ProposalColumns
+                    candidates={candidatosVisiveis}
+                    proposals={filtradas}
+                    themeNames={themeNames}
+                    highlightExternalId={null}
+                    showTheme={!temaSelecionado}
+                    electionResults={resultados}
+                    emptyHint="Nenhuma proposta extraída deste candidato com esses filtros. Isso não quer dizer que o plano não trate do assunto — veja “Assuntos nos planos oficiais”."
+                  />
+                </section>
+              )}
+
+              <section aria-labelledby="visao-geral-titulo" className="mt-8">
                 <div className="flex items-center gap-1.5">
                   <h2 id="visao-geral-titulo" className="text-sm font-black uppercase tracking-wide text-[#1B623A]">
                     Visão geral por área
@@ -385,7 +540,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                       <tr>
                         <th scope="col" className="px-3 py-2 font-bold">Área</th>
                         {candidatos.map((c) => {
-                          const cores = coresDoCandidato(c.name);
+                          const cores = candidateColors(c.name);
                           return (
                             <th key={c.id} scope="col" className={`px-3 py-2 text-center font-bold ${cores.texto}`}>
                               {c.name}
@@ -417,7 +572,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                               </button>
                               <button
                                 type="button"
-                                onClick={() => atualizar('tema', `grupo:${group.key}`)}
+                                onClick={() => compararTema(`grupo:${group.key}`)}
                                 className="ml-5 mt-1 inline-flex min-h-9 items-center justify-center rounded-lg bg-[#1B623A] px-3 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-[#134A2A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A] sm:hidden"
                               >
                                 Comparar
@@ -426,7 +581,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                             {candidatos.map((c) => {
                               const quantidade = contagem(c.id);
                               const largura = maiorContagem > 0 ? (quantidade / maiorContagem) * 100 : 0;
-                              const cores = coresDoCandidato(c.name);
+                              const cores = candidateColors(c.name);
 
                               return (
                                 <td key={c.id} className="px-3 py-2 text-center tabular-nums">
@@ -440,7 +595,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                             <td className="hidden px-3 py-2 text-right sm:table-cell">
                               <button
                                 type="button"
-                                onClick={() => atualizar('tema', `grupo:${group.key}`)}
+                                onClick={() => compararTema(`grupo:${group.key}`)}
                                 className="inline-flex min-h-9 items-center justify-center rounded-lg bg-[#1B623A] px-3 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-[#134A2A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                               >
                                 Comparar
@@ -454,7 +609,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                                     {/* No celular a coluna "Comparar" some: o próprio nome do tema abre a comparação. */}
                                     <button
                                       type="button"
-                                      onClick={() => atualizar('tema', t.slug)}
+                                      onClick={() => compararTema(t.slug)}
                                       className="text-left hover:text-[#1B623A] hover:underline"
                                     >
                                       {t.name}
@@ -466,7 +621,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                                   <td className="hidden px-3 py-1.5 text-right sm:table-cell">
                                     <button
                                       type="button"
-                                      onClick={() => atualizar('tema', t.slug)}
+                                      onClick={() => compararTema(t.slug)}
                                       className="inline-flex min-h-9 items-center justify-center rounded-lg bg-[#1B623A] px-3 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-[#134A2A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                                     >
                                       Comparar
@@ -482,33 +637,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                 </div>
               </section>
 
-              {temFiltro && (
-                <section aria-labelledby="resultado-titulo" className="mt-6 space-y-4">
-                  <h2 id="resultado-titulo" className="text-xl font-black text-[#1B623A]">
-                    {temaSelecionado
-                      ? themeNames[temaSelecionado] ?? temaSelecionado
-                      : grupoSelecionado
-                        ? [...THEME_GROUPS, OTHER_GROUP].find((g) => g.key === grupoSelecionado)?.label
-                        : 'Resultado da busca'}
-                  </h2>
-                  {temaSelecionado && <AiComparison slug={temaSelecionado} />}
-                  {filtradas.length === 0 && (
-                    <p className="rounded-xl bg-[#f7f5f2] p-3 text-sm text-ink-soft">
-                      Nenhuma proposta extraída corresponde a esses filtros. Revise a busca, tente um sinônimo ou veja
-                      abaixo se o assunto aparece nos planos oficiais.
-                    </p>
-                  )}
-                  <ProposalColumns
-                    candidates={candidatosVisiveis}
-                    proposals={filtradas}
-                    themeNames={themeNames}
-                    highlightExternalId={null}
-                    showTheme={!temaSelecionado}
-                    emptyHint="Nenhuma proposta extraída deste candidato com esses filtros. Isso não quer dizer que o plano não trate do assunto — veja “Assuntos nos planos oficiais”."
-                  />
-                </section>
-              )}
-
+              <PlanKeywords candidates={candidatosVisiveis} proposals={index?.proposals ?? []} onPick={buscarTermo} />
               <SubjectCoverage candidates={candidatosVisiveis} query={filtros.busca} />
               <SourcesPanel candidates={candidatos} proposals={index?.proposals ?? []} methodology={methodology} />
               <p className="mt-4 mb-28 rounded-xl border border-[#e0d6c4] bg-[#FDF8EE] p-3 text-sm leading-relaxed text-ink-soft">

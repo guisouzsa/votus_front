@@ -1,13 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Columns2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2, CircleHelp, Clock, Columns2, MinusCircle, Repeat2 } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import Footer from '@/components/Footer';
 import LegislatorFilterFrame from '@/components/LegislatorFilterFrame';
+import { ClearFiltersButton } from '@/components/SearchBar';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
 import { LegislatorGridSkeleton } from '@/components/LegislatorCardSkeleton';
 import Pagination from '@/components/Pagination';
@@ -19,15 +20,28 @@ import DataSourceNote from '@/components/DataSourceNote';
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import {
   CANDIDATE_OFFICES,
+  ELECTION_RESULT_FILTER_LABELS,
   getCandidates,
+  isElectionResultStatus,
   type CandidateOfficeSlug,
   type CandidatesResponse,
 } from '@/services/candidatesService';
+import type { ElectionResultStatus } from '@/services/types';
 import { ApiError } from '@/services/apiClient';
 import { useSsrPaginatedList } from '@/hooks/useSsrPaginatedList';
 
-const FILTROS_VAZIOS = { search: '', party: '' };
+const FILTROS_VAZIOS = { search: '', party: '', result: '' };
 type Filtros = typeof FILTROS_VAZIOS;
+
+// Mesmos ícones do selo de resultado (ElectionResultBadge).
+const ICONES_RESULTADO: Record<ElectionResultStatus, typeof CheckCircle2> = {
+  elected: CheckCircle2,
+  runoff: Repeat2,
+  not_elected: MinusCircle,
+  awaiting: Clock,
+  unverified: CircleHelp,
+};
+const ORDEM_RESULTADO: ElectionResultStatus[] = ['elected', 'runoff', 'not_elected', 'awaiting', 'unverified'];
 
 // Filtros aplicados e página moram na URL (?partido=PT&busca=joao&pagina=2):
 // ao abrir um candidato e voltar, a lista reaparece do jeito que estava, e o
@@ -52,8 +66,14 @@ const lerQueryServidor = () => '';
 function interpretarQuery(query: string): { filtros: Filtros; page: number } {
   const params = new URLSearchParams(query);
 
+  const resultado = params.get('resultado') ?? '';
+
   return {
-    filtros: { search: params.get('busca') ?? '', party: params.get('partido') ?? '' },
+    filtros: {
+      search: params.get('busca') ?? '',
+      party: params.get('partido') ?? '',
+      result: isElectionResultStatus(resultado) ? resultado : '',
+    },
     page: Math.max(1, Math.floor(Number(params.get('pagina'))) || 1),
   };
 }
@@ -62,6 +82,7 @@ function gravarNaUrl(filtros: Filtros, page: number) {
   const params = new URLSearchParams();
   if (filtros.search.trim()) params.set('busca', filtros.search.trim());
   if (filtros.party) params.set('partido', filtros.party);
+  if (filtros.result) params.set('resultado', filtros.result);
   if (page > 1) params.set('pagina', String(page));
 
   const query = params.toString();
@@ -86,11 +107,16 @@ export default function CandidatosListClient({
 
   const query = useSyncExternalStore(assinarUrl, lerQueryAtual, lerQueryServidor);
   const { filtros: aplicados, page } = useMemo(() => interpretarQuery(query), [query]);
-  const semFiltro = !aplicados.search.trim() && !aplicados.party;
-  const filtrosEfetivos = useMemo(
-    () => (isPresidente ? aplicados : { ...aplicados, state: 'CE' }),
-    [aplicados, isPresidente]
-  );
+  const semFiltro = !aplicados.search.trim() && !aplicados.party && !aplicados.result;
+  const filtrosEfetivos = useMemo(() => {
+    const base = {
+      search: aplicados.search,
+      party: aplicados.party,
+      electionResult: isElectionResultStatus(aplicados.result) ? aplicados.result : undefined,
+    };
+
+    return isPresidente ? base : { ...base, state: 'CE' };
+  }, [aplicados, isPresidente]);
 
   // "filtros" é o que está digitado/selecionado nos campos; "aplicados" é o
   // que de fato foi pra API. Separados pra não disparar uma requisição a
@@ -110,7 +136,7 @@ export default function CandidatosListClient({
     loading,
     isValidating,
   } = useSsrPaginatedList(
-    ['candidatos', office, page, aplicados.party, aplicados.search.trim()],
+    ['candidatos', office, page, aplicados.party, aplicados.search.trim(), aplicados.result],
     () => getCandidates(office, page, filtrosEfetivos),
     // O que veio do servidor é só a página 1 sem filtro.
     page === 1 && semFiltro ? initialData : undefined
@@ -127,6 +153,10 @@ export default function CandidatosListClient({
   // Só existe vice/suplente pra Presidente/Governador/Senador — Deputado
   // Federal/Estadual não tem chapa, então vem sempre 0 (ver countWithFullTicketByOffice).
   const comChapa = response?.filters?.with_full_ticket ?? initialData?.filters?.with_full_ticket ?? 0;
+  // Atalhos de resultado: só os que têm candidato (contagem do cargo inteiro,
+  // não da página). Sem contagem na resposta, o filtro fica só no painel.
+  const contagemResultados = response?.filters?.election_results ?? initialData?.filters?.election_results;
+  const atalhosResultado = ORDEM_RESULTADO.filter((status) => (contagemResultados?.[status] ?? 0) > 0);
 
   // Além de Candidatos/Partidos, estas só existem pra alguns cargos
   // (chapa/plano de governo não fazem sentido pra Deputado, por exemplo).
@@ -159,7 +189,12 @@ export default function CandidatosListClient({
   const setPage = (novaPagina: number) => gravarNaUrl(aplicados, novaPagina);
 
   function aplicarFiltros() {
-    gravarNaUrl({ search: filtros.search.trim(), party: filtros.party }, 1);
+    gravarNaUrl({ search: filtros.search.trim(), party: filtros.party, result: filtros.result }, 1);
+  }
+
+  // Atalho de um toque: aplica na hora, mantendo busca e partido já aplicados.
+  function filtrarResultado(result: string) {
+    gravarNaUrl({ ...aplicados, result }, 1);
   }
 
   function limparFiltros() {
@@ -228,7 +263,55 @@ export default function CandidatosListClient({
               })}
             </nav>
 
-            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
+            <LegislatorFilterFrame
+              searchValue={filtros.search}
+              onSearchChange={(value) => setFiltros((atual) => ({ ...atual, search: value }))}
+              searchPlaceholder="Pesquisar por nome, partido ou número..."
+              partyValue={filtros.party}
+              onPartyChange={(value) => setFiltros((atual) => ({ ...atual, party: value }))}
+              partyOptions={partidos}
+              resultValue={filtros.result}
+              onResultChange={(value) => setFiltros((atual) => ({ ...atual, result: value }))}
+              resultOptions={ORDEM_RESULTADO.map((status) => ({ value: status, label: ELECTION_RESULT_FILTER_LABELS[status] }))}
+              onApply={aplicarFiltros}
+              onClear={limparFiltros}
+              busy={isValidating && !loading}
+            />
+
+            {atalhosResultado.length > 0 && (
+              <div role="group" aria-label="Filtrar por resultado da eleição" className="mt-3 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+                {[{ status: '' as const, label: 'Todos' }, ...atalhosResultado.map((status) => ({ status, label: ELECTION_RESULT_FILTER_LABELS[status] }))].map(
+                  ({ status, label }) => {
+                    const ativo = aplicados.result === status;
+                    const Icone = status ? ICONES_RESULTADO[status] : null;
+                    return (
+                      <button
+                        key={status || 'todos'}
+                        type="button"
+                        aria-pressed={ativo}
+                        onClick={() => filtrarResultado(status)}
+                        disabled={isValidating && !loading}
+                        className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-2 text-xs font-bold transition-colors disabled:opacity-60 sm:text-sm ${
+                          ativo
+                            ? 'border-[#1B623A] bg-[#1B623A] text-white'
+                            : 'border-[#EDDBBA] bg-[#FDF8EE] text-[#1B623A] hover:border-[#1B623A]/40'
+                        }`}
+                      >
+                        {Icone && <Icone size={14} aria-hidden="true" className="shrink-0" />}
+                        {label}
+                        {status && (
+                          <span className={`tabular-nums text-[11px] ${ativo ? 'text-white/80' : 'text-ink-soft'}`}>
+                            {contagemResultados?.[status]}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  },
+                )}
+              </div>
+            )}
+
+            <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
               <StatCard
                 value={totalCandidatos !== undefined ? String(totalCandidatos).padStart(2, '0') : '—'}
                 label="Candidatos"
@@ -264,18 +347,6 @@ export default function CandidatosListClient({
               </Link>
             )}
 
-            <LegislatorFilterFrame
-              searchValue={filtros.search}
-              onSearchChange={(value) => setFiltros((atual) => ({ ...atual, search: value }))}
-              searchPlaceholder="Pesquisar por nome, partido ou número..."
-              partyValue={filtros.party}
-              onPartyChange={(value) => setFiltros((atual) => ({ ...atual, party: value }))}
-              partyOptions={partidos}
-              onApply={aplicarFiltros}
-              onClear={limparFiltros}
-              busy={isValidating && !loading}
-            />
-
             <div className="mt-8">
               <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                 <h2 className="text-xl font-black uppercase text-[#f07a00] sm:text-2xl md:text-3xl">
@@ -307,13 +378,9 @@ export default function CandidatosListClient({
                   ) : (
                     <>
                       <p className="text-xs text-[#4d4d4d]">Nenhum resultado para os filtros aplicados.</p>
-                      <button
-                        type="button"
-                        onClick={limparFiltros}
-                        className="mt-2 rounded-full border border-[#8d0801] px-4 py-2 text-xs font-semibold text-[#8d0801]"
-                      >
-                        Limpar filtros
-                      </button>
+                      <div className="mt-2">
+                        <ClearFiltersButton onClick={limparFiltros} />
+                      </div>
                     </>
                   )}
                 </div>

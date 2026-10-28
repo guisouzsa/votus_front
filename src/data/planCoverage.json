@@ -1,9 +1,178 @@
 {
- "generated_at": "2026-10-23T17:37:40.675Z",
+ "generated_at": "2026-10-27T19:39:24.233Z",
  "method": {
   "unit": "páginas do plano oficial com ao menos um dos termos buscados (sem contar sumário e índice)",
-  "search": "texto extraído do PDF (pdftotext), comparado sem acentos e sem diferenciar maiúsculas; termo casado no início de palavra",
-  "stored_proposals": "propostas extraídas e armazenadas no Votus cujo título, resumo ou trecho contém algum dos termos"
+  "search": "texto extraído do PDF, comparado sem acentos e sem diferenciar maiúsculas; termo casado no início de palavra",
+  "stored_proposals": "propostas extraídas e armazenadas no Votus cujo título, resumo ou trecho contém algum dos termos",
+  "plan_match": "para cada proposta: página do plano TSE em que o título ou o texto aparecem iguais (sem acentos e maiúsculas) e, à parte, a página com mais palavras da proposta em comum (percentual das palavras da proposta presentes na página). Palavras em comum não provam que a proposta está no plano, nem a falta delas prova que não está",
+  "keywords": "pares de palavras seguidas mais repetidos em cada plano, fora sumário e índice, presentes em ao menos 3 páginas; palavras de ligação e de discurso ignoradas (lista em ignored_words)",
+  "ignored_words": [
+   "a",
+   "agora",
+   "ainda",
+   "alem",
+   "antes",
+   "ao",
+   "aos",
+   "apenas",
+   "apos",
+   "aquela",
+   "aquele",
+   "aqui",
+   "as",
+   "assim",
+   "ate",
+   "atual",
+   "avancar",
+   "avancaremos",
+   "bem",
+   "bolsonaro",
+   "brasil",
+   "brasileira",
+   "brasileiras",
+   "brasileiro",
+   "brasileiros",
+   "cada",
+   "capitulo",
+   "com",
+   "como",
+   "continuar",
+   "continuaremos",
+   "contra",
+   "da",
+   "das",
+   "de",
+   "dentro",
+   "desde",
+   "deve",
+   "devem",
+   "disso",
+   "do",
+   "dos",
+   "durante",
+   "e",
+   "em",
+   "entre",
+   "essa",
+   "esse",
+   "esta",
+   "estamos",
+   "estas",
+   "este",
+   "estes",
+   "faz",
+   "fazer",
+   "feito",
+   "flavio",
+   "foi",
+   "foram",
+   "forma",
+   "governo",
+   "havera",
+   "hoje",
+   "houve",
+   "isso",
+   "isto",
+   "ja",
+   "lugar",
+   "lula",
+   "mais",
+   "mandato",
+   "mandatos",
+   "mas",
+   "meio",
+   "menos",
+   "mesma",
+   "mesmo",
+   "modo",
+   "muita",
+   "muitas",
+   "muito",
+   "muitos",
+   "na",
+   "nao",
+   "nas",
+   "no",
+   "nos",
+   "nossa",
+   "nossas",
+   "nosso",
+   "nossos",
+   "o",
+   "onde",
+   "os",
+   "ou",
+   "outra",
+   "outras",
+   "outro",
+   "outros",
+   "pais",
+   "para",
+   "partir",
+   "pela",
+   "pelas",
+   "pelo",
+   "pelos",
+   "percentuais",
+   "plano",
+   "pode",
+   "podem",
+   "pois",
+   "pontos",
+   "por",
+   "porem",
+   "presidente",
+   "primeiro",
+   "programa",
+   "proximo",
+   "quais",
+   "qual",
+   "quando",
+   "que",
+   "quem",
+   "queremos",
+   "retomamos",
+   "retomar",
+   "sao",
+   "se",
+   "seguiremos",
+   "seja",
+   "sejam",
+   "sem",
+   "sendo",
+   "ser",
+   "sera",
+   "serao",
+   "seu",
+   "seus",
+   "sim",
+   "so",
+   "sob",
+   "sobre",
+   "sua",
+   "suas",
+   "tambem",
+   "tanta",
+   "tantas",
+   "tanto",
+   "tantos",
+   "tem",
+   "temos",
+   "ter",
+   "tera",
+   "toda",
+   "todas",
+   "todo",
+   "todos",
+   "um",
+   "uma",
+   "umas",
+   "uns",
+   "vamo",
+   "vamos",
+   "vez",
+   "vezes"
+  ]
  },
  "documents": {
   "280002542548": {
@@ -30,7 +199,7 @@
     7
    ],
    "extraction_source_url": "https://www.flaviobolsonaro.com.br/plano-de-governo/leitura",
-   "extraction_source_text_found_in_plan_pct": 91.1
+   "extraction_source_text_found_in_plan_pct": 90.4
   }
  },
  "subjects": [
@@ -80,8 +249,10 @@
       }
      ],
      "stored_proposal_ids": [
-      4,
-      7
+      538,
+      541,
+      570,
+      578
      ]
     },
     "280002551544": {
@@ -120,19 +291,20 @@
       }
      ],
      "stored_proposal_ids": [
-      49,
-      52,
-      53,
-      71,
-      72,
-      73,
-      75,
-      76,
-      77,
-      78,
-      79,
-      92,
-      97
+      351,
+      353,
+      357,
+      387,
+      389,
+      391,
+      393,
+      394,
+      395,
+      396,
+      397,
+      409,
+      414,
+      441
      ]
     }
    }
@@ -175,7 +347,9 @@
       }
      ],
      "stored_proposal_ids": [
-      5
+      539,
+      569,
+      578
      ]
     },
     "280002551544": {
@@ -193,7 +367,9 @@
        "text": "…rograma social terá prioridade em todas as ações do Estado voltadas ao trabalho: prioridade nos programas de primeiro emprego, nas ações de qualificação profissional e na intermediação de mão de obra. Criaremos uma trilha de qualificação e intermediação desenhada especialmente para quem recebe o benefício, para que a saída n…"
       }
      ],
-     "stored_proposal_ids": []
+     "stored_proposal_ids": [
+      424
+     ]
     }
    }
   },
@@ -226,7 +402,7 @@
      "excerpts": [
       {
        "page": 19,
-       "text": "…namental, terão continuidade, alinhadas à política de cotas no serviço público que aprimoramos no atual mandato. Com a política de cotas, a universidade brasileira mudou de rosto: entre os 19"
+       "text": "…namental, terão continuidade, alinhadas à política de cotas no serviço público que aprimoramos no atual mandato. Com a política de cotas, a universidade brasileira mudou de rosto: entre os"
       },
       {
        "page": 20,
@@ -238,7 +414,7 @@
       }
      ],
      "stored_proposal_ids": [
-      6
+      540
      ]
     },
     "280002551544": {
@@ -251,11 +427,11 @@
      "excerpts": [
       {
        "page": 36,
-       "text": "…o teto. A CAPES e o CNPq passarão a priorizar o impacto produtivo, a inovação e a transferência de tecnologia, para que a pesquisa feita na universidade chegue à indústria e vire produto, emprego e renda, em vez de ficar na estante. E os cursos de pós-graduação voltados ao mercado, o lato 36"
+       "text": "…o teto. A CAPES e o CNPq passarão a priorizar o impacto produtivo, a inovação e a transferência de tecnologia, para que a pesquisa feita na universidade chegue à indústria e vire produto, emprego e renda, em vez de ficar na estante. E os cursos de pós-graduação voltados ao mercado, o lato"
       },
       {
        "page": 37,
-       "text": "sensu, vão aproximar empresas e universidades: as instituições de ensino poderão receber recursos em troca da formação dos profissionais de que o país precisa, premiando quem forma para o emprego que existe…"
+       "text": "37 sensu, vão aproximar empresas e universidades: as instituições de ensino poderão receber recursos em troca da formação dos profissionais de que o país precisa, premiando quem forma para o emprego que existe…"
       },
       {
        "page": 40,
@@ -263,8 +439,11 @@
       }
      ],
      "stored_proposal_ids": [
-      81,
-      132
+      399,
+      400,
+      401,
+      416,
+      477
      ]
     }
    }
@@ -300,7 +479,9 @@
        "text": "…r o acesso a bens culturais. Investimos em equipamentos culturais como CEUs da Cultura, MovCEUs, sobre rodas e flutuantes. Fomentamos 6 mil bibliotecas públicas e estamos apoiando a implantação de 1.500 bibliotecas em unidades do Minha Casa Minha Vida. Asseguramos recursos para 144 obras de restauração do patri…"
       }
      ],
-     "stored_proposal_ids": []
+     "stored_proposal_ids": [
+      571
+     ]
     },
     "280002551544": {
      "plan_pages": [],
@@ -376,7 +557,7 @@
      "excerpts": [
       {
        "page": 6,
-       "text": "PROGRAMA DE GOVERNO DIRETRIZES PARA O PROGRAMA DE TRANSFORMAÇÃO DO BRASIL: UM PAÍS SOBERANO, DEMOCRÁTICO, DESENVOLVIDO, SUSTENTÁVEL E CRIATIVO COMPROMISSO COM O PROJETO DE NAÇÃO O povo brasileiro sonha e almeja um futuro melhor. A esperança é o que nos move. Sem sonhos, criatividade, desejo…"
+       "text": "6 PROGRAMA DE GOVERNO DIRETRIZES PARA O PROGRAMA DE TRANSFORMAÇÃO DO BRASIL: UM PAÍS SOBERANO, DEMOCRÁTICO, DESENVOLVIDO, SUSTENTÁVEL E CRIATIVO COMPROMISSO COM O PROJETO DE NAÇÃO O povo brasileiro sonha e almeja um futuro melhor. A esperança é o que nos move. Sem sonhos, criatividade, desejo…"
       },
       {
        "page": 7,
@@ -388,11 +569,12 @@
       }
      ],
      "stored_proposal_ids": [
-      12,
-      13,
-      16,
-      26,
-      29
+      546,
+      547,
+      549,
+      551,
+      575,
+      579
      ]
     },
     "280002551544": {
@@ -431,17 +613,16 @@
       }
      ],
      "stored_proposal_ids": [
-      33,
-      57,
-      58,
-      83,
-      86,
-      88,
-      90,
-      125,
-      128,
-      141,
-      146
+      327,
+      364,
+      370,
+      371,
+      403,
+      406,
+      462,
+      471,
+      486,
+      494
      ]
     }
    }
@@ -492,12 +673,14 @@
       }
      ],
      "stored_proposal_ids": [
-      15,
-      16,
-      17,
-      18,
-      19,
-      20
+      550,
+      551,
+      552,
+      553,
+      554,
+      556,
+      557,
+      558
      ]
     },
     "280002551544": {
@@ -527,14 +710,12 @@
       }
      ],
      "stored_proposal_ids": [
-      32,
-      33,
-      35,
-      41,
-      46,
-      51,
-      139,
-      142
+      326,
+      327,
+      336,
+      350,
+      358,
+      500
      ]
     }
    }
@@ -599,10 +780,13 @@
       }
      ],
      "stored_proposal_ids": [
-      1,
-      23,
-      24,
-      28
+      534,
+      537,
+      567,
+      572,
+      573,
+      574,
+      580
      ]
     },
     "280002551544": {
@@ -662,22 +846,25 @@
       }
      ],
      "stored_proposal_ids": [
-      48,
-      49,
-      53,
-      82,
-      93,
-      102,
-      103,
-      104,
-      105,
-      108,
-      121,
-      122,
-      141,
-      143,
-      144,
-      146
+      341,
+      343,
+      344,
+      351,
+      360,
+      402,
+      410,
+      421,
+      424,
+      426,
+      428,
+      430,
+      443,
+      469,
+      486,
+      489,
+      494,
+      501,
+      530
      ]
     }
    }
@@ -736,9 +923,9 @@
       }
      ],
      "stored_proposal_ids": [
-      1,
-      2,
-      3
+      534,
+      535,
+      536
      ]
     },
     "280002551544": {
@@ -784,19 +971,26 @@
       }
      ],
      "stored_proposal_ids": [
-      45,
-      47,
-      62,
-      63,
-      68,
-      108,
-      109,
-      113,
-      138,
-      139,
-      140,
-      158,
-      159
+      318,
+      325,
+      348,
+      373,
+      374,
+      375,
+      378,
+      386,
+      435,
+      436,
+      484,
+      485,
+      487,
+      501,
+      512,
+      513,
+      518,
+      522,
+      525,
+      526
      ]
     }
    }
@@ -826,18 +1020,20 @@
      "excerpts": [
       {
        "page": 11,
-       "text": "…tatais, do setor privado e de financiamentos. São investimentos em rodovias, ferrovias, portos, aeroportos, energia, infraestrutura urbana, habitação, saneamento básico, saúde, educação, inclusão digital e 11"
+       "text": "…tatais, do setor privado e de financiamentos. São investimentos em rodovias, ferrovias, portos, aeroportos, energia, infraestrutura urbana, habitação, saneamento básico, saúde, educação, inclusão digital e"
       },
       {
        "page": 17,
-       "text": "…e plataformas como o Contrata+ Brasil. Em nosso governo, o patrimônio imobiliário da União foi colocado a serviço das políticas públicas de habitação, com destinação de 1,8 mil imóveis e terrenos. O Imóvel da Gente terá continuidade para que terrenos e imóveis da União 17"
+       "text": "…e plataformas como o Contrata+ Brasil. Em nosso governo, o patrimônio imobiliário da União foi colocado a serviço das políticas públicas de habitação, com destinação de 1,8 mil imóveis e terrenos. O Imóvel da Gente terá continuidade para que terrenos e imóveis da União"
       },
       {
        "page": 24,
        "text": "…acilitar o acesso da juventude ao ensino superior. Fortaleceremos ainda mais a assistência estudantil, ampliando o acesso à alimentação e à moradia estudantil para os jovens que estão no ensino superior. A política de aprendizagem para o trabalho, aprimorada no atual mandato, receberá atenção adicional, com…"
       }
      ],
-     "stored_proposal_ids": []
+     "stored_proposal_ids": [
+      571
+     ]
     },
     "280002551544": {
      "plan_pages": [
@@ -867,9 +1063,14 @@
       }
      ],
      "stored_proposal_ids": [
-      51,
-      107,
-      109
+      322,
+      323,
+      350,
+      358,
+      422,
+      434,
+      438,
+      443
      ]
     }
    }
@@ -896,7 +1097,7 @@
      "excerpts": [
       {
        "page": 11,
-       "text": "…setor privado e de financiamentos. São investimentos em rodovias, ferrovias, portos, aeroportos, energia, infraestrutura urbana, habitação, saneamento básico, saúde, educação, inclusão digital e 11"
+       "text": "…setor privado e de financiamentos. São investimentos em rodovias, ferrovias, portos, aeroportos, energia, infraestrutura urbana, habitação, saneamento básico, saúde, educação, inclusão digital e"
       },
       {
        "page": 44,
@@ -921,12 +1122,12 @@
       },
       {
        "page": 57,
-       "text": "…a renda ao fazê-lo. E rio limpo também depende de esgoto tratado: uma das maiores agendas ambientais da nossa história foi o Marco Legal do Saneamento, aprovado no governo Bolsonaro, cuja universalização vamos levar adiante, como já detalhado no Brasil que Prospera. E vamos consolidar o mercado regulado de car…"
+       "text": "…renda ao fazê -lo. E rio limpo também depende de esgoto tratado: uma das maiores agendas ambientais da nossa história foi o Marco Legal do Saneamento, aprovado no governo Bolsonaro, cuja universalização vamos levar adiante, como já detalhado no Brasil que Prospera. E vamos consolidar o mercado regulado de car…"
       }
      ],
      "stored_proposal_ids": [
-      111,
-      134
+      439,
+      479
      ]
     }
    }
@@ -958,7 +1159,7 @@
      "excerpts": [
       {
        "page": 11,
-       "text": "…final de 2026, articulando recursos do orçamento federal, das empresas estatais, do setor privado e de financiamentos. São investimentos em rodovias, ferrovias, portos, aeroportos, energia, infraestrutura urbana, habitação, saneamento básico, saúde, educação, inclusão digital e 11"
+       "text": "…final de 2026, articulando recursos do orçamento federal, das empresas estatais, do setor privado e de financiamentos. São investimentos em rodovias, ferrovias, portos, aeroportos, energia, infraestrutura urbana, habitação, saneamento básico, saúde, educação, inclusão digital e"
       },
       {
        "page": 30,
@@ -966,7 +1167,7 @@
       },
       {
        "page": 41,
-       "text": "…idade aos investimentos para consolidar e manter a rede de equipamentos culturais nos territórios e para fomentar programas de circulação e mobilidade artística e iniciativas de democratização da cultura. 41"
+       "text": "…idade aos investimentos para consolidar e manter a rede de equipamentos culturais nos territórios e para fomentar programas de circulação e mobilidade artística e iniciativas de democratização da cultura."
       }
      ],
      "stored_proposal_ids": []
@@ -991,13 +1192,19 @@
       },
       {
        "page": 15,
-       "text": "Acabar com a cocaína “made in Brazil” Não plantamos coca nem produzimos cocaína. Mas, sob Lula e o PT, o Porto de Santos se tornou um dos maiores exportadores de cocaína do mundo. Nós vamos usar tropas especiais da Marinha e da Aeronáutica para ocupar e monitorar, de for…"
+       "text": "15 Acabar com a cocaína “made in Brazil” Não plantamos coca nem produzimos cocaína. Mas, sob Lula e o PT, o Porto de Santos se tornou um dos maiores exportadores de cocaína do mundo. Nós vamos usar tropas especiais da Marinha e da Aeronáutica para ocupar e monitorar, de for…"
       }
      ],
      "stored_proposal_ids": [
-      40,
-      116,
-      143
+      322,
+      323,
+      335,
+      337,
+      447,
+      449,
+      450,
+      451,
+      488
      ]
     }
    }
@@ -1062,7 +1269,7 @@
       }
      ],
      "stored_proposal_ids": [
-      31
+      577
      ]
     },
     "280002551544": {
@@ -1078,7 +1285,7 @@
      "excerpts": [
       {
        "page": 11,
-       "text": "…que dá condições a quem quer trabalhar e produzir Segurança jurídica, infraestrutura, energia, agronegócio, tecnologia, minerais críticos, meio ambiente, turismo e inserção no mundo. O país que funciona por baixo da vida de cada família e faz cada conquista ir mais longe. 11"
+       "text": "…que dá condições a quem quer trabalhar e produzir Segurança jurídica, infraestrutura, energia, agronegócio, tecnologia, minerais críticos, meio ambiente, turismo e inserção no mundo. O país que funciona por baixo da vida de cada família e faz cada conquista ir mais longe."
       },
       {
        "page": 20,
@@ -1090,12 +1297,14 @@
       }
      ],
      "stored_proposal_ids": [
-      118,
-      136,
-      138,
-      140,
-      141,
-      146
+      324,
+      349,
+      456,
+      481,
+      483,
+      485,
+      486,
+      494
      ]
     }
    }
@@ -1155,7 +1364,7 @@
      "excerpts": [
       {
        "page": 10,
-       "text": "…ado dos capítulos que acompanham a vida do cidadão, este Plano dedica um eixo ao Brasil que precisa crescer: a infraestrutura, a energia, o agronegócio, a tecnologia e a inserção no mundo. Quando o país cresce, cada conquista individual vale mais, dura mais e alcança mais gente. 10"
+       "text": "…ado dos capítulos que acompanham a vida do cidadão, este Plano dedica um eixo ao Brasil que precisa crescer: a infraestrutura, a energia, o agronegócio, a tecnologia e a inserção no mundo. Quando o país cresce, cada conquista individual vale mais, dura mais e alcança mais gente."
       },
       {
        "page": 11,
@@ -1167,9 +1376,8 @@
       }
      ],
      "stored_proposal_ids": [
-      120,
-      125,
-      131
+      324,
+      475
      ]
     }
    }
@@ -1218,10 +1426,12 @@
       },
       {
        "page": 11,
-       "text": "…çamento federal, das empresas estatais, do setor privado e de financiamentos. São investimentos em rodovias, ferrovias, portos, aeroportos, energia, infraestrutura urbana, habitação, saneamento básico, saúde, educação, inclusão digital e 11"
+       "text": "…çamento federal, das empresas estatais, do setor privado e de financiamentos. São investimentos em rodovias, ferrovias, portos, aeroportos, energia, infraestrutura urbana, habitação, saneamento básico, saúde, educação, inclusão digital e"
       }
      ],
-     "stored_proposal_ids": []
+     "stored_proposal_ids": [
+      567
+     ]
     },
     "280002551544": {
      "plan_pages": [
@@ -1246,7 +1456,7 @@
      "excerpts": [
       {
        "page": 10,
-       "text": "…isso, ao lado dos capítulos que acompanham a vida do cidadão, este Plano dedica um eixo ao Brasil que precisa crescer: a infraestrutura, a energia, o agronegócio, a tecnologia e a inserção no mundo. Quando o país cresce, cada conquista individual vale mais, dura mais e alcança mais gente. 10"
+       "text": "…isso, ao lado dos capítulos que acompanham a vida do cidadão, este Plano dedica um eixo ao Brasil que precisa crescer: a infraestrutura, a energia, o agronegócio, a tecnologia e a inserção no mundo. Quando o país cresce, cada conquista individual vale mais, dura mais e alcança mais gente."
       },
       {
        "page": 11,
@@ -1258,12 +1468,18 @@
       }
      ],
      "stored_proposal_ids": [
-      63,
-      119,
-      125,
-      126,
-      129,
-      145
+      324,
+      378,
+      457,
+      458,
+      459,
+      460,
+      461,
+      462,
+      463,
+      471,
+      473,
+      499
      ]
     }
    }
@@ -1326,7 +1542,7 @@
      "excerpts": [
       {
        "page": 7,
-       "text": "…erania em áreas estratégicas, capacidade industrial, domínio tecnológico e projeto nacional. Por isso, a disputa por recursos estratégicos, tecnologias, conhecimento e fontes de energia impõe novos desafios ao desenvolvimento do nosso país, e temos todas as condições de enfrentá-los. 7"
+       "text": "…erania em áreas estratégicas, capacidade industrial, domínio tecnológico e projeto nacional. Por isso, a disputa por recursos estratégicos, tecnologias, conhecimento e fontes de energia impõe novos desafios ao desenvolvimento do nosso país, e temos todas as condições de enfrentá-los."
       },
       {
        "page": 9,
@@ -1338,11 +1554,10 @@
       }
      ],
      "stored_proposal_ids": [
-      8,
-      13,
-      23,
-      27,
-      30
+      542,
+      547,
+      576,
+      580
      ]
     },
     "280002551544": {
@@ -1379,7 +1594,7 @@
       },
       {
        "page": 11,
-       "text": "…orço. Brasil que Cresce, o país que dá condições a quem quer trabalhar e produzir Segurança jurídica, infraestrutura, energia, agronegócio, tecnologia, minerais críticos, meio ambiente, turismo e inserção no mundo. O país que funciona por baixo da vida de cada família e faz cada conquista ir mais longe. 11"
+       "text": "…orço. Brasil que Cresce, o país que dá condições a quem quer trabalhar e produzir Segurança jurídica, infraestrutura, energia, agronegócio, tecnologia, minerais críticos, meio ambiente, turismo e inserção no mundo. O país que funciona por baixo da vida de cada família e faz cada conquista ir mais longe."
       },
       {
        "page": 13,
@@ -1387,19 +1602,24 @@
       }
      ],
      "stored_proposal_ids": [
-      36,
-      49,
-      56,
-      59,
-      71,
-      76,
-      79,
-      81,
-      91,
-      99,
-      131,
-      145,
-      148
+      324,
+      329,
+      344,
+      364,
+      365,
+      372,
+      387,
+      393,
+      397,
+      399,
+      400,
+      408,
+      435,
+      461,
+      475,
+      476,
+      484,
+      500
      ]
     }
    }
@@ -1463,7 +1683,7 @@
       },
       {
        "page": 8,
-       "text": "…ticas sociais, com prejuízos ao desenho e à efetividade dos programas. O retrocesso mais visível expressou-se na volta do Brasil ao Mapa da Fome da ONU e na fila do osso. 8"
+       "text": "…ticas sociais, com prejuízos ao desenho e à efetividade dos programas. O retrocesso mais visível expressou-se na volta do Brasil ao Mapa da Fome da ONU e na fila do osso."
       },
       {
        "page": 12,
@@ -1493,7 +1713,13 @@
        "text": "…ibilidade, para que ninguém tenha medo de tentar um emprego e acabar desamparado se não der certo. Nosso foco é a superação da armadilha da pobreza, não a sua administração. Toda política deste governo será desenhada com uma pergunta em mente: isso ajuda a pessoa a depender menos do Estado amanhã do que ela…"
       }
      ],
-     "stored_proposal_ids": []
+     "stored_proposal_ids": [
+      415,
+      421,
+      422,
+      442,
+      463
+     ]
     }
    }
   },
@@ -1528,7 +1754,7 @@
       },
       {
        "page": 25,
-       "text": "ocupacionais de maior qualidade para nossos jovens. Emprego com proteção previdenciária, direitos trabalhistas, remuneração justa e jornada de trabalho não exaustiva pode ser um sonho de nossa juventude. Persistiremos também criando políticas de fo…"
+       "text": "25 ocupacionais de maior qualidade para nossos jovens. Emprego com proteção previdenciária, direitos trabalhistas, remuneração justa e jornada de trabalho não exaustiva pode ser um sonho de nossa juventude. Persistiremos também criando políticas de fo…"
       }
      ],
      "stored_proposal_ids": []
@@ -1547,7 +1773,7 @@
      "excerpts": [
       {
        "page": 23,
-       "text": "BRASIL SEM FILA seu tempo é seu Poucas coisas revelam tanto o descaso de um governo quanto a fila. A fila do INSS, que chegou a 3 milhões de requerimentos no início de 2026, é um recorde absoluto. A fila do posto de saúde, onde o paciente refaz um exame que já fez porque ni…"
+       "text": "23 BRASIL SEM FILA seu tempo é seu Poucas coisas revelam tanto o descaso de um governo quanto a fila. A fila do INSS, que chegou a 3 milhões de requerimentos no início de 2026, é um recorde absoluto. A fila do posto de saúde, onde o paciente refaz um exame que já fez porque ni…"
       },
       {
        "page": 26,
@@ -1559,8 +1785,13 @@
       }
      ],
      "stored_proposal_ids": [
-      59,
-      160
+      365,
+      422,
+      518,
+      527,
+      528,
+      530,
+      533
      ]
     }
    }
@@ -1613,7 +1844,10 @@
        "text": "…aior renda real do trabalho e o menor desemprego da série histórica. O Bolsa Família foi recriado e expandido com benefícios especiais para crianças e adolescentes. A desigualdade, medida pelo coeficiente de Gini, atingiu o menor patamar histórico de 0,504, enquanto a pobreza extrema recuou para o menor níve…"
       }
      ],
-     "stored_proposal_ids": []
+     "stored_proposal_ids": [
+      562,
+      563
+     ]
     },
     "280002551544": {
      "plan_pages": [
@@ -1632,7 +1866,6 @@
       40,
       44,
       45,
-      47,
       48
      ],
      "excerpts": [
@@ -1650,14 +1883,15 @@
       }
      ],
      "stored_proposal_ids": [
-      38,
-      71,
-      77,
-      92,
-      95,
-      96,
-      102,
-      103
+      319,
+      320,
+      321,
+      332,
+      353,
+      394,
+      409,
+      413,
+      428
      ]
     }
    }
@@ -1696,7 +1930,7 @@
       },
       {
        "page": 15,
-       "text": "…s a utilização no orçamento de marcadores que permitem acompanhar gastos relacionados a cada uma das agendas transversais do PPA 2024-2027 (mulheres; meio ambiente; igualdade racial; povos indígenas; crianças e adolescentes). Queremos que o PPA 20282031 seja ainda mais participativo e que o ciclo orçamentári…"
+       "text": "…s a utilização no orçamento de marcadores que permitem acompanhar gastos relacionados a cada uma das agendas transversais do PPA 2024-2027 (mulheres; meio ambiente; igualdade racial; povos indígenas; crianças e adolescentes). Queremos que o PPA 2028- 2031 seja ainda mais participativo e que o ciclo orçamentá…"
       },
       {
        "page": 19,
@@ -1704,7 +1938,10 @@
       }
      ],
      "stored_proposal_ids": [
-      20
+      555,
+      556,
+      558,
+      559
      ]
     },
     "280002551544": {
@@ -1732,22 +1969,31 @@
       },
       {
        "page": 14,
-       "text": "…ça da Presidência da República e a nossa experiência legislativa para aprovar e implementar a castração química de criminosos que abusam de mulheres e crianças. A medida deverá ser aplicada a estupradores e abusadores de crianças condenados pela Justiça. Criminoso que destrói a vida de mulheres e crianças nã…"
+       "text": "…ça da Presidência da República e a nossa experiência legislativa para aprovar e implementar a castração química de criminosos que abusam de mulheres e crianças . A medida deverá ser aplicada a estupradores e abusadores de crianças condenados pela Justiça. Criminoso que destrói a vida de mulheres e crianças n…"
       },
       {
        "page": 17,
-       "text": "BRASIL POR ELAS fortalecer as mulheres é fortalecer a família Mais da metade das famílias brasileiras é chefiada por uma mulher. Quando ela é protegida, capacitada e tem renda própria, não é só a vid…"
+       "text": "17 BRASIL POR ELAS fortalecer as mulheres é fortalecer a família Mais da metade das famílias brasileiras é chefiada por uma mulher. Quando ela é protegida, capacitada e tem renda própria, não é só a vid…"
       }
      ],
      "stored_proposal_ids": [
-      38,
-      39,
-      47,
-      48,
-      50,
-      51,
-      52,
-      53
+      332,
+      333,
+      334,
+      341,
+      342,
+      343,
+      344,
+      347,
+      348,
+      350,
+      352,
+      355,
+      356,
+      358,
+      417,
+      418,
+      438
      ]
     }
    }
@@ -1777,7 +2023,7 @@
      "excerpts": [
       {
        "page": 15,
-       "text": "…to de marcadores que permitem acompanhar gastos relacionados a cada uma das agendas transversais do PPA 2024-2027 (mulheres; meio ambiente; igualdade racial; povos indígenas; crianças e adolescentes). Queremos que o PPA 20282031 seja ainda mais participativo e que o ciclo orçamentário federal brasileiro também seja…"
+       "text": "…to de marcadores que permitem acompanhar gastos relacionados a cada uma das agendas transversais do PPA 2024-2027 (mulheres; meio ambiente; igualdade racial; povos indígenas; crianças e adolescentes). Queremos que o PPA 2028- 2031 seja ainda mais participativo e que o ciclo orçamentário federal brasileiro também sej…"
       },
       {
        "page": 19,
@@ -1806,8 +2052,7 @@
       }
      ],
      "stored_proposal_ids": [
-      115,
-      146
+      446
      ]
     }
    }
@@ -1834,7 +2079,7 @@
      "excerpts": [
       {
        "page": 15,
-       "text": "…mitem acompanhar gastos relacionados a cada uma das agendas transversais do PPA 2024-2027 (mulheres; meio ambiente; igualdade racial; povos indígenas; crianças e adolescentes). Queremos que o PPA 20282031 seja ainda mais participativo e que o ciclo orçamentário federal brasileiro também seja objeto de partici…"
+       "text": "…mitem acompanhar gastos relacionados a cada uma das agendas transversais do PPA 2024-2027 (mulheres; meio ambiente; igualdade racial; povos indígenas; crianças e adolescentes). Queremos que o PPA 2028- 2031 seja ainda mais participativo e que o ciclo orçamentário federal brasileiro também seja objeto de parti…"
       },
       {
        "page": 19,
@@ -1842,7 +2087,7 @@
       },
       {
        "page": 20,
-       "text": "PROGRAMA DE GOVERNO estudantes de graduação que declaram cor ou raça, 45,5% identificam-se como pretos, pardos ou indígenas, e três em cada quatro ingressantes vêm da escola pública. Neste mandato, a política de cotas foi aperfeiçoada, com a inclusão de reserva para quilombolas. Vamo…"
+       "text": "20 PROGRAMA DE GOVERNO estudantes de graduação que declaram cor ou raça, 45,5% identificam-se como pretos, pardos ou indígenas, e três em cada quatro ingressantes vêm da escola pública. Neste mandato, a política de cotas foi aperfeiçoada, com a inclusão de reserva para quilombolas. Vamo…"
       }
      ],
      "stored_proposal_ids": []
@@ -1863,8 +2108,7 @@
       }
      ],
      "stored_proposal_ids": [
-      115,
-      146
+      446
      ]
     }
    }
@@ -1925,10 +2169,11 @@
       }
      ],
      "stored_proposal_ids": [
-      90,
-      92,
-      93,
-      98
+      354,
+      407,
+      409,
+      410,
+      415
      ]
     }
    }
@@ -1991,7 +2236,7 @@
       },
       {
        "page": 41,
-       "text": "…quecidos pelo modelo atual. Levaremos a arte para perto do público em todo o país, sem subordiná-la a agendas políticas, nos norteando pela transparência, pela liberdade de expressão e pela distinção entre cultura e entretenimento comercial. 41"
+       "text": "…quecidos pelo modelo atual. Levaremos a arte para perto do público em todo o país, sem subordiná-la a agendas políticas, nos norteando pela transparência, pela liberdade de expressão e pela distinção entre cultura e entretenimento comercial."
       },
       {
        "page": 55,
@@ -1999,7 +2244,11 @@
       }
      ],
      "stored_proposal_ids": [
-      161
+      325,
+      513,
+      516,
+      524,
+      532
      ]
     }
    }
@@ -2077,14 +2326,16 @@
       },
       {
        "page": 12,
-       "text": "Brasil que Cumpre a Constituição, regras que valem para todos e não mudam no meio do jogo Instituições fortes, cada Poder dentro de seus limites e um Tesouraço na Censura para garantir a liberd…"
+       "text": "12 Brasil que Cumpre a Constituição, regras que valem para todos e não mudam no meio do jogo Instituições fortes, cada Poder dentro de seus limites e um Tesouraço na Censura para garantir a liberd…"
       },
       {
        "page": 41,
-       "text": "…atual. Levaremos a arte para perto do público em todo o país, sem subordiná-la a agendas políticas, nos norteando pela transparência, pela liberdade de expressão e pela distinção entre cultura e entretenimento comercial. 41"
+       "text": "…atual. Levaremos a arte para perto do público em todo o país, sem subordiná-la a agendas políticas, nos norteando pela transparência, pela liberdade de expressão e pela distinção entre cultura e entretenimento comercial."
       }
      ],
-     "stored_proposal_ids": []
+     "stored_proposal_ids": [
+      511
+     ]
     }
    }
   },
@@ -2126,7 +2377,7 @@
      "excerpts": [
       {
        "page": 6,
-       "text": "…e o trabalho seja valorizado, os serviços públicos sejam continuamente aprimorados, a democracia seja praticada e não apenas declarada, e a soberania nacional seja efetivamente exercida. 6"
+       "text": "…e o trabalho seja valorizado, os serviços públicos sejam continuamente aprimorados, a democracia seja praticada e não apenas declarada, e a soberania nacional seja efetivamente exercida."
       },
       {
        "page": 7,
@@ -2137,9 +2388,7 @@
        "text": "…vogação de direitos, aumento das desigualdades, precarização do trabalho, fortes expressões de violência social e política e aviltamento da soberania nacional. A deterioração das condições de vida da população brasileira entre 2016 e 2022 não foi fruto do acaso, mas o resultado de uma política econômica equiv…"
       }
      ],
-     "stored_proposal_ids": [
-      25
-     ]
+     "stored_proposal_ids": []
     },
     "280002551544": {
      "plan_pages": [
@@ -2152,7 +2401,7 @@
      "excerpts": [
       {
        "page": 13,
-       "text": "BRASIL SEM MEDO A soberania começa na porta da sua casa Nenhuma família vive, trabalha ou prospera sob o domínio do medo. Antes de qualquer outra coisa, o brasileiro precisa poder deixar o…"
+       "text": "13 BRASIL SEM MEDO A soberania começa na porta da sua casa Nenhuma família vive, trabalha ou prospera sob o domínio do medo. Antes de qualquer outra coisa, o brasileiro precisa poder deixar o…"
       },
       {
        "page": 58,
@@ -2164,7 +2413,7 @@
       }
      ],
      "stored_proposal_ids": [
-      142
+      500
      ]
     }
    }
@@ -2217,7 +2466,12 @@
        "text": "…suas dimensões: democrática, institucional, defesa nacional, geopolítica, científica, tecnológica, digital, energética, mineral, ambiental, cultural, econômica, financeira, trabalho decente, alimentar, educação e saúde. Poucos países têm a riqueza cultural, a diversidade étnica, racial, as reservas hídricas,…"
       }
      ],
-     "stored_proposal_ids": []
+     "stored_proposal_ids": [
+      560,
+      568,
+      569,
+      572
+     ]
     },
     "280002551544": {
      "plan_pages": [
@@ -2239,7 +2493,10 @@
        "text": "…interligando Salvador, Aracaju, Maceió, Recife, João Pessoa, Natal e Fortaleza, abrindo um roteiro entre praias, cidades históricas e polos culturais para movimentar o turismo, a produção e a vida de quem vive ali. E porque não basta produzir, é preciso escoar, concluir a Transnordestina e ampliar o seu escop…"
       }
      ],
-     "stored_proposal_ids": []
+     "stored_proposal_ids": [
+      419,
+      420
+     ]
     }
    }
   },
@@ -2278,7 +2535,9 @@
        "text": "…governo Lula também retomou obras que estavam paralisadas em governos anteriores – no caso da educação, são 5.967 creches, escolas, quadras esportivas e outros equipamentos que tiveram seus contratos repactuados e voltaram a receber recursos para conclusão. Também com recursos do Novo PAC, estamos levando inte…"
       }
      ],
-     "stored_proposal_ids": []
+     "stored_proposal_ids": [
+      560
+     ]
     },
     "280002551544": {
      "plan_pages": [
@@ -2298,1300 +2557,5148 @@
       },
       {
        "page": 36,
-       "text": "nas Férias, oferecendo esporte, arte, música e literatura em vez de deixar a criança ociosa. E onde faltar vaga na rede pública, a família receberá um voucher educacional para matricular o fi…"
+       "text": "36 nas Férias, oferecendo esporte, arte, música e literatura em vez de deixar a criança ociosa. E onde faltar vaga na rede pública, a família receberá um voucher educacional para matricular o fi…"
       }
      ],
      "stored_proposal_ids": [
-      77,
-      97,
-      98,
-      99,
-      100
+      319,
+      320,
+      321,
+      395,
+      414,
+      415,
+      416,
+      417
      ]
     }
    }
   }
  ],
  "proposal_checks": {
-  "1": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+  "317": {
+   "excerpt_in_plan_page": 11,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 11,
+   "text_in_plan_page": null,
+   "closest_plan_page": 24,
+   "shared_words_pct": 60
   },
-  "2": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+  "318": {
+   "excerpt_in_plan_page": 11,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 69
   },
-  "3": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+  "319": {
+   "excerpt_in_plan_page": 11,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 11,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 67
   },
-  "4": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+  "320": {
+   "excerpt_in_plan_page": 11,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 11,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 60
   },
-  "5": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+  "321": {
+   "excerpt_in_plan_page": 11,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 50
   },
-  "6": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+  "322": {
+   "excerpt_in_plan_page": 11,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 11,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 82
   },
-  "7": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+  "323": {
+   "excerpt_in_plan_page": 11,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 11,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 83
   },
-  "8": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+  "324": {
+   "excerpt_in_plan_page": 11,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 83
   },
-  "9": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+  "325": {
+   "excerpt_in_plan_page": 12,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 12,
+   "shared_words_pct": 82
   },
-  "10": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "11": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "12": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "13": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "14": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "15": {
-   "excerpt_in_plan_page": 30,
-   "excerpt_in_extraction_source": true
-  },
-  "16": {
+  "326": {
    "excerpt_in_plan_page": 13,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 13,
+   "shared_words_pct": 92
   },
-  "17": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "18": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "19": {
-   "excerpt_in_plan_page": 27,
-   "excerpt_in_extraction_source": true
-  },
-  "20": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "21": {
-   "excerpt_in_plan_page": 75,
-   "excerpt_in_extraction_source": true
-  },
-  "22": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "23": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "24": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "25": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "26": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "27": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "28": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "29": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "30": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "31": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
-  },
-  "32": {
+  "327": {
    "excerpt_in_plan_page": 13,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 13,
+   "shared_words_pct": 71
   },
-  "33": {
+  "328": {
    "excerpt_in_plan_page": 13,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 13,
+   "shared_words_pct": 43
   },
-  "34": {
-   "excerpt_in_plan_page": 13,
-   "excerpt_in_extraction_source": true
-  },
-  "35": {
-   "excerpt_in_plan_page": 3,
-   "excerpt_in_extraction_source": true
-  },
-  "36": {
+  "329": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 13,
+   "shared_words_pct": 78
   },
-  "37": {
+  "330": {
    "excerpt_in_plan_page": 14,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 14,
+   "shared_words_pct": 75
   },
-  "38": {
+  "331": {
    "excerpt_in_plan_page": 14,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 14,
+   "shared_words_pct": 75
   },
-  "39": {
-   "excerpt_in_plan_page": 14,
-   "excerpt_in_extraction_source": true
-  },
-  "40": {
+  "332": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 14,
+   "text_in_plan_page": null,
+   "closest_plan_page": 14,
+   "shared_words_pct": 86
   },
-  "41": {
+  "333": {
+   "excerpt_in_plan_page": 14,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 14,
+   "shared_words_pct": 67
+  },
+  "334": {
+   "excerpt_in_plan_page": 14,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 14,
+   "shared_words_pct": 50
+  },
+  "335": {
    "excerpt_in_plan_page": 15,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 15,
+   "shared_words_pct": 90
   },
-  "42": {
+  "336": {
+   "excerpt_in_plan_page": 15,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": 15,
+   "closest_plan_page": 15,
+   "shared_words_pct": 86
+  },
+  "337": {
+   "excerpt_in_plan_page": 15,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 15,
+   "text_in_plan_page": null,
+   "closest_plan_page": 15,
+   "shared_words_pct": 100
+  },
+  "338": {
+   "excerpt_in_plan_page": 15,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 15,
+   "shared_words_pct": 60
+  },
+  "339": {
+   "excerpt_in_plan_page": 15,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 15,
+   "shared_words_pct": 64
+  },
+  "340": {
+   "excerpt_in_plan_page": 16,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 16,
+   "shared_words_pct": 62
+  },
+  "341": {
+   "excerpt_in_plan_page": 17,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 17,
+   "text_in_plan_page": null,
+   "closest_plan_page": 17,
+   "shared_words_pct": 67
+  },
+  "342": {
+   "excerpt_in_plan_page": 18,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 18,
+   "text_in_plan_page": null,
+   "closest_plan_page": 18,
+   "shared_words_pct": 64
+  },
+  "343": {
+   "excerpt_in_plan_page": 18,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 24,
+   "shared_words_pct": 54
+  },
+  "344": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 18,
+   "shared_words_pct": 64
   },
-  "43": {
+  "345": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 19,
+   "shared_words_pct": 60
   },
-  "44": {
+  "346": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 19,
+   "shared_words_pct": 86
   },
-  "45": {
+  "347": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 19,
+   "shared_words_pct": 100
   },
-  "46": {
-   "excerpt_in_plan_page": 19,
-   "excerpt_in_extraction_source": true
-  },
-  "47": {
-   "excerpt_in_plan_page": 19,
-   "excerpt_in_extraction_source": true
-  },
-  "48": {
-   "excerpt_in_plan_page": 20,
-   "excerpt_in_extraction_source": true
-  },
-  "49": {
-   "excerpt_in_plan_page": 20,
-   "excerpt_in_extraction_source": true
-  },
-  "50": {
+  "348": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 19,
+   "shared_words_pct": 79
   },
-  "51": {
+  "349": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 20,
+   "shared_words_pct": 92
   },
-  "52": {
+  "350": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 20,
+   "shared_words_pct": 80
   },
-  "53": {
+  "351": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 20,
+   "shared_words_pct": 94
+  },
+  "352": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 20,
+   "shared_words_pct": 100
+  },
+  "353": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 93
+  },
+  "354": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 87
+  },
+  "355": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 86
+  },
+  "356": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 21,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 75
+  },
+  "357": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 67
+  },
+  "358": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 20,
+   "shared_words_pct": 57
+  },
+  "359": {
+   "excerpt_in_plan_page": 11,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 11,
+   "text_in_plan_page": null,
+   "closest_plan_page": 24,
+   "shared_words_pct": 80
+  },
+  "360": {
    "excerpt_in_plan_page": 24,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 24,
+   "shared_words_pct": 100
   },
-  "54": {
+  "361": {
    "excerpt_in_plan_page": 25,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 25,
+   "text_in_plan_page": null,
+   "closest_plan_page": 25,
+   "shared_words_pct": 92
   },
-  "55": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "56": {
+  "362": {
    "excerpt_in_plan_page": 25,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 25,
+   "shared_words_pct": 43
   },
-  "57": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "58": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "59": {
+  "363": {
    "excerpt_in_plan_page": 26,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 25,
+   "text_in_plan_page": null,
+   "closest_plan_page": 26,
+   "shared_words_pct": 71
   },
-  "60": {
+  "364": {
+   "excerpt_in_plan_page": 26,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 26,
+   "shared_words_pct": 83
+  },
+  "365": {
+   "excerpt_in_plan_page": 26,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 26,
+   "shared_words_pct": 82
+  },
+  "366": {
    "excerpt_in_plan_page": 27,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 27,
+   "shared_words_pct": 46
   },
-  "61": {
+  "367": {
+   "excerpt_in_plan_page": 27,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 27,
+   "text_in_plan_page": null,
+   "closest_plan_page": 27,
+   "shared_words_pct": 64
+  },
+  "368": {
+   "excerpt_in_plan_page": 27,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 27,
+   "shared_words_pct": 47
+  },
+  "369": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 28,
+   "shared_words_pct": 73
   },
-  "62": {
+  "370": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 45
+  },
+  "371": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": false,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 17,
+   "shared_words_pct": 67
+  },
+  "372": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": false,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 18,
+   "shared_words_pct": 40
+  },
+  "373": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 30,
+   "shared_words_pct": 82
+  },
+  "374": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 30,
+   "shared_words_pct": 67
+  },
+  "375": {
    "excerpt_in_plan_page": 30,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 30,
+   "shared_words_pct": 50
   },
-  "63": {
-   "excerpt_in_plan_page": 31,
-   "excerpt_in_extraction_source": true
-  },
-  "64": {
-   "excerpt_in_plan_page": 31,
-   "excerpt_in_extraction_source": true
-  },
-  "65": {
+  "376": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 31,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 83
   },
-  "66": {
-   "excerpt_in_plan_page": 31,
-   "excerpt_in_extraction_source": true
+  "377": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 89
   },
-  "67": {
+  "378": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 31,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 75
+  },
+  "379": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 86
+  },
+  "380": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 100
+  },
+  "381": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 86
+  },
+  "382": {
    "excerpt_in_plan_page": 32,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 32,
+   "text_in_plan_page": null,
+   "closest_plan_page": 54,
+   "shared_words_pct": 80
   },
-  "68": {
+  "383": {
    "excerpt_in_plan_page": 33,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 33,
+   "shared_words_pct": 67
   },
-  "69": {
+  "384": {
    "excerpt_in_plan_page": 33,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 33,
+   "shared_words_pct": 100
   },
-  "70": {
+  "385": {
    "excerpt_in_plan_page": 33,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 33,
+   "shared_words_pct": 85
   },
-  "71": {
+  "386": {
+   "excerpt_in_plan_page": 33,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 33,
+   "shared_words_pct": 73
+  },
+  "387": {
    "excerpt_in_plan_page": 35,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 50
   },
-  "72": {
+  "388": {
    "excerpt_in_plan_page": 35,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 35,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 50
   },
-  "73": {
+  "389": {
    "excerpt_in_plan_page": 35,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 100
   },
-  "74": {
+  "390": {
    "excerpt_in_plan_page": 35,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 90
   },
-  "75": {
+  "391": {
    "excerpt_in_plan_page": 35,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 69
   },
-  "76": {
+  "392": {
    "excerpt_in_plan_page": 35,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 70
   },
-  "77": {
+  "393": {
+   "excerpt_in_plan_page": 35,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 82
+  },
+  "394": {
+   "excerpt_in_plan_page": 35,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 35,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 70
+  },
+  "395": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 36,
+   "shared_words_pct": 70
   },
-  "78": {
+  "396": {
    "excerpt_in_plan_page": 36,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 36,
+   "text_in_plan_page": null,
+   "closest_plan_page": 36,
+   "shared_words_pct": 70
   },
-  "79": {
+  "397": {
    "excerpt_in_plan_page": 36,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 36,
+   "shared_words_pct": 83
   },
-  "80": {
+  "398": {
    "excerpt_in_plan_page": 36,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 36,
+   "text_in_plan_page": null,
+   "closest_plan_page": 36,
+   "shared_words_pct": 91
   },
-  "81": {
+  "399": {
    "excerpt_in_plan_page": 36,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 36,
+   "shared_words_pct": 86
   },
-  "82": {
+  "400": {
+   "excerpt_in_plan_page": 36,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 36,
+   "shared_words_pct": 77
+  },
+  "401": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 58
   },
-  "83": {
+  "402": {
    "excerpt_in_plan_page": 37,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 37,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 67
   },
-  "84": {
+  "403": {
    "excerpt_in_plan_page": 37,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 90
   },
-  "85": {
+  "404": {
    "excerpt_in_plan_page": 37,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 44
   },
-  "86": {
+  "405": {
    "excerpt_in_plan_page": 37,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 37,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 88
   },
-  "87": {
+  "406": {
    "excerpt_in_plan_page": 37,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 80
   },
-  "88": {
+  "407": {
    "excerpt_in_plan_page": 38,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 38,
+   "shared_words_pct": 77
   },
-  "89": {
+  "408": {
    "excerpt_in_plan_page": 38,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 38,
+   "shared_words_pct": 62
   },
-  "90": {
+  "409": {
    "excerpt_in_plan_page": 38,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 38,
+   "shared_words_pct": 91
   },
-  "91": {
-   "excerpt_in_plan_page": 38,
-   "excerpt_in_extraction_source": true
-  },
-  "92": {
-   "excerpt_in_plan_page": 38,
-   "excerpt_in_extraction_source": true
-  },
-  "93": {
+  "410": {
    "excerpt_in_plan_page": 39,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 39,
+   "text_in_plan_page": null,
+   "closest_plan_page": 39,
+   "shared_words_pct": 100
   },
-  "94": {
+  "411": {
    "excerpt_in_plan_page": 39,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 39,
+   "shared_words_pct": 78
   },
-  "95": {
+  "412": {
    "excerpt_in_plan_page": 39,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 39,
+   "text_in_plan_page": null,
+   "closest_plan_page": 39,
+   "shared_words_pct": 83
   },
-  "96": {
+  "413": {
    "excerpt_in_plan_page": 39,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 39,
+   "shared_words_pct": 92
   },
-  "97": {
+  "414": {
    "excerpt_in_plan_page": 40,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 40,
+   "text_in_plan_page": null,
+   "closest_plan_page": 40,
+   "shared_words_pct": 100
   },
-  "98": {
+  "415": {
    "excerpt_in_plan_page": 40,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 40,
+   "shared_words_pct": 100
   },
-  "99": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "416": {
+   "excerpt_in_plan_page": 40,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 40,
+   "shared_words_pct": 70
   },
-  "100": {
+  "417": {
+   "excerpt_in_plan_page": 40,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 40,
+   "shared_words_pct": 67
+  },
+  "418": {
    "excerpt_in_plan_page": 41,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 41,
+   "shared_words_pct": 93
   },
-  "101": {
+  "419": {
+   "excerpt_in_plan_page": 41,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 41,
+   "shared_words_pct": 85
+  },
+  "420": {
+   "excerpt_in_plan_page": 41,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 41,
+   "shared_words_pct": 79
+  },
+  "421": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 27,
+   "shared_words_pct": 54
   },
-  "102": {
+  "422": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 67
   },
-  "103": {
+  "423": {
+   "excerpt_in_plan_page": 42,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 42,
+   "shared_words_pct": 60
+  },
+  "424": {
+   "excerpt_in_plan_page": 43,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 43,
+   "shared_words_pct": 80
+  },
+  "425": {
+   "excerpt_in_plan_page": 43,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 43,
+   "text_in_plan_page": null,
+   "closest_plan_page": 43,
+   "shared_words_pct": 100
+  },
+  "426": {
+   "excerpt_in_plan_page": 43,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 43,
+   "shared_words_pct": 80
+  },
+  "427": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 43,
+   "shared_words_pct": 77
+  },
+  "428": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 44,
+   "shared_words_pct": 92
+  },
+  "429": {
    "excerpt_in_plan_page": 44,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 44,
+   "shared_words_pct": 75
   },
-  "104": {
+  "430": {
    "excerpt_in_plan_page": 44,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 44,
+   "shared_words_pct": 92
   },
-  "105": {
+  "431": {
    "excerpt_in_plan_page": 44,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 44,
+   "text_in_plan_page": null,
+   "closest_plan_page": 44,
+   "shared_words_pct": 100
   },
-  "106": {
+  "432": {
    "excerpt_in_plan_page": 45,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 45,
+   "text_in_plan_page": null,
+   "closest_plan_page": 45,
+   "shared_words_pct": 87
   },
-  "107": {
+  "433": {
+   "excerpt_in_plan_page": 45,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 20,
+   "text_in_plan_page": null,
+   "closest_plan_page": 45,
+   "shared_words_pct": 73
+  },
+  "434": {
    "excerpt_in_plan_page": 46,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 46,
+   "text_in_plan_page": null,
+   "closest_plan_page": 46,
+   "shared_words_pct": 87
   },
-  "108": {
+  "435": {
    "excerpt_in_plan_page": 46,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 46,
+   "shared_words_pct": 69
   },
-  "109": {
+  "436": {
    "excerpt_in_plan_page": 47,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 47,
+   "shared_words_pct": 91
   },
-  "110": {
+  "437": {
    "excerpt_in_plan_page": 47,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 47,
+   "shared_words_pct": 93
   },
-  "111": {
+  "438": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 47,
+   "shared_words_pct": 55
+  },
+  "439": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 47,
+   "shared_words_pct": 94
+  },
+  "440": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 47,
+   "text_in_plan_page": null,
+   "closest_plan_page": 47,
+   "shared_words_pct": 44
+  },
+  "441": {
    "excerpt_in_plan_page": 47,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 47,
+   "shared_words_pct": 67
   },
-  "112": {
+  "442": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 33,
+   "shared_words_pct": 33
   },
-  "113": {
-   "excerpt_in_plan_page": 46,
-   "excerpt_in_extraction_source": true
-  },
-  "114": {
+  "443": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 45
   },
-  "115": {
+  "444": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 49,
+   "shared_words_pct": 64
   },
-  "116": {
+  "445": {
+   "excerpt_in_plan_page": 50,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 50,
+   "shared_words_pct": 62
+  },
+  "446": {
+   "excerpt_in_plan_page": 50,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 50,
+   "shared_words_pct": 92
+  },
+  "447": {
+   "excerpt_in_plan_page": 50,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 50,
+   "shared_words_pct": 65
+  },
+  "448": {
+   "excerpt_in_plan_page": 50,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 50,
+   "shared_words_pct": 75
+  },
+  "449": {
+   "excerpt_in_plan_page": 51,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 51,
+   "shared_words_pct": 83
+  },
+  "450": {
+   "excerpt_in_plan_page": 51,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 31,
+   "text_in_plan_page": null,
+   "closest_plan_page": 51,
+   "shared_words_pct": 86
+  },
+  "451": {
+   "excerpt_in_plan_page": 51,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 51,
+   "shared_words_pct": 100
+  },
+  "452": {
+   "excerpt_in_plan_page": 51,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 51,
+   "shared_words_pct": 90
+  },
+  "453": {
+   "excerpt_in_plan_page": 51,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 51,
+   "text_in_plan_page": null,
+   "closest_plan_page": 51,
+   "shared_words_pct": 92
+  },
+  "454": {
+   "excerpt_in_plan_page": 51,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 51,
+   "shared_words_pct": 92
+  },
+  "455": {
+   "excerpt_in_plan_page": 52,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 52,
+   "shared_words_pct": 94
+  },
+  "456": {
+   "excerpt_in_plan_page": 52,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 52,
+   "text_in_plan_page": null,
+   "closest_plan_page": 52,
+   "shared_words_pct": 94
+  },
+  "457": {
+   "excerpt_in_plan_page": 52,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 52,
+   "text_in_plan_page": null,
+   "closest_plan_page": 52,
+   "shared_words_pct": 94
+  },
+  "458": {
+   "excerpt_in_plan_page": 53,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 53,
+   "shared_words_pct": 75
+  },
+  "459": {
+   "excerpt_in_plan_page": 53,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 53,
+   "shared_words_pct": 100
+  },
+  "460": {
+   "excerpt_in_plan_page": 53,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 75
+  },
+  "461": {
+   "excerpt_in_plan_page": 53,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 53,
+   "text_in_plan_page": null,
+   "closest_plan_page": 53,
+   "shared_words_pct": 100
+  },
+  "462": {
+   "excerpt_in_plan_page": 53,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 53,
+   "text_in_plan_page": null,
+   "closest_plan_page": 53,
+   "shared_words_pct": 100
+  },
+  "463": {
+   "excerpt_in_plan_page": 53,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 53,
+   "shared_words_pct": 82
+  },
+  "464": {
+   "excerpt_in_plan_page": 53,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 53,
+   "shared_words_pct": 88
+  },
+  "465": {
+   "excerpt_in_plan_page": 54,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 54,
+   "shared_words_pct": 73
+  },
+  "466": {
+   "excerpt_in_plan_page": 54,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 31,
+   "text_in_plan_page": null,
+   "closest_plan_page": 54,
+   "shared_words_pct": 100
+  },
+  "467": {
+   "excerpt_in_plan_page": 32,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 54,
+   "shared_words_pct": 75
+  },
+  "468": {
+   "excerpt_in_plan_page": 54,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 54,
+   "shared_words_pct": 85
+  },
+  "469": {
+   "excerpt_in_plan_page": 54,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 54,
+   "shared_words_pct": 54
+  },
+  "470": {
+   "excerpt_in_plan_page": 54,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 55,
+   "shared_words_pct": 62
+  },
+  "471": {
+   "excerpt_in_plan_page": 55,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 55,
+   "text_in_plan_page": null,
+   "closest_plan_page": 55,
+   "shared_words_pct": 80
+  },
+  "472": {
+   "excerpt_in_plan_page": 55,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 55,
+   "text_in_plan_page": null,
+   "closest_plan_page": 55,
+   "shared_words_pct": 100
+  },
+  "473": {
+   "excerpt_in_plan_page": 55,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 55,
+   "shared_words_pct": 85
+  },
+  "474": {
+   "excerpt_in_plan_page": 56,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 56,
+   "shared_words_pct": 89
+  },
+  "475": {
+   "excerpt_in_plan_page": 56,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 56,
+   "text_in_plan_page": null,
+   "closest_plan_page": 56,
+   "shared_words_pct": 93
+  },
+  "476": {
+   "excerpt_in_plan_page": 56,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 56,
+   "shared_words_pct": 79
+  },
+  "477": {
+   "excerpt_in_plan_page": 57,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 57,
+   "shared_words_pct": 85
+  },
+  "478": {
+   "excerpt_in_plan_page": 57,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 57,
+   "shared_words_pct": 75
+  },
+  "479": {
+   "excerpt_in_plan_page": 57,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 57,
+   "shared_words_pct": 67
+  },
+  "480": {
+   "excerpt_in_plan_page": 57,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 57,
+   "text_in_plan_page": null,
+   "closest_plan_page": 57,
+   "shared_words_pct": 100
+  },
+  "481": {
+   "excerpt_in_plan_page": 57,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 57,
+   "shared_words_pct": 100
+  },
+  "482": {
+   "excerpt_in_plan_page": 57,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 57,
+   "shared_words_pct": 80
+  },
+  "483": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 58,
+   "shared_words_pct": 90
   },
-  "117": {
+  "484": {
+   "excerpt_in_plan_page": 58,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 58,
+   "shared_words_pct": 100
+  },
+  "485": {
+   "excerpt_in_plan_page": 58,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 61,
+   "text_in_plan_page": null,
+   "closest_plan_page": 58,
+   "shared_words_pct": 64
+  },
+  "486": {
+   "excerpt_in_plan_page": 59,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 59,
+   "shared_words_pct": 64
+  },
+  "487": {
+   "excerpt_in_plan_page": 59,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 59,
+   "shared_words_pct": 70
+  },
+  "488": {
+   "excerpt_in_plan_page": 59,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 51,
+   "shared_words_pct": 82
+  },
+  "489": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 59,
+   "text_in_plan_page": null,
+   "closest_plan_page": 59,
+   "shared_words_pct": 40
   },
-  "118": {
+  "490": {
+   "excerpt_in_plan_page": 60,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 32,
+   "shared_words_pct": 43
+  },
+  "491": {
+   "excerpt_in_plan_page": 60,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 51,
+   "text_in_plan_page": null,
+   "closest_plan_page": 60,
+   "shared_words_pct": 89
+  },
+  "492": {
+   "excerpt_in_plan_page": 60,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 60,
+   "shared_words_pct": 100
+  },
+  "493": {
+   "excerpt_in_plan_page": 60,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 60,
+   "shared_words_pct": 100
+  },
+  "494": {
+   "excerpt_in_plan_page": 61,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 61,
+   "shared_words_pct": 100
+  },
+  "495": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 11,
+   "text_in_plan_page": null,
+   "closest_plan_page": 12,
+   "shared_words_pct": 38
   },
-  "119": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "496": {
+   "excerpt_in_plan_page": 62,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 62,
+   "shared_words_pct": 82
   },
-  "120": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "121": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "122": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "123": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "124": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "125": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "126": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "127": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "128": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "129": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "130": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "131": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "132": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "133": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "134": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "135": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "136": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "137": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "138": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "139": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "140": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "141": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "142": {
+  "497": {
    "excerpt_in_plan_page": 63,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 63,
+   "text_in_plan_page": null,
+   "closest_plan_page": 63,
+   "shared_words_pct": 78
   },
-  "143": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "498": {
+   "excerpt_in_plan_page": 63,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 63,
+   "text_in_plan_page": null,
+   "closest_plan_page": 63,
+   "shared_words_pct": 79
   },
-  "144": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "499": {
+   "excerpt_in_plan_page": 63,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 63,
+   "shared_words_pct": 94
   },
-  "145": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+  "500": {
+   "excerpt_in_plan_page": 63,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 63,
+   "shared_words_pct": 76
   },
-  "146": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "501": {
+   "excerpt_in_plan_page": 64,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 64,
+   "shared_words_pct": 78
   },
-  "147": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "148": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "149": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "150": {
+  "502": {
    "excerpt_in_plan_page": 65,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 65,
+   "shared_words_pct": 73
   },
-  "151": {
+  "503": {
    "excerpt_in_plan_page": 65,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 65,
+   "text_in_plan_page": null,
+   "closest_plan_page": 65,
+   "shared_words_pct": 70
   },
-  "152": {
+  "504": {
+   "excerpt_in_plan_page": 65,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 65,
+   "text_in_plan_page": null,
+   "closest_plan_page": 65,
+   "shared_words_pct": 89
+  },
+  "505": {
+   "excerpt_in_plan_page": 65,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 65,
+   "shared_words_pct": 71
+  },
+  "506": {
    "excerpt_in_plan_page": 66,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 66,
+   "shared_words_pct": 80
   },
-  "153": {
+  "507": {
    "excerpt_in_plan_page": 66,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 66,
+   "text_in_plan_page": null,
+   "closest_plan_page": 66,
+   "shared_words_pct": 83
   },
-  "154": {
+  "508": {
+   "excerpt_in_plan_page": 66,
+   "excerpt_in_extraction_source": false,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 66,
+   "shared_words_pct": 87
+  },
+  "509": {
+   "excerpt_in_plan_page": 66,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 66,
+   "shared_words_pct": 88
+  },
+  "510": {
+   "excerpt_in_plan_page": 66,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 66,
+   "shared_words_pct": 46
+  },
+  "511": {
+   "excerpt_in_plan_page": 66,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 66,
+   "shared_words_pct": 50
+  },
+  "512": {
+   "excerpt_in_plan_page": 68,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 68,
+   "shared_words_pct": 60
+  },
+  "513": {
+   "excerpt_in_plan_page": 68,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 68,
+   "shared_words_pct": 69
+  },
+  "514": {
    "excerpt_in_plan_page": 69,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 69,
+   "text_in_plan_page": null,
+   "closest_plan_page": 69,
+   "shared_words_pct": 73
   },
-  "155": {
+  "515": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 17,
+   "shared_words_pct": 25
+  },
+  "516": {
    "excerpt_in_plan_page": 69,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 69,
+   "shared_words_pct": 90
   },
-  "156": {
+  "517": {
    "excerpt_in_plan_page": 69,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 69,
+   "shared_words_pct": 82
   },
-  "157": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "518": {
+   "excerpt_in_plan_page": 69,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 69,
+   "text_in_plan_page": null,
+   "closest_plan_page": 69,
+   "shared_words_pct": 87
   },
-  "158": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "519": {
+   "excerpt_in_plan_page": 69,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 69,
+   "shared_words_pct": 69
   },
-  "159": {
+  "520": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 70,
+   "shared_words_pct": 67
   },
-  "160": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "521": {
+   "excerpt_in_plan_page": 70,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 70,
+   "text_in_plan_page": null,
+   "closest_plan_page": 70,
+   "shared_words_pct": 100
   },
-  "161": {
+  "522": {
+   "excerpt_in_plan_page": 71,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 71,
+   "shared_words_pct": 92
+  },
+  "523": {
+   "excerpt_in_plan_page": 71,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 71,
+   "shared_words_pct": 67
+  },
+  "524": {
+   "excerpt_in_plan_page": 71,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 71,
+   "text_in_plan_page": null,
+   "closest_plan_page": 71,
+   "shared_words_pct": 87
+  },
+  "525": {
+   "excerpt_in_plan_page": 30,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 30,
+   "shared_words_pct": 85
+  },
+  "526": {
+   "excerpt_in_plan_page": 30,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 30,
+   "shared_words_pct": 100
+  },
+  "527": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 72,
+   "text_in_plan_page": null,
+   "closest_plan_page": 72,
+   "shared_words_pct": 80
+  },
+  "528": {
+   "excerpt_in_plan_page": 72,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 72,
+   "shared_words_pct": 71
+  },
+  "529": {
+   "excerpt_in_plan_page": 70,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 70,
+   "shared_words_pct": 83
+  },
+  "530": {
+   "excerpt_in_plan_page": 70,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 70,
+   "shared_words_pct": 80
+  },
+  "531": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 71,
+   "text_in_plan_page": null,
+   "closest_plan_page": 71,
+   "shared_words_pct": 89
+  },
+  "532": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 72,
+   "shared_words_pct": 62
+  },
+  "533": {
+   "excerpt_in_plan_page": 73,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 26,
+   "shared_words_pct": 67
+  },
+  "534": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 58,
+   "shared_words_pct": 60
+  },
+  "535": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 27
+  },
+  "536": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 33
+  },
+  "537": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 12,
+   "shared_words_pct": 33
+  },
+  "538": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 47
+  },
+  "539": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 33,
+   "shared_words_pct": 40
+  },
+  "540": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 67,
+   "shared_words_pct": 46
+  },
+  "541": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 13,
+   "shared_words_pct": 27
+  },
+  "542": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 29,
+   "shared_words_pct": 33
+  },
+  "543": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 33,
+   "shared_words_pct": 63
+  },
+  "544": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 38,
+   "shared_words_pct": 56
+  },
+  "545": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 21
+  },
+  "546": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 63
+  },
+  "547": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 38,
+   "shared_words_pct": 50
+  },
+  "548": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 40
+  },
+  "549": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 40
+  },
+  "550": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 30,
+   "text_in_plan_page": null,
+   "closest_plan_page": 30,
+   "shared_words_pct": 75
+  },
+  "551": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 13,
+   "text_in_plan_page": null,
+   "closest_plan_page": 30,
+   "shared_words_pct": 46
+  },
+  "552": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 28,
+   "shared_words_pct": 50
+  },
+  "553": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 9,
+   "shared_words_pct": 25
+  },
+  "554": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 27,
+   "text_in_plan_page": null,
+   "closest_plan_page": 27,
+   "shared_words_pct": 44
+  },
+  "555": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 67
+  },
+  "556": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 58
+  },
+  "557": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 40
+  },
+  "558": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 55
+  },
+  "559": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 34,
+   "shared_words_pct": 43
+  },
+  "560": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 22,
+   "text_in_plan_page": null,
+   "closest_plan_page": 22,
+   "shared_words_pct": 53
+  },
+  "561": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 23,
+   "shared_words_pct": 44
+  },
+  "562": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 43
+  },
+  "563": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 36
+  },
+  "564": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 75,
+   "text_in_plan_page": null,
+   "closest_plan_page": 12,
+   "shared_words_pct": 29
+  },
+  "565": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 47,
+   "shared_words_pct": 27
+  },
+  "566": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 17,
+   "shared_words_pct": 67
+  },
+  "567": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 64,
+   "shared_words_pct": 70
+  },
+  "568": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 42,
+   "shared_words_pct": 57
+  },
+  "569": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 42,
+   "shared_words_pct": 50
+  },
+  "570": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 76,
+   "shared_words_pct": 46
+  },
+  "571": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 41,
+   "shared_words_pct": 44
+  },
+  "572": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 74,
+   "shared_words_pct": 55
+  },
+  "573": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 52,
+   "shared_words_pct": 40
+  },
+  "574": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 73,
+   "shared_words_pct": 30
+  },
+  "575": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 39,
+   "shared_words_pct": 33
+  },
+  "576": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 54,
+   "shared_words_pct": 56
+  },
+  "577": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 80,
+   "shared_words_pct": 29
+  },
+  "578": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 32,
+   "shared_words_pct": 29
+  },
+  "579": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 17,
+   "shared_words_pct": 14
+  },
+  "580": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 12,
+   "shared_words_pct": 27
   }
  },
  "proposal_checks_by_key": {
-  "280002542548|aumento do salario minimo acima da inflacao": {
+  "280002542548|aumento do salario minimo sempre acima da inflacao": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 58,
+   "shared_words_pct": 60
   },
   "280002542548|cesta basica com imposto zerado": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 27
   },
   "280002542548|cashback de impostos para quem precisa": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 33
+  },
+  "280002542548|plano brasil contra as bets": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 12,
+   "shared_words_pct": 33
   },
   "280002542548|escola em tempo integral em toda a rede publica": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 47
   },
   "280002542548|novos institutos federais com cursos transformadores": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 33,
+   "shared_words_pct": 40
   },
   "280002542548|universidades transformadoras": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 67,
+   "shared_words_pct": 46
   },
   "280002542548|pe-de-meia para todos": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 13,
+   "shared_words_pct": 27
   },
   "280002542548|novo ciencia sem fronteiras": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 29,
+   "shared_words_pct": 33
   },
   "280002542548|valorizacao dos professores": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 33,
+   "shared_words_pct": 63
   },
   "280002542548|rede brasil contra o cancer": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 38,
+   "shared_words_pct": 56
   },
   "280002542548|farmacia popular com consultas e exames": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 21
   },
   "280002542548|agora tem especialistas ampliado": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 63
   },
   "280002542548|rede de hospitais inteligentes ampliada": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 38,
+   "shared_words_pct": 50
   },
   "280002542548|valorizacao dos profissionais de saude": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 40
+  },
+  "280002542548|prontuario digital no sus": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 40
   },
   "280002542548|ministerio da seguranca publica": {
-   "excerpt_in_plan_page": 30,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 30,
+   "text_in_plan_page": null,
+   "closest_plan_page": 30,
+   "shared_words_pct": 75
   },
   "280002542548|sistema unico de seguranca publica (susp)": {
-   "excerpt_in_plan_page": 13,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 13,
+   "text_in_plan_page": null,
+   "closest_plan_page": 30,
+   "shared_words_pct": 46
   },
   "280002542548|policia federal fortalecida": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 28,
+   "shared_words_pct": 50
   },
   "280002542548|mais presidios de seguranca maxima": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 9,
+   "shared_words_pct": 25
   },
   "280002542548|retomada de territorios": {
-   "excerpt_in_plan_page": 27,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 27,
+   "text_in_plan_page": null,
+   "closest_plan_page": 27,
+   "shared_words_pct": 44
   },
   "280002542548|pacto contra o feminicidio fortalecido": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 67
+  },
+  "280002542548|pacto brasil contra o feminicidio fortalecido": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 58
+  },
+  "280002542548|monitoramento eletronico de agressores": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 40
+  },
+  "280002542548|casas da mulher brasileira ampliadas": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 55
+  },
+  "280002542548|programa mulher saudavel": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 34,
+   "shared_words_pct": 43
+  },
+  "280002542548|envelhecimento saudavel": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 22,
+   "text_in_plan_page": null,
+   "closest_plan_page": 22,
+   "shared_words_pct": 53
+  },
+  "280002542548|letramento digital para a pessoa idosa": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 23,
+   "shared_words_pct": 44
+  },
+  "280002542548|rede acolhe brasil": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 43
+  },
+  "280002542548|mais cuidotecas": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 36
   },
   "280002542548|fim da escala 6x1": {
-   "excerpt_in_plan_page": 75,
-   "excerpt_in_extraction_source": true
-  },
-  "280002542548|super-mei": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 75,
+   "text_in_plan_page": null,
+   "closest_plan_page": 12,
+   "shared_words_pct": 29
   },
-  "280002542548|emprego bom e bem pago": {
+  "280002542548|super mei brasil": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 47,
+   "shared_words_pct": 27
+  },
+  "280002542548|contrata + brasil": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 17,
+   "shared_words_pct": 67
+  },
+  "280002542548|transicao energetica e industria naval": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 64,
+   "shared_words_pct": 70
+  },
+  "280002542548|programa brasil criativo": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 42,
+   "shared_words_pct": 57
+  },
+  "280002542548|mais formacao tecnica": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 42,
+   "shared_words_pct": 50
+  },
+  "280002542548|acesso ao cinema brasileiro": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 76,
+   "shared_words_pct": 46
+  },
+  "280002542548|fabrica de bibliotecas": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 41,
+   "shared_words_pct": 44
+  },
+  "280002542548|implementacao dos crias": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 74,
+   "shared_words_pct": 55
   },
   "280002542548|brasil das terras raras": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 52,
+   "shared_words_pct": 40
   },
   "280002542548|base industrial de defesa": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 73,
+   "shared_words_pct": 30
   },
   "280002542548|complexo industrial da saude": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 39,
+   "shared_words_pct": 33
   },
   "280002542548|plano inova brasil": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 54,
+   "shared_words_pct": 56
   },
   "280002542548|defender o que e nosso": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 80,
+   "shared_words_pct": 29
+  },
+  "280002542548|ia, robotica e programacao nas escolas": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 32,
+   "shared_words_pct": 29
+  },
+  "280002542548|caneta emagrecedora no sus": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 17,
+   "shared_words_pct": 14
+  },
+  "280002542548|emprego bom e bem pago": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 12,
+   "shared_words_pct": 27
+  },
+  "280002551544|tesouraco da burocracia": {
+   "excerpt_in_plan_page": 11,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 11,
+   "text_in_plan_page": null,
+   "closest_plan_page": 24,
+   "shared_words_pct": 80
+  },
+  "280002551544|reducao de impostos ao consumidor": {
+   "excerpt_in_plan_page": 11,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 69
+  },
+  "280002551544|educacao de verdade": {
+   "excerpt_in_plan_page": 11,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 11,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 67
+  },
+  "280002551544|saude acessivel": {
+   "excerpt_in_plan_page": 11,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 11,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 60
+  },
+  "280002551544|esporte como formacao": {
+   "excerpt_in_plan_page": 11,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 50
+  },
+  "280002551544|protecao social como ponto de partida": {
+   "excerpt_in_plan_page": 11,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 11,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 82
+  },
+  "280002551544|caixa como ferramenta de credito": {
+   "excerpt_in_plan_page": 11,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 11,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 83
+  },
+  "280002551544|condicoes para trabalho e producao": {
+   "excerpt_in_plan_page": 11,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 11,
+   "shared_words_pct": 83
+  },
+  "280002551544|tesouraco nos gastos publicos": {
+   "excerpt_in_plan_page": 12,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 12,
+   "shared_words_pct": 82
   },
   "280002551544|declaracao de guerra ao crime organizado": {
    "excerpt_in_plan_page": 13,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 13,
+   "shared_words_pct": 92
   },
-  "280002551544|bloqueio de ativos e combate a lavagem de dinheiro": {
+  "280002551544|bloqueio de ativos e lavagem de dinheiro": {
    "excerpt_in_plan_page": 13,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 13,
+   "shared_words_pct": 71
   },
-  "280002551544|reducao da maioridade penal": {
+  "280002551544|abate de bandidos armados": {
    "excerpt_in_plan_page": 13,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 13,
+   "shared_words_pct": 43
   },
-  "280002551544|fortalecimento das fronteiras": {
-   "excerpt_in_plan_page": 3,
-   "excerpt_in_extraction_source": true
-  },
-  "280002551544|sistema nacional de fronteira": {
+  "280002551544|inteligencia e tecnologia na fronteira": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 13,
+   "shared_words_pct": 78
   },
-  "280002551544|complexo federal de seguranca maxima": {
+  "280002551544|mais presidios de seguranca maxima": {
    "excerpt_in_plan_page": 14,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 14,
+   "shared_words_pct": 75
+  },
+  "280002551544|aumento de vagas prisionais": {
+   "excerpt_in_plan_page": 14,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 14,
+   "shared_words_pct": 75
   },
   "280002551544|castracao quimica de criminosos": {
-   "excerpt_in_plan_page": 14,
-   "excerpt_in_extraction_source": true
-  },
-  "280002551544|monitoramento de agressores com tornozeleiras eletronicas": {
-   "excerpt_in_plan_page": 14,
-   "excerpt_in_extraction_source": true
-  },
-  "280002551544|ocupacao e monitoramento de portos e aeroportos": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 14,
+   "text_in_plan_page": null,
+   "closest_plan_page": 14,
+   "shared_words_pct": 86
   },
-  "280002551544|dobro de investimentos federais em seguranca publica": {
+  "280002551544|monitoramento com tornozeleiras eletronicas": {
+   "excerpt_in_plan_page": 14,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 14,
+   "shared_words_pct": 67
+  },
+  "280002551544|cumprimento integral de penas": {
+   "excerpt_in_plan_page": 14,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 14,
+   "shared_words_pct": 50
+  },
+  "280002551544|ocupacao permanente de portos e aeroportos": {
    "excerpt_in_plan_page": 15,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 15,
+   "shared_words_pct": 90
   },
-  "280002551544|muralha brasileira de reconhecimento facial": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|dobra de investimentos em seguranca publica": {
+   "excerpt_in_plan_page": 15,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": 15,
+   "closest_plan_page": 15,
+   "shared_words_pct": 86
   },
-  "280002551544|redirecionamento de recursos para familias das vitimas": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|muralha brasileira": {
+   "excerpt_in_plan_page": 15,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 15,
+   "text_in_plan_page": null,
+   "closest_plan_page": 15,
+   "shared_words_pct": 100
+  },
+  "280002551544|redirecionamento de auxilio": {
+   "excerpt_in_plan_page": 15,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 15,
+   "shared_words_pct": 60
   },
   "280002551544|fim da progressao de regime para crimes hediondos": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_plan_page": 15,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 15,
+   "shared_words_pct": 64
   },
-  "280002551544|reforco na combate ao crime de roubo de celulares": {
+  "280002551544|punicao de roubo e revenda de celulares": {
+   "excerpt_in_plan_page": 16,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 16,
+   "shared_words_pct": 62
+  },
+  "280002551544|central da mulher": {
+   "excerpt_in_plan_page": 17,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 17,
+   "text_in_plan_page": null,
+   "closest_plan_page": 17,
+   "shared_words_pct": 67
+  },
+  "280002551544|aplicativo central da mulher": {
+   "excerpt_in_plan_page": 18,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 18,
+   "text_in_plan_page": null,
+   "closest_plan_page": 18,
+   "shared_words_pct": 64
+  },
+  "280002551544|pacotes de internet para mulheres": {
+   "excerpt_in_plan_page": 18,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 24,
+   "shared_words_pct": 54
+  },
+  "280002551544|plataforma de inteligencia artificial para apoio as mulheres": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 18,
+   "shared_words_pct": 64
+  },
+  "280002551544|integracao de canais de denuncia em plataforma inteligente": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 19,
+   "shared_words_pct": 60
   },
   "280002551544|sistema nacional de avaliacao de risco e monitoramento por tornozeleira eletronica": {
-   "excerpt_in_plan_page": 19,
-   "excerpt_in_extraction_source": true
-  },
-  "280002551544|ganha, ganha – programa de pontuacao positiva para mulheres empreendedoras": {
-   "excerpt_in_plan_page": 19,
-   "excerpt_in_extraction_source": true
-  },
-  "280002551544|sistema integrado de emprego e apoio ao pequeno negocio": {
-   "excerpt_in_plan_page": 20,
-   "excerpt_in_extraction_source": true
-  },
-  "280002551544|escola brasil por elas – capacitacao feminina em tecnologia e negocios": {
-   "excerpt_in_plan_page": 20,
-   "excerpt_in_extraction_source": true
-  },
-  "280002551544|saude para elas – atencao preventiva e telemedicina": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 19,
+   "shared_words_pct": 86
   },
-  "280002551544|casa segura – acesso a escritura da casa propria para mulheres": {
+  "280002551544|orientacao financeira para mulheres em relacoes abusivas": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 19,
+   "shared_words_pct": 100
   },
-  "280002551544|creche garantida – ampliacao de creches e voucher-creche": {
+  "280002551544|ganha, ganha – programa de pontuacao e beneficios para mulheres empreendedoras": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 19,
+   "shared_words_pct": 79
   },
-  "280002551544|conexao digital para todos": {
+  "280002551544|ampliacao do programa caixa pra elas": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 20,
+   "shared_words_pct": 92
+  },
+  "280002551544|assessoria para obtencao de escritura da casa propria em nome da mulher": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 20,
+   "shared_words_pct": 80
+  },
+  "280002551544|escola brasil por elas – programa gratuito de capacitacao feminina": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 20,
+   "shared_words_pct": 94
+  },
+  "280002551544|sistema integrado de vagas, qualificacao e apoio ao pequeno negocio": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 20,
+   "shared_words_pct": 100
+  },
+  "280002551544|ampliacao de creches e voucher-creche para criancas": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 93
+  },
+  "280002551544|rede nacional de cuidado – apoio a idosos e pessoas com deficiencia": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 87
+  },
+  "280002551544|saude da mulher – atendimento preventivo sem fila longa": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 86
+  },
+  "280002551544|unidades moveis de saude da mulher": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 21,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 75
+  },
+  "280002551544|voucher-creche e creche integral": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 67
+  },
+  "280002551544|mais locais de acolhimento para vitimas de violencia": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 20,
+   "shared_words_pct": 57
+  },
+  "280002551544|pacotes de conexao para todos": {
    "excerpt_in_plan_page": 24,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 24,
+   "shared_words_pct": 100
   },
-  "280002551544|estado digital 100%": {
+  "280002551544|digitalizar 100% dos servicos publicos": {
    "excerpt_in_plan_page": 25,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 25,
+   "text_in_plan_page": null,
+   "closest_plan_page": 25,
+   "shared_words_pct": 92
   },
-  "280002551544|identidade digital unica": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "280002551544|inteligencia artificial no estado": {
+  "280002551544|assistentes automatizados e claria": {
    "excerpt_in_plan_page": 25,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 25,
+   "shared_words_pct": 43
   },
   "280002551544|prontuario eletronico unico": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "280002551544|digitalizacao completa do sus": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "280002551544|desburocratizacao do inss": {
    "excerpt_in_plan_page": 26,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 25,
+   "text_in_plan_page": null,
+   "closest_plan_page": 26,
+   "shared_words_pct": 71
   },
-  "280002551544|facilitar empreendedorismo": {
+  "280002551544|digitalizacao do sus e ia para agendamento": {
+   "excerpt_in_plan_page": 26,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 26,
+   "shared_words_pct": 83
+  },
+  "280002551544|digitalizacao do inss": {
+   "excerpt_in_plan_page": 26,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 26,
+   "shared_words_pct": 82
+  },
+  "280002551544|ampliacao da lei de liberdade economica": {
    "excerpt_in_plan_page": 27,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 27,
+   "shared_words_pct": 46
   },
-  "280002551544|simplificar licencas e titulacao rural": {
+  "280002551544|revogaco regulatorio": {
+   "excerpt_in_plan_page": 27,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 27,
+   "text_in_plan_page": null,
+   "closest_plan_page": 27,
+   "shared_words_pct": 64
+  },
+  "280002551544|simplificacao de outorgas de irrigacao": {
+   "excerpt_in_plan_page": 27,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 27,
+   "shared_words_pct": 47
+  },
+  "280002551544|rastreabilidade das cadeias produtivas": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 28,
+   "shared_words_pct": 73
+  },
+  "280002551544|zerar a fila do sus": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 21,
+   "shared_words_pct": 45
+  },
+  "280002551544|fortalecer o sus": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": false,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 17,
+   "shared_words_pct": 67
+  },
+  "280002551544|uso de ia para facilitar acesso aos servicos publicos": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": false,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 18,
+   "shared_words_pct": 40
   },
   "280002551544|revisao e redimensionamento da reforma tributaria": {
+   "excerpt_in_plan_page": 30,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 30,
+   "shared_words_pct": 85
+  },
+  "280002551544|reduzir iva": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 30,
+   "shared_words_pct": 67
   },
-  "280002551544|reducao de impostos sobre energia eletrica e combustiveis": {
-   "excerpt_in_plan_page": 31,
-   "excerpt_in_extraction_source": true
+  "280002551544|garantir nao cumulatividade": {
+   "excerpt_in_plan_page": 30,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 30,
+   "shared_words_pct": 50
   },
-  "280002551544|simplificacao da conta de luz": {
-   "excerpt_in_plan_page": 31,
-   "excerpt_in_extraction_source": true
-  },
-  "280002551544|criacao dos corredores logisticos inteligentes": {
+  "280002551544|simplificar a conta de luz": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 31,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 83
   },
-  "280002551544|ampliacao da capacidade de armazenamento das safras": {
-   "excerpt_in_plan_page": 31,
-   "excerpt_in_extraction_source": true
+  "280002551544|reduzir cde e fontes incentivadas": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 89
   },
-  "280002551544|apoio a producao nacional de fertilizantes": {
+  "280002551544|reduzir impostos sobre energia eletrica e combustiveis": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 31,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 75
+  },
+  "280002551544|criar corredores logisticos inteligentes": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 86
+  },
+  "280002551544|ampliar seguro rural": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 100
+  },
+  "280002551544|ampliar capacidade de armazenamento das safras": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 86
+  },
+  "280002551544|producao nacional de fertilizantes": {
    "excerpt_in_plan_page": 32,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 32,
+   "text_in_plan_page": null,
+   "closest_plan_page": 54,
+   "shared_words_pct": 80
   },
-  "280002551544|reducao da divida publica e juros basicos": {
+  "280002551544|proibicao de uso de recursos sociais em apostas": {
    "excerpt_in_plan_page": 33,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 33,
+   "shared_words_pct": 67
   },
-  "280002551544|combate ao endividamento por apostas online": {
+  "280002551544|campanhas educativas sobre endividamento em jogos": {
    "excerpt_in_plan_page": 33,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 33,
+   "shared_words_pct": 100
   },
   "280002551544|ampliacao da orientacao financeira pela caixa": {
    "excerpt_in_plan_page": 33,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 33,
+   "shared_words_pct": 85
   },
-  "280002551544|priorizar o metodo fonico na alfabetizacao": {
+  "280002551544|estabilizacao e reducao da divida publica": {
+   "excerpt_in_plan_page": 33,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 33,
+   "shared_words_pct": 73
+  },
+  "280002551544|priorizar metodo fonico": {
    "excerpt_in_plan_page": 35,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 50
   },
   "280002551544|programa acolher": {
    "excerpt_in_plan_page": 35,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 35,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 50
   },
-  "280002551544|gestao baseada em indicadores de resultado e financiamento por resultados": {
+  "280002551544|gestao baseada em resultados": {
    "excerpt_in_plan_page": 35,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 100
   },
-  "280002551544|qualificacao continua de professores baseada em evidencias cientificas": {
+  "280002551544|qualificacao continua de professores": {
    "excerpt_in_plan_page": 35,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 90
   },
   "280002551544|ampliacao das escolas civico-militares": {
    "excerpt_in_plan_page": 35,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 69
   },
-  "280002551544|inclusao de robotica, computadores, tablets e internet nas escolas": {
+  "280002551544|atendimento a alunos com altas habilidades": {
    "excerpt_in_plan_page": 35,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 70
   },
-  "280002551544|escola em tempo integral e escola nas ferias": {
+  "280002551544|tecnologia nas escolas": {
+   "excerpt_in_plan_page": 35,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 82
+  },
+  "280002551544|escola em tempo integral": {
+   "excerpt_in_plan_page": 35,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 35,
+   "text_in_plan_page": null,
+   "closest_plan_page": 35,
+   "shared_words_pct": 70
+  },
+  "280002551544|escola nas ferias": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 36,
+   "shared_words_pct": 70
   },
-  "280002551544|voucher educacional para matricula em escola privada": {
+  "280002551544|voucher educacional": {
    "excerpt_in_plan_page": 36,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 36,
+   "text_in_plan_page": null,
+   "closest_plan_page": 36,
+   "shared_words_pct": 70
   },
-  "280002551544|ampliacao da oferta de educacao tecnica no ensino medio": {
+  "280002551544|ampliacao da educacao tecnica": {
    "excerpt_in_plan_page": 36,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 36,
+   "shared_words_pct": 83
   },
   "280002551544|politica nacional de formacao de talentos": {
    "excerpt_in_plan_page": 36,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 36,
+   "text_in_plan_page": null,
+   "closest_plan_page": 36,
+   "shared_words_pct": 91
   },
-  "280002551544|transferencia de governanca do ensino superior para ministerio da ciencia, tecnologia e inovacoes": {
+  "280002551544|transferir governanca ao ministerio da ciencia, tecnologia e inovacoes": {
    "excerpt_in_plan_page": 36,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 36,
+   "shared_words_pct": 86
   },
-  "280002551544|financiamento estudantil com emprestimo contingente a renda": {
+  "280002551544|priorizar impacto produtivo na capes e cnpq": {
+   "excerpt_in_plan_page": 36,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 36,
+   "shared_words_pct": 77
+  },
+  "280002551544|pos-graduacao voltada ao mercado": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 58
   },
-  "280002551544|correcao da tabela sus e remuneracao justa": {
+  "280002551544|emprestimo contingente a renda": {
    "excerpt_in_plan_page": 37,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 37,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 67
   },
-  "280002551544|ampliacao da estrategia saude da familia": {
+  "280002551544|garantir correcao da tabela sus": {
    "excerpt_in_plan_page": 37,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 90
+  },
+  "280002551544|ampliar estrategia saude da familia": {
+   "excerpt_in_plan_page": 37,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 44
   },
   "280002551544|programa de atendimento aos idosos": {
    "excerpt_in_plan_page": 37,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 37,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 88
   },
   "280002551544|ampliacao do acesso a exames preventivos e imunizacao": {
    "excerpt_in_plan_page": 37,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 80
   },
-  "280002551544|contratacao de servicos e exames na rede privada em horarios ociosos": {
-   "excerpt_in_plan_page": 37,
-   "excerpt_in_extraction_source": true
-  },
-  "280002551544|fortalecimento da rede nacional de hospitais inteligentes (ebserh)": {
+  "280002551544|telessaude e entrega de remedios em domicilio": {
    "excerpt_in_plan_page": 38,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 38,
+   "shared_words_pct": 77
   },
-  "280002551544|telessaude e teleatendimento por aplicativo": {
+  "280002551544|inteligencia artificial para prevencao de doencas": {
    "excerpt_in_plan_page": 38,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 38,
+   "shared_words_pct": 62
   },
-  "280002551544|entrega de remedio em domicilio": {
+  "280002551544|ampliacao de creches e voucher-creche": {
    "excerpt_in_plan_page": 38,
-   "excerpt_in_extraction_source": true
-  },
-  "280002551544|inteligencia artificial de apoio a prevencao": {
-   "excerpt_in_plan_page": 38,
-   "excerpt_in_extraction_source": true
-  },
-  "280002551544|ampliacao de creches, voucher-creche e rede nacional de cuidado": {
-   "excerpt_in_plan_page": 38,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 38,
+   "shared_words_pct": 91
   },
   "280002551544|programa casa segura para envelhecer": {
    "excerpt_in_plan_page": 39,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 39,
+   "text_in_plan_page": null,
+   "closest_plan_page": 39,
+   "shared_words_pct": 100
   },
-  "280002551544|ampliacao das instituicoes de longa permanencia para idosos": {
+  "280002551544|ampliacao de instituicoes de longa permanencia para idosos": {
    "excerpt_in_plan_page": 39,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 39,
+   "shared_words_pct": 78
   },
-  "280002551544|implantacao de centros de referencia em transtorno do espectro autista": {
+  "280002551544|centros de referencia em transtorno do espectro autista": {
    "excerpt_in_plan_page": 39,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 39,
+   "text_in_plan_page": null,
+   "closest_plan_page": 39,
+   "shared_words_pct": 83
   },
   "280002551544|fortalecimento da atencao a saude mental": {
    "excerpt_in_plan_page": 39,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 39,
+   "shared_words_pct": 92
   },
   "280002551544|programa escola de campeoes": {
    "excerpt_in_plan_page": 40,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 40,
+   "text_in_plan_page": null,
+   "closest_plan_page": 40,
+   "shared_words_pct": 100
   },
-  "280002551544|inclusao de pessoas com deficiencia pelo esporte": {
+  "280002551544|inclusao de pessoas com deficiencia no esporte": {
    "excerpt_in_plan_page": 40,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 40,
+   "shared_words_pct": 100
   },
   "280002551544|aperfeicoamento de bolsas esportivas e patrocinio privado": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_plan_page": 40,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 40,
+   "shared_words_pct": 70
   },
   "280002551544|protecao do esporte feminino": {
-   "excerpt_in_plan_page": 41,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_plan_page": 40,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 40,
+   "shared_words_pct": 67
   },
-  "280002551544|valorizacao das tradicoes brasileiras e aperfeicoamento das leis de incentivo": {
+  "280002551544|garantia de categoria feminina": {
+   "excerpt_in_plan_page": 41,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 41,
+   "shared_words_pct": 93
+  },
+  "280002551544|preservacao do patrimonio historico": {
+   "excerpt_in_plan_page": 41,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 41,
+   "shared_words_pct": 85
+  },
+  "280002551544|aprimoramento das leis de incentivo": {
+   "excerpt_in_plan_page": 41,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 41,
+   "shared_words_pct": 79
+  },
+  "280002551544|manutencao do bolsa familia": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 27,
+   "shared_words_pct": 54
+  },
+  "280002551544|manutencao do minha casa minha vida": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 67
+  },
+  "280002551544|melhoria na gestao dos programas sociais": {
+   "excerpt_in_plan_page": 42,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 42,
+   "shared_words_pct": 60
+  },
+  "280002551544|prioridade de beneficiarios em programas de trabalho": {
+   "excerpt_in_plan_page": 43,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 43,
+   "shared_words_pct": 80
+  },
+  "280002551544|trilha de qualificacao e intermediacao": {
+   "excerpt_in_plan_page": 43,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 43,
+   "text_in_plan_page": null,
+   "closest_plan_page": 43,
+   "shared_words_pct": 100
+  },
+  "280002551544|retorno imediato ao beneficio pos-desemprego": {
+   "excerpt_in_plan_page": 43,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 43,
+   "shared_words_pct": 80
   },
   "280002551544|reducao gradual do custo do trabalho formal": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 43,
+   "shared_words_pct": 77
   },
-  "280002551544|jornada flexivel para trabalhadores": {
-   "excerpt_in_plan_page": 44,
-   "excerpt_in_extraction_source": true
+  "280002551544|contrato de trabalho para jovens 18-24": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 44,
+   "shared_words_pct": 92
   },
-  "280002551544|negociado sobre o legislado": {
+  "280002551544|contrato atrativo para 50+ desempregados": {
    "excerpt_in_plan_page": 44,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 44,
+   "shared_words_pct": 75
+  },
+  "280002551544|jornada flexivel negociada": {
+   "excerpt_in_plan_page": 44,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 44,
+   "shared_words_pct": 92
   },
   "280002551544|banco nacional de vagas": {
    "excerpt_in_plan_page": 44,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 44,
+   "text_in_plan_page": null,
+   "closest_plan_page": 44,
+   "shared_words_pct": 100
   },
   "280002551544|minha primeira empresa": {
    "excerpt_in_plan_page": 45,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 45,
+   "text_in_plan_page": null,
+   "closest_plan_page": 45,
+   "shared_words_pct": 87
+  },
+  "280002551544|apoio ao pequeno negocio": {
+   "excerpt_in_plan_page": 45,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 20,
+   "text_in_plan_page": null,
+   "closest_plan_page": 45,
+   "shared_words_pct": 73
   },
   "280002551544|caixa como banco da prosperidade": {
    "excerpt_in_plan_page": 46,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 46,
+   "text_in_plan_page": null,
+   "closest_plan_page": 46,
+   "shared_words_pct": 87
   },
-  "280002551544|ganha-ganha": {
+  "280002551544|programa ganha-ganha": {
    "excerpt_in_plan_page": 46,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 46,
+   "shared_words_pct": 69
   },
-  "280002551544|retomar casa verde e amarela": {
+  "280002551544|retomada do casa verde e amarela": {
    "excerpt_in_plan_page": 47,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 47,
+   "shared_words_pct": 91
   },
-  "280002551544|regularizacao fundiaria e urbanizacao de areas degradadas": {
+  "280002551544|urbanizacao de areas degradadas e regularizacao fundiaria": {
    "excerpt_in_plan_page": 47,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 47,
+   "shared_words_pct": 93
   },
-  "280002551544|universalizacao do acesso a agua e esgoto": {
-   "excerpt_in_plan_page": 47,
-   "excerpt_in_extraction_source": true
+  "280002551544|moradia e infraestrutura em contratos ppp": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 47,
+   "shared_words_pct": 55
+  },
+  "280002551544|universalizacao de agua e esgoto": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 47,
+   "shared_words_pct": 94
   },
   "280002551544|programa lixao zero": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 47,
+   "text_in_plan_page": null,
+   "closest_plan_page": 47,
+   "shared_words_pct": 44
   },
-  "280002551544|reducao de tributos sobre a producao": {
-   "excerpt_in_plan_page": 46,
-   "excerpt_in_extraction_source": true
+  "280002551544|escolas com agua ate 2030": {
+   "excerpt_in_plan_page": 47,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 47,
+   "shared_words_pct": 67
+  },
+  "280002551544|manutencao e aprimoramento do bolsa familia": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 33,
+   "shared_words_pct": 33
+  },
+  "280002551544|ampliacao do minha casa minha vida (casa verde e amarela)": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 37,
+   "shared_words_pct": 45
   },
   "280002551544|licenciamento ambiental agil e seguro": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 49,
+   "shared_words_pct": 64
+  },
+  "280002551544|estabilidade de regras de ate 20 anos": {
+   "excerpt_in_plan_page": 50,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 50,
+   "shared_words_pct": 62
   },
   "280002551544|autonomia para povos indigenas e quilombolas": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_plan_page": 50,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 50,
+   "shared_words_pct": 92
   },
-  "280002551544|investimento em infraestrutura logistica": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|investimento privado em infraestrutura": {
+   "excerpt_in_plan_page": 50,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 50,
+   "shared_words_pct": 65
   },
-  "280002551544|reducao do tempo de deslocamento urbano": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|fundo de financiamento de infraestrutura": {
+   "excerpt_in_plan_page": 50,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 50,
+   "shared_words_pct": 75
   },
-  "280002551544|seguranca hidrica e prevencao de enchentes": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|investimento em rodovias, hidrovias, portos, aeroportos e ferrovias": {
+   "excerpt_in_plan_page": 51,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 51,
+   "shared_words_pct": 83
   },
-  "280002551544|seguranca energetica e reducao de custos": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|corredores logisticos inteligentes": {
+   "excerpt_in_plan_page": 51,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 31,
+   "text_in_plan_page": null,
+   "closest_plan_page": 51,
+   "shared_words_pct": 86
   },
-  "280002551544|fortalecimento do agronegocio e seguranca alimentar": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|ferrograo e trem de cargas": {
+   "excerpt_in_plan_page": 51,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 51,
+   "shared_words_pct": 100
   },
-  "280002551544|intermediacao de trabalho no campo": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|trem do nordeste e transnordestina": {
+   "excerpt_in_plan_page": 51,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 51,
+   "shared_words_pct": 90
   },
-  "280002551544|seguranca para trabalhadores rurais": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|projetos de infraestrutura fluvial": {
+   "excerpt_in_plan_page": 51,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 51,
+   "text_in_plan_page": null,
+   "closest_plan_page": 51,
+   "shared_words_pct": 92
+  },
+  "280002551544|financiamento de linhas de metro e transporte eletrico": {
+   "excerpt_in_plan_page": 51,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 51,
+   "shared_words_pct": 92
+  },
+  "280002551544|conclusao de obras de transposicao": {
+   "excerpt_in_plan_page": 52,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 52,
+   "shared_words_pct": 94
+  },
+  "280002551544|infraestrutura de prevencao a eventos climaticos extremos": {
+   "excerpt_in_plan_page": 52,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 52,
+   "text_in_plan_page": null,
+   "closest_plan_page": 52,
+   "shared_words_pct": 94
+  },
+  "280002551544|programa nacional de seguranca energetica": {
+   "excerpt_in_plan_page": 52,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 52,
+   "text_in_plan_page": null,
+   "closest_plan_page": 52,
+   "shared_words_pct": 94
+  },
+  "280002551544|destravamento de infraestrutura de gas": {
+   "excerpt_in_plan_page": 53,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 53,
+   "shared_words_pct": 75
+  },
+  "280002551544|modernizacao do refino e producao de fertilizantes": {
+   "excerpt_in_plan_page": 53,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 53,
+   "shared_words_pct": 100
+  },
+  "280002551544|simplificacao da conta de luz": {
+   "excerpt_in_plan_page": 53,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 31,
+   "shared_words_pct": 75
+  },
+  "280002551544|programa de armazenamento de energia": {
+   "excerpt_in_plan_page": 53,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 53,
+   "text_in_plan_page": null,
+   "closest_plan_page": 53,
+   "shared_words_pct": 100
+  },
+  "280002551544|polo global de data centers sustentaveis": {
+   "excerpt_in_plan_page": 53,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 53,
+   "text_in_plan_page": null,
+   "closest_plan_page": 53,
+   "shared_words_pct": 100
+  },
+  "280002551544|fomento a biocombustiveis": {
+   "excerpt_in_plan_page": 53,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 53,
+   "shared_words_pct": 82
+  },
+  "280002551544|programa renovabio e creditos de carbono": {
+   "excerpt_in_plan_page": 53,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 53,
+   "shared_words_pct": 88
+  },
+  "280002551544|ampliacao do seguro rural": {
+   "excerpt_in_plan_page": 54,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 54,
+   "shared_words_pct": 73
+  },
+  "280002551544|capacidade de armazenamento": {
+   "excerpt_in_plan_page": 54,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 31,
+   "text_in_plan_page": null,
+   "closest_plan_page": 54,
+   "shared_words_pct": 100
+  },
+  "280002551544|apoio a producao nacional de fertilizantes": {
+   "excerpt_in_plan_page": 32,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 54,
+   "shared_words_pct": 75
+  },
+  "280002551544|regularizacao e titulacao de imoveis rurais": {
+   "excerpt_in_plan_page": 54,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 54,
+   "shared_words_pct": 85
+  },
+  "280002551544|qualificacao e intermediacao de trabalho rural": {
+   "excerpt_in_plan_page": 54,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 54,
+   "shared_words_pct": 54
   },
   "280002551544|ampliacao da area irrigada": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "280002551544|expansao da agua de reuso": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_plan_page": 54,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 55,
+   "shared_words_pct": 62
   },
   "280002551544|combustivel sustentavel de aviacao": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "280002551544|incentivos a producao de biomassa": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "280002551544|cadastro ambiental rural consolidado": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_plan_page": 55,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 55,
+   "text_in_plan_page": null,
+   "closest_plan_page": 55,
+   "shared_words_pct": 80
   },
   "280002551544|pagamento por servicos ambientais": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_plan_page": 55,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 55,
+   "text_in_plan_page": null,
+   "closest_plan_page": 55,
+   "shared_words_pct": 100
   },
-  "280002551544|valor agregado na mineracao": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|agregacao de valor na mineracao": {
+   "excerpt_in_plan_page": 55,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 55,
+   "shared_words_pct": 85
   },
-  "280002551544|licenciamento agil e garantias de credito": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|licenciamento e garantias de credito na mineracao": {
+   "excerpt_in_plan_page": 56,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 56,
+   "shared_words_pct": 89
   },
   "280002551544|estrategia nacional de inteligencia artificial": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_plan_page": 56,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 56,
+   "text_in_plan_page": null,
+   "closest_plan_page": 56,
+   "shared_words_pct": 93
   },
-  "280002551544|parques tecnologicos e incubadoras": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|legislacao para liberdade de inovacao": {
+   "excerpt_in_plan_page": 56,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 56,
+   "shared_words_pct": 79
   },
-  "280002551544|defesa cibernetica e privacidade de dados": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|fortalecimento de parques tecnologicos e incubadoras": {
+   "excerpt_in_plan_page": 57,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 57,
+   "shared_words_pct": 85
+  },
+  "280002551544|protecao de dados e ciberseguranca": {
+   "excerpt_in_plan_page": 57,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 57,
+   "shared_words_pct": 75
   },
   "280002551544|universalizacao do saneamento": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_plan_page": 57,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 57,
+   "shared_words_pct": 67
   },
   "280002551544|mercado regulado de carbono": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_plan_page": 57,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 57,
+   "text_in_plan_page": null,
+   "closest_plan_page": 57,
+   "shared_words_pct": 100
   },
-  "280002551544|impulsionar bioeconomia": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|bioeconomia": {
+   "excerpt_in_plan_page": 57,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 57,
+   "shared_words_pct": 100
   },
-  "280002551544|incentivos economicos a preservacao ambiental": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|incentivos a preservacao": {
+   "excerpt_in_plan_page": 57,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 57,
+   "shared_words_pct": 80
   },
-  "280002551544|combate ao crime ambiental": {
+  "280002551544|combate ao desmatamento ilegal": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 58,
+   "shared_words_pct": 90
   },
-  "280002551544|fiscalizacao direcionada ao crime organizado": {
+  "280002551544|combate as queimadas ilegais": {
+   "excerpt_in_plan_page": 58,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 58,
+   "shared_words_pct": 100
+  },
+  "280002551544|protecao da amazonia": {
+   "excerpt_in_plan_page": 58,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 61,
+   "text_in_plan_page": null,
+   "closest_plan_page": 58,
+   "shared_words_pct": 64
+  },
+  "280002551544|regularizacao e apoio aos moradores da amazonia": {
+   "excerpt_in_plan_page": 59,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 59,
+   "shared_words_pct": 64
+  },
+  "280002551544|eliminacao de superposicoes entre agencias ambientais": {
+   "excerpt_in_plan_page": 59,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 59,
+   "shared_words_pct": 70
+  },
+  "280002551544|infraestrutura de transporte para turismo": {
+   "excerpt_in_plan_page": 59,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 51,
+   "shared_words_pct": 82
+  },
+  "280002551544|promocao do destino brasil": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 59,
+   "text_in_plan_page": null,
+   "closest_plan_page": 59,
+   "shared_words_pct": 40
   },
-  "280002551544|protecao dos biomas": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|seguranca para o turismo": {
+   "excerpt_in_plan_page": 60,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 32,
+   "shared_words_pct": 43
   },
-  "280002551544|alternativas de renda na amazonia": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|trem do nordeste": {
+   "excerpt_in_plan_page": 60,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 51,
+   "text_in_plan_page": null,
+   "closest_plan_page": 60,
+   "shared_words_pct": 89
   },
-  "280002551544|brasil sem medo": {
-   "excerpt_in_plan_page": 63,
-   "excerpt_in_extraction_source": true
+  "280002551544|obras hidricas no nordeste": {
+   "excerpt_in_plan_page": 60,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 60,
+   "shared_words_pct": 100
   },
-  "280002551544|promocao do destino brasil e infraestrutura turistica": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "280002551544|prioridade ao norte e nordeste": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
-  },
-  "280002551544|capital da energia limpa no nordeste": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": true
+  "280002551544|expansao do baixio do irece": {
+   "excerpt_in_plan_page": 60,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 60,
+   "shared_words_pct": 100
   },
   "280002551544|desenvolvimento sustentavel na amazonia": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_plan_page": 61,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 61,
+   "shared_words_pct": 100
   },
-  "280002551544|diplomacia profissionalista": {
+  "280002551544|brasil sem medo": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 11,
+   "text_in_plan_page": null,
+   "closest_plan_page": 12,
+   "shared_words_pct": 38
   },
-  "280002551544|abertura comercial e adesao a ocde": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|profissionalismo no itamaraty": {
+   "excerpt_in_plan_page": 62,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 62,
+   "shared_words_pct": 82
   },
-  "280002551544|integracao as cadeias de valor": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|adesao a ocde": {
+   "excerpt_in_plan_page": 63,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 63,
+   "text_in_plan_page": null,
+   "closest_plan_page": 63,
+   "shared_words_pct": 78
   },
-  "280002551544|fim das competencias criminais originarias do stf": {
+  "280002551544|plano nacional de integracao as cadeias globais de valor": {
+   "excerpt_in_plan_page": 63,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 63,
+   "text_in_plan_page": null,
+   "closest_plan_page": 63,
+   "shared_words_pct": 79
+  },
+  "280002551544|meta de 2030 para investimento em transicao energetica": {
+   "excerpt_in_plan_page": 63,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 63,
+   "shared_words_pct": 94
+  },
+  "280002551544|combate ao crime organizado e inovacao tecnologica": {
+   "excerpt_in_plan_page": 63,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 63,
+   "shared_words_pct": 76
+  },
+  "280002551544|foco em infraestrutura, produtividade e seguranca juridica": {
+   "excerpt_in_plan_page": 64,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 64,
+   "shared_words_pct": 78
+  },
+  "280002551544|limitacao das competencias criminais do stf": {
    "excerpt_in_plan_page": 65,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 65,
+   "shared_words_pct": 73
   },
   "280002551544|limitacao das decisoes monocraticas do stf": {
    "excerpt_in_plan_page": 65,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 65,
+   "text_in_plan_page": null,
+   "closest_plan_page": 65,
+   "shared_words_pct": 70
   },
-  "280002551544|fim da reeleicao para o cargo de presidente da republica": {
+  "280002551544|revisao do escopo das adpfs": {
+   "excerpt_in_plan_page": 65,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 65,
+   "text_in_plan_page": null,
+   "closest_plan_page": 65,
+   "shared_words_pct": 89
+  },
+  "280002551544|quarentena para indicacao de ministros ao stf": {
+   "excerpt_in_plan_page": 65,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 65,
+   "shared_words_pct": 71
+  },
+  "280002551544|impedimento de parentes no stf": {
    "excerpt_in_plan_page": 66,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 66,
+   "shared_words_pct": 80
+  },
+  "280002551544|ampliacao da participacao da sociedade civil": {
+   "excerpt_in_plan_page": 66,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 66,
+   "text_in_plan_page": null,
+   "closest_plan_page": 66,
+   "shared_words_pct": 83
+  },
+  "280002551544|reforma politica urgente": {
+   "excerpt_in_plan_page": 66,
+   "excerpt_in_extraction_source": false,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 66,
+   "shared_words_pct": 87
+  },
+  "280002551544|fim da reeleicao presidencial": {
+   "excerpt_in_plan_page": 66,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 66,
+   "shared_words_pct": 88
   },
   "280002551544|abolicao do ministerio da verdade": {
    "excerpt_in_plan_page": 66,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 66,
+   "shared_words_pct": 46
   },
-  "280002551544|corte de ministerios e reducao de cargos comissionados": {
+  "280002551544|revogacao de atos de censura": {
+   "excerpt_in_plan_page": 66,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 66,
+   "shared_words_pct": 50
+  },
+  "280002551544|reducao da divida bruta em relacao ao pib": {
+   "excerpt_in_plan_page": 68,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 68,
+   "shared_words_pct": 60
+  },
+  "280002551544|tesouraco – corte de gastos e reducao de impostos": {
+   "excerpt_in_plan_page": 68,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 68,
+   "shared_words_pct": 69
+  },
+  "280002551544|revisao do pacto federativo": {
    "excerpt_in_plan_page": 69,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 69,
+   "text_in_plan_page": null,
+   "closest_plan_page": 69,
+   "shared_words_pct": 73
   },
-  "280002551544|digitalizacao dos servicos publicos": {
+  "280002551544|desburocratizacao de recursos locais": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 17,
+   "shared_words_pct": 25
+  },
+  "280002551544|maior transparencia nas emendas parlamentares": {
    "excerpt_in_plan_page": 69,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 69,
+   "shared_words_pct": 90
   },
-  "280002551544|mais brasil, menos brasilia": {
+  "280002551544|reforma administrativa e corte de ministerios": {
    "excerpt_in_plan_page": 69,
-   "excerpt_in_extraction_source": true
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 69,
+   "shared_words_pct": 82
   },
-  "280002551544|fortalecimento da lei das estatais e blindagem dos fundos de pensao": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|revisao normativa infralegal": {
+   "excerpt_in_plan_page": 69,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 69,
+   "text_in_plan_page": null,
+   "closest_plan_page": 69,
+   "shared_words_pct": 87
   },
-  "280002551544|reformulacao das regras fiscais e controle de gastos discricionarios": {
-   "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+  "280002551544|profissionalizacao das agencias reguladoras": {
+   "excerpt_in_plan_page": 69,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 69,
+   "shared_words_pct": 69
   },
-  "280002551544|combate as fraudes na previdencia e reedicao do pacote antifraude": {
+  "280002551544|fortalecimento da lei das estatais": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 70,
+   "shared_words_pct": 67
+  },
+  "280002551544|programa nacional de desestatizacao": {
+   "excerpt_in_plan_page": 70,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 70,
+   "text_in_plan_page": null,
+   "closest_plan_page": 70,
+   "shared_words_pct": 100
+  },
+  "280002551544|reformulacao das regras fiscais": {
+   "excerpt_in_plan_page": 71,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 71,
+   "shared_words_pct": 92
+  },
+  "280002551544|limitacao do credito subsidiado": {
+   "excerpt_in_plan_page": 71,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 71,
+   "shared_words_pct": 67
   },
   "280002551544|agenda permanente de transparencia e avaliacao de politicas publicas": {
+   "excerpt_in_plan_page": 71,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": 71,
+   "text_in_plan_page": null,
+   "closest_plan_page": 71,
+   "shared_words_pct": 87
+  },
+  "280002551544|simplificacao tributaria": {
+   "excerpt_in_plan_page": 30,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 30,
+   "shared_words_pct": 100
+  },
+  "280002551544|pacote antifraude na previdencia": {
    "excerpt_in_plan_page": null,
-   "excerpt_in_extraction_source": null
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 72,
+   "text_in_plan_page": null,
+   "closest_plan_page": 72,
+   "shared_words_pct": 80
+  },
+  "280002551544|fim dos descontos associativos": {
+   "excerpt_in_plan_page": 72,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 72,
+   "shared_words_pct": 71
+  },
+  "280002551544|comando tecnico nas estatais": {
+   "excerpt_in_plan_page": 70,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 70,
+   "shared_words_pct": 83
+  },
+  "280002551544|blindagem dos fundos de pensao": {
+   "excerpt_in_plan_page": 70,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 70,
+   "shared_words_pct": 80
+  },
+  "280002551544|controle de gastos discricionarios": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": null,
+   "title_in_plan_page": 71,
+   "text_in_plan_page": null,
+   "closest_plan_page": 71,
+   "shared_words_pct": 89
+  },
+  "280002551544|revisao da governanca do consignado": {
+   "excerpt_in_plan_page": null,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 72,
+   "shared_words_pct": 62
+  },
+  "280002551544|reducao da fila do inss": {
+   "excerpt_in_plan_page": 73,
+   "excerpt_in_extraction_source": true,
+   "title_in_plan_page": null,
+   "text_in_plan_page": null,
+   "closest_plan_page": 26,
+   "shared_words_pct": 67
   }
  },
+ "keywords": {
+  "280002542548": [
+   {
+    "term": "crime organizado",
+    "occurrences": 18,
+    "pages": [
+     13,
+     26,
+     27,
+     28,
+     29,
+     30,
+     79
+    ]
+   },
+   {
+    "term": "estados municípios",
+    "occurrences": 16,
+    "pages": [
+     8,
+     15,
+     18,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     34,
+     44,
+     46,
+     59,
+     71
+    ]
+   },
+   {
+    "term": "políticas públicas",
+    "occurrences": 15,
+    "pages": [
+     6,
+     7,
+     8,
+     10,
+     15,
+     17,
+     19,
+     24,
+     43,
+     44,
+     56,
+     75
+    ]
+   },
+   {
+    "term": "segurança pública",
+    "occurrences": 15,
+    "pages": [
+     9,
+     13,
+     26,
+     27,
+     28,
+     30,
+     80
+    ]
+   },
+   {
+    "term": "inteligência artificial",
+    "occurrences": 11,
+    "pages": [
+     18,
+     35,
+     38,
+     42,
+     54,
+     55,
+     72,
+     82
+    ]
+   },
+   {
+    "term": "política nacional",
+    "occurrences": 11,
+    "pages": [
+     17,
+     20,
+     23,
+     25,
+     30,
+     41,
+     63,
+     67,
+     68,
+     69
+    ]
+   },
+   {
+    "term": "agricultura familiar",
+    "occurrences": 10,
+    "pages": [
+     58,
+     59,
+     60
+    ]
+   },
+   {
+    "term": "participação social",
+    "occurrences": 9,
+    "pages": [
+     15,
+     16,
+     41,
+     44,
+     71,
+     72
+    ]
+   },
+   {
+    "term": "proteção social",
+    "occurrences": 9,
+    "pages": [
+     10,
+     18,
+     22,
+     25,
+     26,
+     73,
+     76
+    ]
+   },
+   {
+    "term": "redução desigualdades",
+    "occurrences": 9,
+    "pages": [
+     12,
+     14,
+     16,
+     23,
+     27,
+     48,
+     51,
+     53,
+     81
+    ]
+   },
+   {
+    "term": "segurança energética",
+    "occurrences": 9,
+    "pages": [
+     63,
+     64,
+     65,
+     66,
+     68
+    ]
+   },
+   {
+    "term": "serviços públicos",
+    "occurrences": 9,
+    "pages": [
+     6,
+     17,
+     23,
+     28,
+     30,
+     46,
+     54,
+     79
+    ]
+   },
+   {
+    "term": "transição energética",
+    "occurrences": 9,
+    "pages": [
+     54,
+     63,
+     64,
+     67,
+     68
+    ]
+   },
+   {
+    "term": "acesso crédito",
+    "occurrences": 8,
+    "pages": [
+     42,
+     58,
+     59,
+     60,
+     61,
+     74,
+     76
+    ]
+   },
+   {
+    "term": "crianças adolescentes",
+    "occurrences": 8,
+    "pages": [
+     9,
+     12,
+     15,
+     24,
+     29,
+     39
+    ]
+   },
+   {
+    "term": "desenvolvimento nacional",
+    "occurrences": 8,
+    "pages": [
+     14,
+     44,
+     55,
+     56,
+     61,
+     69,
+     72,
+     73
+    ]
+   },
+   {
+    "term": "geração empregos",
+    "occurrences": 8,
+    "pages": [
+     8,
+     50,
+     52,
+     53,
+     54,
+     74,
+     78
+    ]
+   },
+   {
+    "term": "política valorização",
+    "occurrences": 8,
+    "pages": [
+     12,
+     16,
+     19,
+     58,
+     71,
+     73,
+     74,
+     77
+    ]
+   },
+   {
+    "term": "soberania nacional",
+    "occurrences": 8,
+    "pages": [
+     6,
+     7,
+     8,
+     14,
+     33,
+     47,
+     77,
+     83
+    ]
+   },
+   {
+    "term": "desenvolvimento regional",
+    "occurrences": 7,
+    "pages": [
+     53,
+     55,
+     56,
+     65,
+     71
+    ]
+   }
+  ],
+  "280002551544": [
+   {
+    "term": "inteligência artificial",
+    "occurrences": 17,
+    "pages": [
+     10,
+     18,
+     20,
+     25,
+     26,
+     35,
+     38,
+     46,
+     53,
+     55,
+     56,
+     57,
+     58,
+     63
+    ]
+   },
+   {
+    "term": "segurança jurídica",
+    "occurrences": 12,
+    "pages": [
+     11,
+     27,
+     49,
+     50,
+     53,
+     54,
+     57,
+     58,
+     64,
+     69
+    ]
+   },
+   {
+    "term": "casa própria",
+    "occurrences": 10,
+    "pages": [
+     10,
+     11,
+     17,
+     20,
+     33,
+     42,
+     47,
+     49
+    ]
+   },
+   {
+    "term": "estados municípios",
+    "occurrences": 7,
+    "pages": [
+     13,
+     17,
+     21,
+     27,
+     38,
+     40,
+     68
+    ]
+   },
+   {
+    "term": "data centers",
+    "occurrences": 6,
+    "pages": [
+     53,
+     55,
+     56,
+     60
+    ]
+   },
+   {
+    "term": "estados unidos",
+    "occurrences": 6,
+    "pages": [
+     23,
+     31,
+     51,
+     54,
+     62
+    ]
+   },
+   {
+    "term": "próprio negócio",
+    "occurrences": 6,
+    "pages": [
+     8,
+     17,
+     20,
+     22,
+     27,
+     45
+    ]
+   },
+   {
+    "term": "regras claras",
+    "occurrences": 6,
+    "pages": [
+     49,
+     65,
+     67,
+     68,
+     71
+    ]
+   },
+   {
+    "term": "taxa juros",
+    "occurrences": 6,
+    "pages": [
+     29,
+     32,
+     47,
+     51,
+     68
+    ]
+   },
+   {
+    "term": "energia limpa",
+    "occurrences": 5,
+    "pages": [
+     55,
+     56,
+     60,
+     63
+    ]
+   },
+   {
+    "term": "internet infraestrutura",
+    "occurrences": 5,
+    "pages": [
+     18,
+     24,
+     49
+    ]
+   },
+   {
+    "term": "medida protetiva",
+    "occurrences": 5,
+    "pages": [
+     14,
+     18,
+     19
+    ]
+   },
+   {
+    "term": "mercado trabalho",
+    "occurrences": 5,
+    "pages": [
+     8,
+     17,
+     20,
+     36,
+     43
+    ]
+   },
+   {
+    "term": "perto casa",
+    "occurrences": 5,
+    "pages": [
+     18,
+     21,
+     37,
+     39,
+     69
+    ]
+   },
+   {
+    "term": "políticas públicas",
+    "occurrences": 5,
+    "pages": [
+     13,
+     34,
+     45,
+     69,
+     71
+    ]
+   },
+   {
+    "term": "quatro anos",
+    "occurrences": 5,
+    "pages": [
+     8,
+     29,
+     51,
+     66,
+     68
+    ]
+   },
+   {
+    "term": "acesso crédito",
+    "occurrences": 4,
+    "pages": [
+     22,
+     28,
+     46,
+     64
+    ]
+   },
+   {
+    "term": "atrai investimento",
+    "occurrences": 4,
+    "pages": [
+     49,
+     50,
+     62,
+     63
+    ]
+   },
+   {
+    "term": "conseguir emprego",
+    "occurrences": 4,
+    "pages": [
+     18,
+     20,
+     34,
+     46
+    ]
+   },
+   {
+    "term": "crime organizado",
+    "occurrences": 4,
+    "pages": [
+     13,
+     14,
+     59,
+     63
+    ]
+   }
+  ]
+ },
+ "shared_keywords": [
+  {
+   "term": "inteligência artificial",
+   "candidates": {
+    "280002542548": {
+     "occurrences": 11,
+     "pages": [
+      18,
+      35,
+      38,
+      42,
+      54,
+      55,
+      72,
+      82
+     ]
+    },
+    "280002551544": {
+     "occurrences": 17,
+     "pages": [
+      10,
+      18,
+      20,
+      25,
+      26,
+      35,
+      38,
+      46,
+      53,
+      55,
+      56,
+      57,
+      58,
+      63
+     ]
+    }
+   }
+  },
+  {
+   "term": "estados municípios",
+   "candidates": {
+    "280002542548": {
+     "occurrences": 16,
+     "pages": [
+      8,
+      15,
+      18,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      34,
+      44,
+      46,
+      59,
+      71
+     ]
+    },
+    "280002551544": {
+     "occurrences": 7,
+     "pages": [
+      13,
+      17,
+      21,
+      27,
+      38,
+      40,
+      68
+     ]
+    }
+   }
+  },
+  {
+   "term": "crime organizado",
+   "candidates": {
+    "280002542548": {
+     "occurrences": 18,
+     "pages": [
+      13,
+      26,
+      27,
+      28,
+      29,
+      30,
+      79
+     ]
+    },
+    "280002551544": {
+     "occurrences": 4,
+     "pages": [
+      13,
+      14,
+      59,
+      63
+     ]
+    }
+   }
+  },
+  {
+   "term": "políticas públicas",
+   "candidates": {
+    "280002542548": {
+     "occurrences": 15,
+     "pages": [
+      6,
+      7,
+      8,
+      10,
+      15,
+      17,
+      19,
+      24,
+      43,
+      44,
+      56,
+      75
+     ]
+    },
+    "280002551544": {
+     "occurrences": 5,
+     "pages": [
+      13,
+      34,
+      45,
+      69,
+      71
+     ]
+    }
+   }
+  },
+  {
+   "term": "segurança jurídica",
+   "candidates": {
+    "280002542548": {
+     "occurrences": 3,
+     "pages": [
+      41,
+      60,
+      67
+     ]
+    },
+    "280002551544": {
+     "occurrences": 12,
+     "pages": [
+      11,
+      27,
+      49,
+      50,
+      53,
+      54,
+      57,
+      58,
+      64,
+      69
+     ]
+    }
+   }
+  },
+  {
+   "term": "política nacional",
+   "candidates": {
+    "280002542548": {
+     "occurrences": 11,
+     "pages": [
+      17,
+      20,
+      23,
+      25,
+      30,
+      41,
+      63,
+      67,
+      68,
+      69
+     ]
+    },
+    "280002551544": {
+     "occurrences": 2,
+     "pages": [
+      35,
+      36
+     ]
+    }
+   }
+  },
+  {
+   "term": "serviços públicos",
+   "candidates": {
+    "280002542548": {
+     "occurrences": 9,
+     "pages": [
+      6,
+      17,
+      23,
+      28,
+      30,
+      46,
+      54,
+      79
+     ]
+    },
+    "280002551544": {
+     "occurrences": 4,
+     "pages": [
+      25,
+      56,
+      57,
+      69
+     ]
+    }
+   }
+  },
+  {
+   "term": "acesso crédito",
+   "candidates": {
+    "280002542548": {
+     "occurrences": 8,
+     "pages": [
+      42,
+      58,
+      59,
+      60,
+      61,
+      74,
+      76
+     ]
+    },
+    "280002551544": {
+     "occurrences": 4,
+     "pages": [
+      22,
+      28,
+      46,
+      64
+     ]
+    }
+   }
+  },
+  {
+   "term": "proteção social",
+   "candidates": {
+    "280002542548": {
+     "occurrences": 9,
+     "pages": [
+      10,
+      18,
+      22,
+      25,
+      26,
+      73,
+      76
+     ]
+    },
+    "280002551544": {
+     "occurrences": 3,
+     "pages": [
+      11,
+      45,
+      74
+     ]
+    }
+   }
+  },
+  {
+   "term": "reforma tributária",
+   "candidates": {
+    "280002542548": {
+     "occurrences": 6,
+     "pages": [
+      11,
+      19,
+      48,
+      56,
+      57,
+      59
+     ]
+    },
+    "280002551544": {
+     "occurrences": 6,
+     "pages": [
+      30,
+      71
+     ]
+    }
+   }
+  },
+  {
+   "term": "segurança energética",
+   "candidates": {
+    "280002542548": {
+     "occurrences": 9,
+     "pages": [
+      63,
+      64,
+      65,
+      66,
+      68
+     ]
+    },
+    "280002551544": {
+     "occurrences": 3,
+     "pages": [
+      31,
+      52
+     ]
+    }
+   }
+  },
+  {
+   "term": "transição energética",
+   "candidates": {
+    "280002542548": {
+     "occurrences": 9,
+     "pages": [
+      54,
+      63,
+      64,
+      67,
+      68
+     ]
+    },
+    "280002551544": {
+     "occurrences": 3,
+     "pages": [
+      55,
+      56,
+      63
+     ]
+    }
+   }
+  },
+  {
+   "term": "setor produtivo",
+   "candidates": {
+    "280002542548": {
+     "occurrences": 7,
+     "pages": [
+      44,
+      55,
+      62,
+      71,
+      72,
+      74
+     ]
+    },
+    "280002551544": {
+     "occurrences": 4,
+     "pages": [
+      36,
+      63
+     ]
+    }
+   }
+  },
+  {
+   "term": "mercado trabalho",
+   "candidates": {
+    "280002542548": {
+     "occurrences": 5,
+     "pages": [
+      9,
+      12,
+      23,
+      31
+     ]
+    },
+    "280002551544": {
+     "occurrences": 5,
+     "pages": [
+      8,
+      17,
+      20,
+      36,
+      43
+     ]
+    }
+   }
+  },
+  {
+   "term": "pessoas deficiência",
+   "candidates": {
+    "280002542548": {
+     "occurrences": 5,
+     "pages": [
+      23,
+      26,
+      75
+     ]
+    },
+    "280002551544": {
+     "occurrences": 4,
+     "pages": [
+      21,
+      38,
+      39,
+      40
+     ]
+    }
+   }
+  }
+ ],
  "duplicates": [
   [
-   25,
-   28
+   373,
+   525
   ]
  ]
 }
