@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { ChevronDown, ExternalLink } from 'lucide-react';
+import { BookOpen, ChevronDown, ExternalLink } from 'lucide-react';
+import PageSection from '@/components/PageSection';
 import type { IndexProposal } from '@/services/proposalComparisonService';
 import Tag from './Tag';
 import { DOCUMENT_STATUS_LABELS, coverage, documentStatus, type DocumentStatusKind } from './coverage';
@@ -36,22 +37,20 @@ export default function SourcesPanel({
   methodology: ReactNode;
 }) {
   return (
-    <section id="fontes-e-metodologia" aria-labelledby="fontes-metodologia-titulo" className="mt-10 space-y-3">
-      <h2 id="fontes-metodologia-titulo" className="text-sm font-black uppercase tracking-wide text-[#1B623A]">
-        Fontes e metodologia
-      </h2>
-      <details id="fontes-analisadas" className="rounded-2xl border border-[#e0d6c4] bg-white">
-        <summary className="group flex cursor-pointer list-none items-center justify-between gap-3 rounded-2xl px-4 py-3 font-bold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]">
+    <PageSection id="fontes-e-metodologia" className="mt-10" title="Fontes e metodologia" icon={<BookOpen size={20} />}>
+      {/* Mesmo formato da metodologia do Radar: faixas recolhíveis, sem caixa. */}
+      <details id="fontes-analisadas" className="group border-y border-line">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-3 py-3 font-bold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]">
           Fontes analisadas
           <ChevronDown size={18} aria-hidden="true" className="shrink-0 text-[#1B623A] transition-transform group-open:rotate-180" />
         </summary>
-        <div className="border-t border-[#e0d6c4] p-3 sm:p-4">
+        <div className="border-t border-line py-4">
           <p className="text-[13px] text-ink-soft">
             A comparação inclui {candidates.length} {candidates.length === 1 ? 'candidato' : 'candidatos'}: os que tiveram
             o plano processado até agora. Os planos dos demais candidatos a Presidente estão no perfil de cada um, mas ainda
             não entram na comparação.
           </p>
-          <ul className="mt-3 grid grid-cols-1 gap-3 lg:grid-cols-2">
+          <ul className="mt-3 grid grid-cols-1 gap-y-5 lg:grid-cols-2 lg:divide-x lg:divide-line">
         {candidates.map((candidate) => {
           const document = coverage.documents[String(candidate.external_id)];
           const own = proposals.filter((p) => p.candidate_id === candidate.id);
@@ -60,7 +59,7 @@ export default function SourcesPanel({
           const sourceMatchesPlan = document ? document.extraction_source_text_found_in_plan_pct >= 80 : null;
 
           return (
-            <li key={candidate.id} className="rounded-xl border border-[#e0d6c4] bg-white p-3.5 text-sm">
+            <li key={candidate.id} className="min-w-0 text-sm lg:px-6 lg:first:pl-0">
               <p className="font-black text-ink">
                 {candidate.name}
                 {candidate.party && <span className="ml-1 font-bold text-ink-soft">({candidate.party})</span>}
@@ -138,13 +137,13 @@ export default function SourcesPanel({
           </ul>
         </div>
       </details>
-      <details className="rounded-2xl border border-[#e0d6c4] bg-white">
-        <summary className="group flex cursor-pointer list-none items-center justify-between gap-3 rounded-2xl px-4 py-3 font-bold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]">
+      <details className="group border-b border-line">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-3 py-3 font-bold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]">
           Como esta comparação foi feita
           <ChevronDown size={18} aria-hidden="true" className="shrink-0 text-[#1B623A] transition-transform group-open:rotate-180" />
         </summary>
-        <div className="border-t border-[#e0d6c4] p-3 sm:p-4">{methodology}</div>
+        <div className="border-t border-line py-4">{methodology}</div>
       </details>
-    </section>
+    </PageSection>
   );
 }

@@ -1,7 +1,9 @@
 'use client';
 
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, KeyRound } from 'lucide-react';
 import InfoTooltip from '@/components/InfoTooltip';
+import PageSection from '@/components/PageSection';
+import { candidateColors } from './candidateColors';
 import type { IndexProposal } from '@/services/proposalComparisonService';
 import { coverage, documentStatus, pdfPageUrl } from './coverage';
 import type { ComparisonCandidate } from './types';
@@ -56,20 +58,21 @@ export default function PlanKeywords({
   const shared = coverage.shared_keywords ?? [];
 
   return (
-    <section id="palavras-chave" aria-labelledby="palavras-chave-titulo" className="mt-8">
-      <div className="flex items-center gap-1.5">
-        <h2 id="palavras-chave-titulo" className="text-sm font-black uppercase tracking-wide text-[#1B623A]">
-          Palavras-chave dos planos oficiais
-        </h2>
+    <PageSection
+      id="palavras-chave"
+      className="mt-8"
+      title="Palavras-chave dos planos oficiais"
+      icon={<KeyRound size={20} />}
+      info={
         <InfoTooltip label="Sobre as palavras-chave" iconClassName="text-[#8D0801]">
           Expressões de duas palavras que mais se repetem no plano registrado no TSE, sem contar sumário e índice e
           ignorando palavras de ligação e de discurso (como “vamos” ou “mandato”). Repetição não mede prioridade nem
           compromisso: depende do estilo e do tamanho de cada documento. Toque numa expressão para buscá-la nas
           propostas.
         </InfoTooltip>
-      </div>
-
-      <div className={`mt-3 grid grid-cols-1 gap-4 ${analysed.length > 1 ? 'lg:grid-cols-2' : ''}`}>
+      }
+    >
+      <div className={`grid grid-cols-1 gap-y-6 ${analysed.length > 1 ? 'lg:grid-cols-2 lg:divide-x lg:divide-line' : ''}`}>
         {analysed.map((candidate) => {
           const externalId = String(candidate.external_id);
           const document = coverage.documents[externalId];
@@ -81,9 +84,9 @@ export default function PlanKeywords({
           const literal = own.some((p) => p.extraction === 'literal');
 
           return (
-            <article key={candidate.id} className="rounded-2xl border border-[#e0d6c4] bg-white p-4">
+            <article key={candidate.id} className="min-w-0 lg:px-6 lg:first:pl-0">
               <header className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                <h3 className="text-base font-black text-ink">{candidate.name}</h3>
+                <h3 className={`text-base font-black ${candidateColors(candidate.name).texto}`}>{candidate.name}</h3>
                 {document && (
                   <a
                     href={document.plan_pdf_url}
@@ -98,7 +101,7 @@ export default function PlanKeywords({
               </header>
 
               {own.length > 0 && document && (
-                <p className="mt-2 rounded-xl bg-[#f7f5f2] px-3 py-2 text-[13px] leading-relaxed text-ink-soft">
+                <p className="mt-2 text-[13px] leading-relaxed text-ink-soft">
                   {literal ? (
                     <>
                       As propostas listadas foram copiadas de{' '}
@@ -149,7 +152,7 @@ export default function PlanKeywords({
       </div>
 
       {shared.length > 0 && analysed.length > 1 && (
-        <div className="mt-4 rounded-2xl border border-[#e0d6c4] bg-white p-4">
+        <div className="mt-6 border-t border-line pt-4">
           <h3 className="text-xs font-black uppercase tracking-wide text-ink-soft">Nos dois planos</h3>
           <ul className="mt-2 grid grid-cols-1 gap-x-6 gap-y-1.5 text-[13px] sm:grid-cols-2 lg:grid-cols-3">
             {shared.map((k) => (
@@ -170,10 +173,10 @@ export default function PlanKeywords({
         </div>
       )}
 
-      <p className="mt-2 text-xs leading-relaxed text-ink-soft">
+      <p className="mt-3 text-xs leading-relaxed text-ink-soft">
         Análise do texto integral dos PDFs em {new Date(coverage.generated_at).toLocaleDateString('pt-BR')}. Contagens de
         palavras não indicam qual plano é melhor.
       </p>
-    </section>
+    </PageSection>
   );
 }

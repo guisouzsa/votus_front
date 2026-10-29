@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, ExternalLink } from 'lucide-react';
+import { ChevronDown, ExternalLink, FileSearch } from 'lucide-react';
 import InfoTooltip from '@/components/InfoTooltip';
+import PageSection from '@/components/PageSection';
 import { THEME_GROUPS } from '@/data/proposalThemeGroups';
 import Tag from './Tag';
 import { coverage, coverageStatus, normalize, pdfPageUrl, type CoverageSubject } from './coverage';
@@ -114,31 +115,34 @@ export default function SubjectCoverage({
   if (subjects.length === 0) return null;
 
   return (
-    <section id="assuntos-mencionados" aria-labelledby="assuntos-titulo" className="mt-8">
-      <div className="flex items-center gap-1.5">
-        <h2 id="assuntos-titulo" className="text-sm font-black uppercase tracking-wide text-[#1B623A]">
-          Assuntos mencionados nos planos oficiais
-        </h2>
+    <PageSection
+      id="assuntos-mencionados"
+      className="mt-8"
+      title="Assuntos mencionados nos planos oficiais"
+      icon={<FileSearch size={20} />}
+      info={
         <InfoTooltip label="Sobre assuntos mencionados nos planos oficiais" iconClassName="text-[#8D0801]">
           “0 propostas extraídas” não significa que o plano ignore o assunto. Esta seção busca termos no texto integral
           dos planos registrados no TSE, sem contar sumário e índice. “Mencionado” significa apenas que o assunto aparece
           no documento, inclusive em diagnósticos; não significa que exista uma proposta sobre ele. Abra um assunto
           abaixo para ver os trechos e as páginas.
         </InfoTooltip>
-      </div>
-      {!q && (
-        <button
-          type="button"
-          onClick={() => setOpenGroups(allOpen ? [] : THEME_GROUPS.map((g) => g.key))}
-          className="mt-2 text-xs font-bold text-[#1B623A] underline underline-offset-2"
-        >
-          {allOpen ? 'Fechar todas as áreas' : 'Abrir todas as áreas'}
-        </button>
-      )}
-
-      <div className="mt-3 overflow-hidden rounded-xl border border-[#e0d6c4] bg-white">
+      }
+      aside={
+        !q && (
+          <button
+            type="button"
+            onClick={() => setOpenGroups(allOpen ? [] : THEME_GROUPS.map((g) => g.key))}
+            className="text-xs font-bold text-[#1B623A] underline underline-offset-2"
+          >
+            {allOpen ? 'Fechar todas as áreas' : 'Abrir todas as áreas'}
+          </button>
+        )
+      }
+    >
+      <div className="overflow-hidden">
         <table className="w-full text-left text-sm">
-          <thead className="hidden bg-[#f7f5f2] text-xs uppercase text-ink-soft md:table-header-group">
+          <thead className="hidden border-b border-line text-xs uppercase text-ink-soft md:table-header-group">
             <tr>
               <th scope="col" className="px-3 py-2 font-bold">Assunto</th>
               {candidates.map((c) => (
@@ -152,7 +156,7 @@ export default function SubjectCoverage({
             const groupOpen = Boolean(q) || openGroups.includes(group.key);
 
             return (
-              <tbody key={group.key} className="border-t border-[#e0d6c4]">
+              <tbody key={group.key} className="border-b border-line">
                 <tr className="block md:table-row">
                   <th colSpan={candidates.length + 1} scope="rowgroup" className="block bg-[#fbfaf7] px-3 py-1.5 md:table-cell">
                     <button
@@ -207,6 +211,6 @@ export default function SubjectCoverage({
           })}
         </table>
       </div>
-    </section>
+    </PageSection>
   );
 }

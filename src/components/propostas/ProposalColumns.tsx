@@ -32,7 +32,7 @@ function ProposalItem({
   const pageLink = (page: number) => pdfPageUrl(document, page) ?? '#';
 
   return (
-    <li className="border-t border-[#efe8da] pt-3 first:border-t-0 first:pt-0">
+    <li className="border-t border-line/70 pt-3 first:border-t-0 first:pt-0">
       {themeName && <p className="text-[11px] font-bold uppercase tracking-wide text-ink-soft">{themeName}</p>}
       <h4 className="mt-0.5 break-words text-sm font-bold leading-snug text-ink">{proposal.title}</h4>
 
@@ -152,7 +152,7 @@ export default function ProposalColumns({
   electionResults?: Record<string, ElectionResult>;
 }) {
   return (
-    <div className={`grid grid-cols-1 gap-4 ${candidates.length > 1 ? 'lg:grid-cols-2' : ''}`}>
+    <div className={`grid grid-cols-1 gap-x-8 gap-y-8 ${candidates.length > 1 ? 'lg:grid-cols-2' : ''}`}>
       {candidates.map((candidate) => {
         const own = proposals.filter((p) => p.candidate_id === candidate.id);
         const highlighted = highlightExternalId === String(candidate.external_id);
@@ -163,9 +163,11 @@ export default function ProposalColumns({
           <section
             key={candidate.id}
             aria-labelledby={`coluna-${candidate.id}`}
-            className={`min-w-0 rounded-2xl border border-t-4 bg-white p-4 border-x-[#e0d6c4] border-b-[#e0d6c4] ${cores.borda} ${highlighted ? 'ring-2 ring-[#1B623A]/20' : ''}`}
+            // Sem moldura: só o fio na cor do candidato em cima (identificação,
+            // não avaliação), como as seções do Radar.
+            className={`min-w-0 border-t-4 pt-3 ${cores.borda} ${highlighted ? 'rounded-b-2xl bg-[#1B623A]/[0.04] px-3 pb-3' : ''}`}
           >
-            <header className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 border-b border-[#e0d6c4] pb-2.5">
+            <header className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 border-b border-line pb-2.5">
               <div className="min-w-0">
                 <h3 id={`coluna-${candidate.id}`} className={`break-words text-base font-black ${cores.texto}`}>
                   {candidate.name}

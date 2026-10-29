@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react';
 import { AlertTriangle, Clock } from 'lucide-react';
+import PageSection from '@/components/PageSection';
 
 export function formatDateTime(iso: string | null): string | null {
   if (!iso) return null;
@@ -158,19 +159,8 @@ export function RadarCard({
   id?: string;
 }) {
   return (
-    <section id={id} aria-labelledby={id ? `${id}-titulo` : undefined} className="min-w-0 border-t border-line pt-5">
-      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-        <h2 id={id ? `${id}-titulo` : undefined} className="flex items-center gap-2 text-lg font-black text-ink">
-          {icon && (
-            <span aria-hidden="true" className="flex shrink-0" style={{ color }}>
-              {icon}
-            </span>
-          )}
-          {title}
-        </h2>
-        <span className="text-[11px] font-semibold text-ink-soft">{source}</span>
-      </div>
-      <div className="mt-3">{children}</div>
-    </section>
+    <PageSection id={id} title={title} icon={icon} color={color} aside={source}>
+      {children}
+    </PageSection>
   );
 }

@@ -3,14 +3,16 @@
 import { useMemo, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import useSWR from 'swr';
-import { ArrowLeft, ChevronDown, RotateCcw, SlidersHorizontal, Sparkles } from 'lucide-react';
+import { ArrowLeft, ChevronDown, ExternalLink, Info, LayoutGrid, ListChecks, RotateCcw, Sparkles, Users } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import InfoTooltip from '@/components/InfoTooltip';
-import PageHeader from '@/components/PageHeader';
-import SearchBar, { ClearFiltersButton, FilterSelect } from '@/components/SearchBar';
+import DashboardHeader from '@/components/DashboardHeader';
+import ElectionResultBadge from '@/components/ElectionResultBadge';
+import PageSection from '@/components/PageSection';
+import SearchBar, { ClearFiltersButton, FilterPanelActions, FilterSelect } from '@/components/SearchBar';
 import PlanKeywords from '@/components/propostas/PlanKeywords';
 import ComparadorSkeleton from '@/components/propostas/ComparadorSkeleton';
 import ProposalColumns from '@/components/propostas/ProposalColumns';
@@ -139,7 +141,7 @@ function AiComparison({ slug }: { slug: string }) {
 
   if (isLoading) {
     return (
-      <div role="status" className="animate-pulse space-y-2 rounded-2xl border border-[#e0d6c4] bg-white p-4">
+      <div role="status" className="animate-pulse space-y-2 rounded-2xl bg-[#f7f3ea] p-4 sm:p-5">
         <p className="text-xs font-semibold text-ink-soft">Carregando resumo comparativo...</p>
         <div className="h-3 w-11/12 rounded bg-[#eee6d8]" />
         <div className="h-3 w-4/5 rounded bg-[#eee6d8]" />
@@ -149,15 +151,16 @@ function AiComparison({ slug }: { slug: string }) {
   }
   if (error || !comparison) return null;
 
+  // Destaque suave (mesmo padrão do tema principal no Radar), sem moldura.
   return (
-    <details open className="rounded-2xl border border-[#e0d6c4] bg-white p-4">
-      <summary className="flex cursor-pointer flex-wrap items-center gap-2">
-        <span className="text-sm font-black uppercase tracking-wide text-[#1B623A]">Resumo comparativo do tema</span>
-        <span className="inline-flex items-center gap-1 rounded-full bg-[#EDDBBA]/60 px-2 py-0.5 text-[10px] font-bold uppercase text-[#6b4f1d]">
+    <div className="rounded-2xl bg-[#f7f3ea] p-4 sm:p-5">
+      <p className="flex flex-wrap items-center gap-2">
+        <span className="text-[11px] font-bold uppercase tracking-wide text-ink-soft">Resumo comparativo do tema</span>
+        <span className="inline-flex items-center gap-1 rounded-full bg-[#EDDBBA]/70 px-2 py-0.5 text-[10px] font-bold uppercase text-[#6b4f1d]">
           <Sparkles size={11} aria-hidden="true" /> Gerado por IA
         </span>
-      </summary>
-      <p className="mt-2 text-sm leading-relaxed text-ink">{comparison.summary}</p>
+      </p>
+      <p className="mt-2 text-sm leading-relaxed text-ink sm:text-base">{comparison.summary}</p>
       <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2">
         {[
           { titulo: 'Pontos em comum', itens: comparison.similarities },
@@ -182,7 +185,72 @@ function AiComparison({ slug }: { slug: string }) {
         diz que um candidato “não menciona” algo, significa que nenhuma proposta extraída trata disso — não que o plano
         registrado no TSE não trate. Confira os trechos originais e “Assuntos nos planos oficiais”.
       </p>
-    </details>
+    </div>
+  );
+}
+
+/**
+ * Faixa "Os candidatos": quem está na comparação, com resultado da eleição,
+ * quantas propostas o Votus reuniu e quantas têm trecho localizado no plano
+ * do TSE. Dá o contexto antes da busca — o mesmo papel do resumo no Radar.
+ */
+function CandidatesOverview({
+  candidates,
+  proposals,
+  results,
+}: {
+  candidates: ComparisonCandidate[];
+  proposals: ProposalIndex['proposals'];
+  results: Record<string, ElectionResult>;
+}) {
+  return (
+    <ul className="grid grid-cols-1 gap-y-5 sm:grid-cols-2 sm:gap-x-0 sm:divide-x sm:divide-line">
+      {candidates.map((c) => {
+        const own = proposals.filter((p) => p.candidate_id === c.id);
+        const located = own.filter((p) => documentStatus(p, c.external_id).kind === 'located').length;
+        const document = coverage.documents[c.external_id];
+        const planUrl = document?.plan_pdf_url ?? c.plan_document_url;
+        const cores = candidateColors(c.name);
+        const result = results[c.external_id];
+
+        return (
+          <li key={c.external_id} className="min-w-0 sm:px-6 sm:first:pl-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <span aria-hidden="true" className={`h-3 w-3 shrink-0 rounded-full ${cores.barra}`} />
+              <p className={`text-xl font-black leading-tight ${cores.texto}`}>{c.name}</p>
+              {c.party && <span className="rounded-full bg-[#f1ebe0] px-2.5 py-0.5 text-xs font-bold text-ink">{c.party}</span>}
+              {result && <ElectionResultBadge result={result} />}
+            </div>
+            <dl className="mt-3 grid grid-cols-2 gap-3">
+              <div>
+                <dt className="text-[11px] font-bold uppercase text-ink-soft">Propostas reunidas</dt>
+                <dd className="text-2xl font-black tabular-nums text-ink">{own.length.toLocaleString('pt-BR')}</dd>
+              </div>
+              <div>
+                <dt className="text-[11px] font-bold uppercase text-ink-soft">Trecho no plano do TSE</dt>
+                <dd className="text-2xl font-black tabular-nums text-ink">
+                  {document ? located.toLocaleString('pt-BR') : <span className="text-sm text-ink-soft">Plano não analisado</span>}
+                </dd>
+                {document && own.length > 0 && (
+                  <dd className="text-[11px] text-ink-soft">{Math.round((located / own.length) * 100)}% das propostas</dd>
+                )}
+              </div>
+            </dl>
+            {planUrl && (
+              <a
+                href={planUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[#1B623A] underline underline-offset-2"
+              >
+                Plano de governo registrado no TSE{document ? ` · ${document.plan_pages} páginas com texto` : ''}
+                <ExternalLink size={11} aria-hidden="true" />
+              </a>
+            )}
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
@@ -196,7 +264,6 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
   const query = useSyncExternalStore(assinarUrl, lerQueryAtual, lerQueryServidor);
   const { de, ...filtros } = useMemo(() => lerFiltros(query), [query]);
   const [gruposAbertos, setGruposAbertos] = useState<string[]>([]);
-  const [filtrosAbertos, setFiltrosAbertos] = useState(false);
 
   const resultados = useResultados();
   const candidatos = useCandidatos(index, resultados);
@@ -344,18 +411,26 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
             {candidatoDeOrigem ? `Voltar ao perfil de ${candidatoDeOrigem.name}` : 'Candidatos a Presidente'}
           </Link>
 
-          <PageHeader
-            eyebrow="Eleições 2026"
-            title="Compare as propostas para Presidente"
-            description="Explore os planos de governo, compare propostas por tema e consulte os trechos originais dos documentos oficiais, com indicação da página e da fonte utilizada."
-            note="Página de consulta a documentos: não recomenda voto nem avalia qual proposta é melhor."
-            compact
+          {/* Cabeçalho padrão das páginas do Votus (Radar, Inicial, Notícias...). */}
+          <DashboardHeader
+            titleText="Comparador de propostas"
+            titleColor="text-brasil-green"
+            subtitle="Eleições 2026 · Compare as propostas para Presidente por tema, com o trecho original e a página de cada plano de governo oficial."
           />
+          <p className="mt-3 flex max-w-3xl items-start gap-1.5 text-xs leading-relaxed text-ink-soft sm:text-sm">
+            <Info size={15} aria-hidden="true" className="mt-0.5 shrink-0 text-[#1B623A]" />
+            <span>
+              Página de consulta a documentos: não recomenda voto nem avalia qual proposta é melhor.{' '}
+              <a href="#fontes-e-metodologia" className="font-semibold text-[#1B623A] underline underline-offset-2">
+                Como a comparação foi feita
+              </a>
+            </span>
+          </p>
 
           {isLoading && !index ? (
             <ComparadorSkeleton />
           ) : error && !index ? (
-            <div role="alert" className="mt-6 rounded-2xl border border-[#e0d6c4] bg-white p-5 text-sm">
+            <div role="alert" className="mt-6 rounded-2xl bg-[#f7f3ea] p-5 text-sm">
               <p className="font-semibold text-[#8d0801]">Não foi possível carregar as propostas agora.</p>
               <p className="mt-1 text-ink-soft">Pode ser uma instabilidade momentânea do servidor.</p>
               <button
@@ -367,44 +442,31 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
               </button>
             </div>
           ) : index && index.proposals.length === 0 ? (
-            <p role="status" className="mt-6 rounded-2xl border border-[#e0d6c4] bg-white p-5 text-sm text-ink-soft">
+            <p role="status" className="mt-6 rounded-2xl bg-[#f7f3ea] p-5 text-sm text-ink-soft">
               Ainda não há propostas processadas. Elas aparecem aqui depois que os planos de governo forem importados das
               fontes oficiais.
             </p>
           ) : (
             <>
-              {/* Busca e filtros: barra padrão do Votus, fixa no topo ao rolar. */}
-              <section aria-labelledby="filtros-titulo" className="sticky top-0 z-30 -mx-4 mt-3 border-b border-[#efe8da] bg-[#FDFDFD] px-4 pb-2 pt-2 sm:-mx-10 sm:px-10">
+              {/* Faixa 1: quem está na comparação. */}
+              <PageSection id="candidatos" title="Os candidatos" icon={<Users size={20} />} className="mt-6">
+                <CandidatesOverview candidates={candidatos} proposals={index?.proposals ?? []} results={resultados} />
+              </PageSection>
+
+              {/* Faixa 2: busca no padrão do Votus (mesma barra de Candidatos e
+                  Deputados: pílula + "Filtros" com painel). */}
+              <section aria-labelledby="filtros-titulo" className="mt-8">
                 <h2 id="filtros-titulo" className="sr-only">Buscar e filtrar propostas</h2>
-                {/* Desktop: busca + 3 filtros na mesma linha. Celular: busca e
-                    botão "Filtros", que abre os campos empilhados. */}
-                <div className="grid grid-cols-1 gap-x-3 gap-y-2 lg:grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(0,1fr))] lg:items-end">
-                  <div className="flex min-w-0 items-end gap-2">
-                    <div className="min-w-0 flex-1">
-                      <span aria-hidden="true" className="block px-1 text-[11px] font-bold uppercase tracking-wide text-[#1B623A]">
-                        Buscar nas propostas
-                      </span>
-                      <SearchBar
-                        className="mt-1"
-                        searchValue={filtros.busca}
-                        onSearchChange={(valor) => atualizar('busca', valor)}
-                        placeholder="Ex.: SUS, escola, livros"
-                        searchLabel="Buscar nas propostas"
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setFiltrosAbertos((v) => !v)}
-                      aria-expanded={filtrosAbertos}
-                      aria-controls="filtros-campos"
-                      className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full border border-[#EDDBBA] bg-[#FDF8EE] px-4 text-sm font-medium text-[#1B623A] lg:hidden"
-                    >
-                      <SlidersHorizontal size={16} aria-hidden="true" />
-                      {filtrosDoPainel > 0 ? `Filtros (${filtrosDoPainel})` : 'Filtros'}
-                    </button>
-                  </div>
-                  <div id="filtros-campos" className={`${filtrosAbertos ? 'grid' : 'hidden'} grid-cols-1 gap-2 sm:grid-cols-3 lg:contents`}>
-                    <FilterSelect className="block" label="Área ou tema" value={filtros.tema} onChange={(v) => atualizar('tema', v)}>
+                <SearchBar
+                  className=""
+                  searchValue={filtros.busca}
+                  onSearchChange={(valor) => atualizar('busca', valor)}
+                  placeholder="Buscar nas propostas (ex.: SUS, escola, livros)"
+                  searchLabel="Buscar nas propostas"
+                  activeFilterCount={filtrosDoPainel}
+                  filterPanel={(fechar) => (
+                    <div>
+                    <FilterSelect label="Área ou tema" value={filtros.tema} onChange={(v) => atualizar('tema', v)}>
                       <option value="">Todas as áreas</option>
                       {porGrupo.map(({ group, temas }) => (
                         <optgroup key={group.key} label={group.label}>
@@ -415,21 +477,30 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                         </optgroup>
                       ))}
                     </FilterSelect>
-                    <FilterSelect className="block" label="Candidato" value={filtros.candidato} onChange={(v) => atualizar('candidato', v)}>
+                    <FilterSelect label="Candidato" value={filtros.candidato} onChange={(v) => atualizar('candidato', v)}>
                       <option value="">Todos</option>
                       {candidatos.map((c) => (
                         <option key={c.external_id} value={c.external_id}>{c.name}</option>
                       ))}
                     </FilterSelect>
-                    <FilterSelect className="block" label="Situação no plano do TSE" value={filtros.situacao} onChange={(v) => atualizar('situacao', v)}>
+                    <FilterSelect label="Situação no plano do TSE" value={filtros.situacao} onChange={(v) => atualizar('situacao', v)}>
                       <option value="">Todas</option>
                       {Object.entries(SITUACOES).map(([valor, kind]) => (
                         <option key={valor} value={valor}>{DOCUMENT_STATUS_LABELS[kind]}</option>
                       ))}
                     </FilterSelect>
-                  </div>
-                </div>
-                <div className="mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
+                    <FilterPanelActions
+                      onClear={() => {
+                        limpar();
+                        fechar();
+                      }}
+                      onApply={fechar}
+                      applyLabel="Ver resultado"
+                    />
+                    </div>
+                  )}
+                />
+                <div className="mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
                   <p aria-live="polite" className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-soft sm:text-sm">
                     {temFiltro ? (
                       <>
@@ -458,7 +529,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
 
               {temasComparaveis.length > 0 && (
                 <nav aria-label="Temas com propostas de todos os candidatos" className="mt-3">
-                  <p className="text-[11px] font-bold uppercase tracking-wide text-ink-soft">Lado a lado, com propostas de todos</p>
+                  <p className="text-[11px] font-bold uppercase tracking-wide text-ink-soft">Temas com propostas de todos os candidatos</p>
                   <div className="mt-1.5 flex gap-2 overflow-x-auto pb-1 scrollbar-hide md:flex-wrap md:overflow-visible">
                     {temasComparaveis.map((t) => {
                       const ativo = temaSelecionado === t.slug;
@@ -483,23 +554,27 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
               )}
 
               {temFiltro && (
-                <section aria-labelledby="resultado-titulo" className="mt-6 space-y-4">
-                  <h2 id="resultado-titulo" className="scroll-mt-40 break-words text-xl font-black text-[#1B623A]">
-                    {filtros.tema ? nomeDoTema(filtros.tema) : 'Resultado da busca'}
-                  </h2>
-                  <details className="rounded-xl border border-[#e0d6c4] bg-[#f7f5f2] px-3 py-2 text-[13px] leading-relaxed text-ink-soft">
-                    <summary className="cursor-pointer font-bold text-[#1B623A]">Como ler a comparação</summary>
-                    <ul className="mt-2 list-disc space-y-1 pl-5">
-                      <li><strong className="text-ink">Resumo (IA)</strong> facilita a leitura; quem confirma é o trecho original e o documento.</li>
-                      <li><strong className="text-ink">Texto do site</strong> foi copiado do site de campanha, sem IA.</li>
-                      <li><strong className="text-ink">Plano de governo registrado no TSE</strong> mostra se o conteúdo foi localizado no PDF oficial e em qual página; toque na etiqueta para abrir a página.</li>
-                      <li>Um tema pode ter propostas de um candidato e não do outro: cada plano organiza os assuntos à sua maneira. Estar no mesmo tema não torna duas propostas equivalentes.</li>
-                      <li>Os filtros se somam: busca, área, candidato e situação valem ao mesmo tempo.</li>
-                    </ul>
-                  </details>
+                <PageSection
+                  id="resultado"
+                  className="mt-8"
+                  title={filtros.tema ? nomeDoTema(filtros.tema) : 'Resultado da busca'}
+                  icon={<ListChecks size={20} />}
+                  info={
+                    <InfoTooltip label="Como ler a comparação" iconClassName="text-[#8D0801]">
+                      <ul className="list-disc space-y-1 pl-4">
+                        <li><strong>Resumo (IA)</strong> facilita a leitura; quem confirma é o trecho original e o documento.</li>
+                        <li><strong>Texto do site</strong> foi copiado do site de campanha, sem IA.</li>
+                        <li><strong>Plano de governo registrado no TSE</strong> mostra se o conteúdo foi localizado no PDF oficial e em qual página.</li>
+                        <li>Estar no mesmo tema não torna duas propostas equivalentes; cada plano organiza os assuntos à sua maneira.</li>
+                        <li>Os filtros se somam: busca, área, candidato e situação valem ao mesmo tempo.</li>
+                      </ul>
+                    </InfoTooltip>
+                  }
+                >
+                <div className="space-y-5">
                   {temaSelecionado && <AiComparison slug={temaSelecionado} />}
                   {filtradas.length === 0 && (
-                    <div role="status" className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[#e0d6c4] bg-white p-3 text-sm text-ink-soft">
+                    <div role="status" className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-[#f7f3ea] p-4 text-sm text-ink-soft">
                       <p className="min-w-0">
                         Nenhuma proposta extraída atende a todos os filtros ao mesmo tempo ({filtrosAtivos.join(' + ')}). Tente
                         outra palavra, remova um filtro ou veja abaixo se o assunto aparece nos planos oficiais.
@@ -516,14 +591,16 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                     electionResults={resultados}
                     emptyHint="Nenhuma proposta extraída deste candidato com esses filtros. Isso não quer dizer que o plano não trate do assunto — veja “Assuntos nos planos oficiais”."
                   />
-                </section>
+                </div>
+                </PageSection>
               )}
 
-              <section aria-labelledby="visao-geral-titulo" className="mt-8">
-                <div className="flex items-center gap-1.5">
-                  <h2 id="visao-geral-titulo" className="text-sm font-black uppercase tracking-wide text-[#1B623A]">
-                    Visão geral por área
-                  </h2>
+              <PageSection
+                id="visao-geral"
+                className="mt-8"
+                title="Visão geral por área"
+                icon={<LayoutGrid size={20} />}
+                info={
                   <InfoTooltip label="Sobre a visão geral por área" iconClassName="text-[#8D0801]">
                     Mostra quantas propostas o Votus extraiu em cada área. Abra uma área para ver seus temas ou escolha
                     “Comparar” para ver as propostas lado a lado. “0 propostas extraídas” não significa que o plano
@@ -532,11 +609,12 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                       Assuntos mencionados nos planos oficiais
                     </a>.
                   </InfoTooltip>
-                </div>
-                <div className="mt-3 overflow-x-auto rounded-xl border border-[#e0d6c4] bg-white">
+                }
+              >
+                <div className="overflow-x-auto">
                   <table className="w-full text-left text-sm">
                     <caption className="sr-only">Propostas extraídas por área e candidato</caption>
-                    <thead className="bg-[#f7f5f2] text-xs uppercase text-ink-soft">
+                    <thead className="border-b border-line text-xs uppercase text-ink-soft">
                       <tr>
                         <th scope="col" className="px-3 py-2 font-bold">Área</th>
                         {candidatos.map((c) => {
@@ -556,7 +634,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                         const maiorContagem = Math.max(0, ...candidatos.map((c) => contagem(c.id)));
 
                         return [
-                          <tr key={group.key} className="border-t border-[#efe8da]">
+                          <tr key={group.key} className="border-b border-line">
                             <th scope="row" className="px-3 py-2 font-semibold">
                               <button
                                 type="button"
@@ -573,7 +651,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                               <button
                                 type="button"
                                 onClick={() => compararTema(`grupo:${group.key}`)}
-                                className="ml-5 mt-1 inline-flex min-h-9 items-center justify-center rounded-lg bg-[#1B623A] px-3 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-[#134A2A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A] sm:hidden"
+                                className="ml-5 mt-1 inline-flex min-h-9 items-center justify-center rounded-full border border-[#1B623A] px-3.5 text-xs font-bold text-[#1B623A] transition-colors hover:bg-[#1B623A] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A] sm:hidden"
                               >
                                 Comparar
                               </button>
@@ -596,7 +674,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                               <button
                                 type="button"
                                 onClick={() => compararTema(`grupo:${group.key}`)}
-                                className="inline-flex min-h-9 items-center justify-center rounded-lg bg-[#1B623A] px-3 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-[#134A2A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
+                                className="inline-flex min-h-9 items-center justify-center rounded-full border border-[#1B623A] px-3.5 text-xs font-bold text-[#1B623A] transition-colors hover:bg-[#1B623A] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                               >
                                 Comparar
                               </button>
@@ -604,7 +682,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                           </tr>,
                           aberto
                             ? temas.map((t) => (
-                                <tr key={t.slug} className="border-t border-[#f3eee4] bg-[#fbfaf7]">
+                                <tr key={t.slug} className="border-b border-line/60 bg-[#fbf8f1]">
                                   <th scope="row" className="py-1.5 pl-9 pr-3 text-[13px] font-normal text-ink">
                                     {/* No celular a coluna "Comparar" some: o próprio nome do tema abre a comparação. */}
                                     <button
@@ -622,7 +700,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                                     <button
                                       type="button"
                                       onClick={() => compararTema(t.slug)}
-                                      className="inline-flex min-h-9 items-center justify-center rounded-lg bg-[#1B623A] px-3 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-[#134A2A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
+                                      className="inline-flex min-h-9 items-center justify-center rounded-full border border-[#1B623A] px-3.5 text-xs font-bold text-[#1B623A] transition-colors hover:bg-[#1B623A] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A]"
                                     >
                                       Comparar
                                     </button>
@@ -635,16 +713,20 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
                     </tbody>
                   </table>
                 </div>
-              </section>
+              </PageSection>
 
               <PlanKeywords candidates={candidatosVisiveis} proposals={index?.proposals ?? []} onPick={buscarTermo} />
               <SubjectCoverage candidates={candidatosVisiveis} query={filtros.busca} />
               <SourcesPanel candidates={candidatos} proposals={index?.proposals ?? []} methodology={methodology} />
-              <p className="mt-4 mb-28 rounded-xl border border-[#e0d6c4] bg-[#FDF8EE] p-3 text-sm leading-relaxed text-ink-soft">
-                A IA pode errar; confira os trechos. As fontes variam entre candidatos. Veja{' '}
-                <a href="#fontes-analisadas" className="font-bold text-[#1B623A] underline underline-offset-2">
-                  Fontes analisadas
-                </a>.
+              <p className="mt-4 mb-28 flex items-start gap-1.5 text-xs leading-relaxed text-ink-soft sm:text-sm">
+                <Info size={15} aria-hidden="true" className="mt-0.5 shrink-0 text-[#1B623A]" />
+                <span>
+                  A IA pode errar; confira os trechos. As fontes variam entre candidatos. Veja{' '}
+                  <a href="#fontes-analisadas" className="font-bold text-[#1B623A] underline underline-offset-2">
+                    Fontes analisadas
+                  </a>
+                  .
+                </span>
               </p>
             </>
           )}
