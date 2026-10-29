@@ -365,16 +365,24 @@ export default function ShareCardEditor({
             </Section>
 
             <Section title="Fundo">
-              <Swatches
-                label="Fundo do card"
-                value={design.backgroundId}
-                onChange={(backgroundId) => setDesign((d) => ({ ...d, backgroundId }))}
-                options={SHARE_BACKGROUNDS.map((b) => ({
-                  id: b.id,
-                  label: b.colors.length === 2 ? `Gradiente ${b.label}` : `Fundo ${b.label}`,
-                  css: b.colors.length === 2 ? `linear-gradient(135deg, ${b.colors[0]}, ${b.colors[1]})` : b.colors[0],
-                }))}
-              />
+              {[
+                { title: 'Sólidos', list: SHARE_BACKGROUNDS.filter((b) => b.colors.length === 1) },
+                { title: 'Gradientes', list: SHARE_BACKGROUNDS.filter((b) => b.colors.length > 1) },
+              ].map(({ title, list }) => (
+                <div key={title} className="mb-3 last:mb-0">
+                  <p className="mb-1.5 text-[11px] font-semibold text-ink-soft">{title}</p>
+                  <Swatches
+                    label={`Fundos ${title.toLowerCase()}`}
+                    value={design.backgroundId}
+                    onChange={(backgroundId) => setDesign((d) => ({ ...d, backgroundId }))}
+                    options={list.map((b) => ({
+                      id: b.id,
+                      label: b.colors.length > 1 ? `Gradiente ${b.label}` : `Fundo ${b.label}`,
+                      css: b.colors.length > 1 ? `linear-gradient(135deg, ${b.colors.join(', ')})` : b.colors[0],
+                    }))}
+                  />
+                </div>
+              ))}
             </Section>
 
             <Section title="Cor de destaque">

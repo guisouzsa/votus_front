@@ -22,23 +22,36 @@ export const SHARE_TEMPLATES: Record<ShareTemplate, string> = {
 export interface ShareBackground {
   id: string;
   label: string;
-  /** Uma cor = fundo sólido; duas = gradiente diagonal discreto. */
-  colors: [string] | [string, string];
+  /** Uma cor = fundo sólido; duas ou mais = gradiente diagonal. */
+  colors: string[];
   text: string;
   muted: string;
-  /** Fundo claro: usa a logo colorida; escuro: o nome em branco. */
   light: boolean;
 }
 
-// Cores da identidade do Votus (globals.css) e tons próximos.
+// Cores da identidade do Votus (globals.css) e tons próximos. Cada fundo foi
+// conferido para manter texto e texto secundário legíveis em todas as cores
+// do gradiente (ver contraste em effectiveAccent e no teste do card).
 export const SHARE_BACKGROUNDS: ShareBackground[] = [
-  { id: 'creme', label: 'Creme', colors: ['#FDF8EE'], text: '#22201b', muted: '#6b6255', light: true },
-  { id: 'branco', label: 'Branco', colors: ['#FFFFFF'], text: '#22201b', muted: '#6b6255', light: true },
+  // Sólidos
+  { id: 'creme', label: 'Creme', colors: ['#FDF8EE'], text: '#22201b', muted: '#5f5649', light: true },
+  { id: 'branco', label: 'Branco', colors: ['#FFFFFF'], text: '#22201b', muted: '#5f5649', light: true },
   { id: 'verde', label: 'Verde', colors: ['#1B623A'], text: '#FFFFFF', muted: '#d4e6da', light: false },
-  { id: 'vinho', label: 'Vinho', colors: ['#8D0801'], text: '#FFFFFF', muted: '#f3d6d4', light: false },
-  { id: 'grad-floresta', label: 'Floresta', colors: ['#1B623A', '#0F3D22'], text: '#FFFFFF', muted: '#d4e6da', light: false },
+  { id: 'vinho', label: 'Vinho', colors: ['#8D0801'], text: '#FFFFFF', muted: '#f6dcda', light: false },
+  // Gradientes escuros
+  { id: 'grad-floresta', label: 'Floresta', colors: ['#1B623A', '#0B3320'], text: '#FFFFFF', muted: '#d4e6da', light: false },
+  { id: 'grad-esmeralda', label: 'Esmeralda', colors: ['#064E3B', '#0B6A4C'], text: '#FFFFFF', muted: '#dcefe3', light: false },
+  { id: 'grad-campo', label: 'Campo', colors: ['#1B623A', '#3F6212'], text: '#FFFFFF', muted: '#e2edcf', light: false },
+  { id: 'grad-oceano', label: 'Oceano', colors: ['#0B4F5C', '#0A3550'], text: '#FFFFFF', muted: '#d6e8ee', light: false },
+  { id: 'grad-ameixa', label: 'Ameixa', colors: ['#6B1438', '#3A0A24'], text: '#FFFFFF', muted: '#f3dbe5', light: false },
+  { id: 'grad-vinho', label: 'Vinho profundo', colors: ['#8D0801', '#4A0400'], text: '#FFFFFF', muted: '#f6dcda', light: false },
   { id: 'grad-por-do-sol', label: 'Pôr do sol', colors: ['#B23A0A', '#8D0801'], text: '#FFFFFF', muted: '#f8ddd3', light: false },
-  { id: 'grad-areia', label: 'Areia', colors: ['#FDF8EE', '#EDDBBA'], text: '#22201b', muted: '#6b5a3d', light: true },
+  { id: 'grad-noite', label: 'Noite', colors: ['#22201b', '#16341F'], text: '#FFFFFF', muted: '#d9d4c8', light: false },
+  // Gradientes claros
+  { id: 'grad-areia', label: 'Areia', colors: ['#FDF8EE', '#EDDBBA'], text: '#22201b', muted: '#5a4a30', light: true },
+  { id: 'grad-menta', label: 'Menta', colors: ['#F1FAF4', '#CFEBD9'], text: '#16341F', muted: '#3f5a48', light: true },
+  { id: 'grad-pessego', label: 'Pêssego', colors: ['#FFF4EA', '#FFD9B8'], text: '#3a1a05', muted: '#6b4426', light: true },
+  { id: 'grad-sol', label: 'Sol', colors: ['#FFFBEA', '#FCE7A1'], text: '#2b2106', muted: '#5f4c12', light: true },
 ];
 
 export const SHARE_ACCENTS = [
@@ -79,6 +92,9 @@ export interface ShareRenderResult {
   scale: number;
 }
 
+// Faixa do topo: as quatro cores da marca Votus, na ordem da logo.
+const BRAND_STRIPE = ['#FF7700', '#1B623A', '#FCC100', '#8D0801'];
+
 // ---------------------------------------------------------------------------
 // Utilidades de cor e texto
 
@@ -97,6 +113,11 @@ function contrast(a: string, b: string): number {
 }
 
 /** A cor de destaque escolhida, ou a cor do texto se ela sumir no fundo. */
+/** Pior contraste de uma cor contra todas as cores do fundo. */
+export function worstContrast(color: string, bg: ShareBackground): number {
+  return Math.min(...bg.colors.map((c) => contrast(color, c)));
+}
+
 export function effectiveAccent(design: ShareDesign): string {
   const bg = backgroundOf(design);
   const accent = SHARE_ACCENTS.find((a) => a.id === design.accentId)?.color ?? bg.text;
@@ -138,12 +159,13 @@ function wrap(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, max
 }
 
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+  const radius = Math.min(r, w / 2, h / 2);
   ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.arcTo(x + w, y, x + w, y + h, r);
-  ctx.arcTo(x + w, y + h, x, y + h, r);
-  ctx.arcTo(x, y + h, x, y, r);
-  ctx.arcTo(x, y, x + w, y, r);
+  ctx.moveTo(x + radius, y);
+  ctx.arcTo(x + w, y, x + w, y + h, radius);
+  ctx.arcTo(x + w, y + h, x, y + h, radius);
+  ctx.arcTo(x, y + h, x, y, radius);
+  ctx.arcTo(x, y, x + w, y, radius);
   ctx.closePath();
 }
 
@@ -155,7 +177,7 @@ function drawPhoto(ctx: CanvasRenderingContext2D, img: HTMLImageElement, x: numb
     ctx.arc(x + w / 2, y + h / 2, Math.min(w, h) / 2, 0, Math.PI * 2);
     ctx.closePath();
   } else {
-    roundRect(ctx, x, y, w, h, Math.min(w, h) * 0.12);
+    roundRect(ctx, x, y, w, h, Math.min(w, h) * 0.14);
   }
   ctx.clip();
   const ratio = Math.max(w / img.naturalWidth, h / img.naturalHeight);
@@ -173,6 +195,8 @@ interface Ctx {
   W: number;
   H: number;
   s: number;
+  /** Multiplica só os espaços verticais (o quadrado é mais compacto); fontes não mudam. */
+  gap: number;
   pad: number;
   bg: ShareBackground;
   accent: string;
@@ -203,69 +227,180 @@ function textBlock(
   return lines.length * lineHeight;
 }
 
-/** Cargo + campos de identificação marcados (partido, estado, legislatura...). */
-function subtitle(profile: ShareProfile, selected: Set<string>): string {
-  return [profile.role, ...profile.fields.filter((f) => f.group === 'identificacao' && selected.has(f.id)).map((f) => f.value)].join(
-    ' · ',
-  );
-}
-
-/** Um dado: rótulo pequeno, valor em destaque e contexto. Devolve a altura. */
-function metric(c: Ctx, f: ShareField, x: number, y: number, width: number, align: CanvasTextAlign, draw: boolean): number {
-  let h = 0;
-  font(c, 700, 26, 'body');
-  h += textBlock(c, [f.label.toUpperCase()], x, y, 34 * c.s, align, c.accent, draw);
-  h += 6 * c.s;
-  font(c, 800, 54, 'heading');
-  h += textBlock(c, wrap(c.ctx, f.value, width, 2), x, y + h, 64 * c.s, align, c.bg.text, draw);
-  if (f.detail) {
-    h += 4 * c.s;
-    font(c, 500, 27, 'body');
-    h += textBlock(c, wrap(c.ctx, f.detail, width, 2), x, y + h, 36 * c.s, align, c.bg.muted, draw);
-  }
-  return h;
-}
-
 function drawBackground(c: Ctx) {
   const { ctx, W, H, bg } = c;
-  if (bg.colors.length === 2) {
+  if (bg.colors.length > 1) {
     const g = ctx.createLinearGradient(0, 0, W, H);
-    g.addColorStop(0, bg.colors[0]);
-    g.addColorStop(1, bg.colors[1]);
+    bg.colors.forEach((color, i) => g.addColorStop(i / (bg.colors.length - 1), color));
     ctx.fillStyle = g;
   } else {
     ctx.fillStyle = bg.colors[0];
   }
   ctx.fillRect(0, 0, W, H);
+
+  // Faixa com as cores da marca no topo: identidade do Votus de relance. Cor
+  // que some no fundo (verde no fundo verde) fica de fora.
+  const stripe = BRAND_STRIPE.filter((color) => Math.min(...bg.colors.map((b) => contrast(color, b))) >= 1.6);
+  const seg = W / stripe.length;
+  stripe.forEach((color, i) => {
+    ctx.fillStyle = color;
+    ctx.fillRect(i * seg, 0, seg + 1, 18);
+  });
 }
 
-/** Logo (fundo claro) ou o nome em branco (fundo escuro). Devolve a altura. */
-function brand(c: Ctx, logo: HTMLImageElement | null, x: number, y: number, align: 'left' | 'center', draw: boolean): number {
-  const h = 52 * c.s;
-  if (!draw) return h;
-  if (c.bg.light && logo) {
-    const w = (logo.naturalWidth / logo.naturalHeight) * h;
-    c.ctx.drawImage(logo, align === 'center' ? x - w / 2 : x, y, w, h);
-  } else {
-    font(c, 900, 50, 'heading');
-    textBlock(c, ['VOTUS'], x, y, h, align, c.bg.text, true);
+/**
+ * Etiquetas (partido, estado, legislatura): pílulas na cor de destaque,
+ * quebrando linha quando não cabem. Devolve a altura ocupada.
+ */
+function chips(c: Ctx, labels: string[], x: number, y: number, width: number, align: 'left' | 'center', draw: boolean): number {
+  if (labels.length === 0) return 0;
+  font(c, 700, 28, 'body');
+  const h = 54 * c.s;
+  const padX = 24 * c.s;
+  const gap = 12 * c.s;
+  const rows: { label: string; w: number }[][] = [[]];
+  let rowW = 0;
+
+  for (const label of labels) {
+    const w = c.ctx.measureText(label).width + padX * 2;
+    if (rowW > 0 && rowW + gap + w > width) {
+      rows.push([]);
+      rowW = 0;
+    }
+    rows[rows.length - 1].push({ label, w });
+    rowW += (rowW > 0 ? gap : 0) + w;
+  }
+
+  if (draw) {
+    rows.forEach((row, r) => {
+      const total = row.reduce((a, p) => a + p.w, 0) + gap * (row.length - 1);
+      let cx = align === 'center' ? x - total / 2 : x;
+      const cy = y + r * (h + gap);
+      for (const { label, w } of row) {
+        c.ctx.globalAlpha = 0.14;
+        c.ctx.fillStyle = c.accent;
+        roundRect(c.ctx, cx, cy, w, h, h / 2);
+        c.ctx.fill();
+        c.ctx.globalAlpha = 1;
+        font(c, 700, 28, 'body');
+        c.ctx.fillStyle = c.accent;
+        c.ctx.textAlign = 'center';
+        c.ctx.textBaseline = 'middle';
+        c.ctx.fillText(label, cx + w / 2, cy + h / 2 + 1);
+        cx += w + gap;
+      }
+    });
+  }
+
+  return rows.length * h + (rows.length - 1) * gap;
+}
+
+/**
+ * Um dado: rótulo curto, valor em destaque e contexto. Número ou termo curto
+ * vai grande; texto longo (ex.: escolaridade) vai menor e em até 3 linhas,
+ * em vez de ser cortado.
+ */
+function metric(
+  c: Ctx,
+  f: ShareField,
+  x: number,
+  y: number,
+  width: number,
+  align: CanvasTextAlign,
+  draw: boolean,
+  detailLines = 1,
+): number {
+  let h = 0;
+  font(c, 700, 24, 'body');
+  h += textBlock(c, [f.label.toUpperCase()], x, y, 32 * c.s, align, c.accent, draw);
+  h += 4 * c.s;
+  const long = f.value.length > 26;
+  font(c, 800, long ? 40 : 60, 'heading');
+  h += textBlock(c, wrap(c.ctx, f.value, width, long ? 3 : 2), x, y + h, (long ? 50 : 70) * c.s, align, c.bg.text, draw);
+  if (f.detail) {
+    h += 10 * c.s;
+    font(c, 500, 26, 'body');
+    h += textBlock(c, wrap(c.ctx, f.detail, width, detailLines), x, y + h, 34 * c.s, align, c.bg.muted, draw);
   }
   return h;
 }
 
-function footer(c: Ctx, profile: ShareProfile, siteHost: string, align: CanvasTextAlign, draw: boolean): number {
-  const date = new Date().toLocaleDateString('pt-BR');
-  const x = align === 'center' ? c.W / 2 : c.pad;
-  const width = c.W - c.pad * 2;
-  font(c, 500, 24, 'body');
-  const lines = wrap(c.ctx, `Fonte: ${profile.source}, via Votus · gerado em ${date}`, width, 2);
-  const h = lines.length * 32 * c.s + 8 * c.s + 32 * c.s;
-  if (draw) {
-    const y = c.H - c.pad - h;
-    textBlock(c, lines, x, y, 32 * c.s, align, c.bg.muted, true);
-    font(c, 700, 24, 'body');
-    textBlock(c, [siteHost], x, y + lines.length * 32 * c.s + 8 * c.s, 32 * c.s, align, c.bg.text, true);
+/**
+ * Rodapé: linha da fonte e, embaixo, o selo "Compartilhado via VOTUS" — uma
+ * pílula branca com a logo colorida, que funciona em qualquer fundo e deixa
+ * claro que o card foi produzido pelo Votus. Devolve a altura.
+ */
+/** Logo colorida (ou o nome em verde, se a imagem faltar). Devolve a largura. */
+function drawLogo(c: Ctx, logo: HTMLImageElement | null, x: number, midY: number, height: number): number {
+  if (logo) {
+    const w = (logo.naturalWidth / logo.naturalHeight) * height;
+    c.ctx.drawImage(logo, x, midY - height / 2, w, height);
+    return w;
   }
+  c.ctx.font = `900 ${Math.round(height * 0.9)}px ${c.fonts.heading}`;
+  c.ctx.fillStyle = '#1B623A';
+  c.ctx.textAlign = 'left';
+  c.ctx.textBaseline = 'middle';
+  c.ctx.fillText('VOTUS', x, midY + 1);
+  return c.ctx.measureText('VOTUS').width;
+}
+
+function logoWidth(logo: HTMLImageElement | null, height: number, c: Ctx): number {
+  if (logo) return (logo.naturalWidth / logo.naturalHeight) * height;
+  c.ctx.font = `900 ${Math.round(height * 0.9)}px ${c.fonts.heading}`;
+  return c.ctx.measureText('VOTUS').width;
+}
+
+/** Pílula branca com borda (nos fundos claros) — o "papel" do selo Votus. */
+function whitePill(c: Ctx, x: number, y: number, w: number, h: number) {
+  c.ctx.fillStyle = '#FFFFFF';
+  roundRect(c.ctx, x, y, w, h, h / 2);
+  c.ctx.fill();
+  if (c.bg.light) {
+    c.ctx.strokeStyle = '#d9cdb5';
+    c.ctx.lineWidth = 2 * c.s;
+    c.ctx.stroke();
+  }
+}
+
+/**
+ * Rodapé: fonte, data e site numa linha e, embaixo, o selo grande "Gerado e
+ * compartilhado via VOTUS" — pílula branca com a logo colorida, legível em
+ * qualquer fundo, deixando claro que o card foi produzido pelo Votus.
+ */
+function footer(c: Ctx, profile: ShareProfile, logo: HTMLImageElement | null, siteHost: string, align: CanvasTextAlign, draw: boolean): number {
+  const width = c.W - c.pad * 2;
+  const badgeH = 124 * c.s;
+  const date = new Date().toLocaleDateString('pt-BR');
+  font(c, 500, 24, 'body');
+  const sourceLines = wrap(c.ctx, `Fonte: ${profile.source} · ${date} · ${siteHost}`, width, 2);
+  const sourceH = sourceLines.length * 32 * c.s;
+  const h = sourceH + 22 * c.s + badgeH;
+  if (!draw) return h;
+
+  const top = c.H - c.pad - h;
+  textBlock(c, sourceLines, align === 'center' ? c.W / 2 : c.pad, top, 32 * c.s, align, c.bg.muted, true);
+
+  const by = top + sourceH + 22 * c.s;
+  whitePill(c, c.pad, by, width, badgeH);
+
+  // Texto + logo centralizados na pílula; frase menor se não couber.
+  const logoH = 60 * c.s;
+  const lw = logoWidth(logo, logoH, c);
+  const gap = 18 * c.s;
+  font(c, 800, 32, 'body');
+  let label = 'Gerado e compartilhado via';
+  if (c.ctx.measureText(label).width + gap + lw > width - 80 * c.s) label = 'Gerado via';
+  const labelW = c.ctx.measureText(label).width;
+  const startX = c.W / 2 - (labelW + gap + lw) / 2;
+  const mid = by + badgeH / 2;
+
+  c.ctx.fillStyle = '#22201b';
+  c.ctx.textAlign = 'left';
+  c.ctx.textBaseline = 'middle';
+  c.ctx.fillText(label, startX, mid + 1);
+  drawLogo(c, logo, startX + labelW + gap, mid, logoH);
+
   return h;
 }
 
@@ -281,86 +416,119 @@ function compose(
   design: ShareDesign,
   assets: ShareAssets,
   draw: boolean,
+  offsetY = 0,
 ): number {
   const { pad, W, s } = c;
   const width = W - pad * 2;
   const photo = design.showPhoto ? assets.photo : null;
   const centered = design.template === 'centro';
-  let y = pad;
+  const tags = profile.fields.filter((f) => f.group === 'identificacao' && selected.has(f.id)).map((f) => f.value);
+  // Espaço vertical entre blocos (menor no formato quadrado).
+  const v = s * c.gap;
+  let y = pad + 18 + offsetY;
 
-  y += brand(c, assets.logo, centered ? W / 2 : pad, y, centered ? 'center' : 'left', draw) + 56 * s;
+  // Linha do topo: etiqueta à esquerda (ou no centro) e, no canto direito, a
+  // pílula com a logo do Votus — a marca aparece em cima e embaixo do card.
+  const topH = 64 * s;
+  if (draw) {
+    const logoH = 34 * s;
+    const pillW = logoWidth(assets.logo, logoH, c) + 44 * s;
+    whitePill(c, W - pad - pillW, y, pillW, topH);
+    drawLogo(c, assets.logo, W - pad - pillW + 22 * s, y + topH / 2, logoH);
+  }
+  font(c, 800, 24, 'body');
+  textBlock(c, ['PERFIL PÚBLICO'], centered ? W / 2 : pad, y + topH / 2 - 16 * s, 32 * s, centered ? 'center' : 'left', c.accent, draw);
+  y += topH + 40 * v;
 
   if (centered) {
     if (photo) {
-      const size = 280 * s;
-      if (draw) drawPhoto(c.ctx, photo, W / 2 - size / 2, y, size, size, true);
-      y += size + 40 * s;
+      const size = (c.gap < 1 ? 190 : 300) * s;
+      const ring = 8 * s;
+      if (draw) {
+        c.ctx.fillStyle = c.accent;
+        c.ctx.beginPath();
+        c.ctx.arc(W / 2, y + size / 2, size / 2 + ring, 0, Math.PI * 2);
+        c.ctx.fill();
+        drawPhoto(c.ctx, photo, W / 2 - size / 2, y, size, size, true);
+      }
+      y += size + ring + 44 * v;
     }
-    font(c, 800, 68, 'heading');
-    y += textBlock(c, wrap(c.ctx, profile.name, width, 2), W / 2, y, 78 * s, 'center', c.bg.text, draw) + 12 * s;
+    font(c, 800, 70, 'heading');
+    y += textBlock(c, wrap(c.ctx, profile.name, width, 2), W / 2, y, 80 * s, 'center', c.bg.text, draw) + 10 * s;
     font(c, 600, 32, 'body');
-    y += textBlock(c, wrap(c.ctx, subtitle(profile, selected), width, 2), W / 2, y, 42 * s, 'center', c.bg.muted, draw);
+    y += textBlock(c, [profile.role], W / 2, y, 42 * s, 'center', c.bg.muted, draw);
+    if (tags.length) y += 24 * s + chips(c, tags, W / 2, y + 24 * s, width, 'center', draw);
   } else {
-    const size = photo ? 230 * s : 0;
-    const textX = photo ? pad + size + 40 * s : pad;
-    const textW = width - (photo ? size + 40 * s : 0);
-    font(c, 800, 64, 'heading');
+    const size = photo ? (c.gap < 1 ? 200 : 250) * s : 0;
+    const gap = photo ? 44 * s : 0;
+    const textX = pad + size + gap;
+    const textW = width - size - gap;
+    font(c, 800, 66, 'heading');
     const nameLines = wrap(c.ctx, profile.name, textW, 3);
     font(c, 600, 30, 'body');
-    const subLines = wrap(c.ctx, subtitle(profile, selected), textW, 3);
-    const textH = nameLines.length * 74 * s + 12 * s + subLines.length * 40 * s;
+    const roleLines = wrap(c.ctx, profile.role, textW, 2);
+    const chipsH = chips(c, tags, textX, 0, textW, 'left', false);
+    const textH = nameLines.length * 76 * s + 8 * s + roleLines.length * 40 * s + (tags.length ? 22 * s + chipsH : 0);
     const blockH = Math.max(size, textH);
-    const textY = y + (blockH - textH) / 2;
+    const ty = y + (blockH - textH) / 2;
 
-    if (photo && draw) drawPhoto(c.ctx, photo, pad, y, size, size, false);
-    font(c, 800, 64, 'heading');
-    textBlock(c, nameLines, textX, textY, 74 * s, 'left', c.bg.text, draw);
+    if (photo && draw) {
+      const ring = 8 * s;
+      c.ctx.fillStyle = c.accent;
+      roundRect(c.ctx, pad - ring, y + (blockH - size) / 2 - ring, size + ring * 2, size + ring * 2, (size + ring * 2) * 0.16);
+      c.ctx.fill();
+      drawPhoto(c.ctx, photo, pad, y + (blockH - size) / 2, size, size, false);
+    }
+    font(c, 800, 66, 'heading');
+    let ly = ty + textBlock(c, nameLines, textX, ty, 76 * s, 'left', c.bg.text, draw) + 8 * s;
     font(c, 600, 30, 'body');
-    textBlock(c, subLines, textX, textY + nameLines.length * 74 * s + 12 * s, 40 * s, 'left', c.bg.muted, draw);
+    ly += textBlock(c, roleLines, textX, ly, 40 * s, 'left', c.bg.muted, draw);
+    if (tags.length) chips(c, tags, textX, ly + 22 * s, textW, 'left', draw);
     y += blockH;
   }
 
   if (metrics.length === 0) return y;
+  y += 64 * v;
 
-  // Separador curto na cor de destaque entre identificação e dados.
-  y += 56 * s;
-  if (draw) {
-    c.ctx.fillStyle = c.accent;
-    const lineW = 96 * s;
-    c.ctx.fillRect(centered ? W / 2 - lineW / 2 : pad, y, lineW, 6 * s);
-  }
-  y += 6 * s + 48 * s;
-
-  // Centralizado com 3+ dados: duas colunas; senão, uma lista.
-  const twoCols = centered && metrics.length >= 3;
+  // Centralizado com 3+ dados (ou 2+ no quadrado, que tem pouca altura): duas
+  // colunas; senão, uma lista.
+  const twoCols = centered && (metrics.length >= 3 || (c.gap < 1 && metrics.length >= 2));
   if (twoCols) {
     const gap = 56 * s;
     const colW = (width - gap) / 2;
     for (let i = 0; i < metrics.length; i += 2) {
       const pair = metrics.slice(i, i + 2);
-      const heights = pair.map((m, k) =>
-        metric(c, m, pad + k * (colW + gap) + colW / 2, y, colW, 'center', draw),
-      );
-      y += Math.max(...heights) + 48 * s;
+      if (i > 0 && draw) {
+        c.ctx.fillStyle = c.bg.muted;
+        c.ctx.globalAlpha = 0.3;
+        c.ctx.fillRect(pad, y - 28 * v, width, 2 * s);
+        c.ctx.globalAlpha = 1;
+      }
+      // Último dado sozinho na linha: centralizado, não preso à coluna da esquerda.
+      const heights =
+        pair.length === 1
+          ? [metric(c, pair[0], W / 2, y, colW * 1.4, 'center', draw, 2)]
+          : pair.map((m, k) => metric(c, m, pad + k * (colW + gap) + colW / 2, y, colW, 'center', draw, 2));
+      y += Math.max(...heights) + 56 * v;
     }
-    return y - 48 * s;
+    return y - 56 * v;
   }
 
   metrics.forEach((m, i) => {
     if (i > 0) {
       if (draw) {
         c.ctx.fillStyle = c.bg.muted;
-        c.ctx.globalAlpha = 0.35;
+        c.ctx.globalAlpha = 0.3;
         c.ctx.fillRect(centered ? W / 2 - width / 4 : pad, y, centered ? width / 2 : width, 2 * s);
         c.ctx.globalAlpha = 1;
       }
-      y += 2 * s + 36 * s;
+      y += 2 * s + 32 * v;
     }
     y += metric(c, m, centered ? W / 2 : pad, y, width, centered ? 'center' : 'left', draw);
-    y += 36 * s;
+    y += 32 * v;
   });
 
-  return y - 36 * s;
+  return y - 32 * v;
 }
 
 /**
@@ -384,31 +552,41 @@ export function renderShareCard(
   if (!ctx) return { omitted: [], scale: 1 };
 
   const selected = new Set(selectedIds);
-  const allMetrics = profile.fields.filter(
-    (f) => selected.has(f.id) && f.group !== 'identificacao',
-  );
+  const allMetrics = profile.fields.filter((f) => selected.has(f.id) && f.group !== 'identificacao');
   const bg = backgroundOf(design);
-  const base: Omit<Ctx, 's'> = { ctx, W, H, pad: 88, bg, accent: effectiveAccent(design), fonts: assets.fonts };
+  const base: Omit<Ctx, 's'> = {
+    ctx,
+    W,
+    H,
+    gap: design.format === 'square' ? 0.55 : 1,
+    pad: design.format === 'square' ? 64 : 80,
+    bg,
+    accent: effectiveAccent(design),
+    fonts: assets.fonts,
+  };
+  const align: CanvasTextAlign = design.template === 'centro' ? 'center' : 'left';
 
-  let chosen = { s: 1, metrics: allMetrics };
+  let chosen = { s: 0.85, metrics: [] as ShareField[], free: 0 };
   search: for (let count = allMetrics.length; count >= 0; count--) {
     for (const s of [1, 0.92, 0.85]) {
       const c = { ...base, s };
       const metrics = allMetrics.slice(0, count);
       const used = compose(c, profile, metrics, selected, design, assets, false);
-      const foot = footer(c, profile, siteHost, 'left', false);
-      if (used + 48 * s <= H - c.pad - foot) {
-        chosen = { s, metrics };
+      const foot = footer(c, profile, assets.logo, siteHost, align, false);
+      const free = H - c.pad - foot - 56 * s - used;
+      if (free >= 0) {
+        chosen = { s, metrics, free };
         break search;
       }
     }
-    chosen = { s: 0.85, metrics: allMetrics.slice(0, Math.max(0, count - 1)) };
   }
 
+  // Sobra de altura (comum em Stories): o conteúdo fica centralizado entre o
+  // topo e o rodapé, em vez de deixar um vazio grande no meio.
   const c = { ...base, s: chosen.s };
   drawBackground(c);
-  compose(c, profile, chosen.metrics, selected, design, assets, true);
-  footer(c, profile, siteHost, design.template === 'centro' ? 'center' : 'left', true);
+  compose(c, profile, chosen.metrics, selected, design, assets, true, chosen.free / 2);
+  footer(c, profile, assets.logo, siteHost, align, true);
 
   return {
     omitted: allMetrics.slice(chosen.metrics.length).map((f) => f.label),
@@ -459,7 +637,7 @@ export async function loadShareAssets(photoUrl: string | null): Promise<ShareAss
   await Promise.all(
     ['600', '700', '800'].map((w) => document.fonts.load(`${w} 40px ${fonts.heading}`).catch(() => [])),
   );
-  await Promise.all(['500', '600', '700', '900'].map((w) => document.fonts.load(`${w} 40px ${fonts.body}`).catch(() => [])));
+  await Promise.all(['500', '600', '700', '800', '900'].map((w) => document.fonts.load(`${w} 40px ${fonts.body}`).catch(() => [])));
 
   const [photo, logo] = await Promise.all([
     loadSharePhoto(photoUrl),
