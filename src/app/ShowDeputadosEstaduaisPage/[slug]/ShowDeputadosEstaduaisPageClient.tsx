@@ -14,6 +14,8 @@ import LegislatorDetailSkeleton from '@/components/LegislatorDetailSkeleton';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
 import InfoTooltip from '@/components/InfoTooltip';
 import ProposicoesList from '@/components/ProposicoesList';
+import ShareProfileButton from '@/components/share/ShareProfileButton';
+import { shareProfileFromLegislator } from '@/components/share/shareCardData';
 import { getStateDeputy } from '@/services/stateDeputiesService';
 import { ApiError } from '@/services/apiClient';
 
@@ -169,6 +171,7 @@ export default function ShowDeputadosEstaduaisPageClient({
                 <p className="mt-3 text-xs font-semibold text-[#8d0801]">
                   Representante do Ceará na Assembleia Legislativa do Ceará (ALECE)
                 </p>
+                <ShareProfileButton profile={shareProfileFromLegislator(deputado)} className="mt-3" />
               </div>
             </div>
             <div className="flex min-h-[120px] items-center justify-center rounded-[10px] bg-[#fbc000] p-3 text-center text-white sm:min-h-[145px]">

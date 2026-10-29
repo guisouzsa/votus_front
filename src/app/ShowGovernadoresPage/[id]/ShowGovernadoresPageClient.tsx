@@ -11,6 +11,8 @@ import FloatingAIButton from '@/components/FloatingAIButton';
 import Footer from '@/components/Footer';
 import LegislatorDetailSkeleton from '@/components/LegislatorDetailSkeleton';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
+import ShareProfileButton from '@/components/share/ShareProfileButton';
+import { shareProfileFromExecutive } from '@/components/share/shareCardData';
 import { getGovernor } from '@/services/executivesService';
 import { ApiError } from '@/services/apiClient';
 
@@ -107,6 +109,7 @@ export default function ShowGovernadoresPageClient({
                 <p className="mt-3 text-xs font-semibold text-[#8d0801]">
                   {OFFICE_LABELS[executivo.office] ?? executivo.office}
                 </p>
+                <ShareProfileButton profile={shareProfileFromExecutive(executivo)} className="mt-3" />
               </div>
             </div>
 
