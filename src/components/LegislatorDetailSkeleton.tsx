@@ -8,7 +8,7 @@ export default function LegislatorDetailSkeleton() {
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
       <MobileBottomNav />
-      <main className="min-h-dvh animate-pulse bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
+      <main className="min-h-dvh animate-pulse bg-[#FDFDFD] pb-24 pl-0 md:pb-0">
         <div className="w-full px-6 py-8 sm:px-10">
           <div className="mb-4 h-4 w-20 rounded bg-[#eee6d8]" />
 

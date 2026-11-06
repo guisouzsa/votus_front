@@ -227,7 +227,7 @@ export default function CandidatosListClient({
       {!embedded && <WovenRibbon className="h-14 sm:h-20" />}
       {!embedded && <Sidebar />}
       {!embedded && <MobileBottomNav />}
-      <main className={embedded ? 'min-h-dvh bg-[#FDFDFD]' : 'min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24'}>
+      <main className={embedded ? 'min-h-dvh bg-[#FDFDFD]' : 'min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0'}>
         <div className="min-h-dvh">
           <div className="w-full px-6 py-8 sm:px-10">
             <PageHeader
@@ -237,7 +237,7 @@ export default function CandidatosListClient({
             />
 
             {/* Abas por cargo: trocar de cargo sem voltar pra sidebar. */}
-            <nav aria-label="Cargos em disputa em 2026" className="mt-4 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+            <nav aria-label="Cargos em disputa em 2026" data-tour="candidatos-cargos" className="mt-4 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
               {(Object.keys(CANDIDATE_OFFICES) as CandidateOfficeSlug[]).map((slug) => {
                 const ativo = slug === office;
                 return (
@@ -332,6 +332,7 @@ export default function CandidatosListClient({
             {isPresidente && !embedded && (
               <Link
                 href="/ComparadorPropostasPage"
+                data-tour="comparador-atalho"
                 className="group mt-3 flex items-center gap-3 rounded-2xl border border-[#1B623A]/30 bg-white px-4 py-3 transition-colors hover:bg-[#EDDBBA]/30"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#1B623A]/10 text-[#1B623A]">
@@ -347,7 +348,7 @@ export default function CandidatosListClient({
               </Link>
             )}
 
-            <div className="mt-8">
+            <div data-tour="lista" className="mt-8">
               <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                 <h2 className="text-xl font-black uppercase text-[#f07a00] sm:text-2xl md:text-3xl">
                   {config.label.toUpperCase()}
@@ -395,10 +396,11 @@ export default function CandidatosListClient({
                       isValidating ? 'opacity-60' : ''
                     }`}
                   >
-                  {candidatos.map((candidato) => (
+                  {candidatos.map((candidato, index) => (
                     <Link
                       key={candidato.id}
                       href={`/CandidatosPage/${office}/${candidato.id}`}
+                      data-tour={index === 0 ? 'primeiro-card' : undefined}
                       aria-label={`Ver detalhes de ${candidato.ballot_name}`}
                       className="flex h-full flex-col overflow-hidden rounded-[12px] border border-[#e0d6c4] bg-white shadow-sm"
                     >

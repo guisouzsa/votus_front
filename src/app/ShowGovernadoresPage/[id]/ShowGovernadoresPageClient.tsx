@@ -64,7 +64,7 @@ export default function ShowGovernadoresPageClient({
       <div className="min-h-dvh">
         <Sidebar />
         <MobileBottomNav />
-        <main className="flex min-h-dvh flex-col items-center justify-center gap-2 bg-[#FDFDFD] px-6 pb-24 text-center md:pb-0 md:pl-24">
+        <main className="flex min-h-dvh flex-col items-center justify-center gap-2 bg-[#FDFDFD] px-6 pb-24 text-center md:pb-0">
           <p className="text-sm font-semibold text-[#8d0801]">{errorMessage}</p>
           <Link href="/GovernadoresPage" className="text-sm text-[#1b623a] underline">
             Voltar para a lista
@@ -81,7 +81,7 @@ export default function ShowGovernadoresPageClient({
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
       <MobileBottomNav />
-      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 text-[#1b623a] md:pb-0 md:pl-24">
+      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 text-[#1b623a] md:pb-0">
         <div className="w-full px-6 py-8 sm:px-10">
           <Link
             href="/GovernadoresPage"
@@ -113,7 +113,7 @@ export default function ShowGovernadoresPageClient({
               </div>
             </div>
 
-            <div className="rounded-[10px] border border-[#e0d6c4] bg-white p-4 text-sm sm:p-6 md:col-span-2">
+            <div data-tour="perfil-dados" className="rounded-[10px] border border-[#e0d6c4] bg-white p-4 text-sm sm:p-6 md:col-span-2">
               <h2 className="text-base font-black uppercase text-[#1b623a]">Perfil</h2>
               <dl className="mt-3 space-y-2">
                 <div className="flex justify-between gap-2">
@@ -140,7 +140,7 @@ export default function ShowGovernadoresPageClient({
             </div>
           </section>
 
-          <section className="mt-4 rounded-[10px] border border-[#e0d6c4] bg-white p-4 text-sm sm:p-6">
+          <section data-tour="acoes" className="mt-4 rounded-[10px] border border-[#e0d6c4] bg-white p-4 text-sm sm:p-6">
             <h2 className="text-base font-black uppercase text-[#1b623a]">
               Ações recentes {acoes.length > 0 && <span className="text-[#4d4d4d]">({acoes.length})</span>}
             </h2>

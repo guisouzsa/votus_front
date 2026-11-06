@@ -159,7 +159,7 @@ export default function ExplicacaoDetailClient({
       <Sidebar />
       <MobileBottomNav />
 
-      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24">
+      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0">
         <div className="w-full px-6 pb-2 pt-8 sm:px-10">
           <Link
             href="/explicacao"
@@ -180,17 +180,17 @@ export default function ExplicacaoDetailClient({
 
         {!isLoading && explicacao && (
           <article className="w-full px-6 pb-16 sm:px-10">
-            <header className="border-b border-line pb-6">
+            <header data-tour="explicacao-pergunta" className="border-b border-line pb-6">
               <span className="mb-3 inline-flex rounded-full bg-[#EDDBBA]/50 px-3 py-1 text-xs font-bold text-[#1B623A]">
                 {explicacao.category}
               </span>
-              <h1 className="font-heading text-3xl font-bold leading-tight text-[#8D0801] sm:text-4xl">
+              <h1 className="font-heading text-2xl font-bold leading-tight text-[#8D0801] md:text-3xl">
                 {explicacao.question_title}
               </h1>
             </header>
 
             {explicacao.summary && (
-              <section className="mt-6 rounded-2xl border border-[#1B623A]/20 bg-[#1B623A]/5 p-5 sm:p-6">
+              <section data-tour="explicacao-resposta" className="mt-6 rounded-2xl border border-[#1B623A]/20 bg-[#1B623A]/5 p-5 sm:p-6">
                 <p className="mb-1.5 text-xs font-bold uppercase tracking-wide text-[#1B623A]">
                   Resposta rápida
                 </p>
@@ -198,7 +198,7 @@ export default function ExplicacaoDetailClient({
               </section>
             )}
 
-            <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div data-tour="explicacao-secoes" className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
               {SECOES.map(({ campo, titulo }) => {
                 const texto = explicacao[campo];
                 if (!texto) return null;
@@ -213,7 +213,7 @@ export default function ExplicacaoDetailClient({
             </div>
 
             {explicacao.sources && explicacao.sources.length > 0 && (
-              <section className="mt-6 rounded-2xl border border-line bg-white p-5 shadow-sm sm:p-6">
+              <section data-tour="explicacao-fontes" className="mt-6 rounded-2xl border border-line bg-white p-5 shadow-sm sm:p-6">
                 <h2 className="mb-1 text-lg font-bold text-[#22201b]">Fontes</h2>
                 <p className="mb-4 text-xs text-[#6b6255]">
                   Consulte as fontes utilizadas na elaboração deste conteúdo.
@@ -242,7 +242,7 @@ export default function ExplicacaoDetailClient({
             )}
 
             {explicacao.quiz_questions && explicacao.quiz_questions.length > 0 && (
-              <section className="mt-10">
+              <section data-tour="explicacao-quiz" className="mt-10">
                 <div className="mb-5">
                   <p className="mb-1.5 text-xs font-bold uppercase tracking-wide text-[#1B623A]">Quiz</p>
                   <h2 className="text-2xl font-black text-[#22201b]">Teste o que você aprendeu</h2>

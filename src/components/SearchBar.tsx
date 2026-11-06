@@ -50,7 +50,8 @@ export default function SearchBar({
   const hasFilters = Boolean(filterPanel) || categories.length > 0;
 
   return (
-    <div className={`relative flex items-center gap-3 ${className}`}>
+    // data-tour: alvo dos tours de apresentação (ver onboarding/tours.ts).
+    <div data-tour="busca" className={`relative flex items-center gap-3 ${className}`}>
       <label className="relative min-w-0 flex-1">
         <span className="sr-only">{searchLabel ?? placeholder}</span>
         <Search

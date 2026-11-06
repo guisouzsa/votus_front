@@ -1,12 +1,14 @@
 import type { ReactNode } from 'react';
+import DashboardHeader from '@/components/DashboardHeader';
 
 /**
- * Cabeçalho padrão das páginas de dados (Eleições 2026, Radar): identificação
- * da seção, título, descrição curta e, opcionalmente, uma nota de
+ * Cabeçalho padrão das páginas de dados (Eleições 2026): identificação da
+ * seção e, com o mesmo título dos outros painéis (DashboardHeader: só texto
+ * com cor, sem fundo), título e descrição curta. Opcionalmente, uma nota de
  * transparência resumida com a explicação completa sob demanda.
  *
- * Padrão editorial: `eyebrow` em maiúsculas curtas ("ELEIÇÕES 2026"), título
- * com só a primeira letra maiúscula, descrição em uma ou duas frases.
+ * Padrão editorial: `eyebrow` em maiúsculas curtas ("ELEIÇÕES 2026"),
+ * descrição em uma ou duas frases.
  */
 export default function PageHeader({
   eyebrow,
@@ -15,7 +17,6 @@ export default function PageHeader({
   note,
   noteDetails,
   noteDetailsLabel = 'Como isso foi feito',
-  compact = false,
 }: {
   eyebrow: string;
   title: string;
@@ -23,15 +24,11 @@ export default function PageHeader({
   note?: ReactNode;
   noteDetails?: ReactNode;
   noteDetailsLabel?: string;
-  compact?: boolean;
 }) {
   return (
     <header>
-      <section className={`rounded-lg bg-[#1B623A] px-4 text-white ${compact ? 'py-2 sm:px-6 sm:py-3' : 'py-3 sm:px-6 sm:py-4'}`}>
-        <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-white/80 sm:text-xs">{eyebrow}</p>
-        <h1 className="mt-0.5 text-xl font-black leading-tight tracking-tight sm:text-2xl md:text-3xl">{title}</h1>
-        <p className="mt-1 max-w-3xl text-xs leading-snug text-white/90 sm:text-sm">{description}</p>
-      </section>
+      <p className="mb-1 text-xs font-bold uppercase tracking-[0.2em] text-brasil-red">{eyebrow}</p>
+      <DashboardHeader titleText={title} titleColor="text-brasil-green" subtitle={description} />
 
       {note && (
         <div className="mt-3 rounded-xl border border-[#e0d6c4] bg-[#f7f5f2] px-3 py-2.5 text-xs leading-relaxed text-ink-soft sm:text-sm">

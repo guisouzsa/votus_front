@@ -24,7 +24,7 @@ export default function SimuladorUrnaPage() {
           fora da moldura (efeito decorativo igual ao modelo original) — no
           mobile isso ultrapassava a borda da tela e criava rolagem
           horizontal. Mesmo padrão já usado em SantinhoPageClient. */}
-      <main className="min-h-dvh overflow-x-hidden bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
+      <main className="min-h-dvh overflow-x-hidden bg-[#FDFDFD] pb-24 pl-0 md:pb-0">
         <div className="w-full px-6 py-8 sm:px-10">
           <DashboardHeader
             titleText="Simulador de Urna"
@@ -37,7 +37,7 @@ export default function SimuladorUrnaPage() {
             eleitoral. Os candidatos exibidos são os de 2026 já cadastrados no Votus.
           </p>
 
-          <div className="mt-8 flex justify-center">
+          <div data-tour="urna" className="mt-8 flex justify-center">
             <UrnaSimulador />
           </div>
 
@@ -54,7 +54,7 @@ export default function SimuladorUrnaPage() {
               </ul>
             </section>
 
-            <section className="rounded-xl border border-[#e0d6c4] bg-[#f7f5f2] p-5 shadow-[0_1px_3px_rgba(0,0,0,0.06)] sm:p-6">
+            <section data-tour="urna-aviso" className="rounded-xl border border-[#e0d6c4] bg-[#f7f5f2] p-5 shadow-[0_1px_3px_rgba(0,0,0,0.06)] sm:p-6">
               <h2 className="font-heading text-base font-black uppercase tracking-tight text-brasil-red sm:text-lg">
                 Isto não é a urna oficial
               </h2>

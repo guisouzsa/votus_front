@@ -119,7 +119,7 @@ export default function PainelNoticiasClient({ embedded = false }: { embedded?: 
       {!embedded && <Sidebar />}
       {!embedded && <MobileBottomNav />}
 
-      <main className={embedded ? 'min-h-dvh overflow-x-hidden' : 'overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24'}>
+      <main className={embedded ? 'min-h-dvh overflow-x-hidden' : 'overflow-x-hidden pb-24 pl-0 md:pb-0'}>
         <div className="w-full px-6 py-8 sm:px-10">
           {!embedded && (
             <DashboardHeader
@@ -136,10 +136,10 @@ export default function PainelNoticiasClient({ embedded = false }: { embedded?: 
             onToggleCategory={toggleCategory}
           />
           {!isLoading && (
-            <>
+            <div data-tour="noticias-destaque">
               <HeroArticle article={heroArticle} />
               <RelevanceTabs value={relevanceTab} onChange={setRelevanceTab} />
-            </>
+            </div>
           )}
 
           {isLoading && <NewsPanelSkeleton />}
@@ -152,21 +152,23 @@ export default function PainelNoticiasClient({ embedded = false }: { embedded?: 
             <p className="mt-10 text-sm text-[#103D23]">Nenhuma notícia encontrada.</p>
           )}
 
-          {!isLoading &&
-            !error &&
-            groupedByCategory.map(([category, items]) => (
-              <NewsSection
-                key={category}
-                title={category}
-                items={items.map((item) => ({
-                  id: item.id,
-                  eyebrow: item.category ?? "Notícia",
-                  title: item.title,
-                  imageUrl: item.image_url,
-                  gradient: categoryGradient(item.category),
-                }))}
-              />
-            ))}
+          {!isLoading && !error && (
+            <div data-tour="noticias-secoes">
+              {groupedByCategory.map(([category, items]) => (
+                <NewsSection
+                  key={category}
+                  title={category}
+                  items={items.map((item) => ({
+                    id: item.id,
+                    eyebrow: item.category ?? "Notícia",
+                    title: item.title,
+                    imageUrl: item.image_url,
+                    gradient: categoryGradient(item.category),
+                  }))}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {!embedded && <Footer />}

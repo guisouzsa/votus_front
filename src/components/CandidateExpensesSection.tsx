@@ -122,7 +122,7 @@ export default function CandidateExpensesSection({
   }
 
   return (
-    <section className="mt-4 rounded-[10px] border border-[#e0d6c4] bg-white p-4 sm:p-6">
+    <section data-tour="candidato-gastos" className="mt-4 rounded-[10px] border border-[#e0d6c4] bg-white p-4 sm:p-6">
       <p className="text-[11px] font-bold uppercase tracking-wide text-[#8a8a8a]">Prestação de contas</p>
       <p className="text-xs text-[#4d4d4d]">Gastos declarados durante a campanha.</p>
 

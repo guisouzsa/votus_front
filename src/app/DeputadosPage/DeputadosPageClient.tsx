@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import Sidebar from '@/components/Sidebar';
+import DashboardHeader from '@/components/DashboardHeader';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
@@ -109,21 +110,18 @@ export default function DeputadosPageClient({
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
       <MobileBottomNav />
-      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
+      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0">
       <div className="min-h-dvh">
         <div className="w-full px-6 py-8 sm:px-10">
-            <section className="rounded-lg bg-[#8d0801] px-4 py-3 text-white sm:px-6 sm:py-4">
-              <h1 className="text-lg font-black uppercase leading-tight tracking-tight sm:text-xl md:text-2xl">
-                ENCONTRE E ACOMPANHE OS DEPUTADOS DO CEARÁ
-              </h1>
-              <p className="mt-1 max-w-2xl text-xs leading-snug text-white/90 sm:text-sm">
-                Consulte informações públicas sobre mandato, votações, projetos, recursos e registros oficiais.
-              </p>
-            </section>
+            <DashboardHeader
+              titleText="ENCONTRE E ACOMPANHE OS DEPUTADOS DO CEARÁ"
+              titleColor="text-brasil-red"
+              subtitle="Consulte informações públicas sobre mandato, votações, projetos, recursos e registros oficiais."
+            />
 
             <OfficeQuickNav current="DeputadosPage" />
 
-            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <div data-tour="numeros" className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
               <StatCard
                 value={total !== null ? String(total).padStart(2, '0') : '—'}
                 label="Deputados"
@@ -171,7 +169,7 @@ export default function DeputadosPageClient({
               }}
             />
 
-            <div className="mt-8">
+            <div data-tour="lista" className="mt-8">
               <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                 <h2 className="text-xl font-black uppercase text-[#8d0801] sm:text-2xl md:text-3xl">DEPUTADOS</h2>
                 <Pagination page={page} lastPage={lastPage} onChange={setPage} />
@@ -201,10 +199,11 @@ export default function DeputadosPageClient({
 
               {!loading && !error && deputadosFiltrados.length > 0 && (
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-[repeat(5,minmax(0,1fr))] md:gap-5">
-                  {deputadosFiltrados.map((deputado) => (
+                  {deputadosFiltrados.map((deputado, index) => (
                     <Link
                       key={deputado.external_id}
                       href={`/ShowDeputadosPage/${deputado.external_id}`}
+                      data-tour={index === 0 ? 'primeiro-card' : undefined}
                       aria-label={`Ver detalhes de ${deputado.parliamentary_name}`}
                       className="flex h-full flex-col overflow-hidden rounded-[12px] border border-[#e0d6c4] bg-white shadow-sm"
                     >

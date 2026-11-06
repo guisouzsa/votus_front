@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { ArrowRight, BadgeCheck, Calculator, Landmark, Link2, Scale, SlidersHorizontal, Building2 } from "lucide-react";
+import type { ReactNode } from "react";
+import { ArrowRight, BadgeCheck, Calculator, Landmark, Link2, Scale, SlidersHorizontal, Building2, CheckCircle2 } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import WovenRibbon from "@/components/WovenRibbon";
 import DashboardHeader from "@/components/DashboardHeader";
 import FloatingAIButton from "@/components/FloatingAIButton";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Transparência dos Dados",
@@ -86,6 +88,17 @@ const COMO_EVITAMOS_ERROS = [
   "Não usamos IA para inventar ou completar dados eleitorais.",
 ];
 
+// Mesmo card e mesmo título das seções de /ExplicacoesPage.
+function Secao({ tour, titulo, intro, children }: { tour: string; titulo: string; intro?: string; children: ReactNode }) {
+  return (
+    <section data-tour={tour} className="rounded-2xl border border-line bg-white p-6 shadow-sm sm:p-8">
+      <h2 className="font-heading text-xl font-black uppercase tracking-tight text-ink sm:text-2xl">{titulo}</h2>
+      {intro && <p className="mt-2 text-sm leading-relaxed text-ink-soft sm:text-base">{intro}</p>}
+      <div className="mt-6">{children}</div>
+    </section>
+  );
+}
+
 export default function TransparenciaPage() {
   return (
     <div className="min-h-dvh">
@@ -93,125 +106,97 @@ export default function TransparenciaPage() {
       <Sidebar />
       <MobileBottomNav />
 
-      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
-        {/* max-w + mx-auto: centraliza a composição dentro da área principal
-            (à direita da sidebar) em telas largas, em vez de esticar o
-            conteúdo até a borda — todas as seções abaixo usam essa mesma
-            largura, formando uma grade visual consistente.
-            pr-16 no mobile/tablet: o botão flutuante "Pergunte à IA" fica fixo
-            no canto inferior direito (bottom-24 right-4, só sai dessa posição
-            em md:) e cobria pedaços de título/texto que chegavam até ali. */}
-        <div className="mx-auto w-full max-w-[1100px] py-8 pl-6 pr-16 sm:pl-10 md:pr-10">
+      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0">
+        <div className="w-full px-6 py-8 sm:px-10">
           <DashboardHeader
             titleText="Transparência dos dados"
             titleColor="text-brasil-green"
             subtitle="Os dados políticos exibidos no Votus não são inventados pela plataforma — veja de onde vêm e como são tratados."
           />
 
-          <section className="mt-12 sm:mt-16">
-            <h2 className="text-center font-heading text-2xl font-black uppercase tracking-tight text-brasil-red sm:text-4xl">
-              Como o dado chega até você
-            </h2>
-
-            <div className="relative mt-10 pb-4">
-              <div className="absolute left-[8%] right-[8%] top-[44px] hidden h-[3px] bg-brasil-gold sm:block" />
-
-              <div className="grid grid-cols-2 gap-6 sm:grid-cols-5">
+          <div className="mt-8 flex flex-col gap-6">
+            <Secao tour="transparencia-fluxo" titulo="Como o dado chega até você">
+              <ol className="relative grid grid-cols-1 gap-5 sm:grid-cols-5 sm:gap-4">
+                {/* Linha que liga os círculos: sai do centro do 1º e vai até o centro do 5º. */}
+                <div className="absolute left-[10%] right-[10%] top-6 hidden h-[3px] bg-brasil-gold sm:block" aria-hidden="true" />
                 {ETAPAS_FLUXO.map((etapa) => (
-                  <div key={etapa.titulo} className="relative flex flex-col items-center text-center">
-                    <div className="flex h-[88px] w-[88px] shrink-0 items-center justify-center rounded-full bg-brasil-gold text-3xl font-black text-white shadow-sm">
+                  <li key={etapa.titulo} className="relative flex items-start gap-4 sm:flex-col sm:items-center sm:gap-0 sm:text-center">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brasil-gold text-xl font-black text-ink">
                       {etapa.numero}
+                    </span>
+                    <div className="sm:mt-3">
+                      <p className="font-heading text-sm font-black uppercase leading-tight text-ink">{etapa.titulo}</p>
+                      <p className="mt-1 text-sm leading-relaxed text-ink-soft">{etapa.descricao}</p>
                     </div>
-                    <p className="mt-3 text-sm font-black uppercase leading-tight text-brasil-gold">{etapa.titulo}</p>
-                    <p className="mt-1 text-xs leading-relaxed text-ink-soft">{etapa.descricao}</p>
-                  </div>
+                  </li>
                 ))}
-              </div>
-            </div>
-          </section>
+              </ol>
+            </Secao>
 
-          <section className="mt-14 sm:mt-20">
-            <h2 className="font-heading text-xl font-black uppercase tracking-tight text-ink sm:text-2xl">
-              Fontes oficiais utilizadas hoje
-            </h2>
-
-            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {FONTES.map((fonte) => (
-                <div
-                  key={fonte.nome}
-                  className="flex flex-col overflow-hidden rounded-xl border border-line bg-cream shadow-[0_1px_2px_rgba(0,0,0,0.04)]"
-                >
-                  <div className="h-2 w-full shrink-0 bg-[url('/sidebar.svg')] bg-[length:auto_100%] bg-repeat-x" aria-hidden="true" />
-                  <div className="flex flex-1 items-start gap-3 p-5">
+            <Secao tour="transparencia-fontes" titulo="Fontes oficiais utilizadas hoje">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+                {FONTES.map((fonte) => (
+                  <div key={fonte.nome} className="flex flex-col rounded-xl border border-line bg-cream p-5">
                     <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${fonte.cor.fundoIcone} ${fonte.cor.texto}`}>
                       <fonte.icon size={20} strokeWidth={2.25} aria-hidden="true" />
                     </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="font-heading text-base font-bold text-ink">{fonte.nome}</p>
-                      <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{fonte.descricao}</p>
-                      <a
-                        href={fonte.url}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className={`group mt-3 inline-flex items-center gap-1.5 text-sm font-bold ${fonte.cor.texto}`}
-                      >
-                        Ver fonte oficial
-                        <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
-                      </a>
-                    </div>
+                    <p className="mt-3 font-heading text-base font-bold text-ink">{fonte.nome}</p>
+                    <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{fonte.descricao}</p>
+                    {/* mt-auto: o link fica alinhado no pé dos cards, com qualquer tamanho de texto. */}
+                    <a
+                      href={fonte.url}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="group mt-auto inline-flex items-center gap-1.5 pt-4 text-sm font-bold text-brasil-green"
+                    >
+                      Ver fonte oficial
+                      <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
+                    </a>
                   </div>
-                </div>
-              ))}
-            </div>
-          </section>
+                ))}
+              </div>
+            </Secao>
 
-          <section className="mt-14 sm:mt-20">
-            <h2 className="font-heading text-xl font-black uppercase tracking-tight text-ink sm:text-2xl">
-              Dado oficial, tratado, relacionado ou calculado?
-            </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-soft sm:text-base">
-              Nem todo número no Votus foi publicado assim pela fonte — por isso separamos em quatro tipos:
-            </p>
-
-            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {TIPOS_DADO.map((tipo) => (
-                <div key={tipo.titulo} className="flex items-start gap-3 rounded-xl border border-line bg-cream-panel p-5 shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
-                  <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${tipo.cor.fundoIcone} ${tipo.cor.texto}`}>
-                    <tipo.icon size={20} strokeWidth={2.25} aria-hidden="true" />
-                  </span>
-                  <div className="min-w-0">
-                    <p className={`font-heading text-sm font-black uppercase tracking-tight ${tipo.cor.texto}`}>{tipo.titulo}</p>
+            <Secao
+              tour="transparencia-tipos"
+              titulo="Dado oficial, tratado, relacionado ou calculado?"
+              intro="Nem todo número no Votus foi publicado assim pela fonte — por isso separamos em quatro tipos:"
+            >
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+                {TIPOS_DADO.map((tipo) => (
+                  <div key={tipo.titulo} className="rounded-xl border border-line bg-cream p-5">
+                    <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${tipo.cor.fundoIcone} ${tipo.cor.texto}`}>
+                      <tipo.icon size={20} strokeWidth={2.25} aria-hidden="true" />
+                    </span>
+                    <p className="mt-3 font-heading text-base font-bold text-ink">{tipo.titulo}</p>
                     <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{tipo.descricao}</p>
                   </div>
-                </div>
-              ))}
-            </div>
-          </section>
+                ))}
+              </div>
+            </Secao>
 
-          <section className="mt-14 sm:mt-20">
-            <h2 className="font-heading text-xl font-black uppercase tracking-tight text-ink sm:text-2xl">
-              Como evitamos erros
-            </h2>
-            {/* max-w-2xl só no texto (não na seção inteira): mantém a mesma
-                largura de container das outras seções acima, mas preserva
-                uma linha de leitura confortável pro parágrafo/lista. */}
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-soft sm:text-base">
-              Não prometemos zero erros, mas o processo é desenhado para reduzir erros de associação:
-            </p>
-            <ul className="mt-4 flex max-w-2xl flex-col gap-2.5">
-              {COMO_EVITAMOS_ERROS.map((item) => (
-                <li key={item} className="flex gap-2.5 text-sm leading-relaxed text-ink-soft sm:text-base">
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brasil-green" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <p className="mt-4 max-w-2xl text-xs italic text-ink-soft">
-              Dados de candidatos e parlamentares são atualizados pela equipe conforme as fontes oficiais publicam
-              novas versões — não em tempo real.
-            </p>
-          </section>
+            <Secao
+              tour="transparencia-erros"
+              titulo="Como evitamos erros"
+              intro="Não prometemos zero erros, mas o processo é desenhado para reduzir erros de associação:"
+            >
+              <ul className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                {COMO_EVITAMOS_ERROS.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-sm leading-relaxed text-ink-soft sm:text-base">
+                    <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-brasil-green" aria-hidden="true" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-5 border-t border-line pt-4 text-xs text-ink-soft">
+                Dados de candidatos e parlamentares são atualizados pela equipe conforme as fontes oficiais publicam
+                novas versões — não em tempo real.
+              </p>
+            </Secao>
+          </div>
         </div>
+
+        <Footer />
       </main>
 
       <FloatingAIButton />

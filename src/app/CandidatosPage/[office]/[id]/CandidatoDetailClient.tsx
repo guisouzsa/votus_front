@@ -98,7 +98,7 @@ export default function CandidatoDetailClient({
       <div className="min-h-dvh">
         <Sidebar />
         <MobileBottomNav />
-        <main className="flex min-h-dvh flex-col items-center justify-center gap-2 bg-[#FDFDFD] px-6 pb-24 text-center md:pb-0 md:pl-24">
+        <main className="flex min-h-dvh flex-col items-center justify-center gap-2 bg-[#FDFDFD] px-6 pb-24 text-center md:pb-0">
           <p className="text-sm font-semibold text-[#8d0801]">{errorMessage}</p>
           <Link href={`/CandidatosPage/${office}`} className="text-sm text-[#1b623a] underline">
             Voltar para a lista
@@ -117,7 +117,7 @@ export default function CandidatoDetailClient({
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
       <MobileBottomNav />
-      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 text-[#1b623a] md:pb-0 md:pl-24">
+      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 text-[#1b623a] md:pb-0">
         <div className="w-full px-6 py-8 sm:px-10">
           <Link
             href={`/CandidatosPage/${office}`}
@@ -127,7 +127,7 @@ export default function CandidatoDetailClient({
             Voltar
           </Link>
 
-          <section className="grid grid-cols-1 gap-3 sm:grid-cols-3 md:grid-cols-[1.35fr_repeat(2,minmax(0,1fr))]">
+          <section data-tour="candidato-identificacao" className="grid grid-cols-1 gap-3 sm:grid-cols-3 md:grid-cols-[1.35fr_repeat(2,minmax(0,1fr))]">
             <div className="flex min-h-[145px] flex-col items-center gap-3 rounded-[10px] p-3 text-center sm:col-span-3 sm:flex-row sm:text-left md:col-span-1">
               <div className="relative h-[195px] w-[170px] shrink-0 overflow-hidden rounded-lg border-4 border-[#8d0801] shadow-sm">
                 <LegislatorPhoto
@@ -163,7 +163,7 @@ export default function CandidatoDetailClient({
           </section>
 
           <section className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <div className="rounded-[10px] border border-[#e0d6c4] bg-white p-4 text-sm sm:p-6">
+            <div data-tour="candidato-perfil" className="rounded-[10px] border border-[#e0d6c4] bg-white p-4 text-sm sm:p-6">
               <h2 className="text-base font-black uppercase text-[#1b623a]">Perfil</h2>
               <dl className="mt-3 space-y-2">
                 <div className="flex justify-between gap-2">
@@ -232,7 +232,7 @@ export default function CandidatoDetailClient({
               </div>
             </div>
 
-            <div className="rounded-[10px] border border-[#e0d6c4] bg-white p-4 text-sm sm:p-6">
+            <div data-tour="candidato-historico" className="rounded-[10px] border border-[#e0d6c4] bg-white p-4 text-sm sm:p-6">
               <h2 className="text-base font-black uppercase text-[#1b623a]">Histórico de candidaturas</h2>
 
               {candidacyHistory.length === 0 ? (

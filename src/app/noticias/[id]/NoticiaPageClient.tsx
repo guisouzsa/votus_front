@@ -30,7 +30,7 @@ export default function NoticiaPageClient({
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
       <MobileBottomNav />
-      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24">
+      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0">
         <div className="w-full px-6 pb-2 pt-8 sm:px-10">
           <Link
             href="/PainelNoticiasPage"

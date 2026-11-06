@@ -74,7 +74,7 @@ export default function ShowSenadoresPageClient({
       <div className="min-h-dvh">
         <Sidebar />
         <MobileBottomNav />
-        <main className="flex min-h-dvh flex-col items-center justify-center gap-2 bg-[#FDFDFD] px-6 pb-24 text-center md:pb-0 md:pl-24">
+        <main className="flex min-h-dvh flex-col items-center justify-center gap-2 bg-[#FDFDFD] px-6 pb-24 text-center md:pb-0">
           <p className="text-sm font-semibold text-[#8d0801]">{errorMessage}</p>
           <Link href="/SenadoresPage" className="text-sm text-[#1b623a] underline">
             Voltar para a lista
@@ -141,7 +141,7 @@ export default function ShowSenadoresPageClient({
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
       <MobileBottomNav />
-      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 text-[#1b623a] md:pb-0 md:pl-24">
+      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 text-[#1b623a] md:pb-0">
         <div className="w-full px-6 py-8 sm:px-10">
           <Link
             href="/SenadoresPage"

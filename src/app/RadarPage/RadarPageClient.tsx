@@ -101,7 +101,7 @@ export default function RadarPageClient({ initialData }: { initialData?: RadarOv
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
       <MobileBottomNav />
-      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
+      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0">
         <div className="w-full px-4 py-8 sm:px-10">
           {/* Cabeçalho padrão das páginas do Votus (Inicial, Notícias, Transparência...). */}
           <DashboardHeader
@@ -125,7 +125,7 @@ export default function RadarPageClient({ initialData }: { initialData?: RadarOv
               demais seções usam a largura toda logo abaixo. */}
           <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start xl:gap-10">
             {/* Exploração: mapa (protagonista), seletor e período. */}
-            <section aria-labelledby="radar-explorar">
+            <section aria-labelledby="radar-explorar" data-tour="radar-mapa">
               <div className="rounded-3xl bg-[radial-gradient(circle_at_30%_20%,#ffffff_0%,#fbf6ec_60%,#f4ecdc_100%)] p-3 sm:p-5">
                 <h2 id="radar-explorar" className="text-sm font-black uppercase tracking-wide text-[#1B623A]">
                   Escolha um estado
@@ -210,7 +210,7 @@ export default function RadarPageClient({ initialData }: { initialData?: RadarOv
             </section>
 
             {/* Resumo do estado selecionado, com o tema principal em destaque. */}
-            <div className="min-w-0">
+            <div data-tour="radar-resumo" className="min-w-0">
               {failed ? (
                 <div role="alert" className="rounded-2xl border border-[#e0d6c4] bg-white p-5 text-sm">
                   <p className="font-semibold text-[#8d0801]">Não foi possível carregar os dados de {selectedName} agora.</p>
@@ -243,7 +243,7 @@ export default function RadarPageClient({ initialData }: { initialData?: RadarOv
           {shownDetail && !stale && !failed && (
             <>
               {/* Faixa 2: Câmara e Senado lado a lado, na largura toda. */}
-              <div className="mt-10">
+              <div data-tour="radar-legislativo" className="mt-10">
                 <RadarLegislative detail={shownDetail} />
               </div>
 

@@ -23,7 +23,7 @@ function SecaoCard({ children }: { children: React.ReactNode }) {
 }
 
 export default function ExplicacoesPageClient() {
-  const [cargoId, setCargoId] = useState('senador');
+  const [cargoId, setCargoId] = useState('presidente');
   const cargo = getPositionById(cargoId);
 
   return (
@@ -32,7 +32,7 @@ export default function ExplicacoesPageClient() {
       <Sidebar />
       <MobileBottomNav />
 
-      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
+      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0">
         <div className="min-h-dvh">
           <div className="w-full px-6 py-8 sm:px-10">
             <DashboardHeader
@@ -42,30 +42,37 @@ export default function ExplicacoesPageClient() {
             />
 
             <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] lg:items-start">
-              <div className="lg:sticky lg:top-8">
+              {/* top-24: abaixo da navbar fixa no topo. */}
+              <div data-tour="explicacoes-cargos" className="lg:sticky lg:top-24">
                 <OfficeSelector selecionadoId={cargoId} onSelect={setCargoId} />
               </div>
 
               <div className="flex flex-col gap-6">
-                <SecaoCard>
-                  <OfficeFactSheet cargo={cargo} />
-                </SecaoCard>
+                <div data-tour="explicacoes-ficha" className="flex flex-col gap-6">
+                  <SecaoCard>
+                    <OfficeFactSheet cargo={cargo} />
+                  </SecaoCard>
 
-                <SecaoCard>
-                  <OfficeActions cargo={cargo} />
-                </SecaoCard>
+                  <SecaoCard>
+                    <OfficeActions cargo={cargo} />
+                  </SecaoCard>
+                </div>
 
-                <SecaoCard>
-                  <OfficeComparison selectedOfficeId={cargoId} />
-                </SecaoCard>
+                <div data-tour="explicacoes-comparar">
+                  <SecaoCard>
+                    <OfficeComparison selectedOfficeId={cargoId} />
+                  </SecaoCard>
+                </div>
 
                 <SecaoCard>
                   <BranchesOfGovernmentDiagram />
                 </SecaoCard>
 
-                <SecaoCard>
-                  <VoteToOfficeMapping />
-                </SecaoCard>
+                <div data-tour="explicacoes-voto">
+                  <SecaoCard>
+                    <VoteToOfficeMapping />
+                  </SecaoCard>
+                </div>
               </div>
             </div>
           </div>

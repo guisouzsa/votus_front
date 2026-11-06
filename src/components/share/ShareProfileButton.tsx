@@ -24,6 +24,7 @@ export default function ShareProfileButton({ profile, className = '' }: { profil
       <button
         ref={buttonRef}
         type="button"
+        data-tour="compartilhar"
         onClick={() => {
           setMounted(true);
           setOpen(true);

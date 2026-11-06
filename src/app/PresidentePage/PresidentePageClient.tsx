@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Sidebar from '@/components/Sidebar';
+import DashboardHeader from '@/components/DashboardHeader';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
@@ -45,17 +46,14 @@ export default function PresidentePageClient({
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
       <MobileBottomNav />
-      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
+      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0">
       <div className="min-h-dvh">
         <div className="w-full px-6 py-8 sm:px-10">
-            <section className="rounded-lg bg-[#8d0801] px-4 py-3 text-white sm:px-6 sm:py-4">
-              <h1 className="text-lg font-black uppercase leading-tight tracking-tight sm:text-xl md:text-2xl">
-                ENCONTRE E ACOMPANHE A PRESIDÊNCIA DA REPÚBLICA
-              </h1>
-              <p className="mt-1 max-w-2xl text-xs leading-snug text-white/90 sm:text-sm">
-                Consulte informações públicas sobre mandato e ações do presidente e vice-presidente em exercício.
-              </p>
-            </section>
+            <DashboardHeader
+              titleText="ENCONTRE E ACOMPANHE A PRESIDÊNCIA DA REPÚBLICA"
+              titleColor="text-brasil-red"
+              subtitle="Consulte informações públicas sobre mandato e ações do presidente e vice-presidente em exercício."
+            />
 
             <OfficeQuickNav current="PresidentePage" />
 
@@ -68,7 +66,7 @@ export default function PresidentePageClient({
               />
             </div>
 
-            <div className="mt-8">
+            <div data-tour="lista" className="mt-8">
               <h2 className="mb-4 text-xl font-black uppercase text-[#8d0801] sm:text-2xl md:text-3xl">
                 PRESIDÊNCIA DA REPÚBLICA
               </h2>
@@ -96,9 +94,10 @@ export default function PresidentePageClient({
 
               {!loading && !error && executivos.length > 0 && (
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-[repeat(5,minmax(0,1fr))] md:gap-5">
-                  {executivos.map((executivo) => (
+                  {executivos.map((executivo, index) => (
                     <Link
                       key={executivo.id}
+                      data-tour={index === 0 ? 'primeiro-card' : undefined}
                       href={`/ShowPresidentePage/${executivo.id}`}
                       aria-label={`Ver detalhes de ${executivo.display_name}`}
                       className="flex h-full flex-col overflow-hidden rounded-[12px] border border-[#e0d6c4] bg-white shadow-sm"

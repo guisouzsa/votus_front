@@ -39,6 +39,7 @@ export const NAV_ITEMS: NavItem[] = [
       { id: "candidatos-senado", label: "Senador", path: "/CandidatosPage/senado" },
       { id: "candidatos-deputado-federal", label: "Deputado Federal", path: "/CandidatosPage/deputado-federal" },
       { id: "candidatos-deputado-estadual", label: "Deputado Estadual", path: "/CandidatosPage/deputado-estadual" },
+      { id: "comparador", label: "Comparador de propostas", path: "/ComparadorPropostasPage" },
     ],
   },
   // Radar depois dos 4 primeiros itens, pra não mudar os atalhos fixos da
@@ -68,24 +69,111 @@ export const DETAIL_ROUTE_PREFIXES: { prefix: string; id: string }[] = [
   { prefix: "/ShowPresidentePage", id: "presidente" },
   { prefix: "/ShowGovernadoresPage", id: "governadores" },
   { prefix: "/noticias/", id: "noticias" },
-  // "Você Sabia?" (/explicacao e /explicacao/[id]) fica dentro de Explicações.
-  { prefix: "/explicacao", id: "explicacoes" },
+  // "Você Sabia?" (/explicacao e /explicacao/[id]) tem link próprio em Entender.
+  { prefix: "/explicacao", id: "voce-sabia" },
   { prefix: "/CandidatosPage/presidente/", id: "candidatos-presidente" },
-  // A comparação faz parte da área de candidatos a Presidente (sem item
-  // próprio no menu).
-  { prefix: "/ComparadorPropostasPage", id: "candidatos-presidente" },
   { prefix: "/CandidatosPage/governador/", id: "candidatos-governador" },
   { prefix: "/CandidatosPage/senado/", id: "candidatos-senado" },
   { prefix: "/CandidatosPage/deputado-federal/", id: "candidatos-deputado-federal" },
   { prefix: "/CandidatosPage/deputado-estadual/", id: "candidatos-deputado-estadual" },
 ];
 
+// Agrupamento da navbar superior (desktop) e do menu do celular. É montado a
+// partir de NAV_ITEMS — os ids continuam os mesmos, então getActiveRouteId
+// serve pros dois formatos e nenhuma rota muda.
+export type NavSection = { label?: string; items: NavChild[] };
+
+export type NavGroup = {
+  id: string;
+  label: string;
+  /** Texto usado na navbar em larguras menores (até 1279px). */
+  shortLabel?: string;
+  /** Ícone de /public; sem ícone, a navbar usa um genérico. */
+  icon?: string;
+  path?: string;
+  sections?: NavSection[];
+};
+
+function navItem(id: string): NavItem {
+  const item = NAV_ITEMS.find((navItem) => navItem.id === id);
+  if (!item) throw new Error(`Item de navegação inexistente: ${id}`);
+  return item;
+}
+
+function navLink(id: string): NavChild {
+  const { label, path } = navItem(id);
+  return { id, label, path: path! };
+}
+
+export const NAV_GROUPS: NavGroup[] = [
+  { id: "inicio", label: "Início", icon: "/IconeInicial.svg", path: "/InicialPage" },
+  { id: "noticias", label: "Notícias", icon: "/IconeNoticias.png", path: "/PainelNoticiasPage" },
+  {
+    id: "representantes",
+    label: "Representantes",
+    icon: "/Iconesenadores.svg",
+    sections: [
+      { label: "Cargos atuais", items: navItem("cargos").children! },
+      { label: "Candidatos 2026", items: navItem("candidatos").children! },
+    ],
+  },
+  {
+    id: "entender",
+    label: "Entender",
+    icon: "/IconeExplicacoes.svg",
+    sections: [
+      {
+        items: [
+          navLink("explicacoes"),
+          { id: "voce-sabia", label: "Você Sabia?", path: "/explicacao" },
+          navLink("propostas"),
+        ],
+      },
+      { label: "Juventude", items: navItem("juventude").children! },
+    ],
+  },
+  { id: "radar", label: "Radar do Brasil", shortLabel: "Radar", icon: "/IconeRadar.svg", path: "/RadarPage" },
+  {
+    id: "mais",
+    label: "Mais",
+    sections: [
+      {
+        items: [
+          navLink("santinho"),
+          navLink("urna"),
+          navLink("sugestoes"),
+          // Página que já existia fora do menu (só era aberta pelo aviso de
+          // fonte dos dados).
+          { id: "transparencia", label: "Transparência dos dados", path: "/TransparenciaPage" },
+        ],
+      },
+    ],
+  },
+];
+
+export function getActiveGroupId(activeRouteId: string | undefined): string | undefined {
+  if (!activeRouteId) return undefined;
+
+  return NAV_GROUPS.find(
+    (group) =>
+      group.id === activeRouteId ||
+      group.sections?.some((section) => section.items.some((item) => item.id === activeRouteId))
+  )?.id;
+}
+
+// MobileBottomNav e a navbar ficam em componentes separados; o botão "Mais"
+// da barra inferior abre o mesmo menu da navbar por este evento.
+export const OPEN_MOBILE_MENU_EVENT = "votus:abrir-menu";
+
 export const ACTIVE_CLASS = "bg-[#EDDBBA]/50 text-[#1B623A] shadow-sm";
 
 export function getActiveRouteId(pathname: string): string | undefined {
-  const flatRoutes: NavChild[] = NAV_ITEMS.flatMap((item) =>
-    item.children ? item.children : item.path ? [{ id: item.id, label: item.label, path: item.path }] : []
-  );
+  const flatRoutes: NavChild[] = [
+    ...NAV_ITEMS.flatMap((item) =>
+      item.children ? item.children : item.path ? [{ id: item.id, label: item.label, path: item.path }] : []
+    ),
+    { id: "transparencia", label: "Transparência dos dados", path: "/TransparenciaPage" },
+  ];
 
   return (
     flatRoutes.find(

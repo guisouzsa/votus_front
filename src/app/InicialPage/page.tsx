@@ -6,6 +6,7 @@ import DashboardHeader from "@/components/DashboardHeader";
 import HighlightGrid from "@/components/Highlightgrid";
 import FloatingAIButton from "@/components/FloatingAIButton";
 import Footer from "@/components/Footer";
+import WelcomeIntro from "@/components/WelcomeIntro";
 
 export const metadata: Metadata = {
   title: "Início",
@@ -23,7 +24,7 @@ export default function HomePage() {
       <Sidebar />
       <MobileBottomNav />
 
-      <main className="min-h-dvh overflow-x-hidden bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
+      <main className="min-h-dvh overflow-x-hidden bg-[#FDFDFD] pb-24 pl-0 md:pb-0">
         <div className="w-full px-6 py-8 sm:px-10">
           <DashboardHeader
             titleText="Bem-vindo ao Votus"
@@ -36,6 +37,7 @@ export default function HomePage() {
       </main>
 
       <FloatingAIButton />
+      <WelcomeIntro />
     </div>
   );
 }

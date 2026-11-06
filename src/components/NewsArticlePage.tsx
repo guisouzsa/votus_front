@@ -13,7 +13,7 @@ export default function NewsArticlePage({ article }: { article?: NewsArticle }) 
 
   return (
     <article className="w-full px-6 pb-16 sm:px-10">
-      <div className="grid gap-6 border-b border-[#EDDBBA] pb-6 lg:grid-cols-[minmax(0,1fr)_12rem] lg:items-end">
+      <div data-tour="noticia-cabecalho" className="grid gap-6 border-b border-[#EDDBBA] pb-6 lg:grid-cols-[minmax(0,1fr)_12rem] lg:items-end">
         <div>
           {article?.category && (
             <p className="mb-4 text-sm font-semibold text-[#8D0801]">{article.category}</p>
@@ -21,7 +21,7 @@ export default function NewsArticlePage({ article }: { article?: NewsArticle }) 
           {/* Prévia: só o título desta página usa a Poppins (font-heading,
               já usada em vários títulos do site) — o resto da página
               continua em Montserrat, sem mexer em mais nada. */}
-          <h1 className="font-heading text-3xl font-bold leading-tight text-[#8D0801] sm:text-5xl">
+          <h1 className="font-heading text-2xl font-bold leading-tight text-[#8D0801] md:text-3xl">
             {article?.title || (hasArticle ? "" : "Nenhuma notícia disponível no momento")}
           </h1>
           <p className="mt-4 text-base leading-relaxed text-[#103D23] sm:text-lg">
@@ -60,7 +60,7 @@ export default function NewsArticlePage({ article }: { article?: NewsArticle }) 
         <div className="mt-8 aspect-video w-full rounded-xl bg-[#F2E4CA]/60" aria-hidden="true" />
       )}
 
-      <div className="mt-8 min-h-96">
+      <div data-tour="noticia-resumo" className="mt-8 min-h-96">
         {article?.content ? (
           <>
             <h2 className="mb-3 font-display text-sm font-bold uppercase tracking-wide text-[#8D0801]">Resumo</h2>
@@ -89,6 +89,7 @@ export default function NewsArticlePage({ article }: { article?: NewsArticle }) 
       {article?.url && (
         <div className="mt-8 border-t border-[#EDDBBA] pt-6">
           <a
+            data-tour="noticia-fonte"
             href={article.url}
             target="_blank"
             rel="noopener noreferrer"

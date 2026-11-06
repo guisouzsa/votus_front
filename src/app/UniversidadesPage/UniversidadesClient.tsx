@@ -137,7 +137,7 @@ export default function UniversidadesClient({
       <Sidebar />
       <MobileBottomNav />
 
-      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24">
+      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0">
         <div className="w-full px-6 py-8 sm:px-10">
           <Link
             href="/JuventudePage"
@@ -155,7 +155,7 @@ export default function UniversidadesClient({
           />
 
           {/* Filtros */}
-          <div className="mt-6 rounded-2xl border border-[#D9C29B] bg-[#FDF8EE] p-4 sm:p-5">
+          <div data-tour="universidades-filtros" className="mt-6 rounded-2xl border border-[#D9C29B] bg-[#FDF8EE] p-4 sm:p-5">
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
               <label className="flex flex-col gap-1.5 text-xs font-bold text-[#1B623A]">
                 Município
@@ -242,7 +242,7 @@ export default function UniversidadesClient({
             </div>
           </div>
 
-          <div className="mt-6">
+          <div data-tour="universidades-resultados" className="mt-6">
             {loading && <ProposalListSkeleton />}
 
             {!loading && error && (

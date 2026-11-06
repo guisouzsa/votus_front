@@ -72,7 +72,7 @@ export const POSITIONS: PoliticalPosition[] = [
 ];
 
 export function getPositionById(id: string): PoliticalPosition {
-  return POSITIONS.find((position) => position.id === id) ?? POSITIONS.find((position) => position.id === 'senador')!;
+  return POSITIONS.find((position) => position.id === id) ?? POSITIONS.find((position) => position.id === 'presidente')!;
 }
 
 export const LEVELS: { id: Level; label: string }[] = [

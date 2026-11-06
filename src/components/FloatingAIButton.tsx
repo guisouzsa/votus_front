@@ -14,7 +14,7 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { getVisitorId } from "@/lib/visitorId";
 
 interface ChatMessage {
@@ -59,6 +59,9 @@ export default function FloatingAIButton({
   const [perguntasRestantes, setPerguntasRestantes] = useState<number | null>(null);
   const limiteAtingido = perguntasRestantes === 0;
   const logRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLElement>(null);
+  const expandFromRef = useRef<DOMRect | null>(null);
+  const expandAnimationRef = useRef<Animation | null>(null);
   const containerClass = placement === "inline"
     ? "relative flex justify-end"
     : "fixed bottom-24 right-4 z-50 flex items-end justify-end md:bottom-6 md:right-6";
@@ -98,6 +101,41 @@ export default function FloatingAIButton({
   useEffect(() => {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
   }, [messages, sending]);
+
+  // Expandir/reduzir: tamanho e posição do painel mudam entre valores que o CSS
+  // não sabe animar (auto → 0, w-auto). Por isso mede o painel antes e depois
+  // da troca e anima entre essas duas medidas.
+  useLayoutEffect(() => {
+    const panel = panelRef.current;
+    const from = expandFromRef.current;
+    expandFromRef.current = null;
+    if (!panel || !from) return;
+
+    expandAnimationRef.current?.cancel();
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const to = panel.getBoundingClientRect();
+    const frame = (rect: DOMRect, borderRadius: string) => ({
+      top: `${rect.top}px`,
+      left: `${rect.left}px`,
+      width: `${rect.width}px`,
+      height: `${rect.height}px`,
+      right: "auto",
+      bottom: "auto",
+      maxHeight: "none",
+      borderRadius,
+    });
+
+    expandAnimationRef.current = panel.animate(
+      [frame(from, expanded ? "1.25rem" : "0"), frame(to, expanded ? "0" : "1.25rem")],
+      { duration: 340, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }
+    );
+  }, [expanded]);
+
+  function toggleExpanded() {
+    expandFromRef.current = panelRef.current?.getBoundingClientRect() ?? null;
+    setExpanded((value) => !value);
+  }
 
   function toggleChat() {
     setOpen((value) => !value);
@@ -171,10 +209,11 @@ export default function FloatingAIButton({
   return (
     <div className={containerClass}>
       <section
+        ref={panelRef}
         aria-label="Chat Votus IA"
         aria-hidden={!open}
         inert={!open}
-        className={`fixed z-50 flex w-auto origin-bottom-right flex-col overflow-hidden border border-[#EDDBBA] bg-[#FDF8EE] shadow-[0_16px_40px_rgba(27,98,58,0.2)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`fixed z-50 flex w-auto origin-bottom-right flex-col overflow-hidden border border-[#EDDBBA] bg-[#FDF8EE] shadow-[0_16px_40px_rgba(27,98,58,0.2)] transition-[opacity,translate,scale] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           expanded
             ? // Tela inteira, sem margens nem cantos arredondados, em
               // qualquer breakpoint.
@@ -215,7 +254,7 @@ export default function FloatingAIButton({
             </button>
             <button
               type="button"
-              onClick={() => setExpanded((value) => !value)}
+              onClick={toggleExpanded}
               aria-label={expanded ? "Reduzir chat" : "Expandir chat"}
               title={expanded ? "Reduzir chat" : "Expandir chat"}
               className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[#8D0801] transition-colors hover:bg-[#8D0801]/10 cursor-pointer"
@@ -350,6 +389,8 @@ export default function FloatingAIButton({
         onClick={toggleChat}
         aria-label={open ? "Fechar chat de IA" : "Perguntar à IA"}
         aria-expanded={open}
+        // data-tour: só o tour da tela inicial apresenta este botão.
+        data-tour="pergunte-ia"
         // FundoFlooatingbutton.svg é bem largo (725x241, ~3:1) — desenhado
         // pra caber no botão retangular do desktop (md:w-44). No mobile o
         // botão é quadrado (h-16 w-16): bg-cover cortava as laterais dessa

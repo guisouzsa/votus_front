@@ -81,7 +81,7 @@ export default function JuventudeClient({
       <Sidebar />
       <MobileBottomNav />
 
-      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
+      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0">
         <div className="w-full px-6 py-8 sm:px-10">
           <DashboardHeader
             titleText="Juventude em Pauta"
@@ -90,7 +90,7 @@ export default function JuventudeClient({
             subtitle="Vagas de emprego e concursos públicos abertos, pensados para quem está entrando no mercado de trabalho."
           />
 
-          <section className="mt-8">
+          <section data-tour="juventude-vagas" className="mt-8">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
               <h2 className="flex items-center gap-2 text-xl font-black uppercase text-[#FF7700] sm:text-2xl">
                 <Briefcase size={22} />
@@ -165,7 +165,7 @@ export default function JuventudeClient({
             )}
           </section>
 
-          <section className="mt-10">
+          <section data-tour="juventude-concursos" className="mt-10">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
               <h2 className="flex items-center gap-2 text-xl font-black uppercase text-[#1B623A] sm:text-2xl">
                 <Award size={22} />

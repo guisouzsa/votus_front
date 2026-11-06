@@ -397,11 +397,13 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
   );
 
   return (
-    <div className="fixed inset-0 overflow-x-hidden overflow-y-auto">
+    // scroll-pt-24: mesma folga pra navbar do html (globals.css), já que esta
+    // página rola neste contêiner e não na janela.
+    <div className="fixed inset-0 scroll-pt-24 overflow-x-hidden overflow-y-auto">
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
       <MobileBottomNav />
-      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0 md:pl-24">
+      <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0">
         <div className="w-full px-4 py-8 sm:px-10">
           <Link
             href={candidatoDeOrigem ? `/CandidatosPage/presidente/${candidatoDeOrigem.external_id}` : '/CandidatosPage/presidente'}
@@ -455,7 +457,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
 
               {/* Faixa 2: busca no padrão do Votus (mesma barra de Candidatos e
                   Deputados: pílula + "Filtros" com painel). */}
-              <section aria-labelledby="filtros-titulo" className="mt-8">
+              <section aria-labelledby="filtros-titulo" data-tour="comparador-filtros" className="mt-8">
                 <h2 id="filtros-titulo" className="sr-only">Buscar e filtrar propostas</h2>
                 <SearchBar
                   className=""
@@ -528,7 +530,7 @@ export default function ComparadorPropostasClient({ initialIndex }: { initialInd
               </section>
 
               {temasComparaveis.length > 0 && (
-                <nav aria-label="Temas com propostas de todos os candidatos" className="mt-3">
+                <nav aria-label="Temas com propostas de todos os candidatos" data-tour="comparador-temas" className="mt-3">
                   <p className="text-[11px] font-bold uppercase tracking-wide text-ink-soft">Temas com propostas de todos os candidatos</p>
                   <div className="mt-1.5 flex gap-2 overflow-x-auto pb-1 scrollbar-hide md:flex-wrap md:overflow-visible">
                     {temasComparaveis.map((t) => {

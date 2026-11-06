@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import EnterVotusLink from '@/components/EnterVotusLink';
 
 export default function ParrotBannerSection() {
   return (
@@ -24,9 +24,9 @@ export default function ParrotBannerSection() {
               Sua participação começa com informação. Acesse o Votus agora.
             </p>
 
-            <Link href="/CandidatosPage/deputado-federal" className="inline-block w-full shrink-0 rounded bg-brasil-orange px-8 py-3 text-center font-bold text-white transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brasil-orange sm:w-auto">
-              Explorar candidatos
-            </Link>
+            <EnterVotusLink className="inline-block w-full shrink-0 rounded bg-brasil-orange px-8 py-3 text-center font-bold text-white transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brasil-orange sm:w-auto">
+              Explorar o Votus
+            </EnterVotusLink>
           </div>
         </div>
       </div>

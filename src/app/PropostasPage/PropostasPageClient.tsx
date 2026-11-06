@@ -87,7 +87,7 @@ export default function PropostasPageClient() {
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
       <MobileBottomNav />
-      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24">
+      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0">
         <div className="w-full px-6 py-8 sm:px-10">
           <DashboardHeader
             titleText="Simulador de Propostas"
@@ -96,7 +96,7 @@ export default function PropostasPageClient() {
             subtitle="Cadastre uma ideia de proposta legislativa e acesse outras propostas que outras pessoas cadastraram."
           />
 
-          <div className="mt-6 flex flex-col gap-4 rounded-[12px] border border-[#e0d6c4] bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-5">
+          <div data-tour="propostas-cadastrar" className="mt-6 flex flex-col gap-4 rounded-[12px] border border-[#e0d6c4] bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-5">
             <div>
               <h2 className="text-sm font-black uppercase text-[#1b623a] sm:text-base">Tem uma proposta?</h2>
               <p className="mt-1 text-xs text-[#6b6255] sm:text-sm">
@@ -150,9 +150,14 @@ export default function PropostasPageClient() {
             {!loading && !error && filteredProposals.length > 0 && (
               <div className="relative">
                 {isValidating && <PageTransitionOverlay />}
-                <div className={`flex flex-col gap-4 transition-opacity ${isValidating ? 'opacity-60' : ''}`}>
+                <div
+                  data-tour="propostas-lista"
+                  className={`flex flex-col gap-4 transition-opacity ${isValidating ? 'opacity-60' : ''}`}
+                >
                   {filteredProposals.map((proposal, index) => (
-                    <ProposalCard key={proposal.id} proposal={proposal} index={index} onVoted={handleVoted} />
+                    <div key={proposal.id} data-tour={index === 0 ? 'propostas-primeira' : undefined}>
+                      <ProposalCard proposal={proposal} index={index} onVoted={handleVoted} />
+                    </div>
                   ))}
                 </div>
               </div>

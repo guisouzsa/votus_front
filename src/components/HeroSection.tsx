@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import EnterVotusLink from '@/components/EnterVotusLink';
 
 export default function HeroSection() {
   return (
@@ -17,9 +17,9 @@ export default function HeroSection() {
           <p className="mx-auto mb-[var(--landing-hero-gap)] max-w-3xl text-lg leading-relaxed text-ink-soft">
             O Votus é uma iniciativa voltada para jovens e para quem quer conhecer melhor os candidatos antes de votar. Aqui você consulta perfis, acompanha notícias e monta o seu santinho.
           </p>
-          <Link href="/CandidatosPage/deputado-federal" className="px-8 py-3 bg-brick text-white rounded font-bold hover:opacity-90 transition-opacity inline-block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brick">
-            Explorar candidatos
-          </Link>
+          <EnterVotusLink className="px-8 py-3 bg-brick text-white rounded font-bold hover:opacity-90 transition-opacity inline-block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brick">
+            Explorar o Votus
+          </EnterVotusLink>
         </div>
       </div>
     </section>

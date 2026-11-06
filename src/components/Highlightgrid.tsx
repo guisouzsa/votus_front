@@ -104,7 +104,7 @@ function ExploreRow({ title, description, href, cta, background }: ExploreItem) 
 export default function HighlightGrid() {
   return (
     <div className="mt-10 w-full">
-      <section aria-labelledby="comece-por-aqui">
+      <section aria-labelledby="comece-por-aqui" data-tour="inicio-comece">
         <SectionIntro
           id="comece-por-aqui"
           title="Comece por aqui"
@@ -117,7 +117,7 @@ export default function HighlightGrid() {
         </div>
       </section>
 
-      <section aria-labelledby="mais-para-explorar" className="mt-[52px]">
+      <section aria-labelledby="mais-para-explorar" data-tour="inicio-explorar" className="mt-[52px]">
         <SectionIntro
           id="mais-para-explorar"
           title="Mais para explorar"

@@ -3,7 +3,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NAV_ITEMS, ACTIVE_CLASS, getActiveRouteId } from "./navItems";
+import { NAV_ITEMS, ACTIVE_CLASS, OPEN_MOBILE_MENU_EVENT, getActiveRouteId } from "./navItems";
 import { prefetchRoute } from "@/lib/prefetch";
 
 // Cor/sombra do marcador que desliza atrás do item ativo — mesmo visual que
@@ -40,7 +40,9 @@ export default function MobileBottomNav() {
       if (item.children ? isGroupActive || isOpen : isActive) return i;
     }
 
-    return expandedGroupId === "mais" ? 4 : null;
+    // Página que só se alcança pelo "Mais" (Radar, Propostas etc.): o
+    // destaque fica nele, pra pessoa saber por onde voltar.
+    return activeRouteId ? 4 : null;
   })();
 
   // Mede a posição/tamanho real do slot em destaque (via DOM) e reposiciona
@@ -187,70 +189,25 @@ export default function MobileBottomNav() {
           );
         })}
 
-        {/* Botão 'Mais' agrupando Propostas, Cola Eleitoral, Explicações, Simulador de Urna */}
+        {/* "Mais opções" abre o menu completo da navbar (mesmos grupos do
+            desktop), em vez de uma lista própria — ver OPEN_MOBILE_MENU_EVENT. */}
         <div
           ref={(el) => {
             slotRefs.current[4] = el;
           }}
           className="relative flex flex-1 justify-center"
         >
-          {expandedGroupId === "mais" && (
-            <div className="absolute bottom-[calc(100%+0.75rem)] right-0 z-40 flex max-h-[70vh] flex-col gap-1 overflow-y-auto whitespace-nowrap rounded-2xl border border-[#8D0801]/15 bg-[#FDF8EE] p-2 shadow-lg">
-              {NAV_ITEMS.slice(4).map((child) =>
-                child.children ? (
-                  <div key={child.id} className="flex flex-col gap-1">
-                    <span className="flex items-center gap-3 pl-4 pr-5 pt-1.5 text-left text-xs font-bold uppercase tracking-wide text-[#103D23]/60">
-                      {child.label}
-                    </span>
-                    {child.children.map((grandchild) => (
-                      <Link
-                        key={grandchild.id}
-                        href={grandchild.path}
-                        onTouchStart={() => prefetchRoute(grandchild.path)}
-                        onClick={closePopover}
-                        className={`flex items-center gap-3 rounded-xl py-2 pl-8 pr-5 text-left text-sm font-medium transition-colors ${
-                          activeRouteId === grandchild.id ? ACTIVE_CLASS : "text-[#103D23] hover:bg-black/5"
-                        }`}
-                      >
-                        <span>{grandchild.label}</span>
-                      </Link>
-                    ))}
-                  </div>
-                ) : child.path ? (
-                  <Link
-                    key={child.id}
-                    href={child.path}
-                    onTouchStart={() => prefetchRoute(child.path)}
-                    onClick={closePopover}
-                    className={`flex items-center gap-3 rounded-xl py-2 pl-4 pr-5 text-left text-sm font-medium transition-colors ${
-                      activeRouteId === child.id ? ACTIVE_CLASS : "text-[#103D23] hover:bg-black/5"
-                    }`}
-                  >
-                    <img src={child.icon} alt="" className="h-5 w-5 shrink-0 opacity-70" />
-                    <span>{child.label}</span>
-                  </Link>
-                ) : (
-                  <button
-                    key={child.id}
-                    type="button"
-                    onClick={closePopover}
-                    className="flex items-center gap-3 rounded-xl py-2 pl-4 pr-5 text-left text-sm font-medium text-[#103D23] transition-colors hover:bg-black/5"
-                  >
-                    <img src={child.icon} alt="" className="h-5 w-5 shrink-0 opacity-70" />
-                    <span>{child.label}</span>
-                  </button>
-                )
-              )}
-            </div>
-          )}
           <button
             type="button"
-            onClick={() => setExpandedGroupId((prev) => (prev === "mais" ? null : "mais"))}
-            aria-expanded={expandedGroupId === "mais"}
+            onClick={() => {
+              closePopover();
+              window.dispatchEvent(new Event(OPEN_MOBILE_MENU_EVENT));
+            }}
+            aria-haspopup="dialog"
             aria-label="Mais opções"
             title="Mais opções"
             className={`relative flex h-12 w-12 items-center justify-center rounded-full transition-colors ${
-              expandedGroupId === "mais" ? ACTIVE_TEXT_CLASS : "text-[#103D23]"
+              highlightedIndex === 4 ? ACTIVE_TEXT_CLASS : "text-[#103D23]"
             }`}
           >
             {/* Ícone genérico de menu/mais */}

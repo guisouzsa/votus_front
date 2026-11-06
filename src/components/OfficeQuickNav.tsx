@@ -22,7 +22,8 @@ export default function OfficeQuickNav({
   current: 'PresidentePage' | 'GovernadoresPage' | 'DeputadosPage' | 'SenadoresPage' | 'DeputadosEstaduaisPage';
 }) {
   return (
-    <nav aria-label="Cargos" className="mt-4 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+    // data-tour: alvo dos tours de apresentação (ver onboarding/tours.ts).
+    <nav aria-label="Cargos" data-tour="cargos" className="mt-4 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
       {ITENS.map(({ href, label }) => {
         const ativo = href === `/${current}`;
         return (

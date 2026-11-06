@@ -23,7 +23,7 @@ export default function DashboardHeader({
     <header className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
       <div>
         {titleText ? (
-          <h1 className={`text-3xl font-black uppercase tracking-tight sm:text-4xl md:text-5xl ${titleColor} ${titleClassName}`}>
+          <h1 className={`text-2xl font-black uppercase tracking-tight md:text-3xl ${titleColor} ${titleClassName}`}>
             {titleText}
           </h1>
         ) : (
@@ -46,7 +46,7 @@ export default function DashboardHeader({
         aria-hidden="true"
         width={381}
         height={60}
-        className="relative -top-2 hidden h-auto w-[min(500px,45vw)] object-contain shrink-0 sm:block"
+        className="relative hidden h-auto w-[min(320px,30vw)] object-contain shrink-0 sm:block"
       />
     </header>
   );

@@ -23,6 +23,12 @@
   --font-sans: var(--font-montserrat), sans-serif;
   --font-heading: var(--font-poppins), sans-serif;
 
+  /* Letra mais fina no site todo: font-semibold e font-bold ficam um degrau
+     abaixo do padrão (600 e 700). font-extrabold e font-black não mudam, pra
+     manter os títulos fortes. */
+  --font-weight-semibold: 500;
+  --font-weight-bold: 600;
+
   --color-brasil-green: #1B623A;
   --color-brasil-green-deep: #134A2A;
   --color-brasil-gold: #FCC100;
@@ -50,6 +56,8 @@ html {
      viewport>, que continua sem restrição (ver "viewport" em layout.tsx) —
      só limita o *scroll horizontal* do documento. */
   overflow-x: hidden;
+  /* Âncoras (#secao) não ficam escondidas atrás da navbar fixa no topo. */
+  scroll-padding-top: 6rem;
 }
 
 body {
@@ -57,7 +65,11 @@ body {
   color: var(--color-ink);
   font-family: var(--font-montserrat), sans-serif;
   max-width: 100vw;
+  /* clip corta o excesso lateral igual ao hidden, mas sem transformar o body
+     num contêiner de rolagem — com hidden, a navbar (position: sticky) não
+     grudava no topo. hidden fica de reserva pra navegador sem suporte a clip. */
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .scrollbar-hide {
@@ -67,6 +79,23 @@ body {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* Transição da landing pro site (EnterVotusLink): a logo aparece e cresce;
+   depois WelcomeIntro a leva pra navbar a partir dessa mesma escala. */
+@keyframes votus-enter-grow {
+  0% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
 }
 
 @keyframes votus-chat-in {

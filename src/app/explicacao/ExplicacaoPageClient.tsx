@@ -40,7 +40,7 @@ export default function ExplicacaoPageClient() {
       <Sidebar />
       <MobileBottomNav />
 
-      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24">
+      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0">
         <div className="w-full px-6 py-8 sm:px-10">
           <Link
             href="/ExplicacoesPage"
@@ -50,12 +50,14 @@ export default function ExplicacaoPageClient() {
             Voltar
           </Link>
 
-          <DashboardHeader
-            titleText="Você Sabia?"
-            titleColor="text-[#8C0801]"
-            titleClassName="font-heading"
-            subtitle="Entenda conceitos importantes de política e cidadania, e teste o que aprendeu com um quiz."
-          />
+          <div data-tour="voce-sabia-titulo">
+            <DashboardHeader
+              titleText="Você Sabia?"
+              titleColor="text-[#8C0801]"
+              titleClassName="font-heading"
+              subtitle="Entenda conceitos importantes de política e cidadania, e teste o que aprendeu com um quiz."
+            />
+          </div>
 
           {isLoading && (
             <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -77,10 +79,11 @@ export default function ExplicacaoPageClient() {
 
           {!isLoading && !error && explicacoes.length > 0 && (
             <>
-              <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {explicacoes.map((explicacao) => (
+              <div data-tour="voce-sabia-lista" className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {explicacoes.map((explicacao, index) => (
                   <Link
                     key={explicacao.id}
+                    data-tour={index === 0 ? "voce-sabia-primeira" : undefined}
                     href={`/explicacao/${explicacao.id}`}
                     className="group flex h-full flex-col rounded-2xl border border-line bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-[#1B623A]/40 hover:shadow-md"
                   >

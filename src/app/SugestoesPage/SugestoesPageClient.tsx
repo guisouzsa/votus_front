@@ -62,7 +62,7 @@ function PageShell({ children }: { children: React.ReactNode }) {
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
       <MobileBottomNav />
-      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0 md:pl-24">{children}</main>
+      <main className="overflow-x-hidden pb-24 pl-0 md:pb-0">{children}</main>
       <FloatingAIButton />
     </div>
   );
@@ -109,7 +109,7 @@ export default function SugestoesPageClient() {
     return (
       <PageShell>
         <div className="flex min-h-[70vh] w-full flex-col items-center justify-center px-6 py-8 text-center sm:px-10">
-          <h1 className="text-3xl font-black uppercase tracking-tight text-[#1b623a] sm:text-4xl">
+          <h1 className="text-2xl font-black uppercase tracking-tight text-[#1b623a] md:text-3xl">
             Obrigado por contribuir com o Votus!
           </h1>
           <p className="mt-4 max-w-md text-sm text-[#0B2A16] sm:text-base">
@@ -130,7 +130,7 @@ export default function SugestoesPageClient() {
           subtitle="Conte pra gente o que achou do Votus. Leva menos de um minuto."
         />
 
-        <div className="mt-6 max-w-2xl rounded-[10px] border border-[#d6d1c8] bg-[#EDDBBA]/40 px-4 py-3 text-sm font-semibold text-[#1b623a]">
+        <div data-tour="sugestoes-anonimo" className="mt-6 max-w-2xl rounded-[10px] border border-[#d6d1c8] bg-[#EDDBBA]/40 px-4 py-3 text-sm font-semibold text-[#1b623a]">
           Sua resposta é anônima. Não pedimos seu nome, e-mail ou cadastro.
         </div>
 
@@ -145,7 +145,11 @@ export default function SugestoesPageClient() {
         {!isLoading && !error && (
           <form onSubmit={handleSubmit} className="mt-6 flex max-w-2xl flex-col gap-6 pb-16">
             {perguntas.map((pergunta, index) => (
-              <div key={pergunta.id} className="border-t border-line pt-6">
+              <div
+                key={pergunta.id}
+                data-tour={index === 0 ? 'sugestoes-form' : undefined}
+                className="border-t border-line pt-6"
+              >
                 <h2 className="text-base font-bold text-[#1b623a]">
                   <span className="text-[#8D0801]">{index + 1}. </span>
                   {pergunta.text}
@@ -176,6 +180,7 @@ export default function SugestoesPageClient() {
 
             <button
               type="submit"
+              data-tour="sugestoes-enviar"
               disabled={!canSubmit || enviando}
               className="mt-2 flex h-14 w-full items-center justify-center gap-2 rounded-[10px] bg-[#1b623a] px-8 text-base font-bold text-white transition-colors hover:bg-[#164f30] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-14"
             >
