@@ -8,6 +8,7 @@ import { ChevronDown, LayoutGrid, Menu, Newspaper, X } from "lucide-react";
 import {
   NAV_GROUPS,
   ACTIVE_CLASS,
+  OPEN_ARRIVAL_MENU_EVENT,
   getActiveGroupId,
   getActiveRouteId,
   type NavGroup,
@@ -74,7 +75,23 @@ export default function Sidebar() {
     setMobileOpen(false);
   }
 
-  const closeMobile = useCallback(() => setMobileOpen(false), []);
+  // Chegada pela landing: o menu abre sozinho, também no desktop, logo abaixo da
+  // barra. null = menu comum do celular.
+  const [arrivalTop, setArrivalTop] = useState<number | null>(null);
+
+  const closeMobile = useCallback(() => {
+    setMobileOpen(false);
+    setArrivalTop(null);
+  }, []);
+
+  useEffect(() => {
+    function openOnArrival() {
+      setArrivalTop(window.innerWidth >= 1024 ? (headerRef.current?.getBoundingClientRect().bottom ?? 0) + 12 : 12);
+      setMobileOpen(true);
+    }
+    window.addEventListener(OPEN_ARRIVAL_MENU_EVENT, openOnArrival);
+    return () => window.removeEventListener(OPEN_ARRIVAL_MENU_EVENT, openOnArrival);
+  }, []);
 
   // O tour fecha os menus da barra: aberto, o dropdown ficaria sobre os alvos.
   const closeMenus = useCallback(() => {
@@ -279,7 +296,7 @@ export default function Sidebar() {
           elementos fixed, o que prenderia o painel dentro da navbar. */}
       {mobileOpen &&
         createPortal(
-          <MobileMenu activeRouteId={activeRouteId} activeGroupId={activeGroupId} onClose={closeMobile} />,
+          <MobileMenu activeRouteId={activeRouteId} activeGroupId={activeGroupId} arrivalTop={arrivalTop} onClose={closeMobile} />,
           document.body
         )}
     </header>
@@ -342,10 +359,12 @@ function GroupSections({
 function MobileMenu({
   activeRouteId,
   activeGroupId,
+  arrivalTop,
   onClose,
 }: {
   activeRouteId: string | undefined;
   activeGroupId: string | undefined;
+  arrivalTop: number | null;
   onClose: () => void;
 }) {
   const panelRef = useRef<HTMLDivElement>(null);
@@ -391,7 +410,7 @@ function MobileMenu({
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-[60] lg:hidden">
+    <div className={`fixed inset-0 z-[60] ${arrivalTop === null ? "lg:hidden" : ""}`}>
       <button
         type="button"
         tabIndex={-1}
@@ -407,10 +426,15 @@ function MobileMenu({
         aria-label="Menu do Votus"
         // Cartão branco que cresce só o necessário, em vez de um painel na altura
         // toda da tela. Com um grupo aberto em tela baixa, a lista rola por dentro.
-        className="absolute right-3 top-3 flex max-h-[calc(100dvh-1.5rem)] w-[min(19rem,calc(100vw-1.5rem))] animate-[votus-chat-in_0.2s_ease-out_both] flex-col overflow-hidden rounded-2xl border border-[#e0d6c4] bg-white shadow-2xl"
+        className="absolute right-3 top-3 flex w-[min(19rem,calc(100vw-1.5rem))] animate-[votus-chat-in_0.2s_ease-out_both] flex-col overflow-hidden rounded-2xl border border-[#e0d6c4] bg-white shadow-2xl lg:right-6 xl:right-10"
+        style={{ top: arrivalTop ?? undefined, maxHeight: `calc(100dvh - ${(arrivalTop ?? 12) + 12}px)` }}
       >
         <div className="flex shrink-0 items-center justify-between py-1 pl-4 pr-1.5">
-          <img src="/IconeVotus.svg" alt="Votus" className="h-5 w-auto" />
+          {arrivalTop === null ? (
+            <img src="/IconeVotus.svg" alt="Votus" className="h-5 w-auto" />
+          ) : (
+            <p className="min-w-0 text-sm font-bold leading-tight text-[#1B623A]">Navegue pelo site por aqui</p>
+          )}
           <button
             type="button"
             data-autofocus

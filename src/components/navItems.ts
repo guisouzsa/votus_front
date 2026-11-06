@@ -157,6 +157,9 @@ export function getActiveGroupId(activeRouteId: string | undefined): string | un
   )?.id;
 }
 
+// A transição da landing (WelcomeIntro) termina abrindo o menu pra pessoa escolher.
+export const OPEN_ARRIVAL_MENU_EVENT = "votus:abrir-menu-chegada";
+
 export const ACTIVE_CLASS = "bg-[#EDDBBA]/50 text-[#1B623A] shadow-sm";
 
 export function getActiveRouteId(pathname: string): string | undefined {

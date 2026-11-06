@@ -3,7 +3,9 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 import Link from "next/link";
 import { LayoutGrid } from "lucide-react";
-import { hasSeenWelcome, markWelcomeSeen, WELCOME_CLOSED_EVENT } from "./onboarding/tourStorage";
+import { OPEN_ARRIVAL_MENU_EVENT } from "./navItems";
+import { getTourForPath } from "./onboarding/tours";
+import { hasSeenWelcome, markTourSeen, markWelcomeSeen, WELCOME_CLOSED_EVENT } from "./onboarding/tourStorage";
 
 const ARRIVAL_KEY = "votus:chegada-landing";
 // As mesmas imagens da logo da navbar, pra encaixar sem troca visível.
@@ -164,9 +166,11 @@ async function animateLogoParts(
 }
 
 /**
- * Chegada na tela inicial: termina a transição da landing (a logo vai pro lugar
- * dela na navbar) e, na primeira visita, abre a janela de boas-vindas. O tour
- * da tela inicial (PageTour) espera essa janela fechar.
+ * Chegada na tela inicial. Vindo da landing: a logo vai pro lugar dela na navbar
+ * e o menu abre, em todo clique, pra pessoa escolher pra onde ir; a janela de
+ * boas-vindas e o tour não entram por cima (o tour segue no botão do guia).
+ * Entrando direto, a primeira visita abre a janela de boas-vindas, e o tour da
+ * tela inicial (PageTour) espera ela fechar.
  */
 export default function WelcomeIntro() {
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -179,11 +183,24 @@ export default function WelcomeIntro() {
     if (!overlay || !consumeLandingArrival()) return;
 
     arrivedRef.current = true;
+    markWelcomeSeen();
+    const homeTour = getTourForPath("/InicialPage");
+    if (homeTour) markTourSeen(homeTour.pageId, homeTour.version, "skipped");
+
+    const openMenu = () => window.dispatchEvent(new Event(OPEN_ARRIVAL_MENU_EVENT));
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      // A navbar ainda precisa montar o listener do menu (efeito depois deste).
+      window.setTimeout(openMenu, 100);
+      return;
+    }
+
     overlay.hidden = false;
     flyLogoToNavbar(overlay)
       .catch(() => {})
       .finally(() => {
         overlay.hidden = true;
+        openMenu();
       });
   }, []);
 

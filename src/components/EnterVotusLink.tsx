@@ -33,13 +33,14 @@ export default function EnterVotusLink({ className, children }: { className?: st
     event.preventDefault();
     if (entering) return;
 
+    markLandingArrival();
+
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       router.push(ENTRY_PATH);
       return;
     }
 
     setEntering(true);
-    markLandingArrival();
     timerRef.current = window.setTimeout(() => router.push(ENTRY_PATH), TRANSITION_MS);
   }
 
