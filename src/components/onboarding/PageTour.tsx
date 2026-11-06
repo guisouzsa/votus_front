@@ -12,7 +12,7 @@ const NAVBAR_SELECTOR = 'header[data-tour="navbar"]';
 const SPOTLIGHT_PADDING = 8;
 const GAP = 14;
 const MARGIN = 16;
-const CARD_WIDTH = 384;
+const CARD_WIDTH = 416;
 const ARROW_INSET = 22;
 const MOBILE_BREAKPOINT = 640;
 const MOBILE_MARGIN = 12;
@@ -62,7 +62,7 @@ function sidesThatFit(spot: Box, width: number, height: number, safeTop: number,
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
   const fits: Record<Side, boolean> = {
-    bottom: spot.bottom + GAP + height <= viewportHeight - MARGIN,
+    bottom: spot.bottom + GAP + height <= viewportHeight - MOBILE_MARGIN,
     top: spot.top - GAP - height >= safeTop,
     right: spot.right + GAP + width <= viewportWidth - MARGIN,
     left: spot.left - GAP - width >= MARGIN,
