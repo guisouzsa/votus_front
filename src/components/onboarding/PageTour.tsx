@@ -199,10 +199,9 @@ function TourOverlay({
   const [safeTop, setSafeTop] = useState(MARGIN);
   const [cardHeight, setCardHeight] = useState(220);
 
-  // Celular: folga no fim da página enquanto o tour está aberto, pra até o último
-  // elemento conseguir subir acima do painel, que fica sempre embaixo.
+  // Folga no fim da página enquanto o tour está aberto, pra até o último elemento
+  // conseguir subir e sobrar espaço pro cartão sem cobri-lo.
   useLayoutEffect(() => {
-    if (window.innerWidth >= MOBILE_BREAKPOINT) return;
     const root = document.documentElement;
     const previous = root.style.paddingBottom;
     root.style.paddingBottom = "60vh";
