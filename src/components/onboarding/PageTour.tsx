@@ -440,7 +440,7 @@ function TourOverlay({
                 type="button"
                 onClick={() => onFinish("skipped")}
                 aria-label="Pular apresentação"
-                className="-ml-1 min-h-11 shrink-0 cursor-pointer whitespace-nowrap rounded-full px-1 text-sm font-semibold text-[#4d4d4d] underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#1b623a] sm:min-h-10"
+                className="-ml-1 min-h-11 shrink-0 cursor-pointer whitespace-nowrap rounded-full px-1 text-sm font-semibold text-[#4d4d4d] underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#1b623a] lg:min-h-10"
               >
                 Pular<span className="hidden sm:inline"> apresentação</span>
               </button>
@@ -451,7 +451,7 @@ function TourOverlay({
                 <button
                   type="button"
                   onClick={onBack}
-                  className="min-h-11 cursor-pointer rounded-full border border-[#e0d6c4] px-3.5 text-sm font-semibold text-[#103D23] hover:bg-[#f7f5f2] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1b623a] sm:min-h-10"
+                  className="min-h-11 cursor-pointer rounded-full border border-[#e0d6c4] px-3.5 text-sm font-semibold text-[#103D23] hover:bg-[#f7f5f2] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1b623a] lg:min-h-10"
                 >
                   Voltar
                 </button>
@@ -459,7 +459,7 @@ function TourOverlay({
               <button
                 type="button"
                 onClick={() => (isLast ? onFinish("completed") : onNext())}
-                className="min-h-11 cursor-pointer rounded-full bg-[#1b623a] px-4 text-sm font-semibold text-white hover:bg-[#134A2A] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1b623a] sm:min-h-10"
+                className="min-h-11 cursor-pointer rounded-full bg-[#1b623a] px-4 text-sm font-semibold text-white hover:bg-[#134A2A] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1b623a] lg:min-h-10"
               >
                 {isLast ? "Concluir" : "Próximo"}
               </button>
