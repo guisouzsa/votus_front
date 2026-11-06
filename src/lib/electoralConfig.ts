@@ -234,6 +234,14 @@ export function buildCustomElection({ base, positions, senateVacancies }: Custom
   };
 }
 
+/**
+ * A mesma eleição sem os cargos que a pessoa tirou da colinha. Vale pra qualquer
+ * eleição, e o resto (ordem, numeração, turnos) continua saindo da configuração.
+ */
+export function withoutPositions(election: ElectionConfig, hidden: PositionId[]): ElectionConfig {
+  return { ...election, positions: election.positions.filter(({ position }) => !hidden.includes(position)) };
+}
+
 /** Cargos desta eleição que podem ter segundo turno. */
 export function getRunoffPositions(election: ElectionConfig): PositionId[] {
   return election.positions.map(({ position }) => position).filter((position) => POSITION_RULES[position].hasRunoff);

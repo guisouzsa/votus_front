@@ -22,6 +22,8 @@ export interface ElectionSelection {
   electionId: string;
   custom: CustomElectionInput;
   round: Round;
+  /** Cargos que a pessoa tirou da colinha desta eleição. */
+  hiddenPositions?: PositionId[];
   /** Cargos do 2º turno marcados; sem marcação, todos os que podem ter. */
   runoffPositions?: PositionId[];
   state: string;
@@ -109,12 +111,15 @@ function Selecao({
 /** Escolha da eleição: tudo o que aparece aqui vem da configuração (lib/electoralConfig). */
 export default function SantinhoElectionPicker({
   selecao,
+  eleicaoCompleta,
   eleicao,
   turno,
   votos,
   onChange,
 }: {
   selecao: ElectionSelection;
+  /** A eleição como configurada, antes de tirar cargos. */
+  eleicaoCompleta: ElectionConfig;
   eleicao: ElectionConfig;
   turno: Round;
   votos: BallotSlot[];
@@ -131,6 +136,7 @@ export default function SantinhoElectionPicker({
     onChange({
       electionId: id,
       round: 1,
+      hiddenPositions: undefined,
       runoffPositions: undefined,
       ...(proxima === 'municipal' && selecao.state === 'DF' ? { state: 'CE' } : {}),
     });
@@ -160,6 +166,13 @@ export default function SantinhoElectionPicker({
       },
       runoffPositions: undefined,
     });
+  }
+
+  function alternarNaColinha(position: PositionId) {
+    const ocultos = selecao.hiddenPositions ?? [];
+    const proximos = ocultos.includes(position) ? ocultos.filter((id) => id !== position) : [...ocultos, position];
+    // Pelo menos um cargo fica na colinha.
+    if (proximos.length < eleicaoCompleta.positions.length) onChange({ hiddenPositions: proximos, runoffPositions: undefined });
   }
 
   function alternarSegundoTurno(position: PositionId) {
@@ -216,6 +229,27 @@ export default function SantinhoElectionPicker({
             </label>
           )}
         </div>
+
+        {eleicao.type !== 'custom' && (
+          <div role="group" aria-label="Cargos na sua colinha">
+            <p className={ROTULO}>Cargos na sua colinha</p>
+            <div className="mt-1.5 flex flex-wrap gap-2">
+              {eleicaoCompleta.positions.map(({ position }) => {
+                const ativo = !selecao.hiddenPositions?.includes(position);
+                return (
+                  <button key={position} type="button" aria-pressed={ativo} onClick={() => alternarNaColinha(position)} className={`${CHIP} ${ativo ? CHIP_ON : CHIP_OFF}`}>
+                    {POSITION_RULES[position].label}
+                  </button>
+                );
+              })}
+            </div>
+            {eleicao.positions.length < eleicaoCompleta.positions.length && (
+              <p className="mt-2 text-xs leading-relaxed text-ink-soft">
+                Sua colinha fica só com o que você marcou, mas a urna continua pedindo todos os cargos em disputa na sua eleição.
+              </p>
+            )}
+          </div>
+        )}
 
         {eleicao.type === 'custom' && (
           <div role="group" aria-label="Cargos em disputa">
@@ -277,7 +311,7 @@ export default function SantinhoElectionPicker({
 
       <div className="mt-4 space-y-1 border-t border-line pt-3 text-xs leading-relaxed text-ink-soft">
         <p>
-          <strong className="font-semibold text-[#103D23]">{eleicao.description}</strong> {eleicao.validation.note}
+          <strong className="font-semibold text-[#103D23]">{eleicaoCompleta.description}</strong> {eleicao.validation.note}
         </p>
         {avisoDados && <p>{avisoDados}</p>}
         <p>

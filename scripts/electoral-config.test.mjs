@@ -14,6 +14,7 @@ import {
   getRunoffPositions,
   getStatesFor,
   validateBallot,
+  withoutPositions,
 } from "../src/lib/electoralConfig.ts";
 
 const geral2026 = getElection("eleicoes-gerais-2026");
@@ -166,6 +167,34 @@ test("Distrito Federal: deputado distrital e sem eleição municipal", () => {
   assert.ok(!getStatesFor("municipal").some(({ uf }) => uf === "DF"));
   assert.ok(getStatesFor("general").some(({ uf }) => uf === "DF"));
   assert.equal(getStatesFor("general").length, 27);
+});
+
+test("tirar cargos: 2028 só com prefeito continua sendo 2028, com 2º turno", () => {
+  const soPrefeito = withoutPositions(municipal, ["vereador"]);
+  assert.deepEqual(labels(buildBallot(soPrefeito)), ["Prefeito"]);
+  assert.equal(buildBallot(soPrefeito)[0].order, 1);
+  assert.deepEqual(getRounds(soPrefeito), [1, 2]);
+  assert.equal(describeBallot(soPrefeito, { round: 1, state: "CE" }), "Eleições 2028 · 1º turno · CE");
+});
+
+test("tirar cargos: sem cargo com 2º turno, a opção de turno some", () => {
+  const soVereador = withoutPositions(municipal, ["prefeito"]);
+  assert.deepEqual(labels(buildBallot(soVereador)), ["Vereador"]);
+  assert.deepEqual(getRounds(soVereador), [1]);
+});
+
+test("tirar cargos: vale em qualquer eleição, renumerando na ordem da urna", () => {
+  const slots = buildBallot(withoutPositions(geral2026, ["deputado-federal", "governador"]), { state: "CE" });
+  assert.deepEqual(labels(slots), ["Deputado Estadual", "Senador — 1ª vaga", "Senador — 2ª vaga", "Presidente"]);
+  assert.deepEqual(slots.map((slot) => slot.order), [1, 2, 3, 4]);
+  // As duas vagas continuam, e a busca continua onde há dados.
+  assert.equal(slots[1].candidateOffice, "senado");
+});
+
+test("tirar cargos: 2º turno respeita o que sobrou", () => {
+  const semGovernador = withoutPositions(geral2026, ["governador"]);
+  assert.deepEqual(labels(buildBallot(semGovernador, { round: 2 })), ["Presidente"]);
+  assert.deepEqual(getRunoffPositions(semGovernador), ["presidente"]);
 });
 
 test("identificação da colinha", () => {

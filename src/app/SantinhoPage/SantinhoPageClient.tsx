@@ -22,6 +22,7 @@ import {
   getElection,
   getRounds,
   validateBallot,
+  withoutPositions,
   type SlotValue,
 } from '@/lib/electoralConfig';
 
@@ -84,11 +85,12 @@ export default function SantinhoPageClient({ embedded = false }: { embedded?: bo
   const [gerando, setGerando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
 
-  const eleicao =
+  const eleicaoCompleta =
     selecao.electionId === CUSTOM_ELECTION_ID
       ? buildCustomElection(selecao.custom)
       : (getElection(selecao.electionId) ?? getElection(DEFAULT_ELECTION_ID)!);
-  // Tirar o último cargo com 2º turno de uma eleição personalizada volta pro 1º.
+  const eleicao = withoutPositions(eleicaoCompleta, selecao.hiddenPositions ?? []);
+  // Tirar o último cargo com 2º turno da colinha volta pro 1º turno.
   const turno = getRounds(eleicao).includes(selecao.round) ? selecao.round : 1;
   const votos = buildBallot(eleicao, { round: turno, runoffPositions: selecao.runoffPositions, state: selecao.state });
   const subtitulo = describeBallot(eleicao, { round: turno, state: selecao.state, municipio: selecao.municipio });
@@ -187,7 +189,14 @@ export default function SantinhoPageClient({ embedded = false }: { embedded?: bo
             />
           )}
 
-          <SantinhoElectionPicker selecao={selecao} eleicao={eleicao} turno={turno} votos={votos} onChange={handleSelecaoChange} />
+          <SantinhoElectionPicker
+            selecao={selecao}
+            eleicaoCompleta={eleicaoCompleta}
+            eleicao={eleicao}
+            turno={turno}
+            votos={votos}
+            onChange={handleSelecaoChange}
+          />
 
           <div className="mt-6 flex flex-col gap-10 lg:flex-row lg:items-start">
             <div data-tour="santinho-previa" className="order-2 mx-auto w-full max-w-[260px] lg:order-1 lg:mx-0 lg:shrink-0">
