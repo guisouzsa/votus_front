@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Landmark, Search, ExternalLink, MapPin } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
-import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import DashboardHeader from '@/components/DashboardHeader';
@@ -135,7 +134,6 @@ export default function UniversidadesClient({
     <div className="min-h-dvh">
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
-      <MobileBottomNav />
 
       <main className="overflow-x-hidden pb-24 pl-0 md:pb-0">
         <div className="w-full px-6 py-8 sm:px-10">

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Sidebar from "@/components/Sidebar";
-import MobileBottomNav from "@/components/MobileBottomNav";
 import WovenRibbon from "@/components/WovenRibbon";
 import DashboardHeader from "@/components/DashboardHeader";
 import HighlightGrid from "@/components/Highlightgrid";
@@ -22,7 +21,6 @@ export default function HomePage() {
     <div className="min-h-dvh">
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
-      <MobileBottomNav />
 
       <main className="min-h-dvh overflow-x-hidden bg-[#FDFDFD] pb-24 pl-0 md:pb-0">
         <div className="w-full px-6 py-8 sm:px-10">

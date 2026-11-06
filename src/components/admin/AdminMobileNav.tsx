@@ -6,7 +6,7 @@ import { LogOut } from "lucide-react";
 import { ADMIN_NAV_ITEMS, useAdminLogout } from "./AdminNav";
 
 /**
- * Espelha o padrão visual do MobileBottomNav público (barra flutuante,
+ * Barra própria do painel admin (flutuante,
  * pílulas ativas) — mesma identidade, só que com os itens do admin.
  */
 export default function AdminMobileNav() {

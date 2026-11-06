@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Sidebar from '@/components/Sidebar';
-import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import DashboardHeader from '@/components/DashboardHeader';
@@ -30,7 +29,6 @@ export default function ExplicacoesPageClient() {
     <div className="min-h-dvh">
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
-      <MobileBottomNav />
 
       <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0">
         <div className="min-h-dvh">

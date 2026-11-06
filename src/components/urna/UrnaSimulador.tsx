@@ -3,40 +3,68 @@
 import { useEffect, useRef, useState } from "react";
 import { User } from "lucide-react";
 import LegislatorPhoto from "@/components/LegislatorPhoto";
+import SantinhoElectionPicker from "@/components/SantinhoElectionPicker";
+import { useElectionBallot } from "@/hooks/useElectionBallot";
+import { PARTY_DIGITS, type BallotSlot } from "@/lib/electoralConfig";
 import { findCandidateByNumber, type CandidateOfficeSlug } from "@/services/candidatesService";
 import type { Candidate } from "@/services/types";
 
-type Cargo = {
-  slug: CandidateOfficeSlug;
-  titulo: string;
-  digitos: number;
-};
-
-// Ordem real da cédula/urna eletrônica brasileira (do cargo de menor pro de
-// maior abrangência). A quantidade de dígitos de cada número é regra do TSE
-// (não é um dado do Votus): 4 pra federal, 5 pra estadual, 3 pra senador, 2
-// pra governador e 2 pra presidente.
-const CARGOS: Cargo[] = [
-  { slug: "deputado-federal", titulo: "Deputada(o) Federal", digitos: 4 },
-  { slug: "deputado-estadual", titulo: "Deputada(o) Estadual", digitos: 5 },
-  { slug: "senado", titulo: "Senadora(or)", digitos: 3 },
-  { slug: "governador", titulo: "Governadora(or)", digitos: 2 },
-  { slug: "presidente", titulo: "Presidente da República", digitos: 2 },
-];
-
-type Status = "digitando" | "buscando" | "aguardando-confirmacao" | "incompleto" | "invalido" | "confirmado" | "branco";
+type Status =
+  | "digitando"
+  | "buscando"
+  | "aguardando-confirmacao"
+  | "sem-dados"
+  | "incompleto"
+  | "invalido"
+  | "repetido"
+  | "confirmado"
+  | "legenda"
+  | "branco";
 
 const MENSAGEM_POR_STATUS: Record<Status, { texto: string; classe: string }> = {
   digitando: { texto: "Digite o número", classe: "text-[#3f4f45]" },
   buscando: { texto: "Buscando candidato...", classe: "text-[#3f4f45]" },
   "aguardando-confirmacao": { texto: "Confira os dados e toque em CONFIRMA", classe: "text-[#1b623a]" },
+  "sem-dados": { texto: "Sem candidatos no Votus: toque em CONFIRMA para treinar", classe: "text-[#1b623a]" },
   incompleto: { texto: "Digite todos os números.", classe: "text-[#d9660d]" },
   invalido: { texto: "✕ NÚMERO INVÁLIDO", classe: "text-[#8d0801]" },
+  repetido: { texto: "✕ ESCOLHA UM NÚMERO DIFERENTE EM CADA VAGA", classe: "text-[#8d0801]" },
   confirmado: { texto: "✓ VOTO CONFIRMADO", classe: "text-[#1b623a]" },
+  legenda: { texto: "✓ VOTO DE LEGENDA CONFIRMADO", classe: "text-[#1b623a]" },
   branco: { texto: "▢ VOTO EM BRANCO CONFIRMADO", classe: "text-[#d9660d]" },
 };
 
+/** Escolha da eleição + urna. Trocar a eleição recomeça a votação (ver `key`). */
 export default function UrnaSimulador() {
+  const { selecao, eleicaoCompleta, eleicao, turno, votos, descricao, atualizar } = useElectionBallot();
+  const chave = votos.map((voto) => `${voto.id}:${voto.candidateOffice ?? ""}`).join("|");
+
+  return (
+    <div className="w-full">
+      <div className="mx-auto max-w-4xl">
+        <SantinhoElectionPicker
+          modo="urna"
+          selecao={selecao}
+          eleicaoCompleta={eleicaoCompleta}
+          eleicao={eleicao}
+          turno={turno}
+          votos={votos}
+          onChange={atualizar}
+        />
+      </div>
+
+      {votos.length > 0 ? (
+        <div data-tour="urna" className="mt-8 flex justify-center">
+          <UrnaTerminal key={chave} votos={votos} descricao={descricao} />
+        </div>
+      ) : (
+        <p className="mt-8 text-center text-sm font-semibold text-[#8d0801]">Escolha pelo menos um cargo em disputa.</p>
+      )}
+    </div>
+  );
+}
+
+function UrnaTerminal({ votos, descricao }: { votos: BallotSlot[]; descricao: string }) {
   const [cargoIndex, setCargoIndex] = useState(0);
   const [numero, setNumero] = useState("");
   const [candidato, setCandidato] = useState<Candidate | null>(null);
@@ -49,8 +77,11 @@ export default function UrnaSimulador() {
   // Ignora resultado de uma busca antiga se o usuário já corrigiu/redigitou
   // antes dela responder.
   const buscaId = useRef(0);
+  // Números já confirmados por cargo, só pra comparar entre as vagas. Nada sai
+  // daqui: some ao reiniciar a simulação.
+  const confirmados = useRef<Partial<Record<BallotSlot["position"], string[]>>>({});
 
-  const cargo = CARGOS[cargoIndex];
+  const cargo = votos[cargoIndex];
 
   function tocarClique() {
     const audio = somClique.current;
@@ -95,10 +126,10 @@ export default function UrnaSimulador() {
   }
 
   function digitar(digito: string) {
-    if (bloqueado || finalizada || status === "aguardando-confirmacao") return;
+    if (bloqueado || finalizada || status === "aguardando-confirmacao" || status === "sem-dados") return;
 
-    const base = status === "invalido" ? "" : numero;
-    const proximo = (base + digito).slice(0, cargo.digitos);
+    const base = status === "invalido" || status === "repetido" ? "" : numero;
+    const proximo = (base + digito).slice(0, cargo.digits);
 
     buscaId.current++; // cancela qualquer busca/limpeza automática pendente
     setNumero(proximo);
@@ -106,8 +137,15 @@ export default function UrnaSimulador() {
     setStatus("digitando");
     tocarClique();
 
-    if (proximo.length === cargo.digitos) {
-      buscarCandidato(proximo, cargo.slug);
+    if (proximo.length < cargo.digits) return;
+
+    if (confirmados.current[cargo.position]?.includes(proximo)) {
+      setStatus("repetido");
+    } else if (cargo.candidateOffice) {
+      buscarCandidato(proximo, cargo.candidateOffice);
+    } else {
+      // Sem candidatos na base: não dá pra dizer se o número existe, nem inventar quem seria.
+      setStatus("sem-dados");
     }
   }
 
@@ -123,13 +161,24 @@ export default function UrnaSimulador() {
   function confirmar() {
     if (bloqueado || finalizada) return;
 
-    if (status !== "aguardando-confirmacao" || !candidato) {
-      if (numero.length > 0 && numero.length < cargo.digitos) {
+    // Só o número do partido, num cargo proporcional: voto de legenda.
+    if (cargo.allowsPartyVote && status === "digitando" && numero.length === PARTY_DIGITS) {
+      tocarConfirmacao();
+      setStatus("legenda");
+      setBloqueado(true);
+      setTimeout(avancarCargo, 1200);
+      return;
+    }
+
+    const podeConfirmar = status === "sem-dados" || (status === "aguardando-confirmacao" && candidato);
+    if (!podeConfirmar) {
+      if (numero.length > 0 && numero.length < cargo.digits) {
         setStatus("incompleto");
       }
       return;
     }
 
+    confirmados.current[cargo.position] = [...(confirmados.current[cargo.position] ?? []), numero];
     tocarConfirmacao();
     setStatus("confirmado");
     setBloqueado(true);
@@ -137,7 +186,7 @@ export default function UrnaSimulador() {
   }
 
   function votarBranco() {
-    if (bloqueado || finalizada || status === "confirmado" || status === "branco") return;
+    if (bloqueado || finalizada || status === "confirmado" || status === "legenda" || status === "branco") return;
 
     buscaId.current++;
     tocarConfirmacao();
@@ -151,7 +200,7 @@ export default function UrnaSimulador() {
     setCargoIndex((indiceAtual) => {
       const proximoIndex = indiceAtual + 1;
 
-      if (proximoIndex >= CARGOS.length) {
+      if (proximoIndex >= votos.length) {
         finalizarVotacao();
         return indiceAtual;
       }
@@ -168,6 +217,7 @@ export default function UrnaSimulador() {
     setFinalizada(true);
 
     setTimeout(() => {
+      confirmados.current = {};
       setFinalizada(false);
       setCargoIndex(0);
       setNumero("");
@@ -211,6 +261,16 @@ export default function UrnaSimulador() {
 
   const mensagem = MENSAGEM_POR_STATUS[status];
   const mostrandoCandidato = status === "aguardando-confirmacao" || status === "confirmado";
+  const nomeNaTela =
+    status === "branco"
+      ? "VOTO EM BRANCO"
+      : status === "legenda"
+        ? "VOTO DE LEGENDA"
+        : status === "sem-dados" || (status === "confirmado" && !candidato)
+          ? "Sem candidato cadastrado no Votus"
+          : mostrandoCandidato && candidato
+            ? candidato.ballot_name
+            : "—";
 
   return (
     <div className="w-full max-w-4xl">
@@ -239,18 +299,22 @@ export default function UrnaSimulador() {
           <div className="relative z-10 mt-2 grid grid-cols-[1fr_80px] items-start gap-3 sm:mt-4 sm:grid-cols-[1fr_140px] sm:gap-6 md:mt-8 md:grid-cols-[1fr_260px] md:gap-10">
             <div className="min-w-0">
               <div className="break-words text-xs font-black uppercase leading-tight text-[#1b623a] sm:text-2xl md:text-5xl">
-                {finalizada ? "Votação encerrada" : cargo.titulo}
+                {finalizada ? "Votação encerrada" : cargo.label}
               </div>
 
               <div className="mt-1 text-[8px] font-bold uppercase leading-tight tracking-wider text-[#d9660d] sm:mt-2 sm:text-xs md:mt-3 md:text-sm">
-                {finalizada ? "Obrigado por votar" : "Digite o número do candidato"}
+                {finalizada
+                  ? "Obrigado por votar"
+                  : cargo.allowsPartyVote
+                    ? "Digite o número do candidato ou só os 2 do partido"
+                    : "Digite o número do candidato"}
               </div>
 
               <div
                 className="mt-2 flex min-h-[30px] flex-wrap items-center gap-1 sm:mt-4 sm:min-h-[46px] sm:gap-2 md:mt-6 md:min-h-[80px] md:gap-3"
                 aria-label="Número digitado"
               >
-                {Array.from({ length: cargo.digitos }, (_, index) => numero[index] ?? "").map((digito, index) => (
+                {Array.from({ length: cargo.digits }, (_, index) => numero[index] ?? "").map((digito, index) => (
                   <div
                     key={index}
                     aria-label={`Dígito ${index + 1}`}
@@ -266,9 +330,7 @@ export default function UrnaSimulador() {
               <div className="mt-2 space-y-0.5 border-t border-dashed border-[#1b623a]/30 pt-1.5 sm:mt-5 sm:space-y-1 sm:border-t-2 sm:pt-3 md:mt-8 md:space-y-2 md:pt-6">
                 <div className="text-[10px] leading-tight sm:text-sm md:text-base">
                   <span className="font-bold text-[#1b623a]">Nome:</span>
-                  <span className="ml-1 text-[#1b623a]">
-                    {mostrandoCandidato && candidato ? candidato.ballot_name : status === "branco" ? "VOTO EM BRANCO" : "—"}
-                  </span>
+                  <span className="ml-1 text-[#1b623a]">{nomeNaTela}</span>
                 </div>
                 <div className="text-[10px] leading-tight sm:text-sm md:text-base">
                   <span className="font-bold text-[#1b623a]">Partido:</span>
@@ -401,7 +463,10 @@ export default function UrnaSimulador() {
       </div>
 
       <p className="mt-2 text-center text-[9px] text-ink-soft sm:mt-4 sm:text-[11px]">
-        Cargo {cargoIndex + 1} de {CARGOS.length} — candidatos de 2026{cargo.slug === "presidente" ? "" : " no Ceará"}.
+        Voto {cargoIndex + 1} de {votos.length} · {descricao}
+        {cargo.candidateOffice
+          ? ` · candidatos de 2026${cargo.position === "presidente" ? "" : " no Ceará"}`
+          : " · sem candidatos no Votus"}
       </p>
     </div>
   );

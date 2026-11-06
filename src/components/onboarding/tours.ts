@@ -559,8 +559,15 @@ const SANTINHO_TOUR: TourConfig = {
 
 const URNA_TOUR: TourConfig = {
   pageId: "urna",
-  version: 1,
+  // v2: escolha da eleição.
+  version: 2,
   steps: [
+    {
+      id: "eleicao",
+      target: "urna-eleicao",
+      title: "Escolha o que treinar",
+      description: "Tipo, ano, estado e turno. A urna mostra só os cargos dessa votação, na ordem certa.",
+    },
     {
       id: "urna",
       target: "urna",
@@ -649,7 +656,7 @@ const INICIO_TOUR: TourConfig = {
       target: "navbar",
       title: "Todo o Votus fica aqui",
       description:
-        "Representantes, notícias, explicações e ferramentas, organizados por grupo (no celular, no botão Menu). O Radar do Brasil tem atalho próprio.",
+        "Representantes, notícias, explicações e ferramentas, organizados por grupo. No celular, ficam no botão Menu.",
       placement: "bottom",
     },
     {
@@ -676,7 +683,7 @@ const INICIO_TOUR: TourConfig = {
       target: "guia",
       title: "Uma apresentação em cada página",
       description:
-        "Em cada página, o botão O que é esta página, no topo, mostra para que ela serve e como aproveitá-la.",
+        "Em cada página, este botão no topo mostra para que ela serve e como aproveitá-la.",
       placement: "bottom",
     },
   ],

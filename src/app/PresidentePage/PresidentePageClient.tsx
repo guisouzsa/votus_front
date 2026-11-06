@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import Sidebar from '@/components/Sidebar';
 import DashboardHeader from '@/components/DashboardHeader';
-import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import Footer from '@/components/Footer';
@@ -45,7 +44,6 @@ export default function PresidentePageClient({
     <div className="min-h-dvh">
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
-      <MobileBottomNav />
       <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0">
       <div className="min-h-dvh">
         <div className="w-full px-6 py-8 sm:px-10">

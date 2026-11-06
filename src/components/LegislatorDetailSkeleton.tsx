@@ -1,5 +1,4 @@
 import Sidebar from '@/components/Sidebar';
-import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 
 export default function LegislatorDetailSkeleton() {
@@ -7,7 +6,6 @@ export default function LegislatorDetailSkeleton() {
     <div className="min-h-dvh">
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
-      <MobileBottomNav />
       <main className="min-h-dvh animate-pulse bg-[#FDFDFD] pb-24 pl-0 md:pb-0">
         <div className="w-full px-6 py-8 sm:px-10">
           <div className="mb-4 h-4 w-20 rounded bg-[#eee6d8]" />

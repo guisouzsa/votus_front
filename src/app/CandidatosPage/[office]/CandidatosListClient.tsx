@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, CircleHelp, Clock, Columns2, MinusCircle, Repeat2 } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
-import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import Footer from '@/components/Footer';
@@ -226,7 +225,6 @@ export default function CandidatosListClient({
     <div className={embedded ? 'min-h-dvh bg-[#FDFDFD]' : 'min-h-dvh'}>
       {!embedded && <WovenRibbon className="h-14 sm:h-20" />}
       {!embedded && <Sidebar />}
-      {!embedded && <MobileBottomNav />}
       <main className={embedded ? 'min-h-dvh bg-[#FDFDFD]' : 'min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0'}>
         <div className="min-h-dvh">
           <div className="w-full px-6 py-8 sm:px-10">

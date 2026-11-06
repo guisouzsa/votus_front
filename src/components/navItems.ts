@@ -27,8 +27,6 @@ export const NAV_ITEMS: NavItem[] = [
       { id: "deputados-estaduais", label: "Deputados Estaduais", path: "/DeputadosEstaduaisPage" },
     ],
   },
-  // Candidatos fica acima de Juventude (pedido do projeto: prioridade na
-  // eleição). No mobile, entra entre os 4 atalhos fixos da barra inferior.
   {
     id: "candidatos",
     label: "Candidatos 2026",
@@ -42,8 +40,6 @@ export const NAV_ITEMS: NavItem[] = [
       { id: "comparador", label: "Comparador de propostas", path: "/ComparadorPropostasPage" },
     ],
   },
-  // Radar depois dos 4 primeiros itens, pra não mudar os atalhos fixos da
-  // barra inferior do mobile.
   { id: "radar", label: "Radar do Brasil", icon: "/IconeRadar.svg", path: "/RadarPage" },
   {
     id: "juventude",
@@ -160,10 +156,6 @@ export function getActiveGroupId(activeRouteId: string | undefined): string | un
       group.sections?.some((section) => section.items.some((item) => item.id === activeRouteId))
   )?.id;
 }
-
-// MobileBottomNav e a navbar ficam em componentes separados; o botão "Mais"
-// da barra inferior abre o mesmo menu da navbar por este evento.
-export const OPEN_MOBILE_MENU_EVENT = "votus:abrir-menu";
 
 export const ACTIVE_CLASS = "bg-[#EDDBBA]/50 text-[#1B623A] shadow-sm";
 

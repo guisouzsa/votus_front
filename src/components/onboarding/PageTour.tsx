@@ -7,6 +7,7 @@ import type { TourConfig, TourStep } from "./tours";
 import { hasSeenTour, hasSeenWelcome, markTourSeen, WELCOME_CLOSED_EVENT, type TourStatus } from "./tourStorage";
 
 const GUIDE_LABEL = "O que é esta página";
+const GUIDE_SHORT_LABEL = "Ajuda";
 const NAVBAR_SELECTOR = 'header[data-tour="navbar"]';
 const SPOTLIGHT_PADDING = 8;
 const GAP = 14;
@@ -150,11 +151,14 @@ export default function PageTour({
         type="button"
         onClick={open}
         aria-haspopup="dialog"
+        aria-label={GUIDE_LABEL}
         data-tour="guia"
-        className={`inline-flex h-10 shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full border border-[#1B623A]/30 bg-white px-2.5 text-xs font-semibold text-[#1B623A] shadow-sm transition-colors hover:border-[#1B623A]/60 hover:bg-[#EDDBBA]/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A] sm:px-3.5 sm:text-sm ${className}`}
+        className={`inline-flex h-10 shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full border border-[#1B623A]/25 bg-white px-3 text-[13px] font-semibold text-[#103D23] shadow-sm transition-colors hover:border-[#1B623A]/60 hover:bg-[#EDDBBA]/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B623A] sm:px-3.5 sm:text-sm lg:border-[#1B623A]/30 lg:text-[#1B623A] ${className}`}
       >
         <CircleHelp aria-hidden="true" className="h-[18px] w-[18px] shrink-0" />
-        {GUIDE_LABEL}
+        {/* No celular o texto completo não cabe ao lado de Notícias e Menu. */}
+        <span className="sm:hidden">{GUIDE_SHORT_LABEL}</span>
+        <span className="hidden sm:inline">{GUIDE_LABEL}</span>
       </button>
 
       {steps &&
@@ -194,6 +198,18 @@ function TourOverlay({
   const [rect, setRect] = useState<DOMRect | null>(null);
   const [safeTop, setSafeTop] = useState(MARGIN);
   const [cardHeight, setCardHeight] = useState(220);
+
+  // Celular: folga no fim da página enquanto o tour está aberto, pra até o último
+  // elemento conseguir subir acima do painel, que fica sempre embaixo.
+  useLayoutEffect(() => {
+    if (window.innerWidth >= MOBILE_BREAKPOINT) return;
+    const root = document.documentElement;
+    const previous = root.style.paddingBottom;
+    root.style.paddingBottom = "60vh";
+    return () => {
+      root.style.paddingBottom = previous;
+    };
+  }, []);
 
   // Rola até o alvo só se precisar (assim o título da página continua à vista)
   // e acompanha a posição dele (rolagem, resize, mudança de tamanho) pra o
@@ -276,18 +292,19 @@ function TourOverlay({
   const isMobile = viewportWidth < MOBILE_BREAKPOINT;
   const cardWidth = isMobile ? viewportWidth - MOBILE_MARGIN * 2 : Math.min(CARD_WIDTH, viewportWidth - MARGIN * 2);
   const spot = rect && rect.width > 0 ? spotlightBox(rect) : null;
-  let cardTop: number;
+  let cardTop = 0;
   let cardLeft: number;
+  // Celular: distância da borda de baixo da tela, onde o polegar alcança.
+  let cardBottom: number | string = 0;
   // Lado do alvo em que o cartão ficou; sem lado (celular, alvo enorme) não há seta.
   let side: Side | null = null;
 
   if (isMobile) {
-    // Celular: painel preso à borda de baixo, sempre no mesmo lugar, pra não
-    // ficar pulando pela tela. Sobe pro topo (abaixo da navbar) só quando o alvo
-    // está lá embaixo, atrás do painel (ex.: botão flutuante, fim da página).
-    const bottomTop = viewportHeight - cardHeight - MOBILE_MARGIN;
-    const hidesTarget = spot !== null && spot.bottom + GAP > bottomTop && spot.top - GAP >= safeTop + cardHeight;
-    cardTop = hidesTarget ? safeTop : Math.max(MOBILE_MARGIN, bottomTop);
+    // Celular: painel sempre na parte de baixo, ao alcance do polegar. Só sobe o
+    // necessário pra ficar logo acima de um alvo que não rola (botão flutuante).
+    const hidesTarget =
+      spot !== null && spot.bottom + GAP > viewportHeight - cardHeight - MOBILE_MARGIN && spot.top - GAP - cardHeight >= safeTop;
+    cardBottom = hidesTarget && spot ? viewportHeight - spot.top + GAP : `max(${MOBILE_MARGIN}px, env(safe-area-inset-bottom))`;
     cardLeft = MOBILE_MARGIN;
   } else if (!spot) {
     cardTop = (viewportHeight - cardHeight) / 2;
@@ -363,7 +380,7 @@ function TourOverlay({
         onKeyDown={handleKeyDown}
         data-tour-side={side ?? undefined}
         className={`fixed rounded-2xl border border-[#e0d6c4] bg-white shadow-2xl outline-none ${motion}`}
-        style={{ top: cardTop, left: cardLeft, width: cardWidth }}
+        style={isMobile ? { bottom: cardBottom, left: cardLeft, width: cardWidth } : { top: cardTop, left: cardLeft, width: cardWidth }}
       >
         {arrowStyle && (
           <span
@@ -410,7 +427,7 @@ function TourOverlay({
           {isLast && step.target !== "guia" && (
             <p className="mt-3 flex items-center gap-1.5 text-xs text-[#6b6255]">
               <CircleHelp aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-[#1b623a]" />
-              Para rever, use o botão {GUIDE_LABEL}, no topo.
+              Para rever, use o botão {isMobile ? GUIDE_SHORT_LABEL : GUIDE_LABEL}, no topo.
             </p>
           )}
 

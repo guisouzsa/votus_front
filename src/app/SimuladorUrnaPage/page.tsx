@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Sidebar from "@/components/Sidebar";
-import MobileBottomNav from "@/components/MobileBottomNav";
 import WovenRibbon from "@/components/WovenRibbon";
 import DashboardHeader from "@/components/DashboardHeader";
 import FloatingAIButton from "@/components/FloatingAIButton";
@@ -9,7 +8,7 @@ import UrnaSimulador from "@/components/urna/UrnaSimulador";
 export const metadata: Metadata = {
   title: "Simulador de Urna",
   description:
-    "Experimente uma simulação educativa de urna eletrônica com os candidatos reais de 2026. O voto não é registrado e não produz resultado eleitoral.",
+    "Treine a votação de diferentes eleições em uma simulação educativa de urna eletrônica. O voto não é registrado e não produz resultado eleitoral.",
   alternates: { canonical: "/SimuladorUrnaPage" },
 };
 
@@ -18,7 +17,6 @@ export default function SimuladorUrnaPage() {
     <div className="min-h-dvh">
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
-      <MobileBottomNav />
 
       {/* overflow-x-hidden: a arte de textura da urna "vaza" de propósito pra
           fora da moldura (efeito decorativo igual ao modelo original) — no
@@ -29,17 +27,16 @@ export default function SimuladorUrnaPage() {
           <DashboardHeader
             titleText="Simulador de Urna"
             titleColor="text-brasil-green"
-            subtitle="Experimente a interface de uma urna eletrônica com os candidatos reais de 2026."
+            subtitle="Treine a votação de diferentes eleições, com os cargos na ordem da urna."
           />
 
           <p className="mt-3 max-w-2xl text-xs italic leading-relaxed text-ink-soft sm:text-sm">
             Simulador educativo — o voto não é registrado, não é salvo em nenhum lugar e não produz resultado
-            eleitoral. Os candidatos exibidos são os de 2026 já cadastrados no Votus.
+            eleitoral. Os candidatos exibidos são os de 2026 já cadastrados no Votus; nas outras eleições, o treino é
+            sem candidatos.
           </p>
 
-          <div data-tour="urna" className="mt-8 flex justify-center">
-            <UrnaSimulador />
-          </div>
+          <UrnaSimulador />
 
           <div className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2">
             <section className="rounded-xl border border-line bg-cream-panel p-5 shadow-[0_1px_3px_rgba(0,0,0,0.06)] sm:p-6">
@@ -47,7 +44,9 @@ export default function SimuladorUrnaPage() {
                 Como usar
               </h2>
               <ul className="mt-3 flex flex-col gap-2 text-sm leading-relaxed text-ink-soft">
+                <li>Escolha a eleição e o turno: a urna mostra só os cargos daquela votação, na ordem certa.</li>
                 <li>Toque os números no teclado para digitar o número do candidato de cada cargo.</li>
+                <li>Em deputado e vereador, para votar só no partido, digite os 2 números dele e toque em CONFIRMA.</li>
                 <li>Confira o nome e o partido exibidos na tela e toque em CONFIRMA.</li>
                 <li>Toque em CORRIGE para apagar e digitar de novo, ou em BRANCO para votar em branco.</li>
                 <li>Ao final de todos os cargos, a simulação reinicia automaticamente.</li>

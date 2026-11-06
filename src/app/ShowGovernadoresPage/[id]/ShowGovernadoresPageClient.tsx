@@ -5,7 +5,6 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
-import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import Footer from '@/components/Footer';
@@ -63,7 +62,6 @@ export default function ShowGovernadoresPageClient({
     return (
       <div className="min-h-dvh">
         <Sidebar />
-        <MobileBottomNav />
         <main className="flex min-h-dvh flex-col items-center justify-center gap-2 bg-[#FDFDFD] px-6 pb-24 text-center md:pb-0">
           <p className="text-sm font-semibold text-[#8d0801]">{errorMessage}</p>
           <Link href="/GovernadoresPage" className="text-sm text-[#1b623a] underline">
@@ -80,7 +78,6 @@ export default function ShowGovernadoresPageClient({
     <div className="min-h-dvh">
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
-      <MobileBottomNav />
       <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 text-[#1b623a] md:pb-0">
         <div className="w-full px-6 py-8 sm:px-10">
           <Link

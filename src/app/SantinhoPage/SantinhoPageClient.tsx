@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
-import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import DashboardHeader from '@/components/DashboardHeader';
@@ -11,29 +10,9 @@ import SantinhoPreview, { type SantinhoCandidate } from '@/components/SantinhoPr
 import SantinhoForm from '@/components/SantinhoForm';
 import SantinhoExportModal from '@/components/SantinhoExportModal';
 import SantinhoElectionPicker, { type ElectionSelection } from '@/components/SantinhoElectionPicker';
+import { useElectionBallot } from '@/hooks/useElectionBallot';
 import { useSantinhoCandidates } from '@/hooks/useSantinhoCandidates';
-import {
-  CUSTOM_ELECTION_ID,
-  DEFAULT_ELECTION_ID,
-  buildBallot,
-  buildCustomElection,
-  describeBallot,
-  expectedDigits,
-  getElection,
-  getRounds,
-  validateBallot,
-  withoutPositions,
-  type SlotValue,
-} from '@/lib/electoralConfig';
-
-// Abre em 2026 no Ceará, onde o Votus tem os candidatos de todos os cargos.
-const SELECAO_INICIAL: ElectionSelection = {
-  electionId: DEFAULT_ELECTION_ID,
-  custom: { base: 'municipal', positions: ['prefeito'], senateVacancies: 1 },
-  round: 1,
-  state: 'CE',
-  municipio: '',
-};
+import { expectedDigits, validateBallot, type SlotValue } from '@/lib/electoralConfig';
 
 const PAGINAS_OPCOES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const SANTINHOS_POR_PAGINA_OPCOES = [1, 2, 4, 6];
@@ -76,7 +55,7 @@ function SantinhoSelect({
 }
 
 export default function SantinhoPageClient({ embedded = false }: { embedded?: boolean }) {
-  const [selecao, setSelecao] = useState<ElectionSelection>(SELECAO_INICIAL);
+  const { selecao, eleicaoCompleta, eleicao, turno, votos, descricao: subtitulo, atualizar } = useElectionBallot();
   const [valores, setValores] = useState<Record<string, SlotValue>>({});
   const [quantidadePaginas, setQuantidadePaginas] = useState('');
   const [santinhosPorPagina, setSantinhosPorPagina] = useState('');
@@ -85,15 +64,6 @@ export default function SantinhoPageClient({ embedded = false }: { embedded?: bo
   const [gerando, setGerando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
 
-  const eleicaoCompleta =
-    selecao.electionId === CUSTOM_ELECTION_ID
-      ? buildCustomElection(selecao.custom)
-      : (getElection(selecao.electionId) ?? getElection(DEFAULT_ELECTION_ID)!);
-  const eleicao = withoutPositions(eleicaoCompleta, selecao.hiddenPositions ?? []);
-  // Tirar o último cargo com 2º turno da colinha volta pro 1º turno.
-  const turno = getRounds(eleicao).includes(selecao.round) ? selecao.round : 1;
-  const votos = buildBallot(eleicao, { round: turno, runoffPositions: selecao.runoffPositions, state: selecao.state });
-  const subtitulo = describeBallot(eleicao, { round: turno, state: selecao.state, municipio: selecao.municipio });
   const erros = validateBallot(votos, valores);
 
   // Mesmas linhas, completadas com foto/nome reais quando o número bate com
@@ -117,7 +87,7 @@ export default function SantinhoPageClient({ embedded = false }: { embedded?: bo
   );
 
   function handleSelecaoChange(patch: Partial<ElectionSelection>) {
-    setSelecao((prev) => ({ ...prev, ...patch }));
+    atualizar(patch);
     setShowValidation(false);
     setErro(null);
   }
@@ -177,7 +147,6 @@ export default function SantinhoPageClient({ embedded = false }: { embedded?: bo
     <div className={embedded ? 'min-h-dvh bg-[#FDFDFD]' : 'min-h-dvh'}>
       {!embedded && <WovenRibbon className="h-14 sm:h-20" />}
       {!embedded && <Sidebar />}
-      {!embedded && <MobileBottomNav />}
       <main className={embedded ? 'min-h-dvh overflow-x-hidden' : 'overflow-x-hidden pb-24 pl-0 md:pb-0'}>
         <div className="w-full px-6 py-8 sm:px-10">
           {!embedded && (

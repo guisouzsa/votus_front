@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import useSWR from "swr";
 import Sidebar from "@/components/Sidebar";
-import MobileBottomNav from "@/components/MobileBottomNav";
 import WovenRibbon from "@/components/WovenRibbon";
 import DashboardHeader from "@/components/DashboardHeader";
 import SearchBar from "@/components/SearchBar";
@@ -117,7 +116,6 @@ export default function PainelNoticiasClient({ embedded = false }: { embedded?: 
     <div className={embedded ? 'min-h-dvh bg-[#FDFDFD]' : 'min-h-dvh'}>
       {!embedded && <WovenRibbon className="h-14 sm:h-20" />}
       {!embedded && <Sidebar />}
-      {!embedded && <MobileBottomNav />}
 
       <main className={embedded ? 'min-h-dvh overflow-x-hidden' : 'overflow-x-hidden pb-24 pl-0 md:pb-0'}>
         <div className="w-full px-6 py-8 sm:px-10">

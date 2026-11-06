@@ -64,7 +64,7 @@ export default function FloatingAIButton({
   const expandAnimationRef = useRef<Animation | null>(null);
   const containerClass = placement === "inline"
     ? "relative flex justify-end"
-    : "fixed bottom-24 right-4 z-50 flex items-end justify-end md:bottom-6 md:right-6";
+    : "fixed bottom-6 right-4 z-50 flex items-end justify-end md:right-6";
 
   const suggestions = [
     { label: "O que faz um senador?", icon: Landmark },
@@ -224,7 +224,7 @@ export default function FloatingAIButton({
               // sozinhos quase enchiam o painel e sobrava quase nada pras
               // sugestões/mensagens (ficavam "tapadas"). Mais altura aqui +
               // cortes abaixo (ver disclaimer e rodapé) resolvem isso.
-              `md:inset-x-auto md:right-6 md:bottom-24 md:rounded-[1.25rem] inset-x-4 bottom-40 max-h-[min(30rem,calc(100dvh-8rem))] rounded-[1.25rem] md:max-h-[min(46rem,calc(100dvh-7rem))] md:w-[22rem]`
+              `md:inset-x-auto md:right-6 md:rounded-[1.25rem] inset-x-4 bottom-24 max-h-[min(30rem,calc(100dvh-8rem))] rounded-[1.25rem] md:max-h-[min(46rem,calc(100dvh-7rem))] md:w-[22rem]`
         } ${
           open
             ? "translate-y-0 scale-100 opacity-100"

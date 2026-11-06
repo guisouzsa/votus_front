@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { Briefcase, ExternalLink, MapPin, Award } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
-import MobileBottomNav from '@/components/MobileBottomNav';
 import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import DashboardHeader from '@/components/DashboardHeader';
@@ -79,7 +78,6 @@ export default function JuventudeClient({
     <div className="min-h-dvh">
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
-      <MobileBottomNav />
 
       <main className="min-h-dvh bg-[#FDFDFD] pb-24 pl-0 md:pb-0">
         <div className="w-full px-6 py-8 sm:px-10">

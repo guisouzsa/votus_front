@@ -11,10 +11,10 @@ const SOCIAL_LINKS = [
 export default function Footer() {
   return (
     // mb-16 md:mb-0: no mobile o botão flutuante "Pergunte à IA" ocupa os
-    // últimos ~160px do viewport (bottom-24 + h-16); essa margem extra
+    // últimos ~90px do viewport (bottom-6 + h-16); essa margem extra
     // garante que o rodapé nunca termine dentro dessa faixa e fique
-    // encoberto por ele. No desktop o botão é menor e fica mais afastado
-    // (bottom-6), então a margem extra não é necessária.
+    // encoberto por ele. No desktop o botão é menor, então a margem extra não
+    // é necessária.
     <footer className="mt-8 mb-16 border-t border-line bg-white md:mb-0">
       <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-6 sm:px-10">
         {/* Logo ao lado do texto (empilha só no celular). */}

@@ -108,8 +108,26 @@ function Selecao({
   );
 }
 
+const TEXTOS = {
+  colinha: {
+    tour: 'santinho-eleicao',
+    cargos: 'Cargos na sua colinha',
+    cargosParciais: 'Sua colinha fica só com o que você marcou, mas a urna continua pedindo todos os cargos em disputa na sua eleição.',
+    semCandidatos: 'O Votus ainda não tem os candidatos desta eleição. Digite os números que você escolheu.',
+    soPresidente: 'Neste estado, o Votus só tem os candidatos a Presidente. Nos outros cargos, digite os números que você escolheu.',
+  },
+  urna: {
+    tour: 'urna-eleicao',
+    cargos: 'Cargos no treino',
+    cargosParciais: 'O treino fica só com o que você marcou, mas a urna de verdade pede todos os cargos em disputa na sua eleição.',
+    semCandidatos: 'O Votus ainda não tem os candidatos desta eleição. Dá para treinar com qualquer número, sem mostrar candidato.',
+    soPresidente: 'Neste estado, o Votus só tem os candidatos a Presidente. Nos outros cargos, dá para treinar com qualquer número.',
+  },
+};
+
 /** Escolha da eleição: tudo o que aparece aqui vem da configuração (lib/electoralConfig). */
 export default function SantinhoElectionPicker({
+  modo = 'colinha',
   selecao,
   eleicaoCompleta,
   eleicao,
@@ -117,6 +135,7 @@ export default function SantinhoElectionPicker({
   votos,
   onChange,
 }: {
+  modo?: keyof typeof TEXTOS;
   selecao: ElectionSelection;
   /** A eleição como configurada, antes de tirar cargos. */
   eleicaoCompleta: ElectionConfig;
@@ -125,6 +144,7 @@ export default function SantinhoElectionPicker({
   votos: BallotSlot[];
   onChange: (patch: Partial<ElectionSelection>) => void;
 }) {
+  const textos = TEXTOS[modo];
   const anos = ELECTIONS.filter((election) => election.type === eleicao.type);
   const estados = getStatesFor(eleicao.base);
   const turnos = getRounds(eleicao);
@@ -182,14 +202,10 @@ export default function SantinhoElectionPicker({
   }
 
   const semDados = votos.filter((voto) => !voto.candidateOffice).length;
-  const avisoDados = !eleicao.candidateData
-    ? 'O Votus ainda não tem os candidatos desta eleição. Digite os números que você escolheu.'
-    : semDados > 0
-      ? 'Neste estado, o Votus só tem os candidatos a Presidente. Nos outros cargos, digite os números que você escolheu.'
-      : null;
+  const avisoDados = !eleicao.candidateData ? textos.semCandidatos : semDados > 0 ? textos.soPresidente : null;
 
   return (
-    <section data-tour="santinho-eleicao" aria-label="Escolha da eleição" className="mt-6 rounded-2xl border border-line bg-white p-5 shadow-sm">
+    <section data-tour={textos.tour} aria-label="Escolha da eleição" className="mt-6 rounded-2xl border border-line bg-white p-5 shadow-sm">
       <div className="flex flex-col gap-4">
         <Chips legenda="Qual eleição?" opcoes={TIPOS.map(({ type, label }) => ({ value: type, label }))} valor={eleicao.type} onChange={escolherTipo} />
 
@@ -215,7 +231,7 @@ export default function SantinhoElectionPicker({
             ))}
           </Selecao>
 
-          {eleicao.base === 'municipal' && (
+          {eleicao.base === 'municipal' && modo === 'colinha' && (
             <label className={`block ${ROTULO}`}>
               Município
               <input
@@ -231,8 +247,8 @@ export default function SantinhoElectionPicker({
         </div>
 
         {eleicao.type !== 'custom' && (
-          <div role="group" aria-label="Cargos na sua colinha">
-            <p className={ROTULO}>Cargos na sua colinha</p>
+          <div role="group" aria-label={textos.cargos}>
+            <p className={ROTULO}>{textos.cargos}</p>
             <div className="mt-1.5 flex flex-wrap gap-2">
               {eleicaoCompleta.positions.map(({ position }) => {
                 const ativo = !selecao.hiddenPositions?.includes(position);
@@ -244,9 +260,7 @@ export default function SantinhoElectionPicker({
               })}
             </div>
             {eleicao.positions.length < eleicaoCompleta.positions.length && (
-              <p className="mt-2 text-xs leading-relaxed text-ink-soft">
-                Sua colinha fica só com o que você marcou, mas a urna continua pedindo todos os cargos em disputa na sua eleição.
-              </p>
+              <p className="mt-2 text-xs leading-relaxed text-ink-soft">{textos.cargosParciais}</p>
             )}
           </div>
         )}

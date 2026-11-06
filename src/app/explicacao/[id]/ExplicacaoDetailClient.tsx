@@ -7,7 +7,6 @@ import { useSsrDetail } from '@/hooks/useSsrDetail';
 import LoadingState from "@/components/LoadingState";
 import { ArrowLeft, ExternalLink, CheckCircle2, XCircle } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
-import MobileBottomNav from "@/components/MobileBottomNav";
 import WovenRibbon from "@/components/WovenRibbon";
 import FloatingAIButton from "@/components/FloatingAIButton";
 import Footer from "@/components/Footer";
@@ -157,7 +156,6 @@ export default function ExplicacaoDetailClient({
     <div className="min-h-dvh">
       <WovenRibbon className="h-14 sm:h-20" />
       <Sidebar />
-      <MobileBottomNav />
 
       <main className="overflow-x-hidden pb-24 pl-0 md:pb-0">
         <div className="w-full px-6 pb-2 pt-8 sm:px-10">
