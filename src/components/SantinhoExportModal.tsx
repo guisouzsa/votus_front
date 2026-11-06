@@ -13,6 +13,7 @@ const GRID_CLASS_BY_COUNT: Record<number, string> = {
 
 export default function SantinhoExportModal({
   candidatos,
+  subtitulo,
   quantidadePaginas,
   santinhosPorPagina,
   salvando,
@@ -21,6 +22,7 @@ export default function SantinhoExportModal({
   onConfirm,
 }: {
   candidatos: SantinhoCandidate[];
+  subtitulo?: string;
   quantidadePaginas: number;
   santinhosPorPagina: number;
   salvando: boolean;
@@ -79,7 +81,7 @@ export default function SantinhoExportModal({
             <div className={`grid gap-3 sm:gap-4 ${gridClass}`}>
               {Array.from({ length: santinhosPorPagina }).map((_, index) => (
                 <div key={index} className="mx-auto w-full max-w-[200px]">
-                  <SantinhoPreview candidatos={candidatos} />
+                  <SantinhoPreview candidatos={candidatos} subtitulo={subtitulo} />
                 </div>
               ))}
             </div>

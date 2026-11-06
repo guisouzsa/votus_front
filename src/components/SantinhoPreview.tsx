@@ -1,10 +1,21 @@
 import Image from 'next/image';
+import type { CandidateOfficeSlug } from '@/services/candidatesService';
+
+// Aviso que sai em toda colinha (Lei 9.504, art. 91-A, parágrafo único).
+export const AVISO_CELULAR = 'Leve impressa: o celular não entra na cabine.';
 
 export interface SantinhoCandidate {
-  id: number;
+  id: string;
+  // Posição na ordem da urna (1, 2, 3...). Tudo vem de lib/electoralConfig.
+  ordem: number;
   cargo: string;
   digitos: number;
   numero: string;
+  // Cargo proporcional: a pessoa pode marcar voto só no partido (2 dígitos).
+  permiteLegenda?: boolean;
+  legenda?: boolean;
+  // Listagem em que dá pra buscar o candidato. Sem ela, só o número digitado.
+  candidateOffice?: CandidateOfficeSlug;
   // Preenchidos por useSantinhoCandidates quando o número digitado bate com
   // um candidato real do cargo: foto oficial (Supabase Storage) e nome.
   fotoUrl?: string | null;
@@ -18,7 +29,13 @@ export interface SantinhoCandidate {
 // página, miniaturas lado a lado no popup de exportação) — com px fixo o
 // conteúdo cabia só no tamanho "calibrado" e "comia" a logo/números em
 // qualquer outro.
-export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCandidate[] }) {
+export default function SantinhoPreview({
+  candidatos,
+  subtitulo,
+}: {
+  candidatos: SantinhoCandidate[];
+  subtitulo?: string;
+}) {
   return (
     <div className="relative mx-auto flex aspect-[3/5] w-full max-w-[260px] flex-col overflow-hidden rounded-[16px] bg-[#ffffff] shadow-[0_4px_20px_rgba(0,0,0,0.12)] [container-type:inline-size]">
       <div className="absolute right-0 top-0 h-full w-[26%]">
@@ -31,13 +48,19 @@ export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCa
           <br />
           Eleitoral
         </h1>
+        {subtitulo && <p className="mt-[0.8cqw] text-[1.5cqw] font-semibold leading-tight text-ink-soft">{subtitulo}</p>}
 
         {/* Hierarquia de leitura: NÚMERO (maior destaque, primeiro) → NOME
             (respiro maior antes dele) → CARGO + PARTIDO (agrupados, respiro
             pequeno entre si). gap-[3cqw] entre cada candidato dá o respiro
             "entre grupos" pedido — maior que qualquer espaçamento interno de
             um candidato, pra nunca confundir onde um termina e o outro começa. */}
-        <div className="mt-[5cqw] flex flex-1 flex-col justify-between gap-[3cqw]">
+        <div
+          className={`mt-[4cqw] flex flex-1 flex-col ${
+            // Poucos cargos: ficam juntos no topo, em vez de espalhados pelo cartão.
+            candidatos.length > 3 ? 'justify-between gap-[3cqw]' : 'gap-[7cqw]'
+          }`}
+        >
           {candidatos.map((candidato) => (
             <div key={candidato.id} className="flex items-start gap-[2.4cqw]">
               {candidato.fotoUrl && (
@@ -87,7 +110,7 @@ export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCa
                     menores e mais próximas entre si do que do nome acima. */}
                 <div className="mt-[1.1cqw] flex flex-col gap-[0.3cqw]">
                   <p className="text-[1.9cqw] font-bold uppercase leading-tight text-brasil-orange">
-                    {candidato.cargo}
+                    {candidato.ordem}. {candidato.cargo}
                   </p>
                   {candidato.partido && (
                     <p className="text-[1.5cqw] font-semibold uppercase leading-tight text-ink-soft">
@@ -109,6 +132,7 @@ export default function SantinhoPreview({ candidatos }: { candidatos: SantinhoCa
             className="h-[4.5cqw] w-auto"
           />
           <p className="mt-[0.8cqw] text-[1.3cqw] font-medium leading-none text-ink-soft">www.votus.site</p>
+          <p className="mt-[0.8cqw] text-[1.3cqw] font-medium leading-tight text-ink-soft">{AVISO_CELULAR}</p>
         </div>
       </div>
     </div>

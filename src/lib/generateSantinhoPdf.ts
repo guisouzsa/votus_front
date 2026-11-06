@@ -1,5 +1,5 @@
 import jsPDF from 'jspdf';
-import type { SantinhoCandidate } from '@/components/SantinhoPreview';
+import { AVISO_CELULAR, type SantinhoCandidate } from '@/components/SantinhoPreview';
 
 const GRID_BY_COUNT: Record<number, { cols: number; rows: number }> = {
   1: { cols: 1, rows: 1 },
@@ -147,6 +147,7 @@ function drawSantinho(
     width,
     height,
     candidatos,
+    subtitulo,
     lateralImg,
     logoImg,
     fotos,
@@ -156,6 +157,7 @@ function drawSantinho(
     width: number;
     height: number;
     candidatos: SantinhoCandidate[];
+    subtitulo?: string;
     lateralImg: string;
     logoImg: string;
     fotos: Map<string, string>;
@@ -189,6 +191,13 @@ function drawSantinho(
   pdf.text('COLA', contentLeft, titleY);
   pdf.text('ELEITORAL', contentLeft, titleY + titleFontSize * 1.25);
 
+  if (subtitulo) {
+    pdf.setFont('helvetica', 'normal');
+    setFontSizeMm(pdf, width * 0.021);
+    pdf.setTextColor(...INK_SOFT);
+    pdf.text(truncarTexto(pdf, subtitulo, contentRight - contentLeft), contentLeft, titleY + titleFontSize * 1.25 + width * 0.03);
+  }
+
   const logoWidth = width * 0.26;
   const logoHeight = logoWidth * LOGO_ASPECT;
 
@@ -200,7 +209,9 @@ function drawSantinho(
   // Mesmas proporções do preview em tela (SantinhoPreview.tsx): respiro
   // entre cada candidato = gap-[3cqw], ou seja 3% da largura do cartão.
   const rowGap = width * 0.03;
-  const rowHeight = (listBottom - listTop - rowGap * (candidatos.length - 1)) / candidatos.length;
+  // Poucos cargos ficam juntos no topo, como no preview: a altura só é dividida
+  // a partir de 4 linhas (com menos, cada uma usa no máximo 1/4 da lista).
+  const rowHeight = (listBottom - listTop - rowGap * (Math.max(candidatos.length, 4) - 1)) / Math.max(candidatos.length, 4);
 
   candidatos.forEach((candidato, index) => {
     const rowTop = listTop + (rowHeight + rowGap) * index;
@@ -266,7 +277,7 @@ function drawSantinho(
     pdf.setFont('helvetica', 'bold');
     setFontSizeMm(pdf, width * 0.019);
     pdf.setTextColor(...ORANGE);
-    pdf.text(candidato.cargo, rowLeft, proximaY);
+    pdf.text(truncarTexto(pdf, `${candidato.ordem}. ${candidato.cargo}`, contentRight - rowLeft), rowLeft, proximaY);
 
     if (candidato.partido) {
       proximaY += width * 0.003 + width * 0.015;
@@ -288,15 +299,19 @@ function drawSantinho(
   setFontSizeMm(pdf, width * 0.024);
   pdf.setTextColor(...INK_SOFT);
   pdf.text('www.votus.site', contentLeft, logoY + logoHeight + width * 0.028);
+  setFontSizeMm(pdf, width * 0.018);
+  pdf.text(truncarTexto(pdf, AVISO_CELULAR, contentRight - contentLeft), contentLeft, logoY + logoHeight + width * 0.052);
 }
 
 export async function generateSantinhoPdf({
   candidatos,
+  subtitulo,
   quantidadePaginas,
   santinhosPorPagina,
   fileName = 'cola-eleitoral.pdf',
 }: {
   candidatos: SantinhoCandidate[];
+  subtitulo?: string;
   quantidadePaginas: number;
   santinhosPorPagina: number;
   fileName?: string;
@@ -356,7 +371,7 @@ export async function generateSantinhoPdf({
       const x = cellX + (cellWidth - cardWidth) / 2;
       const y = cellY + (cellHeight - cardHeight) / 2;
 
-      drawSantinho(pdf, { x, y, width: cardWidth, height: cardHeight, candidatos, lateralImg, logoImg, fotos });
+      drawSantinho(pdf, { x, y, width: cardWidth, height: cardHeight, candidatos, subtitulo, lateralImg, logoImg, fotos });
     }
   }
 

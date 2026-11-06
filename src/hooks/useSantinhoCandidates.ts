@@ -2,16 +2,6 @@ import useSWR from 'swr';
 import { findCandidateByNumber, type CandidateOfficeSlug } from '@/services/candidatesService';
 import type { SantinhoCandidate } from '@/components/SantinhoPreview';
 
-// Cargo do santinho → listagem de candidatos correspondente.
-const OFFICE_POR_CARGO: Record<string, CandidateOfficeSlug> = {
-  Presidente: 'presidente',
-  'Deputado Federal': 'deputado-federal',
-  'Deputado Estadual': 'deputado-estadual',
-  'Senador 1': 'senado',
-  'Senador 2': 'senado',
-  Governador: 'governador',
-};
-
 function numeroCompleto(candidato: SantinhoCandidate) {
   const numero = candidato.numero.replace(/\s/g, '');
   return numero.length === candidato.digitos ? numero : null;
@@ -19,14 +9,15 @@ function numeroCompleto(candidato: SantinhoCandidate) {
 
 /**
  * Completa cada linha do santinho com a foto real (Supabase Storage) e o
- * nome de urna do candidato cujo número foi digitado. Só busca quando todos
- * os dígitos do cargo estão preenchidos; sem correspondência exata, a linha
- * fica como está (sem foto, sem placeholder).
+ * nome de urna do candidato cujo número foi digitado. Só busca nos cargos em
+ * que a eleição tem dados (candidateOffice, ver lib/electoralConfig) e quando
+ * todos os dígitos estão preenchidos; sem correspondência exata, a linha fica
+ * como está (sem foto, sem placeholder).
  */
 export function useSantinhoCandidates(candidatos: SantinhoCandidate[]): SantinhoCandidate[] {
   const consultas = candidatos
-    .map((candidato) => ({ id: candidato.id, office: OFFICE_POR_CARGO[candidato.cargo], numero: numeroCompleto(candidato) }))
-    .filter((c): c is { id: number; office: CandidateOfficeSlug; numero: string } => Boolean(c.office && c.numero));
+    .map((candidato) => ({ id: candidato.id, office: candidato.candidateOffice, numero: numeroCompleto(candidato) }))
+    .filter((c): c is { id: string; office: CandidateOfficeSlug; numero: string } => Boolean(c.office && c.numero));
 
   // Uma chave só pro conjunto: as buscas rodam em paralelo e o SWR guarda
   // cada combinação já consultada, então redigitar um número não refaz a ida.
@@ -42,7 +33,7 @@ export function useSantinhoCandidates(candidatos: SantinhoCandidate[]): Santinho
   );
 
   return candidatos.map((candidato) => {
-    const encontrado = numeroCompleto(candidato) ? data?.[candidato.id] : null;
+    const encontrado = candidato.candidateOffice && numeroCompleto(candidato) ? data?.[candidato.id] : null;
 
     return encontrado
       ? {
