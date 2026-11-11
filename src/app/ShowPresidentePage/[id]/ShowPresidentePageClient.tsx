@@ -9,6 +9,7 @@ import WovenRibbon from '@/components/WovenRibbon';
 import FloatingAIButton from '@/components/FloatingAIButton';
 import Footer from '@/components/Footer';
 import LegislatorDetailSkeleton from '@/components/LegislatorDetailSkeleton';
+import ExecutiveRecordSection from '@/components/ExecutiveRecordSection';
 import LegislatorPhoto from '@/components/LegislatorPhoto';
 import ShareProfileButton from '@/components/share/ShareProfileButton';
 import { shareProfileFromExecutive } from '@/components/share/shareCardData';
@@ -136,6 +137,8 @@ export default function ShowPresidentePageClient({
               )}
             </div>
           </section>
+
+          <ExecutiveRecordSection id={id} />
 
           <section data-tour="acoes" className="mt-4 rounded-[10px] border border-[#e0d6c4] bg-white p-4 text-sm sm:p-6">
             <h2 className="text-base font-black uppercase text-[#1b623a]">

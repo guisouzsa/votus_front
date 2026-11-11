@@ -1,5 +1,5 @@
 import { apiGet } from "./apiClient";
-import type { Executive, ExecutiveDetail, PaginatedResponse } from "./types";
+import type { Executive, ExecutiveDetail, ExecutiveRecord, PaginatedResponse } from "./types";
 
 export function getPresidents() {
   return apiGet<PaginatedResponse<Executive>>("/api/president");
@@ -10,6 +10,12 @@ export function getPresidents() {
 // candidatesService.getCandidate.
 export async function getPresident(id: number | string) {
   const response = await apiGet<{ data: ExecutiveDetail }>(`/api/president/${id}`);
+  return response.data;
+}
+
+// Só Lula e Alckmin têm registro; os demais respondem 404.
+export async function getPresidentRecord(id: number | string) {
+  const response = await apiGet<{ data: ExecutiveRecord }>(`/api/president/${id}/record`);
   return response.data;
 }
 

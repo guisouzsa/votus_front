@@ -41,6 +41,73 @@ export interface ExecutiveDetail extends Executive {
   actions: ExecutiveAction[];
 }
 
+export interface ExecutiveRecordIndicator {
+  id: string;
+  name: string;
+  unit: string | null;
+  frequency: "monthly" | "quarterly";
+  explanation: string;
+  source_url: string;
+  series: { period: string; value: number }[];
+}
+
+// Registro público de Lula e Alckmin: GET /api/president/{id}/record.
+export interface ExecutiveRecord {
+  person: string;
+  career: {
+    id: string;
+    office: string;
+    place: string | null;
+    start_year: number | null;
+    end_year: number | null;
+    party: string | null;
+    source_name: string;
+    source_url: string;
+  }[];
+  propositions: {
+    id: number;
+    type: string | null;
+    number: number | null;
+    year: number | null;
+    title: string;
+    date: string | null;
+    status: string | null;
+    role: string | null;
+    source_url: string;
+    document_url: string | null;
+  }[];
+  legislation: {
+    types: Record<string, string>;
+    terms: {
+      label: string;
+      counts: Record<string, number>;
+      recent: { id: string; type: string; name: string; number: string | null; date: string; title: string; source_url: string }[];
+    }[];
+  } | null;
+  programs: {
+    id: string;
+    name: string;
+    act: string;
+    date: string;
+    summary: string;
+    participation?: string;
+    source_url: string;
+  }[];
+  indicators: ExecutiveRecordIndicator[];
+  speeches: {
+    id: string;
+    title: string;
+    kind: string;
+    date: string | null;
+    month: string | null;
+    description: string;
+    source_url: string;
+  }[];
+  agenda: { id: string; date: string; time: string | null; title: string; place: string | null; source_url: string }[];
+  applicable_sources: string[];
+  updated_at: string | null;
+}
+
 export interface Legislator {
   external_id: number;
   chamber: "lower_house" | "senate" | "state_house";
